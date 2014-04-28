@@ -1,0 +1,153 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title></title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      
+    <link rel="stylesheet" href="css/reveal.css"/>
+    <link rel="stylesheet" href="css/theme/default.css" id="theme"/>
+	  
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css" />
+
+    <!-- For JavaScript-generated QR codes -->
+    <link rel="stylesheet" href="qrcode.css" />
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<section id="start">
+	  <img class="with-heading" src="openstack-logo.svg"/>
+	  <h3></h3>
+	</section>
+
+	<section id="intro"
+		 data-markdown="intro.md"
+		 data-separator="^\n\n\n"
+		 data-vertical="^\n\n"
+		 data-notes="^Note:" ></section>
+
+	<section id="why-ha"
+		 data-markdown="why-ha.md"
+		 data-separator="^\n\n\n"
+		 data-vertical="^\n\n"
+		 data-notes="^Note:" ></section>
+
+	<section id="how-ha"
+		 data-markdown="how-ha.md"
+		 data-separator="^\n\n\n"
+		 data-vertical="^\n\n"
+		 data-notes="^Note:" ></section>
+
+	<section id="suse-cloud-3"
+		 data-markdown="suse-cloud-3.md"
+		 data-separator="^\n\n\n"
+		 data-vertical="^\n\n"
+		 data-notes="^Note:" ></section>
+	
+	<section id="crowbar"
+		 data-markdown="crowbar.md"
+		 data-separator="^\n\n\n"
+		 data-vertical="^\n\n"
+		 data-notes="^Note:" ></section>
+
+	<section id="controller"
+		 data-markdown="controller.md"
+		 data-separator="^\n\n\n"
+		 data-vertical="^\n\n"
+		 data-notes="^Note:" ></section>
+
+	<section id="compute"
+		 data-markdown="compute.md"
+		 data-separator="^\n\n\n"
+		 data-vertical="^\n\n"
+		 data-notes="^Note:" ></section>
+
+	<section id="whatsnext"
+		 data-markdown="whatsnext.md"
+		 data-separator="^\n\n\n"
+		 data-vertical="^\n\n"
+		 data-notes="^Note:" ></section>
+
+	<section>
+	  <iframe class="with-heading" src="http://localhost:4122"></iframe>
+	</section>
+
+	<section>
+	  <section>
+	    <p>Liked this talk?</p>
+	    <div class="qrcode" id="qrcode-twitter"/>
+	    <p class="small"><a href="https://twitter.com/intent/tweet?&hashtags=OpenStack" id="twitter"></a></p>
+	  </section>
+	  <section>
+	    <p><a href="http://creativecommons.org/licenses/by-sa/3.0/"><img src="by-sa.svg" alt="CC-BY-SA 3.0" /></a></p>
+	  </section>
+	  <section>
+	    <div class="qrcode" id="qrcode-github" />
+	    <p class="small"><a href="http://github.com/fghaas/openstacksummit2014-atlanta" id="github"></a></p>
+	  </section>
+	</section>
+      </section>
+    </div>
+
+    <script src="qrcode.js"></script>
+    <script>
+/* Grab all links and iterate over them */
+var sources = document.getElementsByTagName('a');
+n = sources.length;
+for (var i = 0; i < n; i++) {
+    var source = sources[i];
+    var href = source.href;
+
+    /* If the link has no href attribute, skip it */
+    if (href) {
+	var target_id = "qrcode-" + source.id ;
+	var target = document.getElementById(target_id);
+	/* If the source has no corresponding target element, skip
+	 * it */
+	if (target) {
+	    var qr = new QRCode(target, {
+		colorDark : "#000000",
+		colorLight : "rgba(255,255,255,0)",
+	    });
+	    qr.makeCode(href);
+	}
+    }
+}
+    </script>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+    
+    <script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+    
+    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+    
+    // Optional libraries used to extend on reveal.js
+    dependencies: [
+	{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+	{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+	{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+	{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+	{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+	{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+    ]
+});
+    </script>
+  </body>
+</html>
