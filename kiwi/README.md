@@ -1,7 +1,7 @@
 # KIWI appliance for Crowbar admin node
 
 [KIWI](https://en.opensuse.org/Portal:KIWI) is used to build a
-`.qcow2` virtual disk, which will then be converted into a Vagrant box
+`.vmdk` virtual disk, which will then be converted into a Vagrant box
 by **FIXME**.
 
 Here's [a quick introduction to KIWI](http://doc.opensuse.org/projects/kiwi/doc/#chap.introduction)
@@ -66,7 +66,7 @@ Now you can build the image by running:
     cd kiwi
     sudo KIWI_BUILD_TMP_DIR=/tmp/kiwi-build ./build-image.sh
 
-The resulting `.qcow2` image will be in the `image/` directory.  The
+The resulting `.vmdk` image will be in the `image/` directory.  The
 build log is there too in case something went wrong and you need to
 debug.
 
