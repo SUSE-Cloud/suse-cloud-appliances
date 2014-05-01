@@ -13,7 +13,10 @@ in case you need it.
 
 Unfortunately KIWI currently only runs on SUSE-based systems.  There
 is definitely appetite to port it to other distributions but noone has
-had the time to do so yet.
+had the time to do so yet.  Another interesting option for the future
+would be to rebuild this appliance using [Packer](http://www.packer.io/).
+[Pull requests](https://help.github.com/articles/using-pull-requests)
+are very welcome - just [fork this repository](https://github.com/fghaas/openstacksummit2014-atlanta/fork)!
 
 1.  If you're on SLES11 SP3, add the openSUSE:Tools repository first
     to get the latest KIWI version.  For example:
