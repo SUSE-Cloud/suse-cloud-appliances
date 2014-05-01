@@ -2,9 +2,9 @@
 # into ../reveal.js.
 #
 # Override with make REVEAL=/path/to/reveal.js
-REVEAL ?= ../reveal.js
+REVEAL ?= ../../reveal.js
 # Override with make QRCODE=/path/to/qrcodejs
-QRCODE ?= ../qrcodejs
+QRCODE ?= ../../qrcodejs
 
 # Directories we pull from reveal.js
 REVEAL_SYMLINKS ?= plugin lib css js
