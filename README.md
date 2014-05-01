@@ -7,6 +7,7 @@ Atlanta](http://openstacksummitmay2014atlanta.sched.org/event/d3db2188dfed4459f8
 ## Contents
 
 * [the presentation](presentation/)
+* [sources for building the KIWI appliance](kiwi/)
 
 ## Authors
 
