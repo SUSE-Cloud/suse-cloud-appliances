@@ -40,3 +40,6 @@ usermod -G sysadmin vagrant
 # lookups when connecting via ssh.
 echo "Disabling UseDNS in sshd ..."
 sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
+
+# Default behaviour of less drives me nuts!
+sed -i 's/\(LESS="\)/\1-X /' /etc/profile
