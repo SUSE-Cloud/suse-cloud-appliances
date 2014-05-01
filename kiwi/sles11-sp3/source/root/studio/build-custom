@@ -25,3 +25,13 @@ rm /etc/YaST2/licenses/license.txt
 echo "Enabling auto-start of ntp and ssh services on boot ..."
 chkconfig ntp on
 chkconfig sshd on
+
+echo "Adding vagrant to sudoers"
+cat <<EOF >>/etc/sudoers
+
+vagrant ALL=(ALL) NOPASSWD: ALL
+EOF
+# Ensure vagrant maintains password-less sudo access even after
+# Crowbar/Chef hijack /etc/sudoers:
+groupadd sysadmin
+usermod -G sysadmin vagrant
