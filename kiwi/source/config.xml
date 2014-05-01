@@ -87,16 +87,46 @@
     <package name='glibc-locale'/>
     <package name='module-init-tools'/>
   </packages>
+
+  <!-- see http://doc.opensuse.org/projects/kiwi/doc/#sec.description.repository -->
   <repository type='yast2'>
-    <source path='{SLES 11 SP3 x86_64}'/>
+    <source path='/mnt/sles-11-sp3'/>
   </repository>
   <repository type='rpm-md'>
-    <source path='{SLES 11 SP3 Updates x86_64}'/>
+    <source path='/data/install/mirrors/SLES11-SP3-Updates/sle-11-x86_64'/>
   </repository>
+
   <repository type='yast2'>
-    <source path='{SLE 11 SP3 SDK x86_64}'/>
+    <source path='/data/install/mirrors/SLE-11-SP3-SDK/sle-11-x86_64'/>
   </repository>
   <repository type='rpm-md'>
-    <source path='{SLE 11 SP3 SDK Updates x86_64}'/>
+    <source path='/data/install/mirrors/SLE-11-SP3-SDK-Updates/sle-11-x86_64'/>
+  </repository>
+
+  <repository type='yast2'>
+    <source path='/mnt/suse-cloud-3'/>
+  </repository>
+<!--
+Don't need this since the product installation media above provides the same packages:
+
+  <repository type='rpm-md'>
+    <source path='/data/install/mirrors/SUSE-Cloud-3.0-Pool/sle-11-x86_64'/>
+  </repository>
+-->
+  <repository type='rpm-md'>
+    <source path='/data/install/mirrors/SUSE-Cloud-3.0-Updates/sle-11-x86_64'/>
+  </repository>
+
+  <repository type='rpm-md'>
+    <source path='/data/install/mirrors/Devel:Cloud:Shared:11-SP3/sle-11-x86_64'/>
+  </repository>
+  <repository type='rpm-md'>
+    <source path='/data/install/mirrors/Devel:Cloud:Shared:11-SP3:Update/sle-11-x86_64'/>
+  </repository>
+  <repository type='rpm-md'>
+    <source path='/data/install/mirrors/Devel:Cloud:3/sle-11-x86_64'/>
+  </repository>
+  <repository type='rpm-md'>
+    <source path='/data/install/mirrors/Devel:Cloud:3:Staging/sle-11-x86_64'/>
   </repository>
 </image>
