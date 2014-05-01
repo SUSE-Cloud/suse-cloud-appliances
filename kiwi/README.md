@@ -31,7 +31,7 @@ had the time to do so yet.
 
 Now you can build the image by running:
 
-    sudo ./create_appliance.sh
+    sudo KIWI_BUILD_TMP_DIR=/tmp/kiwi-build ./build-image.sh
 
 The resulting `.qcow2` image will be in the `image/` directory.  The
 build log is there too in case something went wrong and you need to
