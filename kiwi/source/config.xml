@@ -2,8 +2,8 @@
 <image name='SLES_11_SP3_ReOS_for_OpenStack_summit_20' displayname='SLES_11_SP3_ReOS_for_OpenStack_summit_20' schemaversion='5.2'>
   <description type='system'>
     <author>Adam Spiers</author>
-    <contact>studio-devel@suse.de</contact>
-    <specification>SLES 11 SP2</specification>
+    <contact>aspiers@suse.com</contact>
+    <specification>SLES 11 SP3</specification>
   </description>
   <preferences>
     <type checkprebuilt='true' boot='vmxboot/suse-SLES11' fsnocheck='true' filesystem='ext3' format='qcow2' image='vmx'>
