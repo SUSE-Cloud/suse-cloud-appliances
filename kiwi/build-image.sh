@@ -19,7 +19,7 @@
 # ========================================================================
 
 # Size in MB
-TMPFS_SIZE=3600
+TMPFS_SIZE=6500
 
 BOOT_CACHE_DIR=/var/cache/kiwi/bootimage
 OUTPUT_DIR=image
