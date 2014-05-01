@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # ========================================================================
-# Script for building Crowbar dev VM based on SUSE (openSUSE/SLES).
+# Script for building SUSE Cloud admin appliance
 #
 # Requires Kiwi (http://opensuse.github.io/kiwi/).
 #
