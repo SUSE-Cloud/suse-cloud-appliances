@@ -6,7 +6,12 @@
     <specification>SLES 11 SP3</specification>
   </description>
   <preferences>
-    <type checkprebuilt='true' boot='vmxboot/suse-SLES11' fsnocheck='true' filesystem='ext3' format='qcow2' image='vmx'>
+<!--
+    <type format='qcow2' image='vmx' boot='vmxboot/suse-SLES11' filesystem='ext3' fsnocheck='true' primary='true' checkprebuilt='true'>
+      <size unit='M' additive='false'>16384</size>
+    </type>
+-->
+    <type format='vmdk' image='vmx' boot='vmxboot/suse-SLES11' filesystem='ext3' fsnocheck='true'>
       <size unit='M' additive='false'>16384</size>
     </type>
     <version>0.0.1</version>

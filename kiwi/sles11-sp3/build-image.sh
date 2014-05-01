@@ -75,7 +75,7 @@ function clean_up {
 
   # Save the image and log files
   mkdir -p $OUTPUT_DIR
-  mv $TMP_DIR/{build/image-root.log,*.qcow2} $OUTPUT_DIR 2>/dev/null || true
+  mv $TMP_DIR/{build/image-root.log,*.qcow2,*.vmdk} $OUTPUT_DIR 2>/dev/null || true
   local USER=`stat -c %U .`
   local GROUP=`stat -c %G .`
   chown -R $USER.$GROUP $OUTPUT_DIR
