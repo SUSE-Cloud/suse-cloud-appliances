@@ -16,7 +16,6 @@
 # - Had added auto-detection of pigz (parallel gzip), but this also had
 #   negligible speed-up in my setup so excluded it too.
 #
-# Author: James Tan <jatan@suse.de>
 # ========================================================================
 
 # Size in MB
