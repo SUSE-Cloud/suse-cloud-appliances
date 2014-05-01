@@ -35,3 +35,8 @@ EOF
 # Crowbar/Chef hijack /etc/sudoers:
 groupadd sysadmin
 usermod -G sysadmin vagrant
+
+# This avoids annoyingly long timeouts on reverse DNS
+# lookups when connecting via ssh.
+echo "Disabling UseDNS in sshd ..."
+sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
