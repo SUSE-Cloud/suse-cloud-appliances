@@ -2,7 +2,7 @@
 
 [KIWI](https://en.opensuse.org/Portal:KIWI) is used to build a
 `.vmdk` virtual disk, which will then be converted into a Vagrant box
-by **FIXME**.
+by [vagrant/box/Makefile](../vagrant/box/Makefile).
 
 Here's [a quick introduction to KIWI](http://doc.opensuse.org/projects/kiwi/doc/#chap.introduction)
 in case you need it.
