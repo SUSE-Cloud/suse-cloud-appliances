@@ -47,8 +47,26 @@ function check_kiwi {
   fi
 }
 
-function clean_up {
+function warn {
+  echo >&2 -e "$*"
+}
+
+function unclean_exit {
   local exit_code=$?
+
+  warn "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  warn "\nWARNING: premature termination!"
+  if df $TMP_DIR | egrep -q "^tmpfs"; then
+      warn "\nLeaving $TMP_DIR mounted."
+      warn "You must umount it yourself in order to free RAM."
+  fi
+  warn "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+
+  exit $exit_code
+}
+
+function clean_up {
+  echo >&2 -e "$*"
 
   # Only clean up once
   [ "$CLEAN" ] && return
@@ -70,8 +88,6 @@ function clean_up {
       umount $TMP_DIR
   fi
   rm -rf $TMP_DIR
-
-  exit $exit_code
 }
 
 function create_tmpfs {
@@ -102,7 +118,8 @@ function run_kiwi {
 }
 
 check_kiwi
-trap clean_up SIGINT SIGTERM EXIT
+trap unclean_exit SIGINT SIGTERM
 run_kiwi
+clean_up
 
 exit 0
