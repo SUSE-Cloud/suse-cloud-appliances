@@ -53,6 +53,7 @@
     <package name='lsof'/>
     <package name='ltrace'/>
     <package name='strace'/>
+    <package name='terminfo'/>
     <package name='man'/>
     <package name='emacs'/>
     <package name='bootsplash-branding-SLES'/>
