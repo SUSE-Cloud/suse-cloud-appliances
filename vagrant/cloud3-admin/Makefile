@@ -8,16 +8,13 @@ BOX_FILE   = $(BOX_NAME).box
 VMDK       = box-disk1.vmdk
 OVF        = box.ovf
 
-COMPONENTS = Vagrantfile metadata.json $(VMDK) $(OVF)
+COMPONENTS = Vagrantfile metadata.json $(OVF)
 
 KIWI_IMAGE_DIR = ../../kiwi/image
 
 default: $(BOX_FILE)
 
-$(VMDK): $(wildcard $(KIWI_IMAGE_DIR)/*.vmdk)
+$(BOX_FILE): $(COMPONENTS)
 	@latest=$$( ls -t $(KIWI_IMAGE_DIR)/*.vmdk | head -n1 ); \
 	echo "latest vmdk is $$latest"; \
-	cp -iv "$$latest" $@
-
-$(BOX_FILE): $(COMPONENTS)
-	tar cvf $@ $(COMPONENTS)
+	tar --transform="s,.*\.vmdk,$(VMDK)," -cvf $@ $(COMPONENTS) "$$latest"

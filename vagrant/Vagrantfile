@@ -1,0 +1,48 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+vagrantfile_api_version = "2"
+
+Vagrant.configure(vagrantfile_api_version) do |config|
+  config.vm.define :admin, :primary => true do |admin|
+    admin.vm.box = "suse/cloud3-admin"
+    #admin.vm.box_url = "http://clouddata.cloud.suse.de/images/SP3-64up.box"
+    admin.vm.box_check_update = false
+
+    admin.vm.provider "virtualbox" do |provider|
+      provider.memory = 2048
+      provider.cpus = 4
+
+      # Don't use headless mode
+      provider.gui = true
+    end
+
+    admin.vm.provider "libvirt" do |provider|
+      provider.nested = true
+      provider.volume_cache = "none"
+
+      # Don't use headless mode
+      provider.gui = true
+    end
+
+    admin.vm.network :forwarded_port, guest: 3000, host: 3000
+    admin.vm.network "private_network", ip: "192.168.124.10"
+    # admin.vm.network "public_network"
+    # admin.ssh.forward_agent = true
+
+    # admin.vm.synced_folder "../data", "/vagrant_data"
+
+    #admin.vm.provision "shell", :path => "scripts/vagrant-provision.sh"
+  end
+
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.host = "localhost"
+    libvirt.connect_via_ssh = true
+
+    libvirt.username = "root"
+    libvirt.password = "linux"
+
+    libvirt.storage_pool_name = "default"
+  end
+end
