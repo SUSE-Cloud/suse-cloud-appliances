@@ -6,9 +6,8 @@
 # Requires Kiwi (http://opensuse.github.io/kiwi/).
 #
 # Build performance:
-# - Automatically builds in RAM (tmpfs) if there's about 5 GB free memory. This
-#   brings the build time down from about 10 mins to 2 mins on my workstation
-#   (no SSDs).
+# - Automatically builds in RAM (tmpfs) if there's enough free memory. This
+#   brings the build time down significantly, especially without SSDs.
 # - Automatically creates and uses Kiwi's boot image cache, which saves about 1
 #   min with tmpfs.
 # - Had added support for Kiwi's image cache, but this had negligible speed-up
@@ -18,8 +17,21 @@
 #
 # ========================================================================
 
-# Size in MB
-TMPFS_SIZE=6500
+# Determine minimum RAM required for use of tmpfs
+here=$( dirname "$0" )
+if [ -e $here/source/root/srv/tftpboot/repos/SUSE-Cloud-3-Updates/sle-11-x86_64/repodata/repomd.xml ]
+then
+    # This is a guess, but we need a *lot* in this case.
+    TMPFS_SIZE=15400
+else
+    cat <<EOF >&2
+WARNING: It appears you do not have the installation media and repositories
+set up in your overlay filesystem.  The image will be missing these.
+Press Enter to continue or Control-C to quit ...
+EOF
+    read
+    TMPFS_SIZE=6500
+fi
 
 BOOT_CACHE_DIR=/var/cache/kiwi/bootimage
 OUTPUT_DIR=image
