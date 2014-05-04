@@ -104,7 +104,7 @@ function clean_up {
 function create_tmpfs {
   mkdir -p $TMP_DIR
 
-  local ram_required=$((TMPFS_SIZE-500))
+  local ram_required=$((TMPFS_SIZE))
   local free_ram=`free -m | awk '/^-\/\+ buffers/{print $4}'`
   echo "** Free RAM: $free_ram MB; RAM required: $ram_required MB"
   if [ "$free_ram" -lt "$ram_required" ]; then
