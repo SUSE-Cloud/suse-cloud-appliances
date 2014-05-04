@@ -26,6 +26,9 @@
   <users group='root'>
     <user name='root' pwd='$1$UEgt7H0y$uFQj1U3Jt2DCTrkLugoB..' home='/root' shell='/bin/bash'/>
   </users>
+  <users group='vagrant'>
+    <user name='vagrant' home='/home/vagrant' shell='/bin/bash'/>
+  </users>
   <packages type='image' patternType='onlyRequired'>
     <opensusePattern name='base'/>
     <package name='ntp'/>
