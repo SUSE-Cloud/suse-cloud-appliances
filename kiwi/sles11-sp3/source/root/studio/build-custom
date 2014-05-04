@@ -21,3 +21,7 @@ fi
 
 echo "Removing EULA on first boot ..."
 rm /etc/YaST2/licenses/license.txt
+
+echo "Enabling auto-start of ntp and ssh services on boot ..."
+chkconfig ntp on
+chkconfig sshd on
