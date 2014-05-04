@@ -10,8 +10,12 @@
 #
 
 # read in some variables
-. /studio/profile
+if test -f /studio/profile; then
+    . /studio/profile
+fi
 
 # read in KIWI utility functions
-. /.kconfig
+if test -f /.kconfig; then
+    . /.kconfig
+fi
 
