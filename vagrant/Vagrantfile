@@ -56,6 +56,13 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     EOSCRIPT
   end
 
+  # (1..3).each do |i|
+  #   config.vm.define "node#{i}" do |node|
+  #     v.customize [ "createhd", "--filename", "disk", "--size", 100000 ]
+  #     v.customize [ 'storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', "disk"]
+  #   end
+  # end
+
   config.vm.provider :libvirt do |libvirt|
     libvirt.host = "localhost"
     libvirt.connect_via_ssh = true
