@@ -65,10 +65,21 @@ baseUpdateSysConfig /etc/sysconfig/console CONSOLE_FONT lat9w-16.psfu
 chown root:root /studio/build-custom
 chmod 755 /studio/build-custom
 # run custom build_script after build
-/studio/build-custom
+if ! /studio/build-custom; then
+    cat <<EOF
+
+*********************************
+/studio/build-custom failed!
+*********************************
+
+EOF
+    exit 1
+fi
+
 chown root:root /studio/suse-studio-custom
 chmod 755 /studio/suse-studio-custom
 test -d /studio || mkdir /studio
+
 cp /image/.profile /studio/profile
 cp /image/config.xml /studio/config.xml
 rm -rf /studio/overlay-tmp
