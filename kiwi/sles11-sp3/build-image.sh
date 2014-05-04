@@ -66,7 +66,7 @@ function clean_up {
   # Save initrd as boot image cache
   rsync -ql $TMP_DIR/initrd-* $BOOT_CACHE_DIR 2>/dev/null || true
 
-  umount -l $TMP_DIR || true
+  umount $TMP_DIR || true
   rm -rf $TMP_DIR || true
 
   exit $exit_code
