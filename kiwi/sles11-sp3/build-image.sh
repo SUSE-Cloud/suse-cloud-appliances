@@ -69,7 +69,7 @@ function clean_up {
   if df $TMP_DIR | egrep -q "^tmpfs"; then
       umount $TMP_DIR
   fi
-  rm -rf $TMP_DIR || true
+  rm -rf $TMP_DIR
 
   exit $exit_code
 }
