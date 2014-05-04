@@ -20,5 +20,7 @@ then
 
   # Reduce grub prompt time-out
   sed -i 's/^timeout [0-9]\+/timeout 3/' /boot/grub/menu.lst
-fi
 
+  echo "Installing VirtualBox guest additions ..."
+  sh /tmp/VBoxLinuxAdditions.run
+fi

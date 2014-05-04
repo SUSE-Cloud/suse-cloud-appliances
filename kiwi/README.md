@@ -41,6 +41,7 @@ Building this appliance from scratch requires the following:
     *   Updates are available via subscriptions with a 60-day free evaluation; however all these products are Free Software, so of course you can still use them fully after 60 days - you just won't continue getting updates.
     *   The easiest way to obtain the updates is probably via the [Subscription Management Tool (SMT) 11 SP3](https://download.suse.com/Download?buildid=l8FuDkiYOg0~) ([more info on SMT here](https://www.suse.com/solutions/tools/smt.html)).
     *   Here are the links for free 60-day evaluations of [SLES](https://www.suse.com/products/server/eval.html), [SUSE Cloud](https://www.suse.com/products/suse-cloud/), and [SLE HAE](https://www.suse.com/products/highavailability/eval.html).
+*   [VirtualBox Guest Additions `.iso`](http://download.virtualbox.org/virtualbox/).  Mount the `.iso` on the image-building host, and copy the `VBoxLinuxAdditions.run` file into `source/root/tmp` under this directory.
 
 ### Setting up the mountpoints
 

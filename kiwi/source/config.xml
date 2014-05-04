@@ -62,6 +62,7 @@
     <package name='SuSEfirewall2'/>
     <package name='kernel-default'/>
     <package name='kernel-default-devel'/>
+    <package name='gcc'/>
     <package name='zypper'/>
     <package name='vim'/>
     <package name='less'/>
