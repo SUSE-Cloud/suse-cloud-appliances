@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<image name='SLES_11_SP3_ReOS_for_OpenStack_summit_20' displayname='SLES_11_SP3_ReOS_for_OpenStack_summit_20' schemaversion='5.2'>
+  <description type='system'>
+    <author>Adam Spiers</author>
+    <contact>studio-devel@suse.de</contact>
+    <specification>SLES 11 SP2</specification>
+  </description>
+  <preferences>
+    <type checkprebuilt='true' boot='vmxboot/suse-SLES11' fsnocheck='true' filesystem='ext3' format='qcow2' image='vmx'>
+      <size unit='M' additive='false'>16384</size>
+    </type>
+    <version>0.0.1</version>
+    <packagemanager>zypper</packagemanager>
+    <rpm-check-signatures>false</rpm-check-signatures>
+    <rpm-force>false</rpm-force>
+    <boot-theme>studio</boot-theme>
+    <timezone>America/New_York</timezone>
+    <hwclock>localtime</hwclock>
+    <locale>en_US</locale>
+  </preferences>
+  <users group='root'>
+    <user name='root' pwd='$1$UEgt7H0y$uFQj1U3Jt2DCTrkLugoB..' home='/root' shell='/bin/bash'/>
+  </users>
+  <packages type='image' patternType='onlyRequired'>
+    <opensusePattern name='base'/>
+    <package name='ntp'/>
+    <package name='gfxboot-branding-SLES'/>
+    <package name='grub'/>
+    <package name='acpid'/>
+    <package name='telnet'/>
+    <package name='xorg-x11-xauth'/>
+    <package name='iotop'/>
+    <package name='screen'/>
+    <package name='nfs-client'/>
+    <package name='yast2-firewall'/>
+    <package name='yast2-network'/>
+    <package name='glibc-locale'/>
+    <package name='patch'/>
+    <package name='gdb'/>
+    <package name='git'/>
+    <package name='rsync'/>
+    <package name='wireshark'/>
+    <package name='man-pages'/>
+    <package name='tcpdump'/>
+    <package name='lsof'/>
+    <package name='ltrace'/>
+    <package name='strace'/>
+    <package name='man'/>
+    <package name='emacs'/>
+    <package name='bootsplash-branding-SLES'/>
+    <package name='SuSEfirewall2'/>
+    <package name='kernel-default'/>
+    <package name='zypper'/>
+    <package name='vim'/>
+    <package name='less'/>
+    <package name='yast2'/>
+    <package name='yast2-ncurses'/>
+    <package name='mdadm'/>
+    <package name='syslog-ng'/>
+    <package name='yast2-firstboot'/>
+    <package name='suse-sam'/>
+    <package name='suse-sam-data'/>
+    <package name='tar'/>
+    <package name='perl-satsolver'/>
+    <package name='openssl-certs'/>
+    <package name='iputils'/>
+    <package name='emacs-x11'/>
+    <package name='net-tools'/>
+    <package name='yast2-ncurses-pkg'/>
+    <package name='man-pages-posix'/>
+    <package name='xorg-x11-fonts'/>
+    <package name='yast2-qt'/>
+    <package name='yast2-gtk'/>
+    <package name='iftop'/>
+    <archive name='bootsplash.tar' bootinclude='true'/>
+  </packages>
+  <packages type='bootstrap'>
+    <package name='filesystem'/>
+    <package name='glibc-locale'/>
+    <package name='module-init-tools'/>
+  </packages>
+  <repository type='yast2'>
+    <source path='{SLES 11 SP3 x86_64}'/>
+  </repository>
+  <repository type='rpm-md'>
+    <source path='{SLES 11 SP3 Updates x86_64}'/>
+  </repository>
+  <repository type='yast2'>
+    <source path='{SLE 11 SP3 SDK x86_64}'/>
+  </repository>
+  <repository type='rpm-md'>
+    <source path='{SLE 11 SP3 SDK Updates x86_64}'/>
+  </repository>
+</image>

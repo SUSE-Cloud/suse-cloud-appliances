@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <studio_uuid>8466bd24-fd59-11df-9f90-475ae2f5345b</studio_uuid>
+  <appliance_uuid>6c9f5282-d14a-11e3-868f-a31de2e61522</appliance_uuid>
+  <config>
+    <image name="SLES_11_SP3_ReOS_for_OpenStack_summit_20" displayname="SLES_11_SP3_ReOS_for_OpenStack_summit_20" schemaversion="5.2">
+      <description type="system">
+        <author>Adam Spiers</author>
+        <contact>studio-devel@suse.de</contact>
+        <specification>SLES 11 SP2</specification>
+      </description>
+      <preferences>
+        <type checkprebuilt="true" boot="vmxboot/suse-SLES11" fsnocheck="true" filesystem="ext3" format="qcow2" image="vmx">
+          <size unit="M" additive="false">16384</size>
+        </type>
+        <version>0.0.1</version>
+        <packagemanager>ensconce</packagemanager>
+        <rpm-check-signatures>false</rpm-check-signatures>
+        <rpm-force>false</rpm-force>
+        <boot-theme>studio</boot-theme>
+        <timezone>America/New_York</timezone>
+        <hwclock>localtime</hwclock>
+        <locale>en_US</locale>
+      </preferences>
+      <users group="root">
+        <user name="root" pwd="$1$UEgt7H0y$uFQj1U3Jt2DCTrkLugoB.." home="/root" shell="/bin/bash"/>
+      </users>
+      <repository type="yast2">
+        <source path="http://sle-mirror.cluster.xs/install/SLES-11-SP3-x86_64/"/>
+      </repository>
+      <repository type="rpm-md">
+        <source path="http://sle-mirror.cluster.xs/updates/SLES11-SP3-Updates/sle-11-x86_64/"/>
+      </repository>
+      <repository type="yast2">
+        <source path="http://sle-mirror.cluster.xs/install/SLE-11-SP3-SDK-x86_64/"/>
+      </repository>
+      <repository type="rpm-md">
+        <source path="http://sle-mirror.cluster.xs/updates/SLE11-SDK-SP3-Updates/sle-11-x86_64/"/>
+      </repository>
+      <packages type="image" patternType="onlyRequired">
+        <opensusePattern name="base"/>
+        <package name="ntp"/>
+        <package name="gfxboot-branding-SLES"/>
+        <package name="grub"/>
+        <package name="acpid"/>
+        <package name="telnet"/>
+        <package name="xorg-x11-xauth"/>
+        <package name="iotop"/>
+        <package name="screen"/>
+        <package name="nfs-client"/>
+        <package name="yast2-firewall"/>
+        <package name="yast2-network"/>
+        <package name="glibc-locale"/>
+        <package name="patch"/>
+        <package name="gdb"/>
+        <package name="git"/>
+        <package name="rsync"/>
+        <package name="wireshark"/>
+        <package name="man-pages"/>
+        <package name="tcpdump"/>
+        <package name="lsof"/>
+        <package name="ltrace"/>
+        <package name="strace"/>
+        <package name="man"/>
+        <package name="emacs"/>
+        <package name="bootsplash-branding-SLES"/>
+        <package name="SuSEfirewall2"/>
+        <package name="kernel-default"/>
+        <package name="zypper"/>
+        <package name="vim"/>
+        <package name="less"/>
+        <package name="yast2"/>
+        <package name="yast2-ncurses"/>
+        <package name="mdadm"/>
+        <package name="syslog-ng"/>
+        <package name="yast2-firstboot"/>
+        <package name="suse-sam"/>
+        <package name="suse-sam-data"/>
+        <package name="tar"/>
+        <package name="perl-satsolver"/>
+        <package name="openssl-certs"/>
+        <package name="iputils"/>
+        <package name="emacs-x11"/>
+        <package name="net-tools"/>
+        <package name="yast2-ncurses-pkg"/>
+        <package name="man-pages-posix"/>
+        <package name="xorg-x11-fonts"/>
+        <package name="yast2-qt"/>
+        <package name="yast2-gtk"/>
+        <package name="iftop"/>
+        <archive name="bootsplash.tar" bootinclude="true"/>
+      </packages>
+      <packages type="bootstrap">
+        <package name="filesystem"/>
+        <package name="glibc-locale"/>
+        <package name="module-init-tools"/>
+      </packages>
+    </image>
+  </config>
+  <extra_config name="SLES_11_SP3_ReOS_for_OpenStack_summit_20">
+    <appliance_id>1180710</appliance_id>
+    <arch>x86_64</arch>
+    <version>0.0.1</version>
+    <logo>22/e257716b5506b9dd61d954ec0fafd9</logo>
+    <background>da/59b0fadac2d5f3bd0163fa34bcd8ab</background>
+    <base_system>SLES11_SP3</base_system>
+    <image_type>kvm</image_type>
+    <time_zone>America/New_York</time_zone>
+    <region>USA</region>
+    <default_runlevel>3</default_runlevel>
+    <install_recommended>false</install_recommended>
+    <xen_host>false</xen_host>
+    <exclude_docs>false</exclude_docs>
+    <disable_branding>false</disable_branding>
+    <template>SLES 11 SP2, Server</template>
+    <locale>
+      <language>en_US.UTF-8</language>
+      <keytable>us.map.gz</keytable>
+    </locale>
+    <estimated_size>1230</estimated_size>
+    <size_offset>0</size_offset>
+    <non_interactive>false</non_interactive>
+    <oem_disk_size>16G</oem_disk_size>
+    <check_supportability>true</check_supportability>
+    <network config="manual">
+      <ip>192.168.124.10</ip>
+      <netmask>255.255.255.0</netmask>
+      <route></route>
+      <name_servers>192.168.124.1</name_servers>
+      <hostname>cloud3-admin.openstack.site</hostname>
+    </network>
+    <startup_programs>
+    </startup_programs>
+    <overlay_files remove="">
+    </overlay_files>
+    <firewall>
+      <firewall_enabled>no</firewall_enabled>
+      <firewall_ssh>opened</firewall_ssh>
+      <firewall_http>opened</firewall_http>
+      <firewall_webyast>closed</firewall_webyast>
+    </firewall>
+    <webyast enabled="false" version="">
+    </webyast>
+    <x_keyboard model="microsoftpro" layout="us" variant="" keycode="xfree86" LA="" RA="" SL="" RC="" OPT=""/>
+    <build_script>
+      <![CDATA[#!/bin/bash -e
+#
+# This script is executed at the end of appliance creation.  Here you can do
+# one-time actions to modify your appliance before it is ever used, like
+# removing files and directories to make it smaller, creating symlinks,
+# generating indexes, etc.
+#
+# The 'kiwi_type' variable will contain the format of the appliance
+# (oem = disk image, vmx = VMware, iso = CD/DVD, xen = Xen).
+#
+
+# read in some variables
+. /studio/profile
+
+# read in KIWI utility functions
+. /.kconfig
+
+]]>
+    </build_script>
+    <boot_script>
+      <![CDATA[#!/bin/bash
+#
+# This script is executed whenever your appliance boots.  Here you can add
+# commands to be executed before the system enters the first runlevel.  This
+# could include loading kernel modules, starting daemons that aren't managed
+# by init files, asking questions at the console, etc.
+#
+# The 'kiwi_type' variable will contain the format of the appliance (oem =
+# disk image, vmx = VMware, iso = CD/DVD, xen = Xen).
+#
+
+# read in some variables
+. /studio/profile
+
+if [ -f /etc/init.d/suse_studio_firstboot ]
+then
+
+  # Put commands to be run on the first boot of your appliance here
+  echo "Running SUSE Studio first boot script..."
+
+fi
+
+]]>
+    </boot_script>
+    <enable_root_firstboot>false</enable_root_firstboot>
+    <window_manager/>
+    <display_manager/>
+  </extra_config>
+</manifest>
