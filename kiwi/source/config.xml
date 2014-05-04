@@ -34,6 +34,7 @@
     <opensusePattern name='cloud_admin'/>
     <package name='ntp'/>
     <package name='gfxboot-branding-SLES'/>
+    <package name='gfxboot-devel'/>
     <package name='grub'/>
     <package name='acpid'/>
     <package name='telnet'/>
