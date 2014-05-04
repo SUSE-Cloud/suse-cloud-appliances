@@ -104,10 +104,10 @@ function clean_up {
 function create_tmpfs {
   mkdir -p $TMP_DIR
 
-  local RAM_THRESHOLD=$((TMPFS_SIZE-500))
+  local ram_required=$((TMPFS_SIZE-500))
   local free_ram=`free -m | awk '/^-\/\+ buffers/{print $4}'`
-  echo "** Free RAM: $free_ram MB, tmpfs threshold: $RAM_THRESHOLD MB"
-  if [ "$free_ram" -lt "$RAM_THRESHOLD" ]; then
+  echo "** Free RAM: $free_ram MB; RAM required: $ram_required MB"
+  if [ "$free_ram" -lt "$ram_required" ]; then
     echo "** tmpfs: Skipping, insufficient free RAM"
     return
   fi
