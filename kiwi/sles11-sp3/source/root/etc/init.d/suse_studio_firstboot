@@ -1,0 +1,121 @@
+# This script is called from /etc/init.d/boot.local. It is intended to run
+# only on first boot so it deletes itself after running.
+
+LICENSE_FILE=/etc/YaST2/licenses/license.txt
+
+# ===========================================
+# Enable/disable evtouch based on testdrive
+# -------------------------------------------
+
+# Fix our xorg.conf.testdrive according to the local keyboard settings
+setup_keyboard() {
+  # Because we're running before the keyboard selection, we need to hack into the
+  # kdb script and do the replacement there. Once we did it, let's restore the
+  # original script
+  cp /etc/init.d/kbd{,.bkp}
+  sed -i "s/rc_exit//" /etc/init.d/kbd
+  cat >> /etc/init.d/kbd <<-'EOF'
+    if [ -f /etc/X11/xorg.conf -a -x /usr/sbin/sysp ]; then
+      echo -n "  -> Setting keyboard layout..."
+      /usr/sbin/sysp -s keyboard &> /dev/null
+      MODEL=$(/usr/sbin/sysp -q keyboard | grep XkbModel | sed 's/.*: //')
+      LAYOUT=$(/usr/sbin/sysp -q keyboard | grep XkbLayout | sed 's/.*: //')
+      VARIANT=$(/usr/sbin/sysp -q keyboard | grep XkbVariant | sed 's/.*: //')
+      sed -i "s/{XKBLAYOUT}/$LAYOUT/;s/{XKBMODEL}/$MODEL/;s/{XKBVARIANT}/$VARIANT/" /etc/X11/xorg.conf
+      echo "done"
+    fi
+    mv /etc/init.d/kbd{.bkp,}
+    rc_exit
+EOF
+}
+
+# Use the evtouch driver when in testdrive so that the mouse cursor works properly.
+setup_evtouch() {
+  # use xorg.conf.testdrive
+  if [ -f /etc/X11/xorg.conf.testdrive ]; then
+    echo -n "  -> Copying '/etc/X11/xorg.conf.testdrive' to '/etc/X11/xorg.conf'... "
+    if [ -f /etc/X11/xorg.conf ]; then
+      cp /etc/X11/xorg.conf /etc/X11/xorg.conf.tdsave
+    fi
+    cp /etc/X11/xorg.conf.testdrive /etc/X11/xorg.conf
+    echo "done"
+  else
+    echo "  -> WARNING: '/etc/X11/xorg.conf.testdrive' not found! X startup may fail."
+  fi
+}
+
+# Run sax2 to setup xorg.conf if it's not already there and we are not in 
+# testdrive.
+run_sax2() {
+  if [ ! -f /etc/X11/xorg.conf ]; then
+    echo -n "  -> Running sax2 to generate X configuration... "
+    /usr/sbin/sax2 -c 0 -a -i -r &>/dev/null
+    echo "done"
+  fi
+  chvt 1 # Seems like sax2 should do this, but it doesn't.
+}
+
+# ===========================================
+# Expire passwords based on testdrive 
+# -------------------------------------------
+
+# Expire root and custom user passwords on first login when not in testdrive.
+# For security.
+expire_passwords() {
+  for user in root; do
+    echo "  -> Expiring password for user '$user'"
+    passwd -e -q $user
+  done
+}
+
+# ============================================
+# Prompt for EULA acceptance if on SLE
+# --------------------------------------------
+if cat /etc/SuSE-release | grep "Enterprise" &>/dev/null && [ -f $LICENSE_FILE ]; then
+  stty -nl ixon ignbrk -brkint
+
+  if [ `uname -m` == "s390x" ]; then
+    cat $LICENSE_FILE
+  else
+    less $LICENSE_FILE 2>/dev/null || more $LICENSE_FILE 2>/dev/null || cat $LICENSE_FILE
+  fi
+
+  until [ "$answer" == "y" ] || [ "$answer" == "Y" ];
+  do
+    echo -n "Do you accept the EULA? [y/N] "
+    read -e answer
+    if [ "$answer" == "n" ] || [ "$answer" == "N" ];then
+      halt
+    fi
+  done
+fi
+
+# ===========================================
+# Check if we are in testdrive 
+# -------------------------------------------
+
+echo -n "Checking if we are in SUSE Studio TestDrive... "
+# FIXME surely there's a better way to check if we are in testdrive?
+# FIXME: We should detect testdrive for s390 and handle networking, 779053#c9
+if dmesg | grep -q "DMI: SUSE Studio Testdrive"; then
+    echo "yes"
+    setup_keyboard
+    setup_evtouch
+    sed -i 's|HWCLOCK="--localtime"|HWCLOCK="-u"|g' etc/sysconfig/clock;
+    # Force DHCP for all testdrive runs
+    sed -i '/^STARTMODE/c STARTMODE=auto' etc/sysconfig/network/ifcfg-eth0
+    sed -i '/^BOOTPROTO/c BOOTPROTO=dhcp' etc/sysconfig/network/ifcfg-eth0
+    sed -i '/^IPADDR/c IPADDR=' etc/sysconfig/network/ifcfg-eth0
+    sed -i '/^NETMASK/c NETMASK=' etc/sysconfig/network/ifcfg-eth0
+else
+    echo "no"
+    if [ `uname -m` != "s390x" ]; then
+        run_sax2
+    fi
+    ## DISABLED FOR NOW (see https://bugzilla.novell.com/show_bug.cgi?id=419469) 
+    #expire_passwords
+fi 
+
+# delete itself, as we only need this to run on first boot
+rm -f /etc/init.d/suse_studio_firstboot
+
