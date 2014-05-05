@@ -30,7 +30,7 @@ set up in your overlay filesystem.  The image will be missing these.
 Press Enter to continue or Control-C to quit ...
 EOF
     read
-    TMPFS_SIZE=6500
+    TMPFS_SIZE=8500
 fi
 
 BOOT_CACHE_DIR=/var/cache/kiwi/bootimage
