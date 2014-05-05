@@ -66,8 +66,9 @@ zypper ar -G -C -K -t yast2  file:///srv/tftpboot/suse-11.3/install SLES-11-SP3
 zypper ar -G -C -K -t yast2  file:///srv/tftpboot/repos/Cloud SUSE-Cloud-3
 # Not needed since we have the installation media above:
 # zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SUSE-Cloud-3.0-Pool SUSE-Cloud-3-Pool
-zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SUSE-Cloud-3-Updates SUSE-Cloud-3-Updates
+# Not needed since we're using a Devel:Cloud:3:Staging .iso:
+# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SUSE-Cloud-3-Updates SUSE-Cloud-3-Updates
 
-zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:Shared:11-SP3 Devel_Cloud_Shared_11-SP3
-zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:3 Devel_Cloud_3
-zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:3:Staging Devel_Cloud_3_Staging
+# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:Shared:11-SP3 Devel_Cloud_Shared_11-SP3
+# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:3 Devel_Cloud_3
+# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:3:Staging Devel_Cloud_3_Staging
