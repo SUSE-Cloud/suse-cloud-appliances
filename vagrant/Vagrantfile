@@ -34,7 +34,12 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     admin.vm.synced_folder ".", "/vagrant", disabled: true
     #admin.vm.synced_folder "/mnt/suse-cloud-3", "/srv/tftpboot/repos/Cloud", type: "nfs"
 
-    #admin.vm.provision "shell", :path => "scripts/vagrant-provision.sh"
+    # This complains about not being connected to a terminal:
+    #
+    # admin.vm.provision "shell", inline: <<-EOSCRIPT
+    #   export REPOS_SKIP_CHECKS="SLES11_SP3 SLES11-SP3-Pool"
+    #   screen install-suse-cloud -v
+    # EOSCRIPT
   end
 
   config.vm.provider :libvirt do |libvirt|
