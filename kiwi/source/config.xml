@@ -94,13 +94,25 @@
   </packages>
 
   <!-- see http://doc.opensuse.org/projects/kiwi/doc/#sec.description.repository -->
+
+  <!--
+    For some reason, the SUSE-CLOUD-3-DEPS .iso is not sufficient; kiwi
+    still needs the full SP3.  But that's OK as long as we don't have to
+    embed the whole of SP3 in /srv/tftpboot.
+  -->
   <repository type='yast2'>
     <source path='/mnt/sles-11-sp3'/>
   </repository>
+  <repository type='yast2'>
+    <source path='/mnt/suse-cloud-3-deps'/>
+  </repository>
+<!--
+  Covered by SUSE-CLOUD-3-DEPS:
+
   <repository type='rpm-md'>
     <source path='/data/install/mirrors/SLES11-SP3-Updates/sle-11-x86_64'/>
   </repository>
-
+-->
   <repository type='yast2'>
     <source path='/data/install/mirrors/SLE-11-SP3-SDK/sle-11-x86_64'/>
   </repository>

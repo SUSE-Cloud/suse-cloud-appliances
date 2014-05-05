@@ -5,7 +5,7 @@
 
 repos=(
     #SLES11-SP3-Pool # not needed since we have installation media
-    SLES11-SP3-Updates
+    #SLES11-SP3-Updates # embedded within SUSE-CLOUD-3-DEPS
 
     SLE11-HAE-SP3-{Pool,Updates}
 
@@ -37,8 +37,8 @@ function setup_overlay {
     : ${MIRROR_DIR:=/data/install/mirrors}
     here=$( cd `dirname "$0"`; pwd -P )
     tftpboot=$here/source/root/srv/tftpboot
-    bind_mount /mnt/sles-11-sp3  $tftpboot/suse-11.3/install
-    bind_mount /mnt/suse-cloud-3 $tftpboot/repos/Cloud
+    bind_mount /mnt/suse-cloud-3-deps $tftpboot/suse-11.3/install
+    bind_mount /mnt/suse-cloud-3      $tftpboot/repos/Cloud
     for repo in "${repos[@]}"; do
         bind_mount $MIRROR_DIR/$repo $tftpboot/repos/${repo/3.0/3}
     done
