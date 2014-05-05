@@ -57,7 +57,7 @@ echo "Setting up zypper repos ..."
 #
 # -G disables GPG check for the repository.
 zypper ar -G -C -K -t yast2  file:///srv/tftpboot/suse-11.3/install SLES-11-SP3
-zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SLES11-SP3-Updates SLES-11-SP3-Updates
+#zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SLES11-SP3-Updates SLES-11-SP3-Updates
 
 # We don't expect to install anything new from the SDK after booting up the appliance
 # zypper ar -G -C -K -t yast2  file:///srv/tftpboot/repos/SLE-11-SP3-SDK SLE11-SP3-SDK
