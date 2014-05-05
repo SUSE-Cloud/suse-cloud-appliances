@@ -10,12 +10,12 @@ repos=(
     SLE11-HAE-SP3-{Pool,Updates}
 
     #SUSE-Cloud-3.0-Pool     # not needed since we have installation media
-    # SUSE-Cloud-3.0-Updates # not needed since we're using Devel:Cloud:*
+    # SUSE-Cloud-3.0-Updates # not needed since we're using a Devel:Cloud:3:Staging .iso
 
-    Devel:Cloud:Shared:11-SP3
-    Devel:Cloud:Shared:11-SP3:Update
-    Devel:Cloud:3
-    Devel:Cloud:3:Staging
+    # Devel:Cloud:Shared:11-SP3
+    # Devel:Cloud:Shared:11-SP3:Update
+    # Devel:Cloud:3
+    # Devel:Cloud:3:Staging
 )
 
 function bind_mount {

@@ -130,6 +130,9 @@ Don't need this since the product installation media above provides the same pac
     <source path='/data/install/mirrors/SUSE-Cloud-3.0-Pool/sle-11-x86_64'/>
   </repository>
 -->
+<!--
+We don't need these since we're using a recent Devel:Cloud:3:Staging .iso:
+
   <repository type='rpm-md'>
     <source path='/data/install/mirrors/SUSE-Cloud-3.0-Updates/sle-11-x86_64'/>
   </repository>
@@ -146,4 +149,5 @@ Don't need this since the product installation media above provides the same pac
   <repository type='rpm-md'>
     <source path='/data/install/mirrors/Devel:Cloud:3:Staging/sle-11-x86_64'/>
   </repository>
+-->
 </image>

@@ -19,7 +19,7 @@
 
 # Determine minimum RAM required for use of tmpfs
 here=$( dirname "$0" )
-if [ -e $here/source/root/srv/tftpboot/repos/SUSE-Cloud-3-Updates/sle-11-x86_64/repodata/repomd.xml ]
+if [ -e $here/source/root/srv/tftpboot/suse-11.3/install/content.key ]
 then
     # This is a guess, but we need a *lot* in this case.
     TMPFS_SIZE=15400
