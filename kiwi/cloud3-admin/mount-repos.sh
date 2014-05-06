@@ -7,7 +7,7 @@ repos=(
     #SLES11-SP3-Pool # not needed since we have installation media
     #SLES11-SP3-Updates # embedded within SUSE-CLOUD-3-DEPS
 
-    SLE11-HAE-SP3-{Pool,Updates}
+    #SLE11-HAE-SP3-{Pool,Updates} # embedded within SUSE-CLOUD-3-DEPS
 
     #SUSE-Cloud-3.0-Pool     # not needed since we have installation media
     # SUSE-Cloud-3.0-Updates # not needed since we're using a Devel:Cloud:3:Staging .iso
