@@ -85,9 +85,9 @@
     <package name='zypper'/>
 
     <!-- packages from SDK -->
-    <package name='ltrace'/>
-    <package name='git'/>
     <package name='gfxboot-devel'/>
+    <package name='git'/>
+    <package name='ltrace'/>
     <package name='yast2-gtk'/>
 
     <!-- package from openSUSE Virtualization project -->
