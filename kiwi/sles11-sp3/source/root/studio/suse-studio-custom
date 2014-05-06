@@ -14,13 +14,12 @@
 
 if [ -f /etc/init.d/suse_studio_firstboot ]
 then
+    # Put commands to be run on the first boot of your appliance here
+    echo "Running SUSE Studio first boot script..."
 
-  # Put commands to be run on the first boot of your appliance here
-  echo "Running SUSE Studio first boot script..."
+    # Reduce grub prompt time-out
+    sed -i 's/^timeout [0-9]\+/timeout 3/' /boot/grub/menu.lst
 
-  # Reduce grub prompt time-out
-  sed -i 's/^timeout [0-9]\+/timeout 3/' /boot/grub/menu.lst
-
-  echo "Installing VirtualBox guest additions ..."
-  sh /tmp/VBoxLinuxAdditions.run
+    echo "Installing VirtualBox guest additions ..."
+    sh /tmp/VBoxLinuxAdditions.run
 fi
