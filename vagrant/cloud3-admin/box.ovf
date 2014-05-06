@@ -151,7 +151,7 @@
           <TimeOffset value="0"/>
           <PXEDebug enabled="false"/>
         </BIOS>
-        <USBController enabled="true" enabledEhci="true"/>
+        <USBController enabled="true" enabledEhci="false"/>
         <Network>
           <Adapter slot="0" enabled="true" MACAddress="08002765C48F" cable="true" speed="0" type="82540EM">
             <DisabledModes>
