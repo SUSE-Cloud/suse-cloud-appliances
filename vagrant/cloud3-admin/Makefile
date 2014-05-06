@@ -10,7 +10,7 @@ OVF        = box.ovf
 
 COMPONENTS = Vagrantfile metadata.json $(OVF)
 
-KIWI_IMAGE_DIR = ../../kiwi/image
+KIWI_IMAGE_DIR = ../../kiwi/$(BOX_NAME)/image
 
 default: $(BOX_FILE)
 
