@@ -5,9 +5,7 @@
     "version": "0.0.1",
     "providers": [{
       "name": "virtualbox",
-      "url": "cloud3-admin.box",
-      "checksum_type": "sha1",
-      "checksum": "d614b127a833799e57754ef8414f29504a340069"
+      "url": "cloud3-admin.box"
     }]
   }]
 }
