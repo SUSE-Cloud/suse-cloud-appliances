@@ -27,14 +27,25 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     end
 
     admin.vm.network :forwarded_port, guest: 3000, host: 3000
-    admin.vm.network "private_network", ip: "192.168.124.10"
-    # admin.vm.network "public_network"
     # admin.ssh.forward_agent = true
 
     admin.vm.synced_folder ".", "/vagrant", disabled: true
     #admin.vm.synced_folder "/mnt/suse-cloud-3", "/srv/tftpboot/repos/Cloud", type: "nfs"
 
+    # Setup network for admin node and for Crowbar in general.
+    # Vagrant requires the first interface of every VM to be NAT,
+    # which with VirtualBox means it can't communicate with the other
+    # VMs.  And for an HA setup we need two interfaces which are
+    # teamed and able to communicate with other VMs.  On VirtualBox
+    # this means making them host-only.
+    #
+    # However, initial setup for the admin node prior to SUSE Cloud
+    # install doesn't require teaming, just a single NIC on 192.168.124.10.
+    admin.vm.network "private_network", ip: "192.168.124.10"
+
     admin.vm.provision "file", source: "network.json", destination: "/tmp/network.json"
+    # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
+    # case we don't want it to touch eth0, so we need this evil patch:
     admin.vm.provision "file", source: "barclamp-network.patch", destination: "/tmp/barclamp-network.patch"
     admin.vm.provision "shell", inline: <<-EOSCRIPT
         cd /opt/dell/
@@ -43,8 +54,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         rm -f /tmp/network.json
         rm -f /tmp/barclamp-network.patch
     EOSCRIPT
-    # This complains about not being connected to a terminal:
-    #
+
+    # Automatically install SUSE Cloud on first-boot
     admin.vm.provision "shell", inline: <<-EOSCRIPT
        export PATH="$PATH:/sbin:/usr/sbin/"
        export REPOS_SKIP_CHECKS="SLES11_SP3 SLES11-SP3-Pool"
