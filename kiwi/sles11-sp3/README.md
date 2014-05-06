@@ -35,15 +35,7 @@ the following locations:
 *   `/data/install/mirrors/SLE-11-SP3-SDK/sle-11-x86_64`
 *   `/data/install/mirrors/SLE-11-SP3-SDK-Updates/sle-11-x86_64`
 
-The mountpoints can be set up by running:
-
-    sudo ./mount-repos.sh
-
-and unmounted via:
-
-    sudo ./umount-repos.sh
-
-### Building the image
+### Building the image and cleaning up
 
 Now you can build the image by running:
 
@@ -51,15 +43,20 @@ Now you can build the image by running:
     sudo KIWI_BUILD_TMP_DIR=/tmp/kiwi-build ./build-image.sh
 
 The resulting `.vmdk` image will be in the `image/` directory.  The
-build log is there too in case something went wrong and you need to
-debug.
+build log is there too on successful build.  If something went wrong
+then everything is left in `/tmp/kiwi-build`, and you will need to
+clean that directory up in order to reclaim the disk space.
 
 To speed up builds, the script automatically builds in tmpfs (RAM) if
-it detects sufficient memory.  You may need to tweak the script to fit
-your setup (patches welcomed!). The boot images are also automatically
-cached in `/var/cache/kiwi/bootimage` to speed up subsequent
-builds. You'll need to manually delete the files there to clear the
-cache, but there's usually no need for that.
+it detects sufficient memory.  If the build succeeds it will
+automatically `umount` the RAM disk; however on any type of failure
+you will need to manually `umount` it in order to reclaim a huge chunk
+of RAM!
+
+The boot images are also automatically cached in
+`/var/cache/kiwi/bootimage` to speed up subsequent builds. You'll need
+to manually delete the files there to clear the cache, but there's
+usually no need for that.
 
 ## Building and installing the Vagrant box
 
