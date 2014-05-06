@@ -1,0 +1,11 @@
+{
+  "name": "suse/sles11-sp3",
+  "description": "This box contains a SLES11 SP3 x86_64 JeOS appliance.",
+  "versions": [{
+    "version": "0.0.1",
+    "providers": [{
+      "name": "virtualbox",
+      "url": "sles11-sp3.box"
+    }]
+  }]
+}
