@@ -50,7 +50,7 @@ IFPLUGD_PRIORITY=
 # - 6to4:        Set up ipv6 over ipv4 tunnel (see man ifcfg-tunnel)
 # If you use dhcp or autoip you may additionally specify static address(es).
 #
-BOOTPROTO=static
+BOOTPROTO='dhcp'
 
 ## Type:    string
 ## Default: ""
@@ -67,7 +67,7 @@ BOOTPROTO=static
 # different suffixes. For example IPADDR_1=, IPADDR_2=. See section 'Multiple
 # addresses' in manpage ifcfg).
 #
-IPADDR=192.168.124.10/24
+IPADDR=''
 
 
 ## Type:    string
