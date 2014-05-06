@@ -21,5 +21,18 @@ then
     sed -i 's/^timeout [0-9]\+/timeout 3/' /boot/grub/menu.lst
 
     echo "Installing VirtualBox guest additions ..."
-    sh /tmp/VBoxLinuxAdditions.run
+    if sh /tmp/VBoxLinuxAdditions.run; then
+        echo "VirtualBox guest additions installed!"
+        echo "Removing kernel headers ..."
+        rpm -e kernel-default-devel
+    else
+        cat <<EOF >&2
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+WARNING: VirtualBox guest additions failed to install.
+Probably worth checking /var/log/vboxadd-install.log.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+EOF
+    fi
 fi
