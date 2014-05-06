@@ -1,13 +1,14 @@
-# KIWI appliance for Crowbar admin node
+# KIWI appliance for Crowbar client nodes
 
 **Please ensure that you have first read the
 [general information on KIWI](../README.md).**
 
-The KIWI appliance definition in this subdirectory is for building a
-Crowbar admin node on top of SLES11 SP3.  Once provisioned, this node
-will be responsible for automatically provisioning the rest of the
-OpenStack cloud (in a highly available configuration, if requested by
-the cloud operator).
+The KIWI appliance definition in this subdirectory is for building a a
+simple SLES11 SP3 JeOS image which will form the basis for the cloud
+controller node(s), compute node(s), and storage node(s).  Once each
+of these nodes boots up, it will register against the Crowbar admin
+node, and subsequently execute further provisioning steps as
+instructed by the admin node.
 
 ## Building the KIWI image
 
@@ -18,12 +19,6 @@ First [ensure that you have KIWI installed](../README.md).
 Building this appliance from scratch requires the following:
 
 *   [SUSE Linux Enterprise Server (SLES) 11 SP3 installation media](https://download.suse.com/Download?buildid=Q_VbW21BiB4~) (you only need `SLES-11-SP3-DVD-x86_64-GM-DVD1.iso`; DVD2 is the source code)
-*   [SUSE Linux Enterprise High Availability Extension (SLE HAE) 11 SP3](https://download.suse.com/Download?buildid=x_3696pRI0w~) (again, you only need `SLE-HA-11-SP3-x86_64-GM-CD1.iso`)
-*   [SUSE Cloud 3 installation media](https://download.suse.com/Download?buildid=K3-lLTopFN4~) (again, you only need SUSE-CLOUD-3-x86_64-GM-DVD1.iso)
-*   Package repositories containing updates for each of the above, to obtain the latest bugfixes and enhancements.
-    *   Updates are available via subscriptions with a 60-day free evaluation; however all these products are Free Software, so of course you can still use them fully after 60 days - you just won't continue getting updates.
-    *   The easiest way to obtain the updates is probably via the [Subscription Management Tool (SMT) 11 SP3](https://download.suse.com/Download?buildid=l8FuDkiYOg0~) ([more info on SMT here](https://www.suse.com/solutions/tools/smt.html)).
-    *   Here are the links for free 60-day evaluations of [SLES](https://www.suse.com/products/server/eval.html), [SUSE Cloud](https://www.suse.com/products/suse-cloud/), and [SLE HAE](https://www.suse.com/products/highavailability/eval.html).
 *   [VirtualBox Guest Additions `.iso`](http://download.virtualbox.org/virtualbox/).  Mount the `.iso` on the image-building host, and copy the `VBoxLinuxAdditions.run` file into `source/root/tmp` under this directory.
 
 ### Setting up the mountpoints
@@ -32,7 +27,6 @@ The appliance config currently assumes the following mountpoints are
 set up on the system which will build the image:
 
 *   SLES11 SP3 installation media at `/mnt/sles-11-sp3`
-*   SUSE Cloud 3 installation media `/mnt/suse-cloud-3`
 
 It also assumes that the update channels will have been mirrored to
 the following locations:
@@ -40,8 +34,6 @@ the following locations:
 *   `/data/install/mirrors/SLES11-SP3-Updates/sle-11-x86_64`
 *   `/data/install/mirrors/SLE-11-SP3-SDK/sle-11-x86_64`
 *   `/data/install/mirrors/SLE-11-SP3-SDK-Updates/sle-11-x86_64`
-*   `/data/install/mirrors/SUSE-Cloud-3.0-Pool/sle-11-x86_64`
-*   `/data/install/mirrors/SUSE-Cloud-3.0-Updates/sle-11-x86_64`
 
 The mountpoints can be set up by running:
 
@@ -73,7 +65,7 @@ cache, but there's usually no need for that.
 
 Once you have the `.vmdk` built, do:
 
-    cd ../../vagrant/cloud3-admin
+    cd ../../vagrant/sles11-sp3
 
 and follow the instructions in
-[the corresponding README](../../vagrant/cloud3-admin/README.md).
+[the corresponding README](../../vagrant/sles11-sp3/README.md).
