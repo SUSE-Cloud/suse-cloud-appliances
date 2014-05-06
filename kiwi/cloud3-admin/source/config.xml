@@ -85,6 +85,7 @@
     <package name='yast2-qt'/>
     <package name='yast2-gtk'/>
     <package name='iftop'/>
+    <package name='zerofree'/>
     <archive name='bootsplash.tar' bootinclude='true'/>
   </packages>
   <packages type='bootstrap'>
@@ -150,4 +151,7 @@ We don't need these since we're using a recent Devel:Cloud:3:Staging .iso:
     <source path='/data/install/mirrors/Devel:Cloud:3:Staging/sle-11-x86_64'/>
   </repository>
 -->
+  <repository type='rpm-md'>
+    <source path='opensuse://Virtualization/SLE_11_SP3'/>
+  </repository>
 </image>
