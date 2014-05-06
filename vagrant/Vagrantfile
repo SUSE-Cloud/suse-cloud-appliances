@@ -34,6 +34,15 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     admin.vm.synced_folder ".", "/vagrant", disabled: true
     #admin.vm.synced_folder "/mnt/suse-cloud-3", "/srv/tftpboot/repos/Cloud", type: "nfs"
 
+    admin.vm.provision "file", source: "network.json", destination: "/tmp/network.json"
+    admin.vm.provision "file", source: "barclamp-network.patch", destination: "/tmp/barclamp-network.patch"
+    admin.vm.provision "shell", inline: <<-EOSCRIPT
+        cd /opt/dell/
+        patch -p1 < /tmp/barclamp-network.patch
+        cp /tmp/network.json /etc/crowbar/network.json
+        rm -f /tmp/network.json
+        rm -f /tmp/barclamp-network.patch
+    EOSCRIPT
     # This complains about not being connected to a terminal:
     #
     # admin.vm.provision "shell", inline: <<-EOSCRIPT
