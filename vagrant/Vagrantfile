@@ -43,10 +43,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     # install doesn't require teaming, just a single NIC on 192.168.124.10.
     admin.vm.network "private_network", ip: "192.168.124.10"
 
-    admin.vm.provision "file", source: "network.json", destination: "/tmp/network.json"
+    admin.vm.provision "file", source: "cloud3-admin/network.json", destination: "/tmp/network.json"
     # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
     # case we don't want it to touch eth0, so we need this evil patch:
-    admin.vm.provision "file", source: "barclamp-network.patch", destination: "/tmp/barclamp-network.patch"
+    admin.vm.provision "file", source: "cloud3-admin/barclamp-network.patch", destination: "/tmp/barclamp-network.patch"
     admin.vm.provision "shell", inline: <<-EOSCRIPT
         cd /opt/dell/
         patch -p1 < /tmp/barclamp-network.patch
