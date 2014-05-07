@@ -62,6 +62,7 @@
     <package name='rsync'/>
     <package name='screen'/>
     <package name='strace'/>
+    <package name='sudo'/>
     <package name='suse-sam'/>
     <package name='suse-sam-data'/>
     <package name='SuSEfirewall2'/>
