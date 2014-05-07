@@ -47,9 +47,11 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
     # case we don't want it to touch eth0, so we need this evil patch:
     admin.vm.provision "file", source: "cloud3-admin/barclamp-network.patch", destination: "/tmp/barclamp-network.patch"
+    admin.vm.provision "file", source: "cloud3-admin/barclamp-provisioner.patch", destination: "/tmp/barclamp-provisioner.patch"
     admin.vm.provision "shell", inline: <<-EOSCRIPT
         cd /opt/dell/
         patch -p1 < /tmp/barclamp-network.patch
+        patch -p1 < /tmp/barclamp-provisioner.patch
         cp /tmp/network.json /etc/crowbar/network.json
         rm -f /tmp/network.json
         rm -f /tmp/barclamp-network.patch
@@ -108,6 +110,14 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       # Additional NIC for bonding. The IP address here is just to make vagrant
       # happy it's not actually used inside the VM
       node.vm.network "private_network", ip: "192.168.124.#{81+(i*2)}", auto_config: false
+
+      node.vm.provision "shell", inline: <<-EOSCRIPT
+        export PATH="$PATH:/sbin:/usr/sbin/"
+        zypper ar http://192.168.124.10:8091/suse-11.3/install sles11-sp3
+        wget http://192.168.124.10:8091/suse-11.3/crowbar_register
+        chmod a+x crowbar_register
+        ./crowbar_register --force --interface eth1  --gpg-auto-import-keys
+      EOSCRIPT
     end
   end
 
