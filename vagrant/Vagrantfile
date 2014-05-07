@@ -38,10 +38,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     # VMs.  And for an HA setup we need two interfaces which are
     # teamed and able to communicate with other VMs.  On VirtualBox
     # this means making them host-only.
-    #
-    # However, initial setup for the admin node prior to SUSE Cloud
-    # install doesn't require teaming, just a single NIC on 192.168.124.10.
     admin.vm.network "private_network", ip: "192.168.124.10"
+    # Additional NIC for bonding. The IP address here is just to make vagrant
+    # happy it's not actually used inside the VM
+    admin.vm.network "private_network", ip: "192.168.124.9", auto_config: false
 
     admin.vm.provision "file", source: "cloud3-admin/network.json", destination: "/tmp/network.json"
     # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
