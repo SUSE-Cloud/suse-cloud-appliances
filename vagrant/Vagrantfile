@@ -102,7 +102,12 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         provider.gui = true
       end
 
-      node.vm.network 'private_network', ip: "192.168.124.#{81+i}"
+      node.vm.synced_folder ".", "/vagrant", disabled: true
+
+      node.vm.network "private_network", ip: "192.168.124.#{81+(i*2-1)}", auto_config: false
+      # Additional NIC for bonding. The IP address here is just to make vagrant
+      # happy it's not actually used inside the VM
+      node.vm.network "private_network", ip: "192.168.124.#{81+(i*2)}", auto_config: false
     end
   end
 
