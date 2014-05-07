@@ -12,7 +12,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
     admin.vm.provider "virtualbox" do |provider|
       provider.memory = 2048
-      provider.cpus = 4
+      provider.cpus = 1
 
       # Don't use headless mode
       provider.gui = true
@@ -76,7 +76,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       node.vm.provider 'virtualbox' do |provider|
         provider.memory = 2048
-        provider.cpus = 4
+        provider.cpus = 1
 
         # Don't use headless mode
         provider.gui = true
