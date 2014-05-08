@@ -12,7 +12,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
     admin.vm.provider "virtualbox" do |provider|
       provider.memory = 2048
-      provider.cpus = 4
+      provider.cpus = 1
 
       # Don't use headless mode
       provider.gui = true
@@ -38,18 +38,20 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     # VMs.  And for an HA setup we need two interfaces which are
     # teamed and able to communicate with other VMs.  On VirtualBox
     # this means making them host-only.
-    #
-    # However, initial setup for the admin node prior to SUSE Cloud
-    # install doesn't require teaming, just a single NIC on 192.168.124.10.
     admin.vm.network "private_network", ip: "192.168.124.10"
+    # Additional NIC for bonding. The IP address here is just to make vagrant
+    # happy it's not actually used inside the VM
+    admin.vm.network "private_network", ip: "192.168.124.9", auto_config: false
 
     admin.vm.provision "file", source: "cloud3-admin/network.json", destination: "/tmp/network.json"
     # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
     # case we don't want it to touch eth0, so we need this evil patch:
     admin.vm.provision "file", source: "cloud3-admin/barclamp-network.patch", destination: "/tmp/barclamp-network.patch"
+    admin.vm.provision "file", source: "cloud3-admin/barclamp-provisioner.patch", destination: "/tmp/barclamp-provisioner.patch"
     admin.vm.provision "shell", inline: <<-EOSCRIPT
         cd /opt/dell/
         patch -p1 < /tmp/barclamp-network.patch
+        patch -p1 < /tmp/barclamp-provisioner.patch
         cp /tmp/network.json /etc/crowbar/network.json
         rm -f /tmp/network.json
         rm -f /tmp/barclamp-network.patch
@@ -76,7 +78,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       node.vm.provider 'virtualbox' do |provider|
         provider.memory = 2048
-        provider.cpus = 4
+        provider.cpus = 1
 
         # Don't use headless mode
         provider.gui = true
@@ -102,7 +104,20 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         provider.gui = true
       end
 
-      node.vm.network 'private_network', ip: "192.168.124.#{81+i}"
+      node.vm.synced_folder ".", "/vagrant", disabled: true
+
+      node.vm.network "private_network", ip: "192.168.124.#{81+(i*2-1)}", auto_config: false
+      # Additional NIC for bonding. The IP address here is just to make vagrant
+      # happy it's not actually used inside the VM
+      node.vm.network "private_network", ip: "192.168.124.#{81+(i*2)}", auto_config: false
+
+      node.vm.provision "shell", inline: <<-EOSCRIPT
+        export PATH="$PATH:/sbin:/usr/sbin/"
+        zypper ar http://192.168.124.10:8091/suse-11.3/install sles11-sp3
+        wget http://192.168.124.10:8091/suse-11.3/crowbar_register
+        chmod a+x crowbar_register
+        ./crowbar_register --force --interface eth1  --gpg-auto-import-keys
+      EOSCRIPT
     end
   end
 
@@ -115,7 +130,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       node.vm.provider 'virtualbox' do |provider|
         provider.memory = 2048
-        provider.cpus = 4
+        provider.cpus = 1
 
         # Don't use headless mode
         provider.gui = true
@@ -140,7 +155,20 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         provider.gui = true
       end
 
-      node.vm.network 'private_network', ip: "192.168.124.#{81+i}"
+      node.vm.synced_folder ".", "/vagrant", disabled: true
+
+      node.vm.network "private_network", ip: "192.168.124.#{81+(i*2-1)}", auto_config: false
+      # Additional NIC for bonding. The IP address here is just to make vagrant
+      # happy it's not actually used inside the VM
+      node.vm.network "private_network", ip: "192.168.124.#{81+(i*2)}", auto_config: false
+
+      node.vm.provision "shell", inline: <<-EOSCRIPT
+        export PATH="$PATH:/sbin:/usr/sbin/"
+        zypper ar http://192.168.124.10:8091/suse-11.3/install sles11-sp3
+        wget http://192.168.124.10:8091/suse-11.3/crowbar_register
+        chmod a+x crowbar_register
+        ./crowbar_register --force --interface eth1  --gpg-auto-import-keys
+      EOSCRIPT
     end
   end
 
