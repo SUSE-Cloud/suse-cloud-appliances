@@ -85,7 +85,7 @@
     <package name='zypper'/>
 
     <!-- packages from SDK -->
-    <package name='gfxboot-devel'/>
+    <package name='gfxboot-devel' bootinclude='true'/>
     <package name='git'/>
     <package name='ltrace'/>
     <package name='yast2-gtk'/>
