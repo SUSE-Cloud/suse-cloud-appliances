@@ -83,17 +83,51 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         # Don't use headless mode
         provider.gui = true
 
-        # FIXME: create shared disks for SBD, DRBD, and glance
-        # v.customize [ 'createhd', '--filename', 'disk', '--size', 100000 ]
-        # v.customize [
-        #   'storageattach', :id,
-        #   '--storagectl', 'SATA Controller',
-        #   '--port', 1,
-        #   '--device', 0,
-        #   '--type', 'hdd',
-        #   '--medium', 'disk',
-        #   '--mtype', 'shareable',
-        # ]
+        # create shared disk for SBD
+        provider.customize [ 'createhd', '--filename', 'sbd.vmdk', '--size', 8, '--format', 'VMDK', '--variant', 'Fixed' ]
+        provider.customize [ 'modifyhd', 'sbd.vmdk', '--type', 'shareable' ]
+        provider.customize [
+          'storageattach', :id,
+          '--storagectl', 'IDE',
+          '--port', 0,
+          '--device', 1,
+          '--type', 'hdd',
+          '--medium', 'sbd.vmdk',
+        ]
+        # create shared disk for glance
+        provider.customize [ 'createhd', '--filename', 'glance.vmdk', '--size', 5000, '--format', 'VMDK', '--variant', 'Fixed' ]
+        provider.customize [ 'modifyhd', 'glance.vmdk', '--type', 'shareable' ]
+        provider.customize [
+          'storageattach', :id,
+          '--storagectl', 'IDE',
+          '--port', 1,
+          '--device', 0,
+          '--type', 'hdd',
+          '--medium', 'glance.vmdk',
+        ]
+        # create shared disk for cinder
+        provider.customize [ 'createhd', '--filename', 'cinder.vmdk', '--size', 5000, '--format', 'VMDK', '--variant', 'Fixed' ]
+        provider.customize [ 'modifyhd', 'cinder.vmdk', '--type', 'shareable' ]
+        provider.customize [
+          'storageattach', :id,
+          '--storagectl', 'IDE',
+          '--port', 1,
+          '--device', 1,
+          '--type', 'hdd',
+          '--medium', 'cinder.vmdk',
+        ]
+        # FIXME: We need to either switch to SATA or SCSI or add another IDE controller 
+        # to the VM before we can attache a 5th disk to the machine.
+        ## create disk for DRBD
+        #provider.customize [ 'createhd', '--filename', 'drbd-#{node_name}.vmdk', '--size', 1100, '--format', 'VMDK' ]
+        #provider.customize [
+        #  'storageattach', :id,
+        #  '--storagectl', 'IDE',
+        #  '--port', 2,
+        #  '--device', 0,
+        #  '--type', 'hdd',
+        #  '--medium', 'drbd-#{node_name}.vmdk',
+        #]
       end
 
       node.vm.provider 'libvirt' do |provider|
@@ -134,17 +168,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
         # Don't use headless mode
         provider.gui = true
-
-        # FIXME: set up cinder-volume disk
-        # v.customize [ 'createhd', '--filename', 'disk', '--size', 100000 ]
-        # v.customize [
-        #   'storageattach', :id,
-        #   '--storagectl', 'SATA Controller',
-        #   '--port', 1,
-        #   '--device', 0,
-        #   '--type', 'hdd',
-        #   '--medium', 'disk'
-        # ]
       end
 
       node.vm.provider 'libvirt' do |provider|
