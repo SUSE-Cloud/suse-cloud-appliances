@@ -1,1 +1,7 @@
 .vagrant/machines/
+cinder-flat.vmdk
+cinder.vmdk
+glance-flat.vmdk
+glance.vmdk
+sbd-flat.vmdk
+sbd.vmdk
