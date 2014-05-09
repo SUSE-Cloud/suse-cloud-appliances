@@ -6,7 +6,7 @@ Atlanta](http://openstacksummitmay2014atlanta.sched.org/event/d3db2188dfed4459f8
 
 ## Contents
 
-* [the presentation](presentation/)
+* the presentation
     *   You can [view this online](http://fghaas.github.io/openstacksummit2014-atlanta/).
         If you want to view it locally, after cloning this repository
         you will have to check out the
