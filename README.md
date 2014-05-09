@@ -4,6 +4,13 @@ This repository contains the training materials used for
 [the workshop session given on Thursday May 15 at the OpenStack summit in
 Atlanta](http://openstacksummitmay2014atlanta.sched.org/event/d3db2188dfed4459f8fbd03f5b405b81).
 
+This repository uses submodules. After cloning, you will have to do
+
+* `git submodule init`
+* `git submodule update`
+
+... in order to satisfy its external dependencies.
+
 ## Contents
 
 * [the presentation](presentation/)

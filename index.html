@@ -6,25 +6,25 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       
-    <link rel="stylesheet" href="css/reveal.css"/>
-    <link rel="stylesheet" href="css/theme/default.css" id="theme"/>
+    <link rel="stylesheet" href="reveal.js/css/reveal.css"/>
+    <link rel="stylesheet" href="reveal.js/css/theme/default.css" id="theme"/>
 	  
     <!-- For syntax highlighting -->
-    <link rel="stylesheet" href="lib/css/zenburn.css" />
+    <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css" />
 
     <!-- For JavaScript-generated QR codes -->
-    <link rel="stylesheet" href="qrcode.css" />
+    <link rel="stylesheet" href="css/qrcode.css" />
 
     <!-- If the query includes 'print-pdf', use the PDF print sheet -->
     <script>
-      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+      document.write( '<link rel="stylesheet" href="reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
     </script>
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
 	<section id="start">
-	  <img class="with-heading" src="openstack-logo.svg"/>
+	  <img class="with-heading" src="images/openstack-logo.svg"/>
 	  <h3></h3>
 	</section>
 
@@ -35,49 +35,49 @@
 	</section>
 
 	<section id="intro"
-		 data-markdown="intro.md"
+		 data-markdown="markdown/intro.md"
 		 data-separator="^\n\n\n"
 		 data-vertical="^\n\n"
 		 data-notes="^Note:" ></section>
 
 	<section id="why-ha"
-		 data-markdown="why-ha.md"
+		 data-markdown="markdown/why-ha.md"
 		 data-separator="^\n\n\n"
 		 data-vertical="^\n\n"
 		 data-notes="^Note:" ></section>
 
 	<section id="how-ha"
-		 data-markdown="how-ha.md"
+		 data-markdown="markdown/how-ha.md"
 		 data-separator="^\n\n\n"
 		 data-vertical="^\n\n"
 		 data-notes="^Note:" ></section>
 
 	<section id="suse-cloud-3"
-		 data-markdown="suse-cloud-3.md"
+		 data-markdown="markdown/suse-cloud-3.md"
 		 data-separator="^\n\n\n"
 		 data-vertical="^\n\n"
 		 data-notes="^Note:" ></section>
 	
 	<section id="crowbar"
-		 data-markdown="crowbar.md"
+		 data-markdown="markdown/crowbar.md"
 		 data-separator="^\n\n\n"
 		 data-vertical="^\n\n"
 		 data-notes="^Note:" ></section>
 
 	<section id="controller"
-		 data-markdown="controller.md"
+		 data-markdown="markdown/controller.md"
 		 data-separator="^\n\n\n"
 		 data-vertical="^\n\n"
 		 data-notes="^Note:" ></section>
 
 	<section id="compute"
-		 data-markdown="compute.md"
+		 data-markdown="markdown/compute.md"
 		 data-separator="^\n\n\n"
 		 data-vertical="^\n\n"
 		 data-notes="^Note:" ></section>
 
 	<section id="whatsnext"
-		 data-markdown="whatsnext.md"
+		 data-markdown="markdown/whatsnext.md"
 		 data-separator="^\n\n\n"
 		 data-vertical="^\n\n"
 		 data-notes="^Note:" ></section>
@@ -93,7 +93,7 @@
 	    <p class="small"><a href="https://twitter.com/intent/tweet?&hashtags=OpenStack" id="twitter"></a></p>
 	  </section>
 	  <section>
-	    <p><a href="http://creativecommons.org/licenses/by-sa/3.0/"><img src="by-sa.svg" alt="CC-BY-SA 3.0" /></a></p>
+	    <p><a href="http://creativecommons.org/licenses/by-sa/3.0/"><img src="images/by-sa.svg" alt="CC-BY-SA 3.0" /></a></p>
 	  </section>
 	  <section>
 	    <div class="qrcode" id="qrcode-github" />
@@ -103,7 +103,7 @@
       </section>
     </div>
 
-    <script src="qrcode.js"></script>
+    <script src="qrcodejs/qrcode.js"></script>
     <script>
 /* Grab all links and iterate over them */
 var sources = document.getElementsByTagName('a');
@@ -129,8 +129,8 @@ for (var i = 0; i < n; i++) {
 }
     </script>
 
-    <script src="lib/js/head.min.js"></script>
-    <script src="js/reveal.min.js"></script>
+    <script src="reveal.js/lib/js/head.min.js"></script>
+    <script src="reveal.js/js/reveal.min.js"></script>
     
     <script>
 // Full list of configuration options available here:
@@ -140,18 +140,24 @@ Reveal.initialize({
     progress: true,
     history: true,
     center: true,
-    
+
+    // Parallax background image
+    parallaxBackgroundImage: 'images/background.jpg',
+
+    // Parallax background size
+    parallaxBackgroundSize: '2756px 1141px', // CSS syntax, e.g. "2100px 900px"
+
     theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
     transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
     
     // Optional libraries used to extend on reveal.js
     dependencies: [
-	{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-	{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-	{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-	{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-	{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-	{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+	{ src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+	{ src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+	{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+	{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+	{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+	{ src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
     ]
 });
     </script>
