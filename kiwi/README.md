@@ -2,9 +2,9 @@
 
 This subdirectory contains two
 [KIWI](https://en.opensuse.org/Portal:KIWI) virtual appliance image
-definitions which are used to build `.vmdk` virtual disks.  These will
-then be converted into Vagrant boxes which are used to build a whole
-cloud via Vagrant.
+definitions which are used to build `.vmdk` virtual disks.
+[These will then be converted into Vagrant boxes](../vagrant/) which
+are used to build a whole cloud via Vagrant.
 
 Here's [a quick introduction to KIWI](http://doc.opensuse.org/projects/kiwi/doc/#chap.introduction)
 in case you need it.
