@@ -7,7 +7,8 @@ Atlanta](http://openstacksummitmay2014atlanta.sched.org/event/d3db2188dfed4459f8
 ## Contents
 
 * [the presentation](presentation/)
-* [sources for building the KIWI appliances](kiwi/)
+* [resources for building the KIWI appliances](kiwi/)
+* [resources for building the Vagrant boxes](vagrant/) from the KIWI appliances
 
 ## Authors
 
