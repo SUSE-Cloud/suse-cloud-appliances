@@ -1,6 +1,6 @@
 # KIWI appliances
 
-This repository contains two
+This subdirectory contains two
 [KIWI](https://en.opensuse.org/Portal:KIWI) virtual appliance image
 definitions which are used to build `.vmdk` virtual disks.  These will
 then be converted into Vagrant boxes which are used to build a whole
