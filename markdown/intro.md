@@ -18,7 +18,7 @@
 
 ### Professional Cellist
 
-### Semi-pro Triathlete
+### Lapsed Triathlete
 
 ### ... and Engineer at SUSE
 
