@@ -95,7 +95,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
           '--medium', 'sbd.vmdk',
         ]
         # create shared disk for glance
-        provider.customize [ 'createhd', '--filename', 'glance.vmdk', '--size', 5000, '--format', 'VMDK', '--variant', 'Fixed' ]
+        provider.customize [ 'createhd', '--filename', 'glance.vmdk', '--size', 1000, '--format', 'VMDK', '--variant', 'Fixed' ]
         provider.customize [ 'modifyhd', 'glance.vmdk', '--type', 'shareable' ]
         provider.customize [
           'storageattach', :id,
@@ -106,7 +106,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
           '--medium', 'glance.vmdk',
         ]
         # create shared disk for cinder
-        provider.customize [ 'createhd', '--filename', 'cinder.vmdk', '--size', 5000, '--format', 'VMDK', '--variant', 'Fixed' ]
+        provider.customize [ 'createhd', '--filename', 'cinder.vmdk', '--size', 1000, '--format', 'VMDK', '--variant', 'Fixed' ]
         provider.customize [ 'modifyhd', 'cinder.vmdk', '--type', 'shareable' ]
         provider.customize [
           'storageattach', :id,
