@@ -25,7 +25,7 @@
     </ProductSection>
     <AnnotationSection>
       <Info>A human-readable annotation</Info>
-      <Annotation>e</Annotation>
+      <Annotation>This VM contains a pre-installed Crowbar admin node from SUSE Cloud 3, and is based on a streamlined SLES11 SP3 image.</Annotation>
     </AnnotationSection>
 <!--
     <EulaSection>

@@ -25,7 +25,7 @@
     </ProductSection>
     <AnnotationSection>
       <Info>A human-readable annotation</Info>
-      <Annotation>e</Annotation>
+      <Annotation>This VM contains a preinstalled SLES11 SP3 image streamlined for acting as a Crowbar client node.</Annotation>
     </AnnotationSection>
 <!--
     <EulaSection>
