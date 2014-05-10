@@ -4,17 +4,16 @@
 
 BOX_NAME   = sles11-sp3
 
+KIWI_IMAGE_DIR = ../../kiwi/$(BOX_NAME)/image
+VMDK = SLES_11_SP3_ReOS_for_OpenStack_summit_2014.x86_64-0.0.1.vmdk
+
 BOX_FILE   = $(BOX_NAME).box
-VMDK       = box-disk1.vmdk
+BOX_VMDK   = box-disk1.vmdk
 OVF        = box.ovf
 
-COMPONENTS = Vagrantfile metadata.json $(OVF)
-
-KIWI_IMAGE_DIR = ../../kiwi/$(BOX_NAME)/image
+COMPONENTS = Vagrantfile metadata.json $(OVF) $(KIWI_IMAGE_DIR)/$(VMDK)
 
 default: $(BOX_FILE)
 
 $(BOX_FILE): $(COMPONENTS)
-	@latest=$$( ls -t $(KIWI_IMAGE_DIR)/*.vmdk | head -n1 ); \
-	echo "latest vmdk is $$latest"; \
-	tar --transform="s,.*\.vmdk,$(VMDK)," -cvf $@ $(COMPONENTS) "$$latest"
+	@tar --transform="s,.*\.vmdk,$(BOX_VMDK)," -cvf $@ $(COMPONENTS)
