@@ -68,11 +68,13 @@ You can `umount` the overlay bind-mounts as follows:
 
     sudo ./umount-repos.sh
 
-To speed up builds, the script automatically builds in tmpfs (RAM) if
-it detects sufficient memory.  If the build succeeds it will
-automatically `umount` the RAM disk; however on any type of failure
-you will need to manually `umount` it in order to reclaim a huge chunk
-of RAM!
+To speed up builds, the script automatically builds on a dedicated
+`tmpfs` filesystem (i.e. in RAM) if it detects sufficient memory.  If
+the build succeeds it will automatically `umount` the RAM disk;
+however on any type of failure you will need to manually `umount` it
+in order to reclaim a huge chunk of RAM!  You can disable use of
+`tmpfs` by including `NO_TMPFS=y` as an extra `sudo` parameter before
+`./build-image.sh`.
 
 The boot images are also automatically cached in
 `/var/cache/kiwi/bootimage` to speed up subsequent builds.  You'll

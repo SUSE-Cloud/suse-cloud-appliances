@@ -107,7 +107,9 @@ function create_tmpfs {
 }
 
 function run_kiwi {
-  create_tmpfs
+  if [ -z "$NO_TMPFS" ]; then
+    create_tmpfs
+  fi
   mkdir -p $BOOT_CACHE_DIR
   echo "** Running kiwi (with $BOOT_CACHE_DIR as boot image cache)"
   time $kiwi --build source/ -d $TMP_DIR --prebuiltbootimage $BOOT_CACHE_DIR "$@"
