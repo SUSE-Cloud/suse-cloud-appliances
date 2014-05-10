@@ -130,9 +130,13 @@ function run_kiwi {
   echo "** Appliance created successfully!"
 }
 
-check_kiwi
-trap unclean_exit SIGINT SIGTERM
-run_kiwi "$@"
-clean_up
+main () {
+    check_kiwi
+    trap unclean_exit SIGINT SIGTERM
+    run_kiwi "$@"
+    clean_up
+}
+
+main "$@"
 
 exit 0
