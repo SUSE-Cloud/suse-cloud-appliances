@@ -99,6 +99,14 @@ function create_tmpfs {
   fi
 }
 
+function fill_config_xml_template () {
+    # crowbar-prep.sh uses HOST_MIRROR for the same purpose,
+    # so reuse that as a default if it's set.
+    : ${MIRRORS:=${HOST_MIRROR:-/data/install/mirrors}}
+    sed "s,@@MIRRORS@@,$MIRRORS," $here/source/config.xml.tmpl \
+        > $here/source/config.xml
+}
+
 function run_kiwi {
   if [ -z "$NO_TMPFS" ]; then
     create_tmpfs
@@ -112,6 +120,7 @@ function run_kiwi {
 build_image () {
     check_kiwi
     trap unclean_exit SIGINT SIGTERM
+    fill_config_xml_template
     run_kiwi "$@"
     clean_up
 }

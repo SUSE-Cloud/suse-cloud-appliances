@@ -43,6 +43,14 @@ the following locations:
 *   `/data/install/mirrors/SUSE-Cloud-3.0-Pool/sle-11-x86_64`
 *   `/data/install/mirrors/SUSE-Cloud-3.0-Updates/sle-11-x86_64`
 
+You can optionally specify an alternate location to
+`/data/install/mirrors` by ading an extra `sudo` parameter before
+`./build-image.sh`., e.g.
+
+    sudo MIRRORS='/srv/www/htdocs/repo/$RCE' ./build-image.sh
+
+might be a typical case if you are mirroring via SMT.
+
 Finally, if you want the appliance to contain the necessary media and
 repositories embedded under `/srv/tftpboot` (recommended, since this
 is required in order that the Crowbar admin node can serve packages to

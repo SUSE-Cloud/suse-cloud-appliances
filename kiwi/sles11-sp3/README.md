@@ -35,6 +35,14 @@ the following locations:
 *   `/data/install/mirrors/SLE-11-SP3-SDK/sle-11-x86_64`
 *   `/data/install/mirrors/SLE-11-SP3-SDK-Updates/sle-11-x86_64`
 
+You can optionally specify an alternate location to
+`/data/install/mirrors` by ading an extra `sudo` parameter before
+`./build-image.sh`., e.g.
+
+    sudo MIRRORS='/srv/www/htdocs/repo/$RCE' ./build-image.sh
+
+might be a typical case if you are mirroring via SMT.
+
 ### Building the image and cleaning up
 
 Now you can build the image by running:
