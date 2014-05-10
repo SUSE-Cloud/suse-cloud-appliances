@@ -88,9 +88,9 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         provider.customize [ 'modifyhd', 'sbd.vmdk', '--type', 'shareable' ]
         provider.customize [
           'storageattach', :id,
-          '--storagectl', 'IDE',
-          '--port', 0,
-          '--device', 1,
+          '--storagectl', 'SCSI',
+          '--port', 1,
+          '--device', 0,
           '--type', 'hdd',
           '--medium', 'sbd.vmdk',
         ]
@@ -99,8 +99,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         provider.customize [ 'modifyhd', 'glance.vmdk', '--type', 'shareable' ]
         provider.customize [
           'storageattach', :id,
-          '--storagectl', 'IDE',
-          '--port', 1,
+          '--storagectl', 'SCSI',
+          '--port', 2,
           '--device', 0,
           '--type', 'hdd',
           '--medium', 'glance.vmdk',
@@ -110,24 +110,22 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         provider.customize [ 'modifyhd', 'cinder.vmdk', '--type', 'shareable' ]
         provider.customize [
           'storageattach', :id,
-          '--storagectl', 'IDE',
-          '--port', 1,
-          '--device', 1,
+          '--storagectl', 'SCSI',
+          '--port', 3,
+          '--device', 0,
           '--type', 'hdd',
           '--medium', 'cinder.vmdk',
         ]
-        # FIXME: We need to either switch to SATA or SCSI or add another IDE controller 
-        # to the VM before we can attache a 5th disk to the machine.
         ## create disk for DRBD
-        #provider.customize [ 'createhd', '--filename', 'drbd-#{node_name}.vmdk', '--size', 1100, '--format', 'VMDK' ]
-        #provider.customize [
-        #  'storageattach', :id,
-        #  '--storagectl', 'IDE',
-        #  '--port', 2,
-        #  '--device', 0,
-        #  '--type', 'hdd',
-        #  '--medium', 'drbd-#{node_name}.vmdk',
-        #]
+        provider.customize [ 'createhd', '--filename', "drbd-#{node_name}.vmdk", '--size', 1100, '--format', 'VMDK' ]
+        provider.customize [
+          'storageattach', :id,
+          '--storagectl', 'SCSI',
+          '--port', 4,
+          '--device', 0,
+          '--type', 'hdd',
+          '--medium', "drbd-#{node_name}.vmdk",
+        ]
       end
 
       node.vm.provider 'libvirt' do |provider|

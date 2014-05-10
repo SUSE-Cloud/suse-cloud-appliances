@@ -5,3 +5,4 @@ glance-flat.vmdk
 glance.vmdk
 sbd-flat.vmdk
 sbd.vmdk
+drbd-*.vmdk
