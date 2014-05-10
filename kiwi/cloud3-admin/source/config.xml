@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<image name='SLES_11_SP3_ReOS_for_OpenStack_summit_2014' displayname='SLES_11_SP3_ReOS_for_OpenStack_summit_2014' schemaversion='5.2'>
+<image name='Crowbar_admin_ReOS_for_OpenStack_summit_2014' displayname='Crowbar_admin_node_for_OpenStack_summit_2014' schemaversion='5.2'>
   <description type='system'>
     <author>Adam Spiers</author>
     <contact>aspiers@suse.com</contact>

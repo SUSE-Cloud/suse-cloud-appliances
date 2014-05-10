@@ -3,6 +3,6 @@
 # and the .vmdk is taken from the kiwi build.
 
 BOX_NAME = cloud3-admin
-VMDK = SLES_11_SP3_ReOS_for_OpenStack_summit_2014.x86_64-0.0.1.vmdk
+VMDK = Crowbar_admin_ReOS_for_OpenStack_summit_2014.x86_64-0.0.1.vmdk
 
 include ../box.make
