@@ -143,7 +143,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         ./crowbar_register --force --interface eth1  --gpg-auto-import-keys
 
         # Format glance disk
-        echo y | mkfs /dev/sdd
+        echo y | mkfs.ext3 /dev/sdd
         echo "/dev/sdd /var/lib/glance ext3 defaults 0 2" >> /etc/fstab
         mkdir -p /var/lib/glance
         mount /var/lib/glance
