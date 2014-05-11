@@ -83,13 +83,23 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         # Don't use headless mode
         provider.gui = true
 
+        ## create disk for DRBD
+        provider.customize [ 'createhd', '--filename', "drbd-#{node_name}.vmdk", '--size', 2100, '--format', 'VMDK' ]
+        provider.customize [
+          'storageattach', :id,
+          '--storagectl', 'SCSI',
+          '--port', 1,
+          '--device', 0,
+          '--type', 'hdd',
+          '--medium', "drbd-#{node_name}.vmdk",
+        ]
         # create shared disk for SBD
         provider.customize [ 'createhd', '--filename', 'sbd.vmdk', '--size', 8, '--format', 'VMDK', '--variant', 'Fixed' ]
         provider.customize [ 'modifyhd', 'sbd.vmdk', '--type', 'shareable' ]
         provider.customize [
           'storageattach', :id,
           '--storagectl', 'SCSI',
-          '--port', 1,
+          '--port', 2,
           '--device', 0,
           '--type', 'hdd',
           '--medium', 'sbd.vmdk',
@@ -100,7 +110,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         provider.customize [
           'storageattach', :id,
           '--storagectl', 'SCSI',
-          '--port', 2,
+          '--port', 3,
           '--device', 0,
           '--type', 'hdd',
           '--medium', 'glance.vmdk',
@@ -111,20 +121,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         provider.customize [
           'storageattach', :id,
           '--storagectl', 'SCSI',
-          '--port', 3,
-          '--device', 0,
-          '--type', 'hdd',
-          '--medium', 'cinder.vmdk',
-        ]
-        ## create disk for DRBD
-        provider.customize [ 'createhd', '--filename', "drbd-#{node_name}.vmdk", '--size', 1100, '--format', 'VMDK' ]
-        provider.customize [
-          'storageattach', :id,
-          '--storagectl', 'SCSI',
           '--port', 4,
           '--device', 0,
           '--type', 'hdd',
-          '--medium', "drbd-#{node_name}.vmdk",
+          '--medium', 'cinder.vmdk',
         ]
       end
 
