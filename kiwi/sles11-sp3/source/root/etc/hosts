@@ -21,6 +21,3 @@ ff02::1         ipv6-allnodes
 ff02::2         ipv6-allrouters
 ff02::3         ipv6-allhosts
 
-# /studio/build-custom should dynamically append an entry for the
-# Crowbar admin node IP below, so that it's correct whatever 
-# appliance hostname is chosen.
