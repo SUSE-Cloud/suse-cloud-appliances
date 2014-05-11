@@ -33,7 +33,6 @@ the following locations:
 
 *   `/data/install/mirrors/SLES11-SP3-Updates/sle-11-x86_64`
 *   `/data/install/mirrors/SLE-11-SP3-SDK/sle-11-x86_64`
-*   `/data/install/mirrors/SLE-11-SP3-SDK-Updates/sle-11-x86_64`
 
 You can optionally specify an alternate location to
 `/data/install/mirrors` by ading an extra `sudo` parameter before
