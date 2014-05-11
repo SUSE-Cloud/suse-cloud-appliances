@@ -149,6 +149,12 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         wget http://192.168.124.10:8091/suse-11.3/crowbar_register
         chmod a+x crowbar_register
         ./crowbar_register --force --interface eth1  --gpg-auto-import-keys
+
+        # Format glance disk
+        echo y | mkfs /dev/sdd
+        echo "/dev/sdd /var/lib/glance ext3 defaults 0 2" >> /etc/fstab
+        mkdir -p /var/lib/glance
+        mount /var/lib/glance
       EOSCRIPT
     end
   end
