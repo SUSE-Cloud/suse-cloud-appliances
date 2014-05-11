@@ -15,31 +15,78 @@ First [ensure that you have KIWI installed](../README.md).
 
 ### Obtaining the required software
 
-Building this appliance from scratch requires the following:
+There are two ways to build this appliance from scratch:
 
-*   [SUSE Linux Enterprise Server (SLES) 11 SP3 installation media](https://download.suse.com/Download?buildid=Q_VbW21BiB4~) (you only need `SLES-11-SP3-DVD-x86_64-GM-DVD1.iso`; DVD2 is the source code)
-*   [SUSE Linux Enterprise High Availability Extension (SLE HAE) 11 SP3](https://download.suse.com/Download?buildid=x_3696pRI0w~) (again, you only need `SLE-HA-11-SP3-x86_64-GM-CD1.iso`)
-*   [SUSE Cloud 3 installation media](https://download.suse.com/Download?buildid=K3-lLTopFN4~) (again, you only need SUSE-CLOUD-3-x86_64-GM-DVD1.iso)
-*   Package repositories containing updates for each of the above, to obtain the latest bugfixes and enhancements.
-    *   Updates are available via subscriptions with a 60-day free evaluation; however all these products are Free Software, so of course you can still use them fully after 60 days - you just won't continue getting updates.
-    *   The easiest way to obtain the updates is probably via the [Subscription Management Tool (SMT) 11 SP3](https://download.suse.com/Download?buildid=l8FuDkiYOg0~) ([more info on SMT here](https://www.suse.com/solutions/tools/smt.html)).
-    *   Here are the links for free 60-day evaluations of [SLES](https://www.suse.com/products/server/eval.html), [SUSE Cloud](https://www.suse.com/products/suse-cloud/), and [SLE HAE](https://www.suse.com/products/highavailability/eval.html).
-*   [VirtualBox Guest Additions `.iso`](http://download.virtualbox.org/virtualbox/).  Mount the `.iso` on the image-building host, and copy the `VBoxLinuxAdditions.run` file into `source/root/tmp` under this directory.
+1.  The slow (but more "complete" and fully supported) way, which requires the following:
+    *   [SUSE Linux Enterprise Server (SLES) 11 SP3 installation media](https://download.suse.com/Download?buildid=Q_VbW21BiB4~) (you only need `SLES-11-SP3-DVD-x86_64-GM-DVD1.iso`; DVD2 is the source code)
+    *   [SUSE Linux Enterprise High Availability Extension (SLE HAE) 11 SP3](https://download.suse.com/Download?buildid=x_3696pRI0w~) (again, you only need `SLE-HA-11-SP3-x86_64-GM-CD1.iso`)
+    *   [SUSE Cloud 3 installation media](https://download.suse.com/Download?buildid=K3-lLTopFN4~) (again, you only need SUSE-CLOUD-3-x86_64-GM-DVD1.iso)
+    *   Package repositories containing updates for each of the above, to obtain the latest bugfixes and enhancements.
+        *   Updates are available via subscriptions with a 60-day free evaluation; however all these products are Free Software, so of course you can still use them fully after 60 days - you just won't continue getting updates.
+        *   The easiest way to obtain the updates is probably via the [Subscription Management Tool (SMT) 11 SP3](https://download.suse.com/Download?buildid=l8FuDkiYOg0~) ([more info on SMT here](https://www.suse.com/solutions/tools/smt.html)).
+        *   Here are the links for free 60-day evaluations of [SLES](https://www.suse.com/products/server/eval.html), [SUSE Cloud](https://www.suse.com/products/suse-cloud/), and [SLE HAE](https://www.suse.com/products/highavailability/eval.html).
+
+    This way takes quite some time (and about 15GB of spare disk) to
+    set up, because you need to first build an SMT environment, and
+    then mirror all the packages (including updates) for SLES 11 SP3,
+    SLE 11 HAE SP3, SLE 11 SDK SP3, and SUSE Cloud 3.
+
+2.  The quick way (which is currently only supported on a best effort
+    basis) drastically reduces the number of dependencies by relying
+    on:
+
+    *   a specially constructed `SUSE-CLOUD-3-DEPS` `.iso`
+        which contains the minimal set of packages which SUSE Cloud
+        3 requires from SLES 11 SP3 and SLE 11 HAE SP3 including the
+        latest updates, and
+    *   an `.iso` of the latest (unreleased) development build of
+        SUSE Cloud 3, which contains the latest updates.
+
+    These are currently provided on demand only.
+
+Both ways also require:
+
+*   [SLE 11 SDK SP3](https://download.suse.com/Download?buildid=fQKpDcAhPVY) (although
+    if you are willing to tolerate a slightly ugly `grub` boot menu then you can avoid
+    this requirement by commenting out the SDK packages and repositories in
+    [`source/config.xml.tmpl`](source/config.xml.tmpl)), and
+*   [VirtualBox Guest Additions `.iso`](http://download.virtualbox.org/virtualbox/).
+    Mount the `.iso` on the image-building host, and copy the
+    `VBoxLinuxAdditions.run` file into `source/root/tmp` under this
+    directory.
 
 ### Setting up the mountpoints
 
-The appliance config currently assumes the following mountpoints are
-set up on the system which will build the image:
+The appliance [`config.xml` template](source/config.xml.tmpl)
+currently assumes certain mountpoints are set up on the system which
+will build the image.  For the slow way:
 
-*   SLES11 SP3 installation media at `/mnt/sles-11-sp3`
-*   SUSE Cloud 3 installation media `/mnt/suse-cloud-3`
+*   `/mnt/sles-11-sp3`: SLES 11 SP3 installation media
+*   `/mnt/suse-cloud-3`: SUSE Cloud 3 installation media
+
+For the quick way:
+
+*   `/mnt/sles-11-sp3`: the `SUSE-CLOUD-3-DEPS` `.iso`
+*   `/mnt/suse-cloud-3`: the `.iso` of the latest development build of SUSE Cloud 3
+*   `/mnt/sle-11-sdk-sp3`: SLE 11 SDK SP3 installation media (although
+    this can be omitted as per above.  FIXME: this also currently requires
+    editing the [`config.xml` template](source/config.xml.tmpl).)
 
 It also assumes that the update channels will have been mirrored to
-the following locations:
+certain locations.  For the slow way:
 
 *   `/data/install/mirrors/SLE-11-SP3-SDK/sle-11-x86_64`
+*   `/data/install/mirrors/SLE11-HAE-SP3-Pool/sle-11-x86_64`
+*   `/data/install/mirrors/SLE11-HAE-SP3-Updates/sle-11-x86_64`
 *   `/data/install/mirrors/SUSE-Cloud-3.0-Pool/sle-11-x86_64`
 *   `/data/install/mirrors/SUSE-Cloud-3.0-Updates/sle-11-x86_64`
+
+For the quick way:
+
+*   `/data/install/mirrors/SLE-11-SP3-SDK/sle-11-x86_64`
+
+(FIXME: this currently requires editing the
+[`config.xml` template](source/config.xml.tmpl).)
 
 You can optionally specify an alternate location to
 `/data/install/mirrors` by ading an extra `sudo` parameter before

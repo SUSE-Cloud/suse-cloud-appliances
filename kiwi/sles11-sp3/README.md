@@ -26,7 +26,7 @@ Building this appliance from scratch requires the following:
 The appliance config currently assumes the following mountpoint is
 set up on the system which will build the image:
 
-*   SLES11 SP3 installation media at `/mnt/sles-11-sp3`
+*   `/mnt/sles-11-sp3`: SLES11 SP3 installation media
 
 It also assumes that the SDK channel will have been mirrored to
 the following location:
