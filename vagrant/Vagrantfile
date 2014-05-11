@@ -115,17 +115,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
           '--type', 'hdd',
           '--medium', 'glance.vmdk',
         ]
-        # create shared disk for cinder
-        provider.customize [ 'createhd', '--filename', 'cinder.vmdk', '--size', 1000, '--format', 'VMDK', '--variant', 'Fixed' ]
-        provider.customize [ 'modifyhd', 'cinder.vmdk', '--type', 'shareable' ]
-        provider.customize [
-          'storageattach', :id,
-          '--storagectl', 'SCSI',
-          '--port', 4,
-          '--device', 0,
-          '--type', 'hdd',
-          '--medium', 'cinder.vmdk',
-        ]
       end
 
       node.vm.provider 'libvirt' do |provider|
