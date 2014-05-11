@@ -57,7 +57,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         patch -p1 < /tmp/crowbar_register-hostname.patch
         cp /tmp/network.json /etc/crowbar/network.json
         rm -f /tmp/network.json
-        rm -f /tmp/barclamp-network.patch
 
         # Scrap pointless 45 second tcpdump per interface
         sed -i 's/45/5/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
