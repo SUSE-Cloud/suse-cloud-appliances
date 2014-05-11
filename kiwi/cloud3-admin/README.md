@@ -37,7 +37,6 @@ set up on the system which will build the image:
 It also assumes that the update channels will have been mirrored to
 the following locations:
 
-*   `/data/install/mirrors/SLES11-SP3-Updates/sle-11-x86_64`
 *   `/data/install/mirrors/SLE-11-SP3-SDK/sle-11-x86_64`
 *   `/data/install/mirrors/SUSE-Cloud-3.0-Pool/sle-11-x86_64`
 *   `/data/install/mirrors/SUSE-Cloud-3.0-Updates/sle-11-x86_64`
