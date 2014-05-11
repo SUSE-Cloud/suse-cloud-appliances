@@ -1,0 +1,4 @@
+/* Disable 4px border around images */
+.reveal section img {
+  border: none;
+}
