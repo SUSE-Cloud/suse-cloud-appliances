@@ -1,0 +1,152 @@
+From 0a1b4f08152866f85334da6a29d282f9c8500ff1 Mon Sep 17 00:00:00 2001
+From: Vincent Untz <vuntz@suse.com>
+Date: Mon, 12 May 2014 10:02:21 -0400
+Subject: [PATCH] ha: Fix race on creation of drbd resources
+
+The drbd OCF resource agent expects the drbd primitive and the drbd ms
+resource to be created in the same transaction. When it doesn't, then
+the drbd primitve will fail to be monitored, which can lead to fencing.
+
+We didn't see that all the time because we create the ms resource fast,
+so most of the time, it just works.
+---
+ chef/cookbooks/postgresql/recipes/ha_storage.rb | 34 ++++++++++++++++++++++---
+ 1 file changed, 30 insertions(+), 4 deletions(-)
+
+diff --git a/chef/cookbooks/postgresql/recipes/ha_storage.rb b/chef/cookbooks/postgresql/recipes/ha_storage.rb
+index 247f592..7f7e5a1 100644
+--- a/chef/cookbooks/postgresql/recipes/ha_storage.rb
++++ b/chef/cookbooks/postgresql/recipes/ha_storage.rb
+@@ -71,10 +71,33 @@
+   drbd_params = {}
+   drbd_params["drbd_resource"] = drbd_resource
+ 
++  # Careful here: when creating the DRBD resources, we should in theory create
++  # the primitive and the ms resources in one transaction. This is what is
++  # expected by the drbd OCF agent, which checks (for the primitive) that the
++  # meta bits (like clone-max), that are supposed to be inherited from the
++  # required ms resource, are present.
++  #
++  # When that check fails, we can see this error:
++  #   ERROR: meta parameter misconfigured, expected clone-max -le 2, but found unset.
++  # which will cause fencing (the resource is not supposed to start, but the
++  # monitoring op fails, so pacemaker tries to stop the resource to be safe,
++  # and that fails too, leading to fencing).
++  #
++  # However, we cannot create the two resources in one transaction. So what we
++  # do instead is on initial creation (and only in that case), we mark the drbd
++  # primitive as unmanaged (that will cause the failure to not be fatal, with
++  # no fencing), and we clean it up + mark it as managed after we create the ms
++  # resource.
++
+   pacemaker_primitive drbd_primitive do
+     agent "ocf:linbit:drbd"
+     params drbd_params
+     op postgres_op
++    # See big comment above as to why we do that. We know that the founder will
++    # go first here, so we only do this on the founder.
++    meta ({
++      "is-managed" => "false"
++    }) if (CrowbarPacemakerHelper.is_cluster_founder?(node) && ! ::Kernel.system("crm configure show #{drbd_primitive} &> /dev/null"))
+     action :create
+   end
+ 
+@@ -90,12 +113,15 @@
+     action :create
+   end
+ 
+-  # This is needed because we don't create all the pacemaker resources in the
+-  # same transaction
+-  execute "Cleanup #{drbd_primitive} on #{ms_name} start" do
+-    command "sleep 2; crm resource cleanup #{drbd_primitive}"
++  # See big comment above as to why we do that. We know that the founder will
++  # go first here, so we only do this on the founder, but in short: this is
++  # needed because we don't create all the pacemaker resources in the same
++  # transaction.
++  execute "Cleanup and manage #{drbd_primitive} on #{ms_name} start" do
++    command "sleep 2; crm resource cleanup #{drbd_primitive}; crm resource manage #{drbd_primitive}"
+     action :nothing
+     subscribes :run, "pacemaker_ms[#{ms_name}]", :immediately
++    only_if { CrowbarPacemakerHelper.is_cluster_founder?(node) }
+   end
+ end
+ 
+-- 
+1.9.1
+
+From f80f43c4c6ead879113f69695bc40797fe4ed1bd Mon Sep 17 00:00:00 2001
+From: Vincent Untz <vuntz@suse.com>
+Date: Mon, 12 May 2014 10:07:37 -0400
+Subject: [PATCH] ha: Fix race on creation of drbd resources
+
+The drbd OCF resource agent expects the drbd primitive and the drbd ms
+resource to be created in the same transaction. When it doesn't, then
+the drbd primitve will fail to be monitored, which can lead to fencing.
+
+We didn't see that all the time because we create the ms resource fast,
+so most of the time, it just works.
+---
+ chef/cookbooks/rabbitmq/recipes/ha.rb | 34 ++++++++++++++++++++++++++++++----
+ 1 file changed, 30 insertions(+), 4 deletions(-)
+
+diff --git a/chef/cookbooks/rabbitmq/recipes/ha.rb b/chef/cookbooks/rabbitmq/recipes/ha.rb
+index 5292ef6..cef35d8 100644
+--- a/chef/cookbooks/rabbitmq/recipes/ha.rb
++++ b/chef/cookbooks/rabbitmq/recipes/ha.rb
+@@ -62,10 +62,33 @@
+   drbd_params = {}
+   drbd_params["drbd_resource"] = drbd_resource
+ 
++  # Careful here: when creating the DRBD resources, we should in theory create
++  # the primitive and the ms resources in one transaction. This is what is
++  # expected by the drbd OCF agent, which checks (for the primitive) that the
++  # meta bits (like clone-max), that are supposed to be inherited from the
++  # required ms resource, are present.
++  #
++  # When that check fails, we can see this error:
++  #   ERROR: meta parameter misconfigured, expected clone-max -le 2, but found unset.
++  # which will cause fencing (the resource is not supposed to start, but the
++  # monitoring op fails, so pacemaker tries to stop the resource to be safe,
++  # and that fails too, leading to fencing).
++  #
++  # However, we cannot create the two resources in one transaction. So what we
++  # do instead is on initial creation (and only in that case), we mark the drbd
++  # primitive as unmanaged (that will cause the failure to not be fatal, with
++  # no fencing), and we clean it up + mark it as managed after we create the ms
++  # resource.
++
+   pacemaker_primitive drbd_primitive do
+     agent "ocf:linbit:drbd"
+     params drbd_params
+     op rabbitmq_op
++    # See big comment above as to why we do that. We know that the founder will
++    # go first here, so we only do this on the founder.
++    meta ({
++      "is-managed" => "false"
++    }) if (CrowbarPacemakerHelper.is_cluster_founder?(node) && ! ::Kernel.system("crm configure show #{drbd_primitive} &> /dev/null"))
+     action :create
+   end
+ 
+@@ -81,12 +104,15 @@
+     action :create
+   end
+ 
+-  # This is needed because we don't create all the pacemaker resources in the
+-  # same transaction
+-  execute "Cleanup #{drbd_primitive} on #{ms_name} start" do
+-    command "sleep 2; crm resource cleanup #{drbd_primitive}"
++  # See big comment above as to why we do that. We know that the founder will
++  # go first here, so we only do this on the founder, but in short: this is
++  # needed because we don't create all the pacemaker resources in the same
++  # transaction.
++  execute "Cleanup and manage #{drbd_primitive} on #{ms_name} start" do
++    command "sleep 2; crm resource cleanup #{drbd_primitive}; crm resource manage #{drbd_primitive}"
+     action :nothing
+     subscribes :run, "pacemaker_ms[#{ms_name}]", :immediately
++    only_if { CrowbarPacemakerHelper.is_cluster_founder?(node) }
+   end
+ end
+ 
+-- 
+1.9.1
+
