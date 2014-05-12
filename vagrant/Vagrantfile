@@ -63,6 +63,13 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       # https://github.com/crowbar/barclamp-provisioner/pull/303
       "cloud3-admin/crowbar_register-hostname.patch",
 
+      # https://github.com/crowbar/barclamp-crowbar/pull/1025
+      "cloud3-admin/barclamp-crowbar-vbox-disk-by-id.patch",
+      # https://github.com/crowbar/barclamp-deployer/pull/203
+      "cloud3-admin/barclamp-deployer-vbox-disk-by-id.patch",
+      # https://github.com/crowbar/barclamp-provisioner/pull/305
+      "cloud3-admin/barclamp-provisioner-vbox-disk-by-id.patch",
+
       # https://github.com/crowbar/barclamp-pacemaker/pull/101 and
       # https://github.com/crowbar/barclamp-pacemaker/pull/103
       "cloud3-admin/install-xfsprogs.patch",
@@ -86,6 +93,9 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         patch -p1 < /tmp/barclamp-network-teaming-mode.patch
         patch -p1 < /tmp/barclamp-provisioner-demo-repos.patch
         patch -p1 < /tmp/crowbar_register-hostname.patch
+        patch -p1 < /tmp/barclamp-crowbar-vbox-disk-by-id.patch
+        patch -p1 < /tmp/barclamp-deployer-vbox-disk-by-id.patch
+        patch -p1 < /tmp/barclamp-provisioner-vbox-disk-by-id.patch
         patch -p1 < /tmp/install-xfsprogs.patch
         patch -p1 < /tmp/sbd-wait-for-corosync.patch
         patch -p1 < /tmp/apache-mod_status.patch
