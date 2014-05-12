@@ -1,0 +1,52 @@
+From 686acfba59afbc8d4143b18c23a2bf0cbe39a832 Mon Sep 17 00:00:00 2001
+From: Vincent Untz <vuntz@suse.com>
+Date: Sun, 11 May 2014 21:46:51 -0400
+Subject: [PATCH] Install xfsprogs if we're using xfs for a DRBD device
+
+---
+ chef/cookbooks/crowbar-pacemaker/providers/drbd_create_internal.rb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/chef/cookbooks/crowbar-pacemaker/providers/drbd_create_internal.rb b/chef/cookbooks/crowbar-pacemaker/providers/drbd_create_internal.rb
+index c8d50c3..6ab76f7 100644
+--- a/chef/cookbooks/crowbar-pacemaker/providers/drbd_create_internal.rb
++++ b/chef/cookbooks/crowbar-pacemaker/providers/drbd_create_internal.rb
+@@ -38,6 +38,10 @@
+       end.run_action(:run)
+ 
+       modules_loaded[resource["fstype"]] = true
++
++      package "xfsprogs" do
++        action :nothing
++      end.run_action(:run)
+     end
+ 
+     next if resource["configured"]
+-- 
+1.9.1
+
+From 85a15988d9789205ada31ee9fc3b005899a2aee2 Mon Sep 17 00:00:00 2001
+From: Vincent Untz <vuntz@suse.com>
+Date: Sun, 11 May 2014 22:48:35 -0400
+Subject: [PATCH] Fix installation of xfsprogs
+
+---
+ chef/cookbooks/crowbar-pacemaker/providers/drbd_create_internal.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/chef/cookbooks/crowbar-pacemaker/providers/drbd_create_internal.rb b/chef/cookbooks/crowbar-pacemaker/providers/drbd_create_internal.rb
+index 6ab76f7..1307dcd 100644
+--- a/chef/cookbooks/crowbar-pacemaker/providers/drbd_create_internal.rb
++++ b/chef/cookbooks/crowbar-pacemaker/providers/drbd_create_internal.rb
+@@ -41,7 +41,7 @@
+ 
+       package "xfsprogs" do
+         action :nothing
+-      end.run_action(:run)
++      end.run_action(:install)
+     end
+ 
+     next if resource["configured"]
+-- 
+1.9.1
+
