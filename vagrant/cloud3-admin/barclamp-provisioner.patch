@@ -1,24 +1,3 @@
-commit 2b0d726f94039c4ea57f68bc7cb8ae3d52f5c74f
-Author: Ralf Haferkamp <rhafer@suse.de>
-Date:   Wed May 7 13:10:33 2014 +0200
-
-    Avoid crowbar_register exiting when the first NIC is not for the admin network
-
-diff --git a/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb b/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb
-index cf09a5b..d59c3d1 100644
---- a/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb
-+++ b/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb
-@@ -94,8 +94,8 @@ for nic in /sys/class/net/*; do
-     [[ -f $nic/address && -f $nic/type && \
-         $(cat "$nic/type") = 1 ]] || continue
-     NICDEV="${nic##*/}"
--    ip addr show $NICDEV | grep -q " brd $ADMIN_BROADCAST "
--    if test $? -eq 0; then
-+
-+    if ip addr show $NICDEV | grep -q " brd $ADMIN_BROADCAST "; then
-         test "x$NICDEV" == "x$DEFINEDDEV" && DEFINEDDEV_FOUND=1
-         test -n "$NIC_CANDIDATES" && MULTIPLE_NICS=1
-         NIC_CANDIDATES="$NIC_CANDIDATES $NICDEV"
 commit fc1454485c9e2ea6e3a5bfef5a941787772efd79
 Author: Ralf Haferkamp <rhafer@suse.de>
 Date:   Wed May 7 14:53:22 2014 +0200
