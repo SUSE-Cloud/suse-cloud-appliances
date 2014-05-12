@@ -46,8 +46,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     admin.vm.provision "file", source: "cloud3-admin/network.json", destination: "/tmp/network.json"
     # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
     # case we don't want it to touch eth0, so we need this evil patch:
-    admin.vm.provision "file", source: "cloud3-admin/barclamp-network.patch", destination: "/tmp/barclamp-network.patch"
-    admin.vm.provision "file", source: "cloud3-admin/barclamp-provisioner.patch", destination: "/tmp/barclamp-provisioner.patch"
+    admin.vm.provision "file", source: "cloud3-admin/barclamp-network-ignore-eth0.patch",
+                               destination: "/tmp/barclamp-network-ignore-eth0.patch"
+    admin.vm.provision "file", source: "cloud3-admin/barclamp-provisioner-demo-repos.patch",
+                               destination: "/tmp/barclamp-provisioner-demo-repos.patch"
     # https://github.com/crowbar/barclamp-provisioner/pull/303
     admin.vm.provision "file", source: "cloud3-admin/crowbar_register-hostname.patch", destination: "/tmp/crowbar_register-hostname.patch"
     # https://github.com/crowbar/barclamp-pacemaker/pull/101 && https://github.com/crowbar/barclamp-pacemaker/pull/103
@@ -60,8 +62,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     admin.vm.provision "file", source: "cloud3-admin/drbd-race.patch", destination: "/tmp/drbd-race.patch"
     admin.vm.provision "shell", inline: <<-EOSCRIPT
         cd /opt/dell/
-        patch -p1 < /tmp/barclamp-network.patch
-        patch -p1 < /tmp/barclamp-provisioner.patch
+        patch -p1 < /tmp/barclamp-network-ignore-eth0.patch
+        patch -p1 < /tmp/barclamp-provisioner-demo-repos.patch
         patch -p1 < /tmp/crowbar_register-hostname.patch
         patch -p1 < /tmp/install-xfsprogs.patch
         patch -p1 < /tmp/sbd-wait-for-corosync.patch
