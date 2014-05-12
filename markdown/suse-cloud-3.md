@@ -21,7 +21,7 @@ automated deployment and management facilities.
 
 
 ### First release with HA support:
-# SUSE Cloud 3.0
+# SUSE Cloud 3
 ### Havana based (2013/14)
 
 
