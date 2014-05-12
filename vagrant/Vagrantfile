@@ -43,23 +43,34 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     # happy it's not actually used inside the VM
     admin.vm.network "private_network", ip: "192.168.124.9", auto_config: false
 
-    admin.vm.provision "file", source: "cloud3-admin/network.json", destination: "/tmp/network.json"
-    # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
-    # case we don't want it to touch eth0, so we need this evil patch:
-    admin.vm.provision "file", source: "cloud3-admin/barclamp-network-ignore-eth0.patch",
-                               destination: "/tmp/barclamp-network-ignore-eth0.patch"
-    admin.vm.provision "file", source: "cloud3-admin/barclamp-provisioner-demo-repos.patch",
-                               destination: "/tmp/barclamp-provisioner-demo-repos.patch"
-    # https://github.com/crowbar/barclamp-provisioner/pull/303
-    admin.vm.provision "file", source: "cloud3-admin/crowbar_register-hostname.patch", destination: "/tmp/crowbar_register-hostname.patch"
-    # https://github.com/crowbar/barclamp-pacemaker/pull/101 && https://github.com/crowbar/barclamp-pacemaker/pull/103
-    admin.vm.provision "file", source: "cloud3-admin/install-xfsprogs.patch", destination: "/tmp/install-xfsprogs.patch"
-    # https://github.com/crowbar/barclamp-pacemaker/pull/102
-    admin.vm.provision "file", source: "cloud3-admin/sbd-wait-for-corosync.patch", destination: "/tmp/sbd-wait-for-corosync.patch"
-    # https://github.com/crowbar/barclamp-crowbar/pull/1024
-    admin.vm.provision "file", source: "cloud3-admin/apache-mod_status.patch", destination: "/tmp/apache-mod_status.patch"
-    # https://github.com/crowbar/barclamp-database/pull/84 and https://github.com/crowbar/barclamp-rabbitmq/pull/42
-    admin.vm.provision "file", source: "cloud3-admin/drbd-race.patch", destination: "/tmp/drbd-race.patch"
+    files_to_provision = [
+      "cloud3-admin/network.json",
+      # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
+      # case we don't want it to touch eth0, so we need this evil patch:
+      "cloud3-admin/barclamp-network-ignore-eth0.patch",
+      "cloud3-admin/barclamp-provisioner-demo-repos.patch",
+
+      # https://github.com/crowbar/barclamp-provisioner/pull/303
+      "cloud3-admin/crowbar_register-hostname.patch",
+
+      # https://github.com/crowbar/barclamp-pacemaker/pull/101 and
+      # https://github.com/crowbar/barclamp-pacemaker/pull/103
+      "cloud3-admin/install-xfsprogs.patch",
+
+      # https://github.com/crowbar/barclamp-pacemaker/pull/102
+      "cloud3-admin/sbd-wait-for-corosync.patch",
+
+      # https://github.com/crowbar/barclamp-crowbar/pull/1024
+      "cloud3-admin/apache-mod_status.patch",
+
+      # https://github.com/crowbar/barclamp-database/pull/84 and
+      # https://github.com/crowbar/barclamp-rabbitmq/pull/42
+      "cloud3-admin/drbd-race.patch",
+    ]
+    files_to_provision.each do |source|
+      filename = File.basename(source)
+      admin.vm.provision "file", source: source, destination: "/tmp/#{filename}"
+    end
     admin.vm.provision "shell", inline: <<-EOSCRIPT
         cd /opt/dell/
         patch -p1 < /tmp/barclamp-network-ignore-eth0.patch
