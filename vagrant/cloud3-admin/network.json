@@ -313,7 +313,7 @@
             }, 
             "start_up_delay": 30, 
             "teaming": {
-                "mode": 5
+                "mode": 1
             }
         }
     }
