@@ -47,6 +47,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     # this means making them host-only.
     admin.vm.network "private_network", ip: "192.168.124.10", auto_config: false
 
+    admin.vm.provider "virtualbox" do |provider|
+      provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
+    end
+
     files_to_provision = [
       "cloud3-admin/network.json",
       # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
@@ -187,6 +191,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       node.vm.network "private_network", ip: "192.168.124.#{80+i}", auto_config: false
 
+      node.vm.provider 'virtualbox' do |provider|
+        provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
+      end
+
       files_to_provision = [
         # https://bugzilla.novell.com/show_bug.cgi?id=877484
         "cloud3-admin/crmsh-report-bnc877484.patch",
@@ -247,6 +255,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       node.vm.synced_folder ".", "/vagrant", disabled: true
 
       node.vm.network "private_network", ip: "192.168.124.83", auto_config: false
+
+      node.vm.provider 'virtualbox' do |provider|
+        provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
+      end
 
       node.vm.provision "shell", inline: <<-EOSCRIPT
         set -e
