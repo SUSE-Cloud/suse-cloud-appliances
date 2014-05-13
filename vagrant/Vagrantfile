@@ -50,6 +50,9 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       "cloud3-admin/barclamp-network-ignore-eth0.patch",
       "cloud3-admin/barclamp-provisioner-demo-repos.patch",
 
+      # https://github.com/crowbar/barclamp-network/pull/286
+      "cloud3-admin/barclamp-network-teaming-mode.patch",
+
       # https://github.com/crowbar/barclamp-provisioner/pull/303
       "cloud3-admin/crowbar_register-hostname.patch",
 
@@ -76,6 +79,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
         cd /opt/dell/
         patch -p1 < /tmp/barclamp-network-ignore-eth0.patch
+        patch -p1 < /tmp/barclamp-network-teaming-mode.patch
         patch -p1 < /tmp/barclamp-provisioner-demo-repos.patch
         patch -p1 < /tmp/crowbar_register-hostname.patch
         patch -p1 < /tmp/install-xfsprogs.patch
