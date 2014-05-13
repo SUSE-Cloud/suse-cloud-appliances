@@ -72,6 +72,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       admin.vm.provision "file", source: source, destination: "/tmp/#{filename}"
     end
     admin.vm.provision "shell", inline: <<-EOSCRIPT
+        set -e
+
         cd /opt/dell/
         patch -p1 < /tmp/barclamp-network-ignore-eth0.patch
         patch -p1 < /tmp/barclamp-provisioner-demo-repos.patch
@@ -170,6 +172,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       node.vm.network "private_network", ip: "192.168.124.#{81+(i*2)}", auto_config: false
 
       node.vm.provision "shell", inline: <<-EOSCRIPT
+        set -e
+
         export PATH="$PATH:/sbin:/usr/sbin/"
         zypper ar http://192.168.124.10:8091/suse-11.3/install sles11-sp3
         until [ -f crowbar_register ]; do
@@ -222,6 +226,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       node.vm.network "private_network", ip: "192.168.124.#{81+(i*2)}", auto_config: false
 
       node.vm.provision "shell", inline: <<-EOSCRIPT
+        set -e
+
         export PATH="$PATH:/sbin:/usr/sbin/"
         zypper ar http://192.168.124.10:8091/suse-11.3/install sles11-sp3
         until [ -f crowbar_register ]; do
