@@ -20,3 +20,13 @@
   width: 100%;
   margin: 2%;
 }
+
+/* Override the default uppercase text-transform */
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  text-transform: none;
+}
