@@ -38,7 +38,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     # VMs.  And for an HA setup we need two interfaces which are
     # teamed and able to communicate with other VMs.  On VirtualBox
     # this means making them host-only.
-    admin.vm.network "private_network", ip: "192.168.124.10"
+    admin.vm.network "private_network", ip: "192.168.124.10", auto_config: false
     # Additional NIC for bonding. The IP address here is just to make vagrant
     # happy it's not actually used inside the VM
     admin.vm.network "private_network", ip: "192.168.124.9", auto_config: false
