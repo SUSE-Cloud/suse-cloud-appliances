@@ -162,7 +162,7 @@
                     "pattern": "product"
                 }
             ], 
-            "mode": "team", 
+            "mode": "single", 
             "networks": {
                 "admin": {
                     "add_bridge": false, 

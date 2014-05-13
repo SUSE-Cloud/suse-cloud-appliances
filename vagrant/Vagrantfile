@@ -46,9 +46,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     # teamed and able to communicate with other VMs.  On VirtualBox
     # this means making them host-only.
     admin.vm.network "private_network", ip: "192.168.124.10", auto_config: false
-    # Additional NIC for bonding. The IP address here is just to make vagrant
-    # happy it's not actually used inside the VM
-    admin.vm.network "private_network", ip: "192.168.124.9", auto_config: false
 
     files_to_provision = [
       "cloud3-admin/network.json",
@@ -188,10 +185,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       node.vm.synced_folder ".", "/vagrant", disabled: true
 
-      node.vm.network "private_network", ip: "192.168.124.#{81+(i*2-1)}", auto_config: false
-      # Additional NIC for bonding. The IP address here is just to make vagrant
-      # happy it's not actually used inside the VM
-      node.vm.network "private_network", ip: "192.168.124.#{81+(i*2)}", auto_config: false
+      node.vm.network "private_network", ip: "192.168.124.#{80+i}", auto_config: false
 
       files_to_provision = [
         # https://bugzilla.novell.com/show_bug.cgi?id=877484
@@ -252,10 +246,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       node.vm.synced_folder ".", "/vagrant", disabled: true
 
-      node.vm.network "private_network", ip: "192.168.124.#{81+(i*2-1)}", auto_config: false
-      # Additional NIC for bonding. The IP address here is just to make vagrant
-      # happy it's not actually used inside the VM
-      node.vm.network "private_network", ip: "192.168.124.#{81+(i*2)}", auto_config: false
+      node.vm.network "private_network", ip: "192.168.124.83", auto_config: false
 
       node.vm.provision "shell", inline: <<-EOSCRIPT
         set -e
