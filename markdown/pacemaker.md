@@ -23,3 +23,31 @@ STONITH - Configured with STONITH Block Devices (SBD)
 
 # Pacemaker GUI:
 **Setup non-web GUI (hb_gui):**  true
+
+
+### What's special about how
+# SUSE Cloud
+### uses Pacemaker with Crowbar?
+
+
+`Chef::Provider::Pacemaker::Service`
+
+
+# Load Balancer
+### configuration
+
+
+### Automatic
+# cluster
+### configuration
+
+Note:
+- Quorum
+- Fencing shoot-out protection
+- SBD auto-configuration
+
+
+### Flexible
+# configuration
+
+Clusters / nodes / roles
