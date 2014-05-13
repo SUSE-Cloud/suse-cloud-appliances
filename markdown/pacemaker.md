@@ -12,12 +12,14 @@ Pre-configured on `/dev/sdc`
 
 
 # STONITH
+**Configuration mode for STONITH:**
+
 STONITH - Configured with STONITH Block Devices (SBD)
 
 
 # DRBD
-Prepare cluster for DRBD: true
+**Prepare cluster for DRBD:** true
 
 
 # Pacemaker GUI:
-Setup non-web GUI (hb_gui):  true
+**Setup non-web GUI (hb_gui):**  true
