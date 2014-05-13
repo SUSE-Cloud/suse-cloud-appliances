@@ -4,6 +4,13 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 vagrantfile_api_version = "2"
 
+def provision_to_tmp(node, files_to_provision)
+  files_to_provision.each do |source|
+    filename = File.basename(source)
+    node.vm.provision "file", source: source, destination: "/tmp/#{filename}"
+  end
+end
+
 Vagrant.configure(vagrantfile_api_version) do |config|
   config.vm.define :admin, :primary => true do |admin|
     admin.vm.box = "suse/cloud3-admin"
@@ -70,11 +77,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       # https://github.com/crowbar/barclamp-rabbitmq/pull/42
       "cloud3-admin/drbd-race.patch",
     ]
-    files_to_provision.each do |source|
-      filename = File.basename(source)
-      admin.vm.provision "file", source: source, destination: "/tmp/#{filename}"
-    end
-    admin.vm.provision "shell", inline: <<-EOSCRIPT
+    provision_to_tmp(admin, files_to_provision)
+    admin.vm.provision "shell", inline: <<-'EOSCRIPT'
         set -e
 
         cd /opt/dell/
@@ -86,6 +90,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         patch -p1 < /tmp/sbd-wait-for-corosync.patch
         patch -p1 < /tmp/apache-mod_status.patch
         patch -p1 < /tmp/drbd-race.patch
+
         cp /tmp/network.json /etc/crowbar/network.json
         rm -f /tmp/network.json
 
@@ -178,6 +183,12 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       # happy it's not actually used inside the VM
       node.vm.network "private_network", ip: "192.168.124.#{81+(i*2)}", auto_config: false
 
+      files_to_provision = [
+        # https://bugzilla.novell.com/show_bug.cgi?id=877484
+        "cloud3-admin/crmsh-report-bnc877484.patch",
+      ]
+      provision_to_tmp(node, files_to_provision)
+
       node.vm.provision "shell", inline: <<-EOSCRIPT
         set -e
 
@@ -188,6 +199,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         done
         chmod a+x crowbar_register
         ./crowbar_register --force --interface eth1  --gpg-auto-import-keys
+
+        zypper -n in crmsh # can't patch crmsh until it's installed
+        patch -d /usr/lib64/python2.6/site-packages/crmsh -p2 \
+            < /tmp/crmsh-report-bnc877484.patch
 
         # Set up SBD disk
         zypper -n in sbd
