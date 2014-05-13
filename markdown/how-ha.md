@@ -73,7 +73,7 @@ finally went public with an HA solution.
 ### Galera
 
 
-![SUSE logo](images/suse-logo.png)
+![SUSE logo](images/suse-logo.svg)
 
 
 ### Crowbar deployment
