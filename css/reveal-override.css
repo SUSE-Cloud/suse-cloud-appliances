@@ -21,8 +21,8 @@
   margin: 2%;
 }
 
-/* Override the default uppercase text-transform */
-.reveal h1,
+/* Override the default uppercase text-transform
+   for h2-h6 (but retain for h1) */
 .reveal h2,
 .reveal h3,
 .reveal h4,
