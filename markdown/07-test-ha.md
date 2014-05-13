@@ -13,7 +13,7 @@ OpenStack Dashboard (admin)
 ### Select
 # `openstack`
 ### Project
-(a.k.a tenant)
+(a.k.a. tenant)
 
 
 ### Use as you normally would
