@@ -83,6 +83,18 @@ Note: Switch back and forth to and from Crowbar browser tab
 ### under Pacemaker management
 
 
+## neutron-l3-agent
+# OCF RA
+
+http://goo.gl/JxMSQW
+
+Note:
+- `monitor` action checks for dead l3-agents
+- `start` action
+  - replicates DHCP agents
+  - migrates routers onto healthy agents
+
+
 ## Networking Plugin
 **Plugin:** linuxbridge
 
