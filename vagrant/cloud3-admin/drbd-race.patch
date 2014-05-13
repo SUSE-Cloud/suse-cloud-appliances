@@ -64,7 +64,7 @@ index 247f592..7f7e5a1 100644
 +  # needed because we don't create all the pacemaker resources in the same
 +  # transaction.
 +  execute "Cleanup and manage #{drbd_primitive} on #{ms_name} start" do
-+    command "sleep 2; crm resource cleanup #{drbd_primitive}; crm resource manage #{drbd_primitive}"
++    command "sleep 2; crm resource cleanup #{drbd_primitive}; crm_resource --resource #{drbd_primitive} --delete-parameter \"is-managed\" --meta || :"
      action :nothing
      subscribes :run, "pacemaker_ms[#{ms_name}]", :immediately
 +    only_if { CrowbarPacemakerHelper.is_cluster_founder?(node) }
@@ -140,7 +140,7 @@ index 5292ef6..cef35d8 100644
 +  # needed because we don't create all the pacemaker resources in the same
 +  # transaction.
 +  execute "Cleanup and manage #{drbd_primitive} on #{ms_name} start" do
-+    command "sleep 2; crm resource cleanup #{drbd_primitive}; crm resource manage #{drbd_primitive}"
++    command "sleep 2; crm resource cleanup #{drbd_primitive}; crm_resource --resource #{drbd_primitive} --delete-parameter \"is-managed\" --meta || :"
      action :nothing
      subscribes :run, "pacemaker_ms[#{ms_name}]", :immediately
 +    only_if { CrowbarPacemakerHelper.is_cluster_founder?(node) }
