@@ -21,7 +21,10 @@ then
     sed -i 's/^timeout [0-9]\+/timeout 3/' /boot/grub/menu.lst
 
     echo "Installing VirtualBox guest additions ..."
-    if sh /tmp/VBoxLinuxAdditions.run; then
+    # Unfortunately the return code can be non-zero even when
+    # it worked.
+    sh /tmp/VBoxLinuxAdditions.run
+    if lsmod | grep vbox; then
         echo "VirtualBox guest additions installed!"
         echo "Removing kernel source and headers ..."
         rpm -e kernel-default-devel kernel-source
