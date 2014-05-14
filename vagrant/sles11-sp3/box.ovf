@@ -17,10 +17,10 @@
     <Info>A virtual machine</Info>
     <ProductSection>
       <Info>Meta-information about the installed software</Info>
-      <Product>SUSE Cloud 3</Product>
+      <Product>SUSE Linux Enterprise Server 11 Service Pack 3</Product>
       <Vendor>SUSE</Vendor>
       <Version>0.0.1</Version>
-      <ProductUrl>https://www.suse.com/products/suse-cloud/</ProductUrl>
+      <ProductUrl>https://www.suse.com/products/server/</ProductUrl>
       <VendorUrl>https://www.suse.com/</VendorUrl>
     </ProductSection>
     <AnnotationSection>
