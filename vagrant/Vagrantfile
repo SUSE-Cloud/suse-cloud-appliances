@@ -23,6 +23,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       # Don't use headless mode
       provider.gui = true
+
+      # Use AMD instead of Intel NICs to avoid VLAN problems
+      provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
+      provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
     end
 
     admin.vm.provider "libvirt" do |provider|
@@ -46,10 +50,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     # teamed and able to communicate with other VMs.  On VirtualBox
     # this means making them host-only.
     admin.vm.network "private_network", ip: "192.168.124.10", auto_config: false
-
-    admin.vm.provider "virtualbox" do |provider|
-      provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
-    end
 
     files_to_provision = [
       "cloud3-admin/network.json",
@@ -149,6 +149,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         # Don't use headless mode
         provider.gui = true
 
+        # Use AMD instead of Intel NICs to avoid VLAN problems
+        provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
+        provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
+
         ## create disk for DRBD
         provider.customize [ 'createhd', '--filename', "drbd-#{node_name}.vmdk", '--size', 2100, '--format', 'VMDK' ]
         provider.customize [
@@ -197,10 +201,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       node.vm.synced_folder ".", "/vagrant", disabled: true
 
       node.vm.network "private_network", ip: "192.168.124.#{80+i}", auto_config: false
-
-      node.vm.provider 'virtualbox' do |provider|
-        provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
-      end
 
       files_to_provision = [
         # https://bugzilla.novell.com/show_bug.cgi?id=877484
@@ -257,15 +257,15 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
         # Don't use headless mode
         provider.gui = true
+
+        # Use AMD instead of Intel NICs to avoid VLAN problems
+        provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
+        provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
       end
 
       node.vm.synced_folder ".", "/vagrant", disabled: true
 
       node.vm.network "private_network", ip: "192.168.124.83", auto_config: false
-
-      node.vm.provider 'virtualbox' do |provider|
-        provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
-      end
 
       node.vm.provision "shell", inline: <<-EOSCRIPT
         set -e
