@@ -23,8 +23,8 @@ then
     echo "Installing VirtualBox guest additions ..."
     if sh /tmp/VBoxLinuxAdditions.run; then
         echo "VirtualBox guest additions installed!"
-        echo "Removing kernel headers ..."
-        rpm -e kernel-default-devel
+        echo "Removing kernel source and headers ..."
+        rpm -e kernel-default-devel kernel-source
     else
         cat <<EOF >&2
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
