@@ -1,0 +1,75 @@
+From 1f52571c19c60aaf310d313c45c875a1f73d6646 Mon Sep 17 00:00:00 2001
+From: Adam Spiers <aspiers@suse.com>
+Date: Wed, 14 May 2014 09:54:40 -0400
+Subject: [PATCH 1/2] use --wait with crm node maintenance/ready to avoid races
+
+https://mailman.suse.de/mailman/private/ha-devel/2014-May/003603.html
+(sorry - SUSE internal-only mailing list; but thread available on request)
+---
+ .../crowbar-pacemaker/files/default/pacemaker_maintenance_handlers.rb   | 2 +-
+ chef/cookbooks/crowbar-pacemaker/providers/service.rb                   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/chef/cookbooks/crowbar-pacemaker/files/default/pacemaker_maintenance_handlers.rb b/chef/cookbooks/crowbar-pacemaker/files/default/pacemaker_maintenance_handlers.rb
+index 76b6940..ddc5fa3 100644
+--- a/chef/cookbooks/crowbar-pacemaker/files/default/pacemaker_maintenance_handlers.rb
++++ b/chef/cookbooks/crowbar-pacemaker/files/default/pacemaker_maintenance_handlers.rb
+@@ -49,7 +49,7 @@ def report
+ 
+           if maintenance_mode?
+             Chef::Log.info("Taking node out of Pacemaker maintenance mode")
+-            system("crm node ready")
++            system("crm --wait node ready")
+           else
+             # This shouldn't happen, and suggests that one of the recipes
+             # is interfering in a way it shouldn't.
+diff --git a/chef/cookbooks/crowbar-pacemaker/providers/service.rb b/chef/cookbooks/crowbar-pacemaker/providers/service.rb
+index c80f489..854541c 100644
+--- a/chef/cookbooks/crowbar-pacemaker/providers/service.rb
++++ b/chef/cookbooks/crowbar-pacemaker/providers/service.rb
+@@ -170,7 +170,7 @@
+       if maintenance_mode?
+         Chef::Log.info("Something else already placed this node in Pacemaker maintenance mode")
+       else
+-        execute "crm node maintenance" do
++        execute "crm --wait node maintenance" do
+           action :nothing
+         end.run_action(:run)
+         set_maintenance_mode_via_this_chef_run
+-- 
+1.8.4.5
+
+
+From 3e9d5221b12c564bffaf69263f13218b69c84b83 Mon Sep 17 00:00:00 2001
+From: Adam Spiers <aspiers@suse.com>
+Date: Wed, 14 May 2014 14:05:35 -0400
+Subject: [PATCH 2/2] use --wait with crm resource start/stop to avoid races
+
+https://mailman.suse.de/mailman/private/ha-devel/2014-May/003603.html
+(sorry - SUSE internal-only mailing list; but thread available on request)
+---
+ chef/cookbooks/pacemaker/libraries/pacemaker/resource.rb   |  4 ++--
+ chef/cookbooks/pacemaker/spec/helpers/runnable_resource.rb | 12 ++++++------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/chef/cookbooks/pacemaker/libraries/pacemaker/resource.rb b/chef/cookbooks/pacemaker/libraries/pacemaker/resource.rb
+index 8eae3eb..1a0e51e 100644
+--- a/chef/cookbooks/pacemaker/libraries/pacemaker/resource.rb
++++ b/chef/cookbooks/pacemaker/libraries/pacemaker/resource.rb
+@@ -17,11 +17,11 @@ def running?
+     end
+ 
+     def crm_start_command
+-      "crm --force resource start '#{name}'"
++      "crm --force --wait resource start '#{name}'"
+     end
+ 
+     def crm_stop_command
+-      "crm --force resource stop '#{name}'"
++      "crm --force --wait resource stop '#{name}'"
+     end
+ 
+     # CIB object definitions look something like:
+-- 
+1.8.4.5
+

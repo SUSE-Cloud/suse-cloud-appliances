@@ -84,6 +84,9 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       # https://github.com/crowbar/barclamp-database/pull/84 and
       # https://github.com/crowbar/barclamp-rabbitmq/pull/42
       "cloud3-admin/drbd-race.patch",
+
+      # https://github.com/crowbar/barclamp-pacemaker/pull/105
+      "cloud3-admin/crm-wait-sync.patch",
     ]
     provision_to_tmp(admin, files_to_provision)
     admin.vm.provision "shell", inline: <<-'EOSCRIPT'
@@ -101,6 +104,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         patch -p1 < /tmp/sbd-wait-for-corosync.patch
         patch -p1 < /tmp/apache-mod_status.patch
         patch -p1 < /tmp/drbd-race.patch
+        patch -p1 < /tmp/crm-wait-sync.patch
 
         cp /tmp/network.json /etc/crowbar/network.json
         rm -f /tmp/network.json
