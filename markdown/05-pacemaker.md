@@ -1,20 +1,26 @@
 # Pacemaker barclamp
 
 
+### Provides
+# HA library code
+### for other barclamps
+
+
 ### Installs the
 # Pacemaker
-### High-availability manager
-Note: Switch back and forth to and from Crowbar browser tab
-
-
-# SBD
-Pre-configured on `/dev/sdc`
+## High-availability manager
+Note: and web / CLI / desktop UIs.
+Switch to Crowbar browser tab
 
 
 # STONITH
 **Configuration mode for STONITH:**
 
 STONITH - Configured with STONITH Block Devices (SBD)
+
+
+# SBD
+Pre-configured on `/dev/sdc`
 
 
 # DRBD
@@ -30,11 +36,28 @@ STONITH - Configured with STONITH Block Devices (SBD)
 ### uses Pacemaker with Crowbar?
 
 
+## Chef LWRPs for Pacemaker
+
+    pacemaker_clone "cl-#{service_name}" do
+      rsc service_name
+      action [:create, :start]
+    end
+
+Note: minimise disruption to existing cookbooks
+
+
 `Chef::Provider::Pacemaker::Service`
+Note:
+
+- basic idea of usurping management of SysVinit services
+- maintenance mode to deal with restarts triggered by config file changes
 
 
+# DRBD
+
+
+## `haproxy`
 # Load Balancer
-### configuration
 
 
 ### Automatic
@@ -47,7 +70,5 @@ Note:
 - SBD auto-configuration
 
 
-### Flexible
-# configuration
-
-Clusters / nodes / roles
+# UI extensions
+### for flexible role allocation

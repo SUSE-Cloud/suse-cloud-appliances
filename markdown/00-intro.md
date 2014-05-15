@@ -31,3 +31,8 @@
 ### Amateur Foodie, Chef & Parent
 
 ### ... and Founder at hastexo
+
+Note: professional services company
+with expertise in HA, cloud, storage, virtualization.
+They provide training, remote and on-site consulting,
+and emergency troubleshooting

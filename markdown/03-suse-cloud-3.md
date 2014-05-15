@@ -13,16 +13,15 @@ automated deployment and management facilities.
 ### First release:
 # SUSE Cloud 1.0
 ### Essex based (2012)
+Note: some things in technical preview, e.g. Ceph
 
-
-### First fully supported release:
 # SUSE Cloud 2.0
 ### Grizzly based (2013)
 
 
-### First release with HA support:
 # SUSE Cloud 3
-### Havana based (2013/14)
+### Havana based (Feb 14)
+### HA support added
 
 
 ### Based on

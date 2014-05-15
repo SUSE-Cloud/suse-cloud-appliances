@@ -1,4 +1,8 @@
-# Why do we want OpenStack high availability?
+# Why
+###  do we want
+# High Availability
+### in
+# OpenStack?
 
 
 ## Everything's distributed, right?
