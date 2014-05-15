@@ -1,6 +1,7 @@
-/* Disable 4px border around images */
+/* Disable background 4px border around images */
 .reveal section img {
   border: none;
+  background: none;
 }
 
 /* Blow image up to full screen size */
