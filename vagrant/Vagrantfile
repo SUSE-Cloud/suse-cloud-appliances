@@ -94,6 +94,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
         # https://github.com/crowbar/barclamp-neutron/pull/96
         "cloud3-admin/barclamp-neutron-order-ha-tool.patch",
+
+        # another evil hack to avoid a crasher when applying the keystone
+        # barclamp
+        "cloud3-admin/barclamp-pacemaker-ignore-target-role-changes.patch",
       ]
       provision_to_tmp(admin, files_to_provision)
       admin.vm.provision "shell", inline: <<-'EOSCRIPT'
@@ -114,6 +118,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
           patch -p1 < /tmp/drbd-race.patch
           patch -p1 < /tmp/crm-wait-sync.patch
           patch -p1 < /tmp/barclamp-neutron-order-ha-tool.patch
+          patch -p1 < /tmp/barclamp-pacemaker-ignore-target-role-changes.patch
 
           cp /tmp/network.json /etc/crowbar/network.json
           rm -f /tmp/network.json
