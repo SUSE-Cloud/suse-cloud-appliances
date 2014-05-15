@@ -60,7 +60,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         "cloud3-admin/barclamp-provisioner-demo-repos.patch",
 
         # Provide NFS export to share /var/lib/glance
-        "cloud3-admin/barclap-provisioner-nfs-export.patch",
+        "cloud3-admin/barclamp-provisioner-nfs-export.patch",
 
         # https://github.com/crowbar/barclamp-network/pull/286
         "cloud3-admin/barclamp-network-teaming-mode.patch",
@@ -102,7 +102,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
           cd /opt/dell/
           patch -p1 < /tmp/barclamp-network-ignore-eth0.patch
           patch -p1 < /tmp/barclamp-network-teaming-mode.patch
-          patch -p1 < /tmp/barclap-provisioner-nfs-export.patch
+          patch -p1 < /tmp/barclamp-provisioner-nfs-export.patch
           patch -p1 < /tmp/barclamp-provisioner-demo-repos.patch
           patch -p1 < /tmp/crowbar_register-hostname.patch
           patch -p1 < /tmp/barclamp-crowbar-vbox-disk-by-id.patch
