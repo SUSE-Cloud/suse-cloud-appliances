@@ -12,138 +12,140 @@ def provision_to_tmp(node, files_to_provision)
 end
 
 Vagrant.configure(vagrantfile_api_version) do |config|
-  config.vm.define :admin, :primary => true do |admin|
-    admin.vm.box = "suse/cloud3-admin"
-    #admin.vm.box_url = "http://UPLOAD/ME/images/suse/cloud3-admin.box"
-    admin.vm.box_check_update = false
+  if ENV['VAGRANT_ADMIN_NODE']
+    config.vm.define :admin, :primary => true do |admin|
+      admin.vm.box = "suse/cloud3-admin"
+      #admin.vm.box_url = "http://UPLOAD/ME/images/suse/cloud3-admin.box"
+      admin.vm.box_check_update = false
 
-    admin.vm.provider "virtualbox" do |provider|
-      provider.memory = 2048
-      provider.cpus = 1
+      admin.vm.provider "virtualbox" do |provider|
+        provider.memory = 2048
+        provider.cpus = 1
 
-      # Don't use headless mode
-      provider.gui = true
+        # Don't use headless mode
+        provider.gui = true
 
-      # Use AMD instead of Intel NICs to avoid VLAN problems
-      provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
-      provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
+        # Use AMD instead of Intel NICs to avoid VLAN problems
+        provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
+        provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
+      end
+
+      admin.vm.provider "libvirt" do |provider|
+        provider.nested = true
+        provider.volume_cache = "none"
+
+        # Don't use headless mode
+        provider.gui = true
+      end
+
+      admin.vm.network :forwarded_port, guest: 3000, host: 3000
+      # admin.ssh.forward_agent = true
+
+      admin.vm.synced_folder ".", "/vagrant", disabled: true
+      #admin.vm.synced_folder "/mnt/suse-cloud-3", "/srv/tftpboot/repos/Cloud", type: "nfs"
+
+      # Setup network for admin node and for Crowbar in general.
+      # Vagrant requires the first interface of every VM to be NAT,
+      # which with VirtualBox means it can't communicate with the other
+      # VMs.  And for an HA setup we need two interfaces which are
+      # teamed and able to communicate with other VMs.  On VirtualBox
+      # this means making them host-only.
+      admin.vm.network "private_network", ip: "192.168.124.10", auto_config: false
+
+      files_to_provision = [
+        "cloud3-admin/network.json",
+        # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
+        # case we don't want it to touch eth0, so we need this evil patch:
+        "cloud3-admin/barclamp-network-ignore-eth0.patch",
+        "cloud3-admin/barclamp-provisioner-demo-repos.patch",
+
+        # Provide NFS export to share /var/lib/glance
+        "cloud3-admin/barclap-provisioner-nfs-export.patch",
+
+        # https://github.com/crowbar/barclamp-network/pull/286
+        "cloud3-admin/barclamp-network-teaming-mode.patch",
+
+        # https://github.com/crowbar/barclamp-provisioner/pull/303
+        "cloud3-admin/crowbar_register-hostname.patch",
+
+        # https://github.com/crowbar/barclamp-crowbar/pull/1025
+        "cloud3-admin/barclamp-crowbar-vbox-disk-by-id.patch",
+        # https://github.com/crowbar/barclamp-deployer/pull/203
+        "cloud3-admin/barclamp-deployer-vbox-disk-by-id.patch",
+        # https://github.com/crowbar/barclamp-provisioner/pull/305
+        "cloud3-admin/barclamp-provisioner-vbox-disk-by-id.patch",
+
+        # https://github.com/crowbar/barclamp-pacemaker/pull/101 and
+        # https://github.com/crowbar/barclamp-pacemaker/pull/103
+        "cloud3-admin/install-xfsprogs.patch",
+
+        # https://github.com/crowbar/barclamp-pacemaker/pull/102
+        "cloud3-admin/sbd-wait-for-corosync.patch",
+
+        # https://github.com/crowbar/barclamp-crowbar/pull/1024
+        "cloud3-admin/apache-mod_status.patch",
+
+        # https://github.com/crowbar/barclamp-database/pull/84 and
+        # https://github.com/crowbar/barclamp-rabbitmq/pull/42
+        "cloud3-admin/drbd-race.patch",
+
+        # https://github.com/crowbar/barclamp-pacemaker/pull/105
+        "cloud3-admin/crm-wait-sync.patch",
+
+        # https://github.com/crowbar/barclamp-neutron/pull/96
+        "cloud3-admin/barclamp-neutron-order-ha-tool.patch",
+      ]
+      provision_to_tmp(admin, files_to_provision)
+      admin.vm.provision "shell", inline: <<-'EOSCRIPT'
+          set -e
+
+          cd /opt/dell/
+          patch -p1 < /tmp/barclamp-network-ignore-eth0.patch
+          patch -p1 < /tmp/barclamp-network-teaming-mode.patch
+          patch -p1 < /tmp/barclap-provisioner-nfs-export.patch
+          patch -p1 < /tmp/barclamp-provisioner-demo-repos.patch
+          patch -p1 < /tmp/crowbar_register-hostname.patch
+          patch -p1 < /tmp/barclamp-crowbar-vbox-disk-by-id.patch
+          patch -p1 < /tmp/barclamp-deployer-vbox-disk-by-id.patch
+          patch -p1 < /tmp/barclamp-provisioner-vbox-disk-by-id.patch
+          patch -p1 < /tmp/install-xfsprogs.patch
+          patch -p1 < /tmp/sbd-wait-for-corosync.patch
+          patch -p1 < /tmp/apache-mod_status.patch
+          patch -p1 < /tmp/drbd-race.patch
+          patch -p1 < /tmp/crm-wait-sync.patch
+          patch -p1 < /tmp/barclamp-neutron-order-ha-tool.patch
+
+          cp /tmp/network.json /etc/crowbar/network.json
+          rm -f /tmp/network.json
+
+          # Scrap pointless 45 second tcpdump per interface
+          sed -i 's/45/5/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
+
+          # Create the directory for shared glance storage
+          mkdir -p /var/lib/glance
+
+          # Bypass the provisioner's check for HAE repos, since we're already
+          # providing these via the special SUSE-CLOUD-3-DEPS installation media
+          # in /srv/tftpboot/suse-11.3/install
+          for repo in SLE11-HAE-SP3-{Pool,Updates}; do
+              ln -s ../suse-11.3/install /srv/tftpboot/repos/$repo
+          done
+      EOSCRIPT
+
+      # Automatically install SUSE Cloud on first-boot
+      admin.vm.provision "shell", inline: <<-EOSCRIPT
+         export PATH="$PATH:/sbin:/usr/sbin/"
+         export REPOS_SKIP_CHECKS="SLES11_SP3 SLES11-SP3-Pool"
+         # To trick install-suse-clouds check for "screen". It should be save
+         # to run with screen here. As install-suse-cloud won't pull the network
+         # from eth0 because of the above patch.
+         export STY="dummy"
+         install-suse-cloud -v
+         . /etc/profile.d/crowbar.sh
+         crowbar network allocate_ip default cloud3-admin.openstack.site public host
+         chef-client
+      EOSCRIPT
     end
-
-    admin.vm.provider "libvirt" do |provider|
-      provider.nested = true
-      provider.volume_cache = "none"
-
-      # Don't use headless mode
-      provider.gui = true
-    end
-
-    admin.vm.network :forwarded_port, guest: 3000, host: 3000
-    # admin.ssh.forward_agent = true
-
-    admin.vm.synced_folder ".", "/vagrant", disabled: true
-    #admin.vm.synced_folder "/mnt/suse-cloud-3", "/srv/tftpboot/repos/Cloud", type: "nfs"
-
-    # Setup network for admin node and for Crowbar in general.
-    # Vagrant requires the first interface of every VM to be NAT,
-    # which with VirtualBox means it can't communicate with the other
-    # VMs.  And for an HA setup we need two interfaces which are
-    # teamed and able to communicate with other VMs.  On VirtualBox
-    # this means making them host-only.
-    admin.vm.network "private_network", ip: "192.168.124.10", auto_config: false
-
-    files_to_provision = [
-      "cloud3-admin/network.json",
-      # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
-      # case we don't want it to touch eth0, so we need this evil patch:
-      "cloud3-admin/barclamp-network-ignore-eth0.patch",
-      "cloud3-admin/barclamp-provisioner-demo-repos.patch",
-
-      # Provide NFS export to share /var/lib/glance
-      "cloud3-admin/barclap-provisioner-nfs-export.patch",
-
-      # https://github.com/crowbar/barclamp-network/pull/286
-      "cloud3-admin/barclamp-network-teaming-mode.patch",
-
-      # https://github.com/crowbar/barclamp-provisioner/pull/303
-      "cloud3-admin/crowbar_register-hostname.patch",
-
-      # https://github.com/crowbar/barclamp-crowbar/pull/1025
-      "cloud3-admin/barclamp-crowbar-vbox-disk-by-id.patch",
-      # https://github.com/crowbar/barclamp-deployer/pull/203
-      "cloud3-admin/barclamp-deployer-vbox-disk-by-id.patch",
-      # https://github.com/crowbar/barclamp-provisioner/pull/305
-      "cloud3-admin/barclamp-provisioner-vbox-disk-by-id.patch",
-
-      # https://github.com/crowbar/barclamp-pacemaker/pull/101 and
-      # https://github.com/crowbar/barclamp-pacemaker/pull/103
-      "cloud3-admin/install-xfsprogs.patch",
-
-      # https://github.com/crowbar/barclamp-pacemaker/pull/102
-      "cloud3-admin/sbd-wait-for-corosync.patch",
-
-      # https://github.com/crowbar/barclamp-crowbar/pull/1024
-      "cloud3-admin/apache-mod_status.patch",
-
-      # https://github.com/crowbar/barclamp-database/pull/84 and
-      # https://github.com/crowbar/barclamp-rabbitmq/pull/42
-      "cloud3-admin/drbd-race.patch",
-
-      # https://github.com/crowbar/barclamp-pacemaker/pull/105
-      "cloud3-admin/crm-wait-sync.patch",
-
-      # https://github.com/crowbar/barclamp-neutron/pull/96
-      "cloud3-admin/barclamp-neutron-order-ha-tool.patch",
-    ]
-    provision_to_tmp(admin, files_to_provision)
-    admin.vm.provision "shell", inline: <<-'EOSCRIPT'
-        set -e
-
-        cd /opt/dell/
-        patch -p1 < /tmp/barclamp-network-ignore-eth0.patch
-        patch -p1 < /tmp/barclamp-network-teaming-mode.patch
-        patch -p1 < /tmp/barclap-provisioner-nfs-export.patch
-        patch -p1 < /tmp/barclamp-provisioner-demo-repos.patch
-        patch -p1 < /tmp/crowbar_register-hostname.patch
-        patch -p1 < /tmp/barclamp-crowbar-vbox-disk-by-id.patch
-        patch -p1 < /tmp/barclamp-deployer-vbox-disk-by-id.patch
-        patch -p1 < /tmp/barclamp-provisioner-vbox-disk-by-id.patch
-        patch -p1 < /tmp/install-xfsprogs.patch
-        patch -p1 < /tmp/sbd-wait-for-corosync.patch
-        patch -p1 < /tmp/apache-mod_status.patch
-        patch -p1 < /tmp/drbd-race.patch
-        patch -p1 < /tmp/crm-wait-sync.patch
-        patch -p1 < /tmp/barclamp-neutron-order-ha-tool.patch
-
-        cp /tmp/network.json /etc/crowbar/network.json
-        rm -f /tmp/network.json
-
-        # Scrap pointless 45 second tcpdump per interface
-        sed -i 's/45/5/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
-
-        # Create the directory for shared glance storage
-        mkdir -p /var/lib/glance
-
-        # Bypass the provisioner's check for HAE repos, since we're already
-        # providing these via the special SUSE-CLOUD-3-DEPS installation media
-        # in /srv/tftpboot/suse-11.3/install
-        for repo in SLE11-HAE-SP3-{Pool,Updates}; do
-            ln -s ../suse-11.3/install /srv/tftpboot/repos/$repo
-        done
-    EOSCRIPT
-
-    # Automatically install SUSE Cloud on first-boot
-    admin.vm.provision "shell", inline: <<-EOSCRIPT
-       export PATH="$PATH:/sbin:/usr/sbin/"
-       export REPOS_SKIP_CHECKS="SLES11_SP3 SLES11-SP3-Pool"
-       # To trick install-suse-clouds check for "screen". It should be save
-       # to run with screen here. As install-suse-cloud won't pull the network
-       # from eth0 because of the above patch.
-       export STY="dummy"
-       install-suse-cloud -v
-       . /etc/profile.d/crowbar.sh
-       crowbar network allocate_ip default cloud3-admin.openstack.site public host
-       chef-client
-    EOSCRIPT
   end
 
   2.times do |i|
