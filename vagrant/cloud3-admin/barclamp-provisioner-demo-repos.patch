@@ -1,25 +1,84 @@
-commit fc1454485c9e2ea6e3a5bfef5a941787772efd79
-Author: Ralf Haferkamp <rhafer@suse.de>
-Date:   Wed May 7 14:53:22 2014 +0200
+From 54c0080eb46c8f92d07d265d2cece3dafabb66b6 Mon Sep 17 00:00:00 2001
+From: Adam Spiers <aspiers@suse.com>
+Date: Thu, 15 May 2014 01:44:32 -0400
+Subject: [PATCH 1/3] add missing -n to zypper
 
-    HACKS or Demo setup
-    
-    - most of the repos are unsigned there
-    - the DEPS image doesn't provide any patterns
+crowbar_register is supposed to be non-interactive.
+---
+ chef/cookbooks/provisioner/templates/suse/crowbar_register.erb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb b/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb
-index d59c3d1..fe1cc76 100644
+index d59c3d1..8094e31 100644
 --- a/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb
 +++ b/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb
-@@ -156,7 +156,7 @@ zypper ar "<%= @repos[name][:url] %>" "<%= name %>"
- zypper --gpg-auto-import-keys refresh -r SLE-Cloud-PTF
+@@ -149,15 +149,15 @@ fi
+ # ---------------
+ 
+ <% @repos.keys.sort.each do |name| %>
+-zypper ar "<%= @repos[name][:url] %>" "<%= name %>"
++zypper -n ar "<%= @repos[name][:url] %>" "<%= name %>"
+ <% end %>
+ 
+ # Cloud-PTF has an unknown key, and this is expected
+-zypper --gpg-auto-import-keys refresh -r SLE-Cloud-PTF
++zypper -n --gpg-auto-import-keys refresh -r SLE-Cloud-PTF
+ 
+ ZYPPER_REF_OPT=
+ test $CROWBAR_AUTO_IMPORT_KEYS -eq 1 && ZYPPER_REF_OPT=--gpg-auto-import-keys
+-zypper $ZYPPER_REF_OPT refresh
++zypper -n $ZYPPER_REF_OPT refresh
+ 
+ 
+ # Install packages that are needed
+-- 
+1.8.4.5
+
+
+From 9ccfd7e453a98cffe19c37a028f288c144fc1ffa Mon Sep 17 00:00:00 2001
+From: Adam Spiers <aspiers@suse.com>
+Date: Thu, 15 May 2014 01:45:15 -0400
+Subject: [PATCH 2/3] repos are unsigned in demo setup
+
+---
+ chef/cookbooks/provisioner/templates/suse/crowbar_register.erb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb b/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb
+index 8094e31..4a41cdb 100644
+--- a/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb
++++ b/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb
+@@ -153,10 +153,10 @@ zypper -n ar "<%= @repos[name][:url] %>" "<%= name %>"
+ <% end %>
+ 
+ # Cloud-PTF has an unknown key, and this is expected
+-zypper -n --gpg-auto-import-keys refresh -r SLE-Cloud-PTF
++zypper -n --no-gpg-checks --gpg-auto-import-keys refresh -r SLE-Cloud-PTF
  
  ZYPPER_REF_OPT=
 -test $CROWBAR_AUTO_IMPORT_KEYS -eq 1 && ZYPPER_REF_OPT=--gpg-auto-import-keys
 +test $CROWBAR_AUTO_IMPORT_KEYS -eq 1 && ZYPPER_REF_OPT="--gpg-auto-import-keys --no-gpg-checks"
- zypper $ZYPPER_REF_OPT refresh
+ zypper -n $ZYPPER_REF_OPT refresh
  
  
+-- 
+1.8.4.5
+
+
+From e729aa20cbd83e41fd0a9ff50918ac65d4dba754 Mon Sep 17 00:00:00 2001
+From: Adam Spiers <aspiers@suse.com>
+Date: Thu, 15 May 2014 01:45:41 -0400
+Subject: [PATCH 3/3] demo-only hack: the DEPS image doesn't provide any
+ patterns
+
+---
+ chef/cookbooks/provisioner/templates/suse/crowbar_register.erb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb b/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb
+index 4a41cdb..286cc24 100644
+--- a/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb
++++ b/chef/cookbooks/provisioner/templates/suse/crowbar_register.erb
 @@ -176,7 +176,7 @@ PACKAGES_INSTALL="$PACKAGES_INSTALL biosdevname netcat rubygem-cstruct supportut
  # From sleshammer
  PACKAGES_INSTALL="$PACKAGES_INSTALL rubygem-chef rubygem-rest-client rubygem-cstruct rubygem-libxml-ruby rubygem-wsman rubygem-xml-simple parted lvm2 ipmitool curl tack nfs-client rsyslog ntp tcpdump"
@@ -29,3 +88,6 @@ index d59c3d1..fe1cc76 100644
  # Auto-agree with the license since it was already agreed on for the admin server
  zypper --non-interactive install --auto-agree-with-licenses suse-cloud-release
  zypper --non-interactive install $PACKAGES_INSTALL
+-- 
+1.8.4.5
+
