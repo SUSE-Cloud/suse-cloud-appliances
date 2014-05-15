@@ -96,7 +96,7 @@ Note:
 
 
 ## Networking Plugin
-**Plugin:** linuxbridge
+**Plugin:** `openvswitch`
 
 
 # Nova

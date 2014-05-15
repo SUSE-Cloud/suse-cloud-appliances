@@ -15,6 +15,7 @@ automated deployment and management facilities.
 ### Essex based (2012)
 Note: some things in technical preview, e.g. Ceph
 
+
 # SUSE Cloud 2.0
 ### Grizzly based (2013)
 

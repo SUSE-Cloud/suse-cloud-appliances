@@ -70,5 +70,10 @@ Note:
 - SBD auto-configuration
 
 
+# Orchestration
+### and
+# Synchronization
+
+
 # UI extensions
 ### for flexible role allocation
