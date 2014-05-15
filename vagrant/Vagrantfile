@@ -58,6 +58,9 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       "cloud3-admin/barclamp-network-ignore-eth0.patch",
       "cloud3-admin/barclamp-provisioner-demo-repos.patch",
 
+      # Provide NFS export to share /var/lib/glance
+      "cloud3-admin/barclap-provisioner-nfs-export.patch",
+
       # https://github.com/crowbar/barclamp-network/pull/286
       "cloud3-admin/barclamp-network-teaming-mode.patch",
 
@@ -98,6 +101,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         cd /opt/dell/
         patch -p1 < /tmp/barclamp-network-ignore-eth0.patch
         patch -p1 < /tmp/barclamp-network-teaming-mode.patch
+        patch -p1 < /tmp/barclap-provisioner-nfs-export.patch
         patch -p1 < /tmp/barclamp-provisioner-demo-repos.patch
         patch -p1 < /tmp/crowbar_register-hostname.patch
         patch -p1 < /tmp/barclamp-crowbar-vbox-disk-by-id.patch
@@ -115,6 +119,9 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
         # Scrap pointless 45 second tcpdump per interface
         sed -i 's/45/5/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
+
+        # Create the directory for shared glance storage
+        mkdir -p /var/lib/glance
 
         # Bypass the provisioner's check for HAE repos, since we're already
         # providing these via the special SUSE-CLOUD-3-DEPS installation media
@@ -178,17 +185,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
           '--type', 'hdd',
           '--medium', 'sbd.vmdk',
         ]
-        # create shared disk for glance
-        provider.customize [ 'createhd', '--filename', 'glance.vmdk', '--size', 1000, '--format', 'VMDK', '--variant', 'Fixed' ]
-        provider.customize [ 'modifyhd', 'glance.vmdk', '--type', 'shareable' ]
-        provider.customize [
-          'storageattach', :id,
-          '--storagectl', 'SCSI',
-          '--port', 3,
-          '--device', 0,
-          '--type', 'hdd',
-          '--medium', 'glance.vmdk',
-        ]
       end
 
       node.vm.provider 'libvirt' do |provider|
@@ -231,9 +227,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         zypper -n in sbd
         sbd -d /dev/sdc create
 
-        # Format glance disk
-        echo y | mkfs.ext3 /dev/sdd
-        echo "/dev/sdd /var/lib/glance ext3 defaults 0 2" >> /etc/fstab
+        # Mount NFS export for glance
+        echo "192.168.124.10:/var/lib/glance /var/lib/glance nfs defaults 0 2" >> /etc/fstab
         mkdir -p /var/lib/glance
         mount /var/lib/glance
       EOSCRIPT
