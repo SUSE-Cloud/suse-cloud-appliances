@@ -58,6 +58,10 @@ Note:
 
 ## `haproxy`
 # Load Balancer
+Note:
+- automatic VIP allocation
+- endpoint calculation
+- front-end and back-ends both HA
 
 
 ### Automatic
@@ -68,6 +72,7 @@ Note:
 - Quorum
 - Fencing shoot-out protection
 - SBD auto-configuration
+- installs UIs
 
 
 # Orchestration
@@ -75,5 +80,8 @@ Note:
 # Synchronization
 
 
-# UI extensions
-### for flexible role allocation
+# flexible role allocation
+### UI extensions
+
+
+# notifications

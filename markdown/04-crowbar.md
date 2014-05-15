@@ -21,6 +21,9 @@
 ### What were the
 # Design Goals
 ### for adding HA to Crowbar?
+Note:
+- guest HA out of scope
+- infrastructure tolerant to admin node failure
 
 
 ### Build from scratch
@@ -32,7 +35,9 @@ Note: support existing customers
 ### Flexible allocation of
 # roles
 ### across potentially multiple clusters
-Note: not too opinionated about sizing
+Note:
+- not too opinionated about sizing
+- allow growing the cluster later
 
 
 # Automated
