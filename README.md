@@ -23,6 +23,12 @@ yourself from scratch using:
     [KIWI has learnt how to build Vagrant boxes directly](https://github.com/openSUSE/kiwi/pull/353),
     so in the near future we should be able to remove these)
 
+## Support, bugs, development etc.
+
+If you experience a bug or other issue, or want to check the list
+of known issues and other ongoing development, please refer to the
+[github issue tracker](https://github.com/SUSE-Cloud/suse-cloud-vagrant/issues/).
+
 ## History
 
 The resources were originally built for
