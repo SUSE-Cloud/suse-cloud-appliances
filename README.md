@@ -6,13 +6,20 @@ This repository contains resources for rapid virtualized deployment of
 
 ## Contents
 
-* [resources for building the KIWI appliances](kiwi/)
-* [resources for building the Vagrant boxes](vagrant/) from the KIWI appliances
-  (since these were originally built, [KIWI has learnt how to build Vagrant boxes
-  directly](https://github.com/openSUSE/kiwi/pull/353), so in the near future
-  we should be able to remove these)
-* a [`Vagrantfile`](vagrant/Vagrantfile) which allows deployment of a SUSE Cloud
-  environment in 4 VMs via a single `vagrant up` command
+*   a [guide](HA-GUIDE.md) documenting how to use these resources to
+    deploy a highly-available cloud from scratch
+*   a [`Vagrantfile`](vagrant/Vagrantfile) which allows deployment of a
+    SUSE Cloud environment in 4 VMs via a single `vagrant up` command
+
+The Vagrant boxes will automatically be downloaded from
+https://vagrantcloud.com/suse, but if you want, you can build them
+yourself from scratch using:
+
+*   [resources for building the KIWI appliances](kiwi/)
+*   [resources for building the Vagrant boxes](vagrant/) from the KIWI
+    appliances (since these were originally built,
+    [KIWI has learnt how to build Vagrant boxes directly](https://github.com/openSUSE/kiwi/pull/353),
+    so in the near future we should be able to remove these)
 
 ## History
 
