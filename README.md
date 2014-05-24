@@ -17,4 +17,6 @@ This repository contains resources for rapid virtualized deployment of
 ## History
 
 The resources were originally built for
-[an OpenStack HA workshop session given on 2014/05/15 at the OpenStack summit in Atlanta](http://www.hastexo.com/resources/presentations/automated-deployment-highly-available-openstack-cloud).
+[an OpenStack HA workshop session given on 2014/05/15 at the OpenStack summit in Atlanta](http://openstacksummitmay2014atlanta.sched.org/event/d3db2188dfed4459f8fbd03f5b405b81#.U4C6NXWx1Qo).
+Video, slides, and other material from that workshop are available
+[here](https://github.com/aspiers/openstacksummit2014-atlanta).
