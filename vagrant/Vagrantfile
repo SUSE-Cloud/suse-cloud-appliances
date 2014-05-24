@@ -14,7 +14,6 @@ end
 Vagrant.configure(vagrantfile_api_version) do |config|
   config.vm.define :admin, :primary => true do |admin|
     admin.vm.box = "suse/cloud3-admin"
-    #admin.vm.box_url = "http://UPLOAD/ME/images/suse/cloud3-admin.box"
     admin.vm.box_check_update = false
 
     admin.vm.provider "virtualbox" do |provider|
@@ -155,7 +154,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     node_name = "controller#{i+1}"
     config.vm.define node_name do |node|
       node.vm.box = 'suse/sles11-sp3'
-      #node.vm.box_url = 'http://UPLOAD/ME/images/suse/sles11-sp3.box'
       node.vm.box_check_update = false
 
       node.vm.provider 'virtualbox' do |provider|
@@ -244,7 +242,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     node_name = "compute#{i+1}"
     config.vm.define node_name do |node|
       node.vm.box = 'suse/sles11-sp3'
-      #node.vm.box_url = 'http://UPLOAD/ME/images/suse/sles11-sp3.box'
       node.vm.box_check_update = false
 
       node.vm.provider 'virtualbox' do |provider|
