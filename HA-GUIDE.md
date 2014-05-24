@@ -1,58 +1,16 @@
-# Automated Deployment of a Highly Available OpenStack Cloud
+# How to automatically deploy and test a highly available OpenStack cloud
 
-## Prerequisites
+First deploy SUSE Cloud and 3 client nodes as described in the
+[HOWTO guide](HOWTO.md).
 
-*   Machine with >= 12GB RAM and 16GB spare disk
-    *   If you only have 8GB then you can probably manage to build an HA
-        cluster for the control plane, but will not have space for a
-        compute node in order to provision an instance.  This is still
-        plenty interesting enough to be worth attempting!
-*   [VirtualBox](https://www.virtualbox.org/wiki/Downloads) >= 4.2 installed
-    (4.3 recommended; older may work but untested)
-    *   configure one host-only network
-*   [Vagrant](http://www.vagrantup.com/) >= 1.5.x installed (1.6.2 recommended)
-*   a small bootable VM image ([CirrOS image is recommended](http://download.cirros-cloud.net/))
-*   this git repository
+## Deployment of a highly available OpenStack cloud
 
-## SUSE Cloud installation
-
-*   Start VirtualBox’s GUI
-*   VirtualBox network preparation
-    *   *File* → *Preferences* → *Network* then ensure you have:
-        *   a single NAT network (in VirtualBox 4.2 this is hardcoded so
-            don’t worry about it)
-        *   a host-only network, named `vboxnet0`, with IP `192.168.124.1`
-            and **DHCP disabled**.
-*   Use Vagrant to provision the four VMs:
-
-        cd vagrant
-        vagrant up
-
-*   The VMs will be provisioned in the following order:
-    *   `admin` - the Crowbar admin node.  After boot-up, `install-suse-cloud`
-        will automatically run.  This takes quite a few minutes to complete,
-        since it has to start several services.  Once you see the next VM
-        start to boot, you know it has completed installation, at which point
-        you can visit the Crowbar web UI on
-        [http://192.168.124.10:3000/](http://192.168.124.10:3000/) and watch
-        the other nodes come online one by one.
-    *   `controller1` - the first of the two controller nodes which will run
-        the OpenStack infrastructure services within a Pacemaker cluster
-    *   `controller2`
-    *   `compute1` - the compute node
-*   It will take some time to provision each VM, since not only does
-    Vagrant need to copy a fresh virtual disk for each from the box,
-    but also on first boot the VMs will register against Crowbar and
-    then perform some orchestrated setup via Chef.
-
-## Cloud installation
-
-### Introduction
+### Identify available nodes
 
 *   Open the Crowbar UI at [http://192.168.124.10:3000](http://192.168.124.10:3000)
     (login: `crowbar`, password: `crowbar`)
-*   Check if all nodes are active in tab *Nodes* → *Dashboard*
-    (they should be in green state)
+*   You should have four nodes active in tab *Nodes* → *Dashboard*
+    (they should be in the green state)
 *   If using Vagrant on Linux, run `./list-MACs.sh` to see the MAC
     addresses (which also forms the hostname) for each node.
     Otherwise, just use the VirtualBox GUI to determine the MAC
