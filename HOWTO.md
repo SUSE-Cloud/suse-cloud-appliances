@@ -19,6 +19,11 @@
 *   [Vagrant](http://www.vagrantup.com/) >= 1.5.x installed (1.6.2 recommended)
 *   a small bootable VM image ([CirrOS image is recommended](http://download.cirros-cloud.net/))
 *   this git repository
+*   an internet connection, or if you want to do this offline, you need
+    to pre-download the two Vagrant boxes before you disconnect:
+
+        vagrant box add suse/cloud3-admin
+        vagrant box add suse/sles11-sp3
 
 ## SUSE Cloud installation
 
@@ -53,10 +58,14 @@ order:
 *   `controller2`
 *   `compute1` - the compute node
 
-It will take some time to provision each VM, since not only does
-Vagrant need to copy a fresh virtual disk for each from the box, but
-also on first boot the VMs will register against Crowbar and then
-perform some orchestrated setup via Chef.
+The first time you do this, it will automatically download the
+required Vagrant boxes from https://vagrantcloud.com.  They are
+approximately 5GB in total so please be patient.
+
+It will take some additional time to provision each VM, since not only
+does Vagrant need to copy a fresh virtual disk from the box for each
+VM, but also on first boot the VMs will register against Crowbar and
+then perform some orchestrated setup via Chef.
 
 Alternatively, you can provision each VM individually, e.g.
 
