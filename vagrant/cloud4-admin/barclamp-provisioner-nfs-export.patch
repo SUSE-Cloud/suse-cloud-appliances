@@ -1,0 +1,9 @@
+diff --git a/chef/cookbooks/nfs-server/templates/default/exports.erb b/chef/cookbooks/nfs-server/templates/default/exports.erb
+index 449de66..c53257c 100644
+--- a/chef/cookbooks/nfs-server/templates/default/exports.erb
++++ b/chef/cookbooks/nfs-server/templates/default/exports.erb
+@@ -1,3 +1,3 @@
+ /var/log/crowbar/sledgehammer     <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)
+ /updates     <%= @admin_subnet %>/<%= @admin_netmask %>(ro,sync,no_subtree_check)
+-
++/var/lib/glance     <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)

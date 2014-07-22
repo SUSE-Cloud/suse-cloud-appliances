@@ -1,0 +1,91 @@
+#!/bin/bash -e
+#
+# This script is executed at the end of appliance creation.  Here you can do
+# one-time actions to modify your appliance before it is ever used, like
+# removing files and directories to make it smaller, creating symlinks,
+# generating indexes, etc.
+#
+# The 'kiwi_type' variable will contain the format of the appliance
+# (oem = disk image, vmx = VMware, iso = CD/DVD, xen = Xen).
+#
+
+# read in some variables
+if test -f /studio/profile; then
+    . /studio/profile
+fi
+
+# read in KIWI utility functions
+if test -f /.kconfig; then
+    . /.kconfig
+fi
+
+die () {
+    echo >&2 "$*"
+    exit 1
+}
+
+echo "Removing EULA on first boot ..."
+rm /etc/YaST2/licenses/license.txt
+
+if ! long_hostname="`cat /etc/HOSTNAME`"; then
+    die "Failed to determine hostname"
+fi
+short_hostname="${long_hostname%%.*}"
+if [ "$short_hostname" = "$long_hostname" ]; then
+    die "Failed to determine FQDN for hostname ($short_hostname)"
+fi
+ADMIN_IP=192.168.124.10
+if ! grep -q "^$ADMIN_IP " /etc/hosts; then
+    echo "$ADMIN_IP   $long_hostname $short_hostname" >> /etc/hosts
+fi
+
+echo "Enabling auto-start of ntp and ssh services on boot ..."
+chkconfig ntp on
+chkconfig sshd on
+
+echo "Adding vagrant to sudoers"
+cat <<EOF >>/etc/sudoers
+
+vagrant ALL=(ALL) NOPASSWD: ALL
+EOF
+# Ensure vagrant maintains password-less sudo access even after
+# Crowbar/Chef hijack /etc/sudoers:
+groupadd sysadmin
+usermod -G sysadmin vagrant
+
+# This avoids annoyingly long timeouts on reverse DNS
+# lookups when connecting via ssh.
+echo "Disabling UseDNS in sshd ..."
+sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
+
+# Default behaviour of less drives me nuts!
+sed -i 's/\(LESS="\)/\1-X /' /etc/profile
+
+echo "Setting up zypper repos ..."
+# -C disables the repository check, since during testing we may not
+# have the repos mounted at image build-time, instead preferring to
+# mount them at run-time (e.g. via NFS or VirtualBox synced folders).
+# The file:// prefix is strangely necessarily to prevent a check that
+# the directory exists, which it doesn't at this point.
+#
+# -K disables local caching of rpm files, since they are already local
+# to the VM (or at least to its host in the NFS / synced folders cases),
+# so caching would just unnecessarily bloat the VM.
+#
+# -G disables GPG check for the repository.
+zypper ar -G -C -K -t yast2  file:///srv/tftpboot/suse-11.3/install SLES-11-SP3
+#zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SLES11-SP3-Updates SLES-11-SP3-Updates
+
+# We don't expect to install anything new from the SDK after booting up the appliance
+# zypper ar -G -C -K -t yast2  file:///srv/tftpboot/repos/SLE-11-SP3-SDK SLE11-SP3-SDK
+# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SLE-11-SP3-SDK-Updates SLE11-SP3-SDK-Updates
+
+zypper ar -G -C -K -t yast2  file:///srv/tftpboot/repos/Cloud SUSE-Cloud-3
+# Not needed since we have the installation media above:
+# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SUSE-Cloud-3.0-Pool SUSE-Cloud-3-Pool
+# Not needed since we're using a Devel:Cloud:3:Staging .iso:
+# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SUSE-Cloud-3-Updates SUSE-Cloud-3-Updates
+
+# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:Shared:11-SP3 Devel_Cloud_Shared_11-SP3
+# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:3 Devel_Cloud_3
+# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:3:Staging Devel_Cloud_3_Staging

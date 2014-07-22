@@ -1,0 +1,24 @@
+#! /bin/sh
+#
+# Copyright (c) 2002 SuSE Linux AG Nuernberg, Germany.  All rights reserved.
+#
+# Author: Werner Fink <werner@suse.de>, 1996
+#         Burchard Steinbild, 1996
+#
+# /etc/init.d/boot.local
+#
+# script with local commands to be executed from init on system startup
+#
+# Here you should add things, that should happen directly after booting
+# before we're going to the first run level.
+#
+
+# Execute user-provided boot script, if it exists
+if [ -x /studio/suse-studio-custom ]; then
+  /studio/suse-studio-custom
+fi
+
+# Execute the SUSE Studio first boot script, if it exists
+if [ -f /etc/init.d/suse_studio_firstboot ]; then
+  sh /etc/init.d/suse_studio_firstboot
+fi
