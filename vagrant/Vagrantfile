@@ -51,51 +51,51 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     admin.vm.network "private_network", ip: "192.168.124.10", auto_config: false
 
     files_to_provision = [
-      "cloud3-admin/network.json",
+      "cloud-admin/network.json",
       # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
       # case we don't want it to touch eth0, so we need this evil patch:
-      "cloud3-admin/barclamp-network-ignore-eth0.patch",
-      "cloud3-admin/barclamp-provisioner-demo-repos.patch",
+      "cloud-admin/barclamp-network-ignore-eth0.patch",
+      "cloud-admin/barclamp-provisioner-demo-repos.patch",
 
       # Provide NFS export to share /var/lib/glance
-      "cloud3-admin/barclamp-provisioner-nfs-export.patch",
+      "cloud-admin/barclamp-provisioner-nfs-export.patch",
 
       # https://github.com/crowbar/barclamp-network/pull/286
-      "cloud3-admin/barclamp-network-teaming-mode.patch",
+      "cloud-admin/barclamp-network-teaming-mode.patch",
 
       # https://github.com/crowbar/barclamp-provisioner/pull/303
-      "cloud3-admin/crowbar_register-hostname.patch",
+      "cloud-admin/crowbar_register-hostname.patch",
 
       # https://github.com/crowbar/barclamp-crowbar/pull/1025
-      "cloud3-admin/barclamp-crowbar-vbox-disk-by-id.patch",
+      "cloud-admin/barclamp-crowbar-vbox-disk-by-id.patch",
       # https://github.com/crowbar/barclamp-deployer/pull/203
-      "cloud3-admin/barclamp-deployer-vbox-disk-by-id.patch",
+      "cloud-admin/barclamp-deployer-vbox-disk-by-id.patch",
       # https://github.com/crowbar/barclamp-provisioner/pull/305
-      "cloud3-admin/barclamp-provisioner-vbox-disk-by-id.patch",
+      "cloud-admin/barclamp-provisioner-vbox-disk-by-id.patch",
 
       # https://github.com/crowbar/barclamp-pacemaker/pull/101 and
       # https://github.com/crowbar/barclamp-pacemaker/pull/103
-      "cloud3-admin/install-xfsprogs.patch",
+      "cloud-admin/install-xfsprogs.patch",
 
       # https://github.com/crowbar/barclamp-pacemaker/pull/102
-      "cloud3-admin/sbd-wait-for-corosync.patch",
+      "cloud-admin/sbd-wait-for-corosync.patch",
 
       # https://github.com/crowbar/barclamp-crowbar/pull/1024
-      "cloud3-admin/apache-mod_status.patch",
+      "cloud-admin/apache-mod_status.patch",
 
       # https://github.com/crowbar/barclamp-database/pull/84 and
       # https://github.com/crowbar/barclamp-rabbitmq/pull/42
-      "cloud3-admin/drbd-race.patch",
+      "cloud-admin/drbd-race.patch",
 
       # https://github.com/crowbar/barclamp-pacemaker/pull/105
-      "cloud3-admin/crm-wait-sync.patch",
+      "cloud-admin/crm-wait-sync.patch",
 
       # https://github.com/crowbar/barclamp-neutron/pull/96
-      "cloud3-admin/barclamp-neutron-order-ha-tool.patch",
+      "cloud-admin/barclamp-neutron-order-ha-tool.patch",
 
       # another evil hack to avoid a crasher when applying the keystone
       # barclamp
-      "cloud3-admin/barclamp-pacemaker-ignore-target-role-changes.patch",
+      "cloud-admin/barclamp-pacemaker-ignore-target-role-changes.patch",
     ]
     provision_to_tmp(admin, files_to_provision)
     admin.vm.provision "shell", inline: <<-'EOSCRIPT'
@@ -207,7 +207,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       files_to_provision = [
         # https://bugzilla.novell.com/show_bug.cgi?id=877484
-        "cloud3-admin/crmsh-report-bnc877484.patch",
+        "cloud-admin/crmsh-report-bnc877484.patch",
       ]
       provision_to_tmp(node, files_to_provision)
 

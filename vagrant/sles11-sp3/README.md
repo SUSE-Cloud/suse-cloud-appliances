@@ -12,4 +12,4 @@ Then, `cd` to the directory containing this README, and type:
 This will create the `.box` file in the current directory, which you
 can then install the Vagrant box via:
 
-    vagrant box add cloud3-admin.json
+    vagrant box add cloud-admin.json
