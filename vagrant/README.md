@@ -24,7 +24,7 @@ Currently there are two options:
 
 There are two different boxes defined within this subdirectory:
 
-*   [`cloud3-admin`](cloud3-admin/) - the SUSE Cloud 3 admin node,
+*   [`cloud-admin`](cloud-admin/) - the SUSE Cloud 3 admin node,
     which runs Crowbar and Chef, and
 *   [`sles11-sp3`](sles11-sp3/) - a cut-down preload image of SUSE Linux
     Enterprise Server (SLES) 11 SP3, which will be used to provision

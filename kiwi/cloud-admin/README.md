@@ -138,7 +138,7 @@ there's usually no need for that.
 
 Once you have the `.vmdk` built, do:
 
-    cd ../../vagrant/cloud3-admin
+    cd ../../vagrant/cloud-admin
 
 and follow the instructions in
 [the corresponding README](../../vagrant/cloud3-admin/README.md).
