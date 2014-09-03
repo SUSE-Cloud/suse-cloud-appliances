@@ -29,6 +29,9 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     end
 
     admin.vm.provider "libvirt" do |provider|
+      provider.memory = 2048
+      provider.cpus = 1
+
       provider.nested = true
       provider.volume_cache = "none"
 
