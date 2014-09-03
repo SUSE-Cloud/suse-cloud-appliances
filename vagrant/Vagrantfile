@@ -43,7 +43,11 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     #admin.vm.synced_folder "/mnt/suse-cloud-3", "/srv/tftpboot/repos/Cloud", type: "nfs"
 
     # Setup network for admin node and for Crowbar in general.
-    # Vagrant requires the first interface of every VM to be NAT,
+    # Vagrant's VirtualBox provider requires the first interface of
+    # every VM to be NAT:
+    #
+    #   https://docs.vagrantup.com/v2/virtualbox/boxes.html
+    #
     # which with VirtualBox means it can't communicate with the other
     # VMs.  And for an HA setup we need two interfaces which are
     # teamed and able to communicate with other VMs.  On VirtualBox
