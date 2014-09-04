@@ -35,7 +35,7 @@ There are two ways to build this appliance from scratch:
     basis) drastically reduces the number of dependencies by relying
     on:
 
-    *   a specially constructed `SUSE-CLOUD-3-DEPS` `.iso`
+    *   a specially constructed `SUSE-CLOUD-SLE11-SP3-DEPS` `.iso`
         which contains the minimal set of packages which SUSE Cloud
         3 requires from SLES 11 SP3 and SLE 11 HAE SP3 including the
         latest updates, and
@@ -66,7 +66,7 @@ will build the image.  For the slow way:
 
 For the quick way:
 
-*   `/mnt/sles-11-sp3`: the `SUSE-CLOUD-3-DEPS` `.iso`
+*   `/mnt/sles-11-sp3`: the `SUSE-CLOUD-SLE11-SP3-DEPS` `.iso`
 *   `/mnt/suse-cloud-3`: the `.iso` of the latest development build of SUSE Cloud 3
 *   `/mnt/sle-11-sdk-sp3`: SLE 11 SDK SP3 installation media (although
     this can be omitted as per above.  FIXME: this also currently requires
