@@ -9,13 +9,13 @@ repos=(
 
     #SLE11-HAE-SP3-{Pool,Updates} # embedded within SUSE-CLOUD-SLE11-SP3-DEPS
 
-    #SUSE-Cloud-3.0-Pool     # not needed since we have installation media
-    # SUSE-Cloud-3.0-Updates # not needed since we're using a Devel:Cloud:3:Staging .iso
+    #SUSE-Cloud-4.0-Pool     # not needed since we have installation media
+    # SUSE-Cloud-4.0-Updates # not needed since we're using a Devel:Cloud:4:Staging .iso
 
     # Devel:Cloud:Shared:11-SP3
     # Devel:Cloud:Shared:11-SP3:Update
-    # Devel:Cloud:3
-    # Devel:Cloud:3:Staging
+    # Devel:Cloud:4
+    # Devel:Cloud:4:Staging
 )
 
 function bind_mount {
@@ -38,9 +38,9 @@ function setup_overlay {
     here=$( cd `dirname "$0"`; pwd -P )
     tftpboot=$here/source/root/srv/tftpboot
     bind_mount /mnt/suse-cloud-sle11-deps $tftpboot/suse-11.3/install
-    bind_mount /mnt/suse-cloud-3          $tftpboot/repos/Cloud
+    bind_mount /mnt/suse-cloud-4          $tftpboot/repos/Cloud
     for repo in "${repos[@]}"; do
-        bind_mount $MIRROR_DIR/$repo $tftpboot/repos/${repo/3.0/3}
+        bind_mount $MIRROR_DIR/$repo $tftpboot/repos/$repo
     done
 }
 

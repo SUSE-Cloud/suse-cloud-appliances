@@ -20,7 +20,7 @@ There are two ways to build this appliance from scratch:
 1.  The slow (but more "complete" and fully supported) way, which requires the following:
     *   [SUSE Linux Enterprise Server (SLES) 11 SP3 installation media](https://download.suse.com/Download?buildid=Q_VbW21BiB4~) (you only need `SLES-11-SP3-DVD-x86_64-GM-DVD1.iso`; DVD2 is the source code)
     *   [SUSE Linux Enterprise High Availability Extension (SLE HAE) 11 SP3](https://download.suse.com/Download?buildid=x_3696pRI0w~) (again, you only need `SLE-HA-11-SP3-x86_64-GM-CD1.iso`)
-    *   [SUSE Cloud 3 installation media](https://download.suse.com/Download?buildid=K3-lLTopFN4~) (again, you only need SUSE-CLOUD-3-x86_64-GM-DVD1.iso)
+    *   [SUSE Cloud 4 installation media](https://download.suse.com/Download?buildid=kjVizo0xnj4~) (again, you only need SUSE-CLOUD-4-x86_64-GM-DVD1.iso)
     *   Package repositories containing updates for each of the above, to obtain the latest bugfixes and enhancements.
         *   Updates are available via subscriptions with a 60-day free evaluation; however all these products are Free Software, so of course you can still use them fully after 60 days - you just won't continue getting updates.
         *   The easiest way to obtain the updates is probably via the [Subscription Management Tool (SMT) 11 SP3](https://download.suse.com/Download?buildid=l8FuDkiYOg0~) ([more info on SMT here](https://www.suse.com/solutions/tools/smt.html)).
@@ -29,7 +29,7 @@ There are two ways to build this appliance from scratch:
     This way takes quite some time (and about 15GB of spare disk) to
     set up, because you need to first build an SMT environment, and
     then mirror all the packages (including updates) for SLES 11 SP3,
-    SLE 11 HAE SP3, SLE 11 SDK SP3, and SUSE Cloud 3.
+    SLE 11 HAE SP3, SLE 11 SDK SP3, and SUSE Cloud 4.
 
 2.  The quick way (which is currently only supported on a best effort
     basis) drastically reduces the number of dependencies by relying
@@ -62,12 +62,12 @@ currently assumes certain mountpoints are set up on the system which
 will build the image.  For the slow way:
 
 *   `/mnt/sles-11-sp3`: SLES 11 SP3 installation media
-*   `/mnt/suse-cloud-3`: SUSE Cloud 3 installation media
+*   `/mnt/suse-cloud-4`: SUSE Cloud 4 installation media
 
 For the quick way:
 
 *   `/mnt/sles-11-sp3`: the `SUSE-CLOUD-SLE11-SP3-DEPS` `.iso`
-*   `/mnt/suse-cloud-3`: the `.iso` of the latest development build of SUSE Cloud 3
+*   `/mnt/suse-cloud-4`: the `.iso` of the latest development build of SUSE Cloud
 *   `/mnt/sle-11-sdk-sp3`: SLE 11 SDK SP3 installation media (although
     this can be omitted as per above.  FIXME: this also currently requires
     editing the [`config.xml` template](source/config.xml.tmpl).)
@@ -78,8 +78,8 @@ certain locations.  For the slow way:
 *   `/data/install/mirrors/SLE-11-SP3-SDK/sle-11-x86_64`
 *   `/data/install/mirrors/SLE11-HAE-SP3-Pool/sle-11-x86_64`
 *   `/data/install/mirrors/SLE11-HAE-SP3-Updates/sle-11-x86_64`
-*   `/data/install/mirrors/SUSE-Cloud-3.0-Pool/sle-11-x86_64`
-*   `/data/install/mirrors/SUSE-Cloud-3.0-Updates/sle-11-x86_64`
+*   `/data/install/mirrors/SUSE-Cloud-4-Pool/sle-11-x86_64`
+*   `/data/install/mirrors/SUSE-Cloud-4-Updates/sle-11-x86_64`
 
 For the quick way:
 

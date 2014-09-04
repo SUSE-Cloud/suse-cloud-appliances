@@ -13,7 +13,7 @@ end
 
 Vagrant.configure(vagrantfile_api_version) do |config|
   config.vm.define :admin, :primary => true do |admin|
-    admin.vm.box = "suse/cloud3-admin"
+    admin.vm.box = "suse/cloud4-admin"
     admin.vm.box_check_update = false
 
     # The override parameter lets us configure global config parameters
@@ -66,7 +66,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     # admin.ssh.forward_agent = true
 
     admin.vm.synced_folder ".", "/vagrant", disabled: true
-    #admin.vm.synced_folder "/mnt/suse-cloud-3", "/srv/tftpboot/repos/Cloud", type: "nfs"
+    #admin.vm.synced_folder "/mnt/suse-cloud-4", "/srv/tftpboot/repos/Cloud", type: "nfs"
 
     files_to_provision = [
       "cloud-admin/network.json",
@@ -163,7 +163,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
        export STY="dummy"
        install-suse-cloud -v
        . /etc/profile.d/crowbar.sh
-       crowbar network allocate_ip default cloud3-admin.openstack.site public host
+       crowbar network allocate_ip default cloud4-admin.openstack.site public host
        chef-client
     EOSCRIPT
   end

@@ -22,7 +22,7 @@
 *   an internet connection, or if you want to do this offline, you need
     to pre-download the two Vagrant boxes before you disconnect:
 
-        vagrant box add suse/cloud3-admin
+        vagrant box add suse/cloud4-admin
         vagrant box add suse/sles11-sp3
 
 ## SUSE Cloud installation
@@ -84,4 +84,4 @@ If you want to try out the new high availability functionality,
 see the [HA guide](HA-guide.md).
 
 Otherwise, see the
-[official SUSE Cloud product documentation](https://www.suse.com/documentation/suse-cloud3/).
+[official SUSE Cloud product documentation](https://www.suse.com/documentation/suse-cloud4/).
