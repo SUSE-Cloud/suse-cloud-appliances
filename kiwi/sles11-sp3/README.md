@@ -61,6 +61,17 @@ in order to reclaim a huge chunk of RAM!  You can disable use of
 `tmpfs` by including `NO_TMPFS=y` as an extra `sudo` parameter before
 `./build-image.sh`.
 
+**BEWARE!** There is
+[an obscure kernel bug](https://bugzilla.novell.com/show_bug.cgi?id=895204)
+which can cause processes to latch onto mounts created by `kiwi`
+within the chroot, preventing the chroot from being properly cleaned
+up until those processes are killed.  See the bug for how to detect
+these guilty processes.  If you are using `tmpfs`, this is
+particularly serious because the kernel will not free the RAM used by
+the filesystem until the processes are killed.  **It is very easy to
+kill a system due to extreme low memory after a few kiwi builds if you
+do not work around this bug after each build.**
+
 The boot images are also automatically cached in
 `/var/cache/kiwi/bootimage` to speed up subsequent builds. You'll need
 to manually delete the files there to clear the cache, but there's
