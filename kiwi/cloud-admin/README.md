@@ -40,7 +40,7 @@ There are two ways to build this appliance from scratch:
         3 requires from SLES 11 SP3 and SLE 11 HAE SP3 including the
         latest updates, and
     *   an `.iso` of the latest (unreleased) development build of
-        SUSE Cloud 3, which contains the latest updates.
+        SUSE Cloud, which contains the latest updates.
 
     These are currently provided on demand only.
 
