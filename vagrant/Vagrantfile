@@ -159,6 +159,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       # to run with screen here. As install-suse-cloud won't pull the network
       # from eth0 because of the above patch.
       export STY="dummy"
+      zypper -n install -t pattern cloud_admin
+
       install-suse-cloud -v
       . /etc/profile.d/crowbar.sh
       crowbar network allocate_ip default cloud4-admin.openstack.site public host
