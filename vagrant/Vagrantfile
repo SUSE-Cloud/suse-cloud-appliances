@@ -121,6 +121,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
     # Set up DEPS and Cloud repositories
     admin.vm.provision "shell", inline: <<-'EOSCRIPT'.gsub(/^      /, '')
+      set -e
+
       me='vagrant provisioner'
       append_to_fstab () {
           perl -0777pi -e \
@@ -149,6 +151,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
     # Automatically install SUSE Cloud on first-boot
     admin.vm.provision "shell", inline: <<-EOSCRIPT
+      set -e
+
       export PATH="$PATH:/sbin:/usr/sbin/"
       export REPOS_SKIP_CHECKS="SLES11_SP3 SLES11-SP3-Pool"
       # To trick install-suse-clouds check for "screen". It should be save
