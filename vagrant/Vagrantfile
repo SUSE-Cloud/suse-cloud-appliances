@@ -202,7 +202,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
           wget http://192.168.124.10:8091/suse-11.3/crowbar_register
         done
         chmod a+x crowbar_register
-        ./crowbar_register --force --interface eth1  --gpg-auto-import-keys
+        ./crowbar_register --force --interface eth1 --gpg-auto-import-keys --no-gpg-checks
 
         zypper -n in crmsh # can't patch crmsh until it's installed
         patch -d /usr/lib64/python2.6/site-packages/crmsh -p2 \
