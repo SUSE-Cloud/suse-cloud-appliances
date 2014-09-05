@@ -92,7 +92,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
       # case we don't want it to touch eth0, so we need this evil patch:
       "cloud-admin/barclamp-network-ignore-eth0.patch",
-      "cloud-admin/barclamp-provisioner-demo-repos.patch",
 
       # Provide NFS export to share /var/lib/glance
       "cloud-admin/barclamp-provisioner-nfs-export.patch",
@@ -103,7 +102,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     ]
     provision_to_tmp(admin, files_to_provision)
     admin.vm.provision "shell", path: "prep-admin.sh"
-        patch -p1 < /tmp/barclamp-provisioner-demo-repos.patch
 
     # Set up DEPS and Cloud repositories
     admin.vm.provision "shell", path: "prep-admin-inject-isos.sh"
