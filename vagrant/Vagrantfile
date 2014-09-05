@@ -56,6 +56,15 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       # Don't use headless mode
       provider.gui = true
 
+      # The vagrant-libvirt provider requires a private management network:
+      #
+      #   https://github.com/pradels/vagrant-libvirt
+      #
+      # This defaults to 192.168.121.0/24 but that's a bit too close to
+      # conventional OpenStack networks for comfort.
+      provider.management_network_address = "192.168.101.0/24"
+      provider.management_network_name = "vagrant-mgmt"
+
       override.vm.network "private_network",
         ip: "192.168.124.10",
         auto_config: false,
