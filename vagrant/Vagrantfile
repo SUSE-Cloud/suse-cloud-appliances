@@ -12,6 +12,14 @@ def provision_to_tmp(node, files_to_provision)
 end
 
 Vagrant.configure(vagrantfile_api_version) do |config|
+  config.vm.provider :libvirt do |libvirt|
+    # libvirt.host = "localhost"
+    # libvirt.username = "root"
+    # libvirt.password = "linux"
+    # libvirt.connect_via_ssh = true
+    # libvirt.storage_pool_name = "default"
+  end
+
   config.vm.define :admin, :primary => true do |admin|
     admin.vm.box = "suse/cloud4-admin"
     admin.vm.box_check_update = false
@@ -233,16 +241,5 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         ./crowbar_register --force --interface eth1  --gpg-auto-import-keys
       EOSCRIPT
     end
-  end
-
-  # Not tested yet
-  config.vm.provider :libvirt do |libvirt|
-    libvirt.host = "localhost"
-    libvirt.connect_via_ssh = true
-
-    libvirt.username = "root"
-    libvirt.password = "linux"
-
-    libvirt.storage_pool_name = "default"
   end
 end
