@@ -71,7 +71,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         libvirt__dhcp_enabled: false
     end
 
-    admin.vm.network :forwarded_port, guest: 3000, host: 3000
+    admin.vm.network :forwarded_port,
+      guest_ip: "192.168.124.10", guest: 3000, host: 3000
     # admin.ssh.forward_agent = true
 
     admin.vm.synced_folder ".", "/vagrant", disabled: true
