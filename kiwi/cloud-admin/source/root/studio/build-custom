@@ -80,7 +80,7 @@ zypper ar -G -C -K -t yast2  file:///srv/tftpboot/suse-11.3/install SLES-11-SP3
 # zypper ar -G -C -K -t yast2  file:///srv/tftpboot/repos/SLE-11-SP3-SDK SLE11-SP3-SDK
 # zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SLE-11-SP3-SDK-Updates SLE11-SP3-SDK-Updates
 
-zypper ar -G -C -K -t yast2  file:///srv/tftpboot/repos/Cloud SUSE-Cloud-4
+zypper ar -G -C -K -t yast2  file:///srv/tftpboot/repos/Cloud SUSE-Cloud
 # Not needed since we have the installation media above:
 # zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SUSE-Cloud-4-Pool SUSE-Cloud-4-Pool
 # Not needed since we're using a Devel:Cloud:4:Staging .iso:
