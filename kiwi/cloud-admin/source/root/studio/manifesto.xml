@@ -7,7 +7,7 @@
       <description type="system">
         <author>Adam Spiers</author>
         <contact>studio-devel@suse.de</contact>
-        <specification>SLES 11 SP2</specification>
+        <specification>SLES 11 SP3</specification>
       </description>
       <preferences>
         <type checkprebuilt="true" boot="vmxboot/suse-SLES11" fsnocheck="true" filesystem="ext3" format="qcow2" image="vmx">
