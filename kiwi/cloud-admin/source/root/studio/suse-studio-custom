@@ -20,16 +20,17 @@ then
     # Reduce grub prompt time-out
     sed -i 's/^timeout [0-9]\+/timeout 3/' /boot/grub/menu.lst
 
-    echo "Installing VirtualBox guest additions ..."
-    # Unfortunately the return code can be non-zero even when
-    # it worked.
-    sh /tmp/VBoxLinuxAdditions.run
-    if lsmod | grep vbox; then
-        echo "VirtualBox guest additions installed!"
-        echo "Removing kernel source and headers ..."
-        rpm -e kernel-default-devel kernel-source
-    else
-        cat <<EOF >&2
+    if [ -f /tmp/VBoxLinuxAdditions.run ]; then
+        echo "Installing VirtualBox guest additions ..."
+        sh /tmp/VBoxLinuxAdditions.run
+        # Unfortunately the return code can be non-zero even when
+        # it worked.
+        if lsmod | grep vbox; then
+            echo "VirtualBox guest additions installed!"
+            echo "Removing kernel source and headers ..."
+            rpm -e kernel-default-devel kernel-source
+        else
+            cat <<EOF >&2
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 WARNING: VirtualBox guest additions failed to install.
@@ -37,5 +38,8 @@ Probably worth checking /var/log/vboxadd-install.log.
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 EOF
+        fi
+    else
+        echo "/tmp/VBoxLinuxAdditions.run not present; won't install VirtualBox guest additions."
     fi
 fi
