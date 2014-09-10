@@ -151,6 +151,9 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       end
 
       node.vm.provider 'libvirt' do |provider|
+        provider.memory = 2048
+        provider.cpus = 1
+
         provider.volume_cache = 'none'
 
         # Don't use headless mode
@@ -212,6 +215,9 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       end
 
       node.vm.provider 'libvirt' do |provider|
+        provider.memory = 2048
+        provider.cpus = 1
+
         provider.nested = true
         provider.volume_cache = 'none'
 
