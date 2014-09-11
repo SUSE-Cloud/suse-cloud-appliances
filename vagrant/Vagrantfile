@@ -1,6 +1,16 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# For now, the Cloud product and -DEPS .isos need to be injected to
+# the appliance at provision-time, so you need to download both, place
+# in a directory of your choosing, and export the environment variable
+# VAGRANT_HOST_ISO_PATH to point to that directory (unless you are
+# using the default location of /data/install/isos).
+#
+# Eventually we hope to inject the .isos at box build-time, in order
+# to eliminate these extra steps.
+HOST_ISO_PATH = ENV['VAGRANT_HOST_ISO_PATH'] || '/data/install/isos'
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 vagrantfile_api_version = "2"
 
@@ -84,7 +94,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     # admin.ssh.forward_agent = true
 
     admin.vm.synced_folder ".", "/vagrant", disabled: true
-    admin.vm.synced_folder "/data/install/isos", "/isos"
+    admin.vm.synced_folder HOST_ISO_PATH, "/isos"
     #admin.vm.synced_folder "/mnt/suse-cloud-4", "/srv/tftpboot/repos/Cloud", type: "nfs"
 
     files_to_provision = [
