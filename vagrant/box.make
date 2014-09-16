@@ -9,4 +9,4 @@ COMPONENTS = Vagrantfile metadata.json $(OVF) $(KIWI_IMAGE_DIR)/$(VMDK)
 default: $(BOX_FILE)
 
 $(BOX_FILE): $(COMPONENTS)
-	tar --transform="s,.*\.vmdk,$(BOX_VMDK)," -cvf $@ $(COMPONENTS)
+	tar --transform="s,.*\.vmdk,$(BOX_VMDK)," -hcvf $@ $(COMPONENTS)
