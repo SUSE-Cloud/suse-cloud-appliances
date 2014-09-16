@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+PXE = ENV['VAGRANT_USE_PXE'] || false
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 vagrantfile_api_version = "2"
 
@@ -109,7 +111,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
   2.times do |i|
     node_name = "controller#{i+1}"
     config.vm.define node_name do |node|
-      node.vm.box = 'suse/sles11-sp3'
+      node.vm.box = PXE ? 'suse/pxe-16GB' : 'suse/sles11-sp3'
       node.vm.box_check_update = false
 
       node.vm.provider 'virtualbox' do |provider|
@@ -199,7 +201,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
   1.times do |i|
     node_name = "compute#{i+1}"
     config.vm.define node_name do |node|
-      node.vm.box = 'suse/sles11-sp3'
+      node.vm.box = PXE ? 'suse/pxe-16GB' : 'suse/sles11-sp3'
       node.vm.box_check_update = false
 
       node.vm.provider 'virtualbox' do |provider|
