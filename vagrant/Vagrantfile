@@ -82,7 +82,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     end
 
     admin.vm.network :forwarded_port,
-      guest_ip: "192.168.124.10", guest: 3000, host: 3000
+      guest_ip: "192.168.124.10", guest: 3000, host: 3000, host_ip: "*"
     # admin.ssh.forward_agent = true
 
     admin.vm.synced_folder ".", "/vagrant", disabled: true
