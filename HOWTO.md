@@ -19,6 +19,14 @@
 *   [Vagrant](http://www.vagrantup.com/) >= 1.5.x installed (1.6.2 recommended)
 *   a small bootable VM image ([CirrOS image is recommended](http://download.cirros-cloud.net/))
 *   this git repository
+*   the `suse/cloud4-admin` box (currently only [available to SUSE
+    employees](https://build.suse.de/package/show/Devel:Cloud:4:Vagrant/suse-cloud-vagrant-admin)
+    but hopefully will be published on https://vagrantcloud.com/suse
+    soon; please [contact us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud)
+    if you need a copy urgently
+*   a `suse/sles11-sp3` box; again please [contact
+    us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud) regarding this
+    as work is currently in flux
 *   an internet connection, or if you want to do this offline, you need
     to pre-download the two Vagrant boxes before you disconnect:
 

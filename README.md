@@ -13,9 +13,17 @@ This repository contains resources for rapid virtualized deployment of
 *   an [HA guide](HA-GUIDE.md) documenting how to use these resources to
     deploy a highly-available cloud from scratch
 
-The Vagrant boxes will automatically be downloaded from
-https://vagrantcloud.com/suse, but if you want, you can build them
-yourself from scratch using:
+Currently the Vagrant boxes and .iso images required are built on
+[SUSE's Internal Build Service a.k.a. IBS](https://build.suse.de/package/show/Devel:Cloud:4:Vagrant/suse-cloud-vagrant-admin)
+which is accessible only to employees.  However the goal is to make
+the Vagrant boxes available in the near future via
+https://vagrantcloud.com/suse so that they will be automatically
+downloaded on demand.  If you are external and would like these files
+urgently, please contact us and we can probably sort something out!
+
+In theory if you had the time and patience, you could probably build
+them yourself from scratch using the below resources from this
+repository, although that is not recommended:
 
 *   [resources for building the KIWI appliances](kiwi/)
 *   [resources for building the Vagrant boxes](vagrant/) from the KIWI
