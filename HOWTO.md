@@ -13,9 +13,9 @@
     *   If you only have 4GB, you will be able to run the Crowbar admin
         node but nothing else.  This is not very useful but at least
         lets you poke around the Crowbar UI.
-*   [VirtualBox](https://www.virtualbox.org/wiki/Downloads) >= 4.2 installed
-    (4.3 recommended; older may work but untested)
-    *   configure one host-only network
+*   either [VirtualBox](https://www.virtualbox.org/wiki/Downloads) >=
+    4.2 (4.3 recommended; older may work but untested), or
+    [libvirt](http://libvirt.org/) installed
 *   [Vagrant](http://www.vagrantup.com/) >= 1.5.x installed (1.6.2 recommended)
 *   a small bootable VM image ([CirrOS image is recommended](http://download.cirros-cloud.net/))
 *   this git repository
@@ -35,8 +35,8 @@
 
 ## SUSE Cloud installation
 
-*   Start VirtualBox’s GUI
-*   VirtualBox network preparation
+*   If using VirtualBox:
+    *   Start the GUI
     *   *File* → *Preferences* → *Network* then ensure you have:
         *   a single NAT network (in VirtualBox 4.2 this is hardcoded so
             don’t worry about it)
