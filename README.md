@@ -19,7 +19,9 @@ which is accessible only to employees.  However the goal is to make
 the Vagrant boxes available in the near future via
 https://vagrantcloud.com/suse so that they will be automatically
 downloaded on demand.  If you are external and would like these files
-urgently, please contact us and we can probably sort something out!
+urgently, please
+[contact us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud)
+and we can probably sort something out!
 
 In theory if you had the time and patience, you could probably build
 them yourself from scratch using the below resources from this
