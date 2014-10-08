@@ -64,8 +64,8 @@ sed -i 's/\(LESS="\)/\1-X /' /etc/profile
 echo "Setting up zypper repos ..."
 
 cd /srv/isos
-cloud_iso=SUSE-CLOUD-4-x86_64-*-Media1.iso
-deps_iso=SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-*-Media.iso
+cloud_iso=$( echo SUSE-CLOUD-4-x86_64-*-Media1.iso )
+deps_iso=$( echo SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-*-Media.iso )
 if ! grep -q $cloud_iso /etc/fstab; then
     cat <<EOF >>/etc/fstab
 
