@@ -63,55 +63,24 @@ sed -i 's/\(LESS="\)/\1-X /' /etc/profile
 
 echo "Setting up zypper repos ..."
 
-cd /srv/isos
-cloud_iso=$( echo SUSE-CLOUD-4-x86_64-*-Media1.iso )
-deps_iso=$( echo SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-*-Media.iso )
-
-# This should not be necessary because the %post of the containment-rpm
-# will take care of it.  It was erroneously added as a misinformed workaround
-# for https://bugzilla.suse.com/show_bug.cgi?id=900280, but it does not
-# do any harm to keep it.
-if ! grep -q $cloud_iso /etc/fstab; then
-    cat <<EOF >>/etc/fstab
-
-# added by /studio/build-custom
-/srv/isos/$cloud_iso /srv/tftpboot/repos/Cloud   iso9660 default 0 0
-EOF
-    echo "Added $cloud_iso mount to /etc/fstab"
-fi
-if ! grep -q $deps_iso /etc/fstab; then
-    cat <<EOF >>/etc/fstab
-
-# added by /studio/build-custom
-/srv/isos/$deps_iso /srv/tftpboot/suse-11.3/install   iso9660 default 0 0
-EOF
-    echo "Added $deps_iso mount to /etc/fstab"
-fi
-
-# -C disables the repository check, since during testing we may not
-# have the repos mounted at image build-time, instead preferring to
-# mount them at run-time (e.g. via NFS or VirtualBox synced folders).
-# The file:// prefix is strangely necessarily to prevent a check that
-# the directory exists, which it doesn't at this point.
-#
 # -K disables local caching of rpm files, since they are already local
 # to the VM (or at least to its host in the NFS / synced folders cases),
 # so caching would just unnecessarily bloat the VM.
 #
 # -G disables GPG check for the repository.
-zypper ar -G -C -K -t yast2  file:///srv/tftpboot/suse-11.3/install SLES-11-SP3
-#zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SLES11-SP3-Updates SLES-11-SP3-Updates
+zypper ar -G -K -t yast2  file:///srv/tftpboot/suse-11.3/install SLES-11-SP3
+#zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/SLES11-SP3-Updates SLES-11-SP3-Updates
 
 # We don't expect to install anything new from the SDK after booting up the appliance
-# zypper ar -G -C -K -t yast2  file:///srv/tftpboot/repos/SLE-11-SP3-SDK SLE11-SP3-SDK
-# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SLE-11-SP3-SDK-Updates SLE11-SP3-SDK-Updates
+# zypper ar -G -K -t yast2  file:///srv/tftpboot/repos/SLE-11-SP3-SDK SLE11-SP3-SDK
+# zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/SLE-11-SP3-SDK-Updates SLE11-SP3-SDK-Updates
 
-zypper ar -G -C -K -t yast2  file:///srv/tftpboot/repos/Cloud SUSE-Cloud
+zypper ar -G -K -t yast2  file:///srv/tftpboot/repos/Cloud SUSE-Cloud
 # Not needed since we have the installation media above:
-# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SUSE-Cloud-4-Pool SUSE-Cloud-4-Pool
+# zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/SUSE-Cloud-4-Pool SUSE-Cloud-4-Pool
 # Not needed since we're using a Devel:Cloud:4:Staging .iso:
-# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/SUSE-Cloud-4-Updates SUSE-Cloud-4-Updates
+# zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/SUSE-Cloud-4-Updates SUSE-Cloud-4-Updates
 
-# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:Shared:11-SP3 Devel_Cloud_Shared_11-SP3
-# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:4 Devel_Cloud_4
-# zypper ar -G -C -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:4:Staging Devel_Cloud_4_Staging
+# zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:Shared:11-SP3 Devel_Cloud_Shared_11-SP3
+# zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:4 Devel_Cloud_4
+# zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:4:Staging Devel_Cloud_4_Staging
