@@ -72,6 +72,7 @@ if ! grep -q $cloud_iso /etc/fstab; then
 # added by /studio/build-custom
 /srv/isos/$cloud_iso /srv/tftpboot/repos/Cloud   iso9660 default 0 0
 EOF
+    echo "Added $cloud_iso mount to /etc/fstab"
 fi
 if ! grep -q $deps_iso /etc/fstab; then
     cat <<EOF >>/etc/fstab
@@ -79,6 +80,7 @@ if ! grep -q $deps_iso /etc/fstab; then
 # added by /studio/build-custom
 /srv/isos/$deps_iso /srv/tftpboot/suse-11.3/install   iso9660 default 0 0
 EOF
+    echo "Added $deps_iso mount to /etc/fstab"
 fi
 
 # -C disables the repository check, since during testing we may not
