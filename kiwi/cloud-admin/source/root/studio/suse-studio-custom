@@ -12,9 +12,12 @@
 # read in some variables
 . /studio/profile
 
+# Put commands to be run on every boot here.
+
 if [ -f /etc/init.d/suse_studio_firstboot ]
 then
-    # Put commands to be run on the first boot of your appliance here
+    # Put commands to be run only on the first boot of your appliance here
+    # (suse_studio_firstboot gets deleted upon successful completion)
     echo "Running SUSE Studio first boot script..."
 
     # Reduce grub prompt time-out
