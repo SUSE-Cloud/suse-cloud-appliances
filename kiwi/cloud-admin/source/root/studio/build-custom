@@ -62,6 +62,25 @@ sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
 sed -i 's/\(LESS="\)/\1-X /' /etc/profile
 
 echo "Setting up zypper repos ..."
+
+cd /srv/isos
+cloud_iso=SUSE-CLOUD-4-x86_64-*-Media1.iso
+deps_iso=SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-*-Media.iso
+if ! grep -q $cloud_iso /etc/fstab; then
+    cat <<EOF >>/etc/fstab
+
+# added by /studio/build-custom
+/srv/isos/$cloud_iso /srv/tftpboot/repos/Cloud   iso9660 default 0 0
+EOF
+fi
+if ! grep -q $deps_iso /etc/fstab; then
+    cat <<EOF >>/etc/fstab
+
+# added by /studio/build-custom
+/srv/isos/$deps_iso /srv/tftpboot/suse-11.3/install   iso9660 default 0 0
+EOF
+fi
+
 # -C disables the repository check, since during testing we may not
 # have the repos mounted at image build-time, instead preferring to
 # mount them at run-time (e.g. via NFS or VirtualBox synced folders).
