@@ -5,7 +5,7 @@ PXE = ENV['VAGRANT_USE_PXE'] || false
 ADMIN_IP = "192.168.124.10"
 NUM_CONTROLLER_NODES = ENV['NUM_CONTROLLER_NODES'] || 2
 NUM_COMPUTE_NODES    = ENV['NUM_COMPUTE_NODES']    || 1
-SLES_BOX             = ENV['SLES_BOX'] || 'suse/sles11-sp3'
+SLES_BOX             = ENV['SLES_BOX'] || 'suse/sles11sp3-minimal'
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 vagrantfile_api_version = "2"

@@ -34,14 +34,14 @@
     but hopefully will be published on https://vagrantcloud.com/suse
     soon; please [contact us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud)
     if you need a copy urgently
-*   a `suse/sles11-sp3` box; again please [contact
+*   a `suse/sles11sp3-minimal` box; again please [contact
     us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud) regarding this
     as work is currently in flux
 *   an internet connection, or if you want to do this offline, you need
     to pre-download the two Vagrant boxes before you disconnect:
 
         vagrant box add suse/cloud4-admin
-        vagrant box add suse/sles11-sp3
+        vagrant box add suse/sles11sp3-minimal
 
 ## SUSE Cloud installation
 
