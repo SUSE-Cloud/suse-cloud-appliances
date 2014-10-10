@@ -14,9 +14,10 @@ This repository contains resources for rapid virtualized deployment of
     deploy a highly-available cloud from scratch
 
 Currently the Vagrant boxes and .iso images required are built on
-[SUSE's Internal Build Service a.k.a. IBS](https://build.suse.de/package/show/Devel:Cloud:4:Vagrant/suse-cloud-vagrant-admin)
-which is accessible only to employees.  However the goal is to make
-the Vagrant boxes available in the near future via
+SUSE's Internal Build Service a.k.a. IBS which is accessible only to
+employees.  (Employees please follow
+[this HOWTO](https://etherpad.nue.suse.com/p/cloud-vagrant).)  However
+the goal is to make the Vagrant boxes available in the near future via
 https://vagrantcloud.com/suse so that they will be automatically
 downloaded on demand.  If you are external and would like these files
 urgently, please
