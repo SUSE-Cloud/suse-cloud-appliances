@@ -2,10 +2,10 @@
 # vi: set ft=ruby :
 
 ADMIN_IP = "192.168.124.10"
-PXE                  = ENV['VAGRANT_USE_PXE']          || false
 NUM_CONTROLLER_NODES = ENV['VAGRANT_CONTROLLER_NODES'] || 2
 NUM_COMPUTE_NODES    = ENV['VAGRANT_COMPUTE_NODES']    || 1
 SLES_BOX             = ENV['VAGRANT_SLES_BOX'] || 'suse/sles11sp3-minimal'
+NO_BOX_REGEXP        = /^no_?box$/i
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 vagrantfile_api_version = "2"
@@ -116,13 +116,18 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     admin.vm.provision "shell", path: "provisioning/install-suse-cloud.sh"
   end
 
+  def sles_or_pxe_box(vm)
+    return if SLES_BOX =~ NO_BOX_REGEXP
+    vm.box = SLES_BOX
+    vm.box_check_update = false
+  end
+
   NUM_CONTROLLER_NODES.times do |i|
     node_name = "controller#{i+1}"
     private_ip = "192.168.124.#{80+i}"
 
     config.vm.define node_name do |node|
-      node.vm.box = PXE ? 'suse/pxe-16GB' : SLES_BOX
-      node.vm.box_check_update = false
+      sles_or_pxe_box(node.vm)
 
       node.vm.provider 'virtualbox' do |provider, override|
         provider.memory = 2048
@@ -218,8 +223,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     private_ip = "192.168.124.#{80+NUM_CONTROLLER_NODES+i}"
 
     config.vm.define node_name do |node|
-      node.vm.box = PXE ? 'suse/pxe-16GB' : SLES_BOX
-      node.vm.box_check_update = false
+      sles_or_pxe_box(node.vm)
 
       node.vm.provider 'virtualbox' do |provider, override|
         provider.memory = 2048
