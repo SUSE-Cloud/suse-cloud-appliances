@@ -6,6 +6,14 @@ definitions which are used to build `.vmdk` virtual disks.
 [These will then be converted into Vagrant boxes](../vagrant/) which
 are used to build a whole cloud via Vagrant.
 
+However, since these files were originally built,
+[KIWI has learnt how to build Vagrant boxes directly](https://github.com/openSUSE/kiwi/pull/353),
+and so has [OBS](http://openbuildservice.org/), so it is not any
+longer recommended to build boxes using these files.  They are left
+here for posterity.
+
+## What is KIWI?
+
 Here's [a quick introduction to KIWI](http://doc.opensuse.org/projects/kiwi/doc/#chap.introduction)
 in case you need it.
 

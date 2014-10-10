@@ -30,9 +30,7 @@ repository, although that is not recommended:
 
 *   [resources for building the KIWI appliances](kiwi/)
 *   [resources for building the Vagrant boxes](vagrant/) from the KIWI
-    appliances (since these were originally built,
-    [KIWI has learnt how to build Vagrant boxes directly](https://github.com/openSUSE/kiwi/pull/353),
-    so in the near future we should be able to remove these)
+    appliances
 
 ## Support, bugs, development etc.
 

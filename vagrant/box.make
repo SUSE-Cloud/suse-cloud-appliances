@@ -1,3 +1,6 @@
+# Deprecated! - please consider using OBS instead, as explained in the
+# README.md.
+
 KIWI_IMAGE_DIR = ../../kiwi/$(BOX_NAME)/image
 
 BOX_FILE   = $(BOX_NAME).box
