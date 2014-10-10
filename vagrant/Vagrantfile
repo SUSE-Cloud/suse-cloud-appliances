@@ -110,10 +110,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       "cloud-admin/barclamp-pacemaker-ignore-target-role-changes.patch",
     ]
     provision_to_tmp(admin, files_to_provision)
-    admin.vm.provision "shell", path: "prep-admin.sh"
+    admin.vm.provision "shell", path: "provisioning/prep-admin.sh"
 
     # Automatically install SUSE Cloud on first-boot
-    admin.vm.provision "shell", path: "install-suse-cloud.sh"
+    admin.vm.provision "shell", path: "provisioning/install-suse-cloud.sh"
   end
 
   NUM_CONTROLLER_NODES.times do |i|

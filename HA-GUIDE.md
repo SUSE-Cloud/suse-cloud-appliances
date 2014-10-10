@@ -11,7 +11,7 @@ First deploy SUSE Cloud and 3 client nodes as described in the
     (login: `crowbar`, password: `crowbar`)
 *   You should have four nodes active in tab *Nodes* → *Dashboard*
     (they should be in the green state)
-*   If using Vagrant on Linux, run `./list-MACs.sh` to see the MAC
+*   If using Vagrant on Linux, run `./vagrant/scripts/list-MACs.sh` to see the MAC
     addresses (which also forms the hostname) for each node.
     Otherwise, just use the VirtualBox GUI to determine the MAC
     address of the second network interface on each node.
