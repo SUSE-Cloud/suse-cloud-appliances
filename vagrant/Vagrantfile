@@ -13,6 +13,17 @@ def provision_to_tmp(node, files_to_provision)
   end
 end
 
+def libvirt_mgmt_network(provider)
+  # The vagrant-libvirt provider requires a private management network:
+  #
+  #   https://github.com/pradels/vagrant-libvirt
+  #
+  # This defaults to 192.168.121.0/24 but that's a bit too close to
+  # conventional OpenStack networks for comfort.
+  provider.management_network_address = "192.168.101.0/24"
+  provider.management_network_name = "vagrant-mgmt"
+end
+
 Vagrant.configure(vagrantfile_api_version) do |config|
   config.vm.provider :libvirt do |libvirt|
     # libvirt.host = "localhost"
@@ -66,14 +77,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       # Don't use headless mode
       provider.gui = true
 
-      # The vagrant-libvirt provider requires a private management network:
-      #
-      #   https://github.com/pradels/vagrant-libvirt
-      #
-      # This defaults to 192.168.121.0/24 but that's a bit too close to
-      # conventional OpenStack networks for comfort.
-      provider.management_network_address = "192.168.101.0/24"
-      provider.management_network_name = "vagrant-mgmt"
+      libvirt_mgmt_network(provider)
 
       override.vm.network "private_network",
         ip: "192.168.124.10",
@@ -156,6 +160,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
         # Don't use headless mode
         provider.gui = true
+
+        libvirt_mgmt_network(provider)
       end
 
       # Allow Hawk web UI to be accessed by a presentation laptop.
