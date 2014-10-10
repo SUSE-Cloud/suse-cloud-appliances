@@ -3,6 +3,8 @@
 
 PXE = ENV['VAGRANT_USE_PXE'] || false
 ADMIN_IP = "192.168.124.10"
+NUM_CONTROLLER_NODES = ENV['NUM_CONTROLLER_NODES'] || 2
+NUM_COMPUTE_NODES    = ENV['NUM_COMPUTE_NODES']    || 1
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 vagrantfile_api_version = "2"
@@ -113,7 +115,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     admin.vm.provision "shell", path: "install-suse-cloud.sh"
   end
 
-  2.times do |i|
+  NUM_CONTROLLER_NODES.times do |i|
     node_name = "controller#{i+1}"
     config.vm.define node_name do |node|
       node.vm.box = PXE ? 'suse/pxe-16GB' : 'suse/sles11-sp3'
@@ -205,7 +207,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     end
   end
 
-  1.times do |i|
+  NUM_COMPUTE_NODES.times do |i|
     node_name = "compute#{i+1}"
     config.vm.define node_name do |node|
       node.vm.box = PXE ? 'suse/pxe-16GB' : 'suse/sles11-sp3'

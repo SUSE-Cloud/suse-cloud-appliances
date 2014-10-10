@@ -53,28 +53,37 @@
         *   a host-only network, named `vboxnet0`, with IP `192.168.124.1`
             and **DHCP disabled**.
 *   Depending on what cloud configuration you desire, either use Vagrant
-    to sequentially provision four VMs in one go:
+    to sequentially provision all four VMs from the default configuration
+    (1 admin + 2 controllers + 1 compute node) in one go:
 
         cd vagrant
         vagrant up
 
-    or keep reading to find out how to choose individual VMs to
+    or keep reading to find out how to choose which VMs to
     provision.
 
-If you do the above, the VMs will be provisioned in the following
+There is always exactly one admin server node.  You can change the
+number of controller nodes and compute notes from the defaults of 2
+and 1 respectively by exporting environment variables, e.g.:
+
+    export NUM_CONTROLLER_NODES=3
+    export NUM_COMPUTE_NODES=3
+
+`vagrant up` will cause all the VMs to be provisioned in the following
 order:
 
-*   `admin` - the Crowbar admin node.  After boot-up, `install-suse-cloud`
-    will automatically run.  This takes quite a few minutes to complete,
-    since it has to start several services.  Once you see the next VM
-    start to boot, you know it has completed installation, at which point
-    you can visit the Crowbar web UI on
-    [http://192.168.124.10:3000/](http://192.168.124.10:3000/) and watch
-    the other nodes come online one by one.
-*   `controller1` - the first of the two controller nodes which will run
-    the OpenStack infrastructure services within a Pacemaker cluster
-*   `controller2`
-*   `compute1` - the compute node
+1.  `admin` - the Crowbar admin server node.  After boot-up,
+    `install-suse-cloud` will automatically run.  This takes quite a
+    few minutes to complete, since it has to start several services.
+    Once you see the next VM start to boot, you know it has completed
+    installation, at which point you can visit the Crowbar web UI on
+    [http://192.168.124.10:3000/](http://192.168.124.10:3000/) and
+    watch the other nodes come online one by one.
+2.  The controller nodes in numerical order: `controller1`, then
+    `controller2` etc.  These will run the OpenStack infrastructure
+    services, typically within a Pacemaker cluster.
+3.  The compute nodes in numerical order: `compute1`, then `compute2`
+    etc.
 
 The first time you do this, it will automatically download the
 required Vagrant boxes from https://vagrantcloud.com.  They are
