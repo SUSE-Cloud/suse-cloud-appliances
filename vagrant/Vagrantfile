@@ -144,7 +144,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         provider.customize [ 'createhd', '--filename', "drbd-#{node_name}.vmdk", '--size', 2100, '--format', 'VMDK' ]
         provider.customize [
           'storageattach', :id,
-          '--storagectl', 'SCSI',
+          '--storagectl', 'SCSI Controller',
           '--port', 1,
           '--device', 0,
           '--type', 'hdd',
@@ -155,7 +155,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         provider.customize [ 'modifyhd', 'sbd.vmdk', '--type', 'shareable' ]
         provider.customize [
           'storageattach', :id,
-          '--storagectl', 'SCSI',
+          '--storagectl', 'SCSI Controller',
           '--port', 2,
           '--device', 0,
           '--type', 'hdd',
