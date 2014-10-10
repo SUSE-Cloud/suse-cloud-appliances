@@ -66,8 +66,8 @@ There is always exactly one admin server node.  You can change the
 number of controller nodes and compute notes from the defaults of 2
 and 1 respectively by exporting environment variables, e.g.:
 
-    export NUM_CONTROLLER_NODES=3
-    export NUM_COMPUTE_NODES=3
+    export VAGRANT_CONTROLLER_NODES=3
+    export VAGRANT_COMPUTE_NODES=3
 
 `vagrant up` will cause all the VMs to be provisioned in the following
 order:
