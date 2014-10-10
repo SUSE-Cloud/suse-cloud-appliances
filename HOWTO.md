@@ -15,8 +15,18 @@
         lets you poke around the Crowbar UI.
 *   either [VirtualBox](https://www.virtualbox.org/wiki/Downloads) >=
     4.2 (4.3 recommended; older may work but untested), or
-    [libvirt](http://libvirt.org/) installed
-*   [Vagrant](http://www.vagrantup.com/) >= 1.5.x installed (1.6.2 recommended)
+    [`libvirt`](http://libvirt.org/) installed, including the development
+    libraries, e.g.:
+
+        zypper in libvirt libvirt-devel
+
+*   [Vagrant](http://www.vagrantup.com/) >= 1.5.x installed (latest 1.6.x recommended)
+*   if using `libvirt`,
+    [`vagrant-libvirt` plugin](https://github.com/pradels/vagrant-libvirt) >= 0.20.0
+    installed, e.g.:
+
+        vagrant plugin install vagrant-libvirt
+
 *   a small bootable VM image ([CirrOS image is recommended](http://download.cirros-cloud.net/))
 *   this git repository
 *   the `suse/cloud4-admin` box (currently only [available to SUSE
