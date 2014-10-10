@@ -87,7 +87,7 @@ order:
 
 The first time you do this, it will automatically download the
 required Vagrant boxes from https://vagrantcloud.com.  They are
-approximately 5GB in total so please be patient.
+approximately 2.6GB in total so please be patient.
 
 It will take some additional time to provision each VM, since not only
 does Vagrant need to copy a fresh virtual disk from the box for each
