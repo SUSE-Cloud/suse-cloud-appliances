@@ -2,6 +2,7 @@
 # vi: set ft=ruby :
 
 PXE = ENV['VAGRANT_USE_PXE'] || false
+ADMIN_IP = "192.168.124.10"
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 vagrantfile_api_version = "2"
@@ -65,7 +66,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       # VMs.  And for an HA setup we need two interfaces which are
       # teamed and able to communicate with other VMs.  On VirtualBox
       # this means making them host-only.
-      override.vm.network "private_network", ip: "192.168.124.10", auto_config: false
+      override.vm.network "private_network", ip: ADMIN_IP, auto_config: false
     end
 
     admin.vm.provider "libvirt" do |provider, override|
@@ -80,13 +81,13 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       libvirt_mgmt_network(provider)
 
       override.vm.network "private_network",
-        ip: "192.168.124.10",
+        ip: ADMIN_IP,
         auto_config: false,
         libvirt__dhcp_enabled: false
     end
 
     admin.vm.network :forwarded_port,
-      guest_ip: "192.168.124.10", guest: 3000, host: 3000, host_ip: "*"
+      guest_ip: ADMIN_IP, guest: 3000, host: 3000, host_ip: "*"
     # admin.ssh.forward_agent = true
 
     admin.vm.synced_folder ".", "/vagrant", disabled: true
@@ -181,9 +182,9 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         set -e
 
         export PATH="$PATH:/sbin:/usr/sbin/"
-        zypper ar http://192.168.124.10:8091/suse-11.3/install sles11-sp3
+        zypper ar http://#{ADMIN_IP}:8091/suse-11.3/install sles11-sp3
         until [ -f crowbar_register ]; do
-          wget http://192.168.124.10:8091/suse-11.3/crowbar_register
+          wget http://#{ADMIN_IP}:8091/suse-11.3/crowbar_register
         done
         chmod a+x crowbar_register
         ./crowbar_register --force --interface eth1 --gpg-auto-import-keys --no-gpg-checks
@@ -197,7 +198,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         sbd -d /dev/sdc create
 
         # Mount NFS export for glance
-        echo "192.168.124.10:/var/lib/glance /var/lib/glance nfs defaults 0 2" >> /etc/fstab
+        echo "#{ADMIN_IP}:/var/lib/glance /var/lib/glance nfs defaults 0 2" >> /etc/fstab
         mkdir -p /var/lib/glance
         mount /var/lib/glance
       EOSCRIPT
@@ -241,9 +242,9 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         set -e
 
         export PATH="$PATH:/sbin:/usr/sbin/"
-        zypper ar http://192.168.124.10:8091/suse-11.3/install sles11-sp3
+        zypper ar http://#{ADMIN_IP}:8091/suse-11.3/install sles11-sp3
         until [ -f crowbar_register ]; do
-          wget http://192.168.124.10:8091/suse-11.3/crowbar_register
+          wget http://#{ADMIN_IP}:8091/suse-11.3/crowbar_register
         done
         chmod a+x crowbar_register
         ./crowbar_register --force --interface eth1  --gpg-auto-import-keys
