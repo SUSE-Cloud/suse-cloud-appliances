@@ -117,11 +117,13 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
   NUM_CONTROLLER_NODES.times do |i|
     node_name = "controller#{i+1}"
+    private_ip = "192.168.124.#{80+i}"
+
     config.vm.define node_name do |node|
       node.vm.box = PXE ? 'suse/pxe-16GB' : 'suse/sles11-sp3'
       node.vm.box_check_update = false
 
-      node.vm.provider 'virtualbox' do |provider|
+      node.vm.provider 'virtualbox' do |provider, override|
         provider.memory = 2048
         provider.cpus = 1
 
@@ -153,9 +155,11 @@ Vagrant.configure(vagrantfile_api_version) do |config|
           '--type', 'hdd',
           '--medium', 'sbd.vmdk',
         ]
+
+        override.vm.network "private_network", ip: private_ip
       end
 
-      node.vm.provider 'libvirt' do |provider|
+      node.vm.provider 'libvirt' do |provider, override|
         provider.memory = 2048
         provider.cpus = 1
 
@@ -165,14 +169,15 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         provider.gui = true
 
         libvirt_mgmt_network(provider)
+        override.vm.network "private_network",
+          ip: private_ip,
+          libvirt__dhcp_enabled: false
       end
 
       # Allow Hawk web UI to be accessed by a presentation laptop.
       node.vm.network :forwarded_port, guest: 7630, host: 7630+i-1
 
       node.vm.synced_folder ".", "/vagrant", disabled: true
-
-      node.vm.network "private_network", ip: "192.168.124.#{80+i}", auto_config: false
 
       files_to_provision = [
         # https://bugzilla.novell.com/show_bug.cgi?id=877484
@@ -209,19 +214,23 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
   NUM_COMPUTE_NODES.times do |i|
     node_name = "compute#{i+1}"
+    private_ip = "192.168.124.#{80+NUM_CONTROLLER_NODES+i}"
+
     config.vm.define node_name do |node|
       node.vm.box = PXE ? 'suse/pxe-16GB' : 'suse/sles11-sp3'
       node.vm.box_check_update = false
 
-      node.vm.provider 'virtualbox' do |provider|
+      node.vm.provider 'virtualbox' do |provider, override|
         provider.memory = 2048
         provider.cpus = 1
 
         # Don't use headless mode
         provider.gui = true
+
+        override.vm.network "private_network", ip: private_ip
       end
 
-      node.vm.provider 'libvirt' do |provider|
+      node.vm.provider 'libvirt' do |provider, override|
         provider.memory = 2048
         provider.cpus = 1
 
@@ -234,11 +243,14 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         # Use AMD instead of Intel NICs to avoid VLAN problems
         provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
         provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
+
+        libvirt_mgmt_network(provider)
+        override.vm.network "private_network",
+          ip: private_ip,
+          libvirt__dhcp_enabled: false
       end
 
       node.vm.synced_folder ".", "/vagrant", disabled: true
-
-      node.vm.network "private_network", ip: "192.168.124.83", auto_config: false
 
       node.vm.provision "shell", inline: <<-EOSCRIPT
         set -e
