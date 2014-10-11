@@ -185,12 +185,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       node.vm.synced_folder ".", "/vagrant", disabled: true
 
-      files_to_provision = [
-        # https://bugzilla.novell.com/show_bug.cgi?id=877484
-        "cloud-admin/crmsh-report-bnc877484.patch",
-      ]
-      provision_to_tmp(node, files_to_provision)
-
       node.vm.provision "shell", inline: <<-EOSCRIPT
         set -e
 
@@ -203,8 +197,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         ./crowbar_register --force --interface eth1 --gpg-auto-import-keys --no-gpg-checks
 
         zypper -n in crmsh # can't patch crmsh until it's installed
-        patch -d /usr/lib64/python2.6/site-packages/crmsh -p2 \
-            < /tmp/crmsh-report-bnc877484.patch
 
         # Set up SBD disk
         zypper -n in sbd
