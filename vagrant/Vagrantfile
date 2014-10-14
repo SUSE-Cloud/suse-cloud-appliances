@@ -258,7 +258,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
           wget http://#{ADMIN_IP}:8091/suse-11.3/crowbar_register
         done
         chmod a+x crowbar_register
-        ./crowbar_register --force --interface eth1  --gpg-auto-import-keys
+        ./crowbar_register --force --interface eth1 --gpg-auto-import-keys --no-gpg-checks
       EOSCRIPT
     end
   end
