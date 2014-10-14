@@ -185,16 +185,12 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       node.vm.synced_folder ".", "/vagrant", disabled: true
 
+      node.vm.provision "shell",
+        path: "provisioning/do-crowbar_register.sh",
+        args: ADMIN_IP
+
       node.vm.provision "shell", inline: <<-EOSCRIPT
         set -e
-
-        export PATH="$PATH:/sbin:/usr/sbin/"
-        zypper ar http://#{ADMIN_IP}:8091/suse-11.3/install sles11-sp3
-        until [ -f crowbar_register ]; do
-          wget http://#{ADMIN_IP}:8091/suse-11.3/crowbar_register
-        done
-        chmod a+x crowbar_register
-        ./crowbar_register --force --interface eth1 --gpg-auto-import-keys --no-gpg-checks
 
         zypper -n in crmsh # can't patch crmsh until it's installed
 
@@ -249,17 +245,9 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       node.vm.synced_folder ".", "/vagrant", disabled: true
 
-      node.vm.provision "shell", inline: <<-EOSCRIPT
-        set -e
-
-        export PATH="$PATH:/sbin:/usr/sbin/"
-        zypper ar http://#{ADMIN_IP}:8091/suse-11.3/install sles11-sp3
-        until [ -f crowbar_register ]; do
-          wget http://#{ADMIN_IP}:8091/suse-11.3/crowbar_register
-        done
-        chmod a+x crowbar_register
-        ./crowbar_register --force --interface eth1 --gpg-auto-import-keys --no-gpg-checks
-      EOSCRIPT
+      node.vm.provision "shell",
+        path: "provisioning/do-crowbar_register.sh",
+        args: ADMIN_IP
     end
   end
 end
