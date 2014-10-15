@@ -112,6 +112,10 @@ You can ssh via `vagrant`, e.g.:
     vagrant ssh admin
     vagrant ssh controller1 -- -l root
 
+or directly to the admin node:
+
+    ssh root@192.168.124.10
+
 The root password is `vagrant`, as per
 [convention](https://docs.vagrantup.com/v2/boxes/base.html).
 
