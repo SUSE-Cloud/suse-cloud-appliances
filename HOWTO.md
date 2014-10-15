@@ -118,7 +118,7 @@ The root password is `vagrant`, as per
 ## Trying out SUSE Cloud
 
 If you want to try out the new high availability functionality,
-see the [HA guide](HA-guide.md).
+see the [HA guide](HA-GUIDE.md).
 
 Otherwise, see the
 [official SUSE Cloud product documentation](https://www.suse.com/documentation/suse-cloud4/).
