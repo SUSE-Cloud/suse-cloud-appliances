@@ -196,7 +196,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
         # Set up SBD disk
         zypper -n in sbd
-        sbd -d /dev/sdc create
+        /usr/sbin/sbd -d /dev/sdc create
 
         # Mount NFS export for glance
         echo "#{ADMIN_IP}:/var/lib/glance /var/lib/glance nfs defaults 0 2" >> /etc/fstab
@@ -219,6 +219,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
         # Don't use headless mode
         provider.gui = true
+
+        # Use AMD instead of Intel NICs to avoid VLAN problems
+        provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
+        provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
 
         override.vm.network "private_network", ip: private_ip
       end
