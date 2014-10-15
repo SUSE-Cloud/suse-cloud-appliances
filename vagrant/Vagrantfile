@@ -198,7 +198,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
         # Set up SBD disk
         zypper -n in sbd
-        sbd -d /dev/sdc create
+        /usr/sbin/sbd -d /dev/sdc create
 
         # Mount NFS export for glance
         echo "#{ADMIN_IP}:/var/lib/glance /var/lib/glance nfs defaults 0 2" >> /etc/fstab
