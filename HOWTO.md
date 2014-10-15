@@ -105,6 +105,16 @@ in the normal Vagrant way, e.g.
     vagrant destroy compute1
     vagrant up compute1
 
+## Connecting to the VMs
+
+You can ssh via `vagrant`, e.g.:
+
+    vagrant ssh admin
+    vagrant ssh controller1 -- -l root
+
+The root password is `vagrant`, as per
+[convention](https://docs.vagrantup.com/v2/boxes/base.html).
+
 ## Trying out SUSE Cloud
 
 If you want to try out the new high availability functionality,
