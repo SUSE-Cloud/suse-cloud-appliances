@@ -28,6 +28,12 @@ def libvirt_mgmt_network(provider)
   provider.management_network_name = "vagrant-mgmt"
 end
 
+def virtualbox_nics(provider)
+  # Use AMD instead of Intel NICs to avoid VLAN problems
+  provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
+  provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
+end
+
 Vagrant.configure(vagrantfile_api_version) do |config|
   config.vm.provider :libvirt do |libvirt|
     # libvirt.host = "localhost"
@@ -55,9 +61,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       # Don't use headless mode
       provider.gui = true
 
-      # Use AMD instead of Intel NICs to avoid VLAN problems
-      provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
-      provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
+      virtualbox_nics(provider)
 
       # Setup network for admin node and for Crowbar in general.
       # Vagrant's VirtualBox provider requires the first interface of
@@ -136,9 +140,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         # Don't use headless mode
         provider.gui = true
 
-        # Use AMD instead of Intel NICs to avoid VLAN problems
-        provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
-        provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
+        virtualbox_nics(provider)
 
         ## create disk for DRBD
         provider.customize [ 'createhd', '--filename', "drbd-#{node_name}.vmdk", '--size', 2100, '--format', 'VMDK' ]
@@ -220,6 +222,8 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         # Don't use headless mode
         provider.gui = true
 
+        virtualbox_nics(provider)
+
         override.vm.network "private_network", ip: private_ip
       end
 
@@ -232,10 +236,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
         # Don't use headless mode
         provider.gui = true
-
-        # Use AMD instead of Intel NICs to avoid VLAN problems
-        provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
-        provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
 
         libvirt_mgmt_network(provider)
         override.vm.network "private_network",
