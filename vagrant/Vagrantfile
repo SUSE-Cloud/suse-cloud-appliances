@@ -111,12 +111,21 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       # another evil hack to avoid a crasher when applying the keystone
       # barclamp
       "cloud-admin/barclamp-pacemaker-ignore-target-role-changes.patch",
+
+      # handy utility for setting up node aliases in Crowbar
+      "provisioning/setup-node-aliases.sh",
     ]
     provision_to_tmp(admin, files_to_provision)
+
     admin.vm.provision "shell", path: "provisioning/prep-admin.sh"
 
     # Automatically install SUSE Cloud on first-boot
     admin.vm.provision "shell", path: "provisioning/install-suse-cloud.sh"
+
+    admin.vm.provision "shell", inline: <<EOSHELL
+mkdir -p /root/bin
+mv /tmp/setup-node-aliases.sh /root/bin
+EOSHELL
   end
 
   def sles_or_pxe_box(vm)

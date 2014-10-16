@@ -119,6 +119,25 @@ or directly to the admin node:
 The root password is `vagrant`, as per
 [convention](https://docs.vagrantup.com/v2/boxes/base.html).
 
+## Setting up node aliases
+
+By default, Crowbar and Chef name nodes according to the MAC address
+of their primary interface.  This is not very human-friendly, so
+Crowbar offers the option of assigning aliases (e.g. `controller1`,
+`compute1` etc.) to nodes.  This Vagrant environment provides a simple
+script to automate that: once you have booted your controller and
+compute nodes, simply `ssh` to the admin server as per above, and run
+
+    setup-node-aliases.sh
+
+After you have done this, the admin server's DNS tables will update,
+and you will be able to `ssh` conveniently from the admin node to
+other nodes, e.g.
+
+    ssh controller1
+
+etc.
+
 ## Trying out SUSE Cloud
 
 If you want to try out the new high availability functionality,
