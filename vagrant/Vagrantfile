@@ -164,6 +164,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         ]
 
         override.vm.network "private_network", ip: private_ip
+
+        override.vm.provision "shell",
+          path: "provisioning/prep-controller.sh",
+          args: [ ADMIN_IP, "/dev/sdc" ]
       end
 
       node.vm.provider 'libvirt' do |provider, override|
@@ -189,21 +193,6 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       node.vm.provision "shell",
         path: "provisioning/do-crowbar_register.sh",
         args: ADMIN_IP
-
-      node.vm.provision "shell", inline: <<-EOSCRIPT
-        set -e
-
-        zypper -n in crmsh # can't patch crmsh until it's installed
-
-        # Set up SBD disk
-        zypper -n in sbd
-        /usr/sbin/sbd -d /dev/sdc create
-
-        # Mount NFS export for glance
-        echo "#{ADMIN_IP}:/var/lib/glance /var/lib/glance nfs defaults 0 2" >> /etc/fstab
-        mkdir -p /var/lib/glance
-        mount /var/lib/glance
-      EOSCRIPT
     end
   end
 
