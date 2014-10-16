@@ -208,6 +208,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       node.vm.synced_folder ".", "/vagrant", disabled: true
 
       node.vm.provision "shell",
+        path: "provisioning/store-vagrant-name.sh",
+        args: node_name
+
+      node.vm.provision "shell",
         path: "provisioning/do-crowbar_register.sh",
         args: ADMIN_IP
     end
@@ -249,6 +253,10 @@ Vagrant.configure(vagrantfile_api_version) do |config|
       end
 
       node.vm.synced_folder ".", "/vagrant", disabled: true
+
+      node.vm.provision "shell",
+        path: "provisioning/store-vagrant-name.sh",
+        args: node_name
 
       node.vm.provision "shell",
         path: "provisioning/do-crowbar_register.sh",
