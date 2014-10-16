@@ -116,6 +116,19 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       # handy utility for setting up node aliases in Crowbar
       "provisioning/setup-node-aliases.sh",
+
+      # handy utility for configuring proposals in batch
+      "provisioning/crowbar_batch",
+
+      # update to library required by crowbar_batch
+      "provisioning/barclamp_lib.rb",
+
+      # gem required by crowbar_batch
+      "provisioning/easy_diff-0.0.3.gem",
+
+      # sample input files for crowbar_batch
+      "provisioning/HA-cloud.yaml",
+      "provisioning/simple-cloud.yaml",
     ]
     provision_to_tmp(admin, files_to_provision)
 
@@ -125,8 +138,13 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     admin.vm.provision "shell", path: "provisioning/install-suse-cloud.sh"
 
     admin.vm.provision "shell", inline: <<EOSHELL
+set -e
+
 mkdir -p /root/bin
 mv /tmp/setup-node-aliases.sh /root/bin
+gem install /tmp/easy_diff-0.0.3.gem
+mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
+mv /tmp/*-cloud.yaml /root
 EOSHELL
   end
 
