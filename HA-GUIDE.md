@@ -24,7 +24,7 @@ require extra upstream DNS records.)
 
 ### Deploy a Pacemaker cluster
 
-*   Go to tab *Barclamps* → *OpenStack *and click on *Edit* for *Pacemaker*
+*   Go to tab *Barclamps* → *OpenStack* and click on *Edit* for *Pacemaker*
 *   Change `proposal_1` to `cluster1` and click *Create*
 *   Scroll down to *Deployment*, and drag the `controller1` and `controller2`
     nodes to both roles (**pacemaker-cluster-member** and **hawk-server**)
@@ -104,8 +104,8 @@ real setup, using a SAN to store the volumes would be recommended.
 
 *   Go to tab *Barclamps* → *OpenStack* and click on *Create* for Neutron
 *   Do not change any option
-*   Under *Deployment*, remove the node that is assigned to the **neutron-server** role, and drag `cluster1` to the **neutron-server **role
-*   remove the node that is assigned to the **neutron-l3** role, and drag and drop `cluster1` to **neutron-l3 **role
+*   Under *Deployment*, remove the node that is assigned to the **neutron-server** role, and drag `cluster1` to the **neutron-server** role
+*   remove the node that is assigned to the **neutron-l3** role, and drag and drop `cluster1` to **neutron-l3** role
 *   Click on *Apply* to deploy Neutron
 
 ### Deploy Barclamps / OpenStack / Nova
@@ -114,15 +114,15 @@ real setup, using a SAN to store the volumes would be recommended.
 *   Do not change any option
 *   Under *Deployment*:
     * remove all nodes which are assigned to roles such as **nova-multi-controller** and **nova-multi-compute-xen**
-    * drag `cluster1` to the **nova-multi-controller **role
-    * drag **compute1** to the **nova-multi-compute-qemu **role
+    * drag `cluster1` to the **nova-multi-controller** role
+    * drag **compute1** to the **nova-multi-compute-qemu** role
 *   Click on *Apply* to deploy Nova
 
 ### Deploy Barclamps / OpenStack / Horizon
 
 *   Go to tab *Barclamps* → *OpenStack* and click on *Create* for Horizon
 *   Do not change any option
-*   Under *Deployment*, remove the node that is assigned to the **nova_dashboard-server** role, and drag `cluster1` to the **nova_dashboard-server **role
+*   Under *Deployment*, remove the node that is assigned to the **nova_dashboard-server** role, and drag `cluster1` to the **nova_dashboard-server** role
 *   Click on *Apply* to deploy Horizon
 
 ## Playing with Cloud
