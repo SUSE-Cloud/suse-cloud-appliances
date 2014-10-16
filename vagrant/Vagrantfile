@@ -179,10 +179,27 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         # Don't use headless mode
         provider.gui = true
 
+        ## create disk for DRBD
+        provider.storage :file,
+          path: "drbd-#{node_name}.qcow2",
+          size: "2100M",
+          device: "vdb"
+
+        # create shared disk for SBD
+        provider.storage :file,
+          path: "sbd.qcow2",
+          size: "8M",
+          device: "vdc",
+          allow_existing: true
+
         libvirt_mgmt_network(provider)
         override.vm.network "private_network",
           ip: private_ip,
           libvirt__dhcp_enabled: false
+
+        override.vm.provision "shell",
+          path: "provisioning/prep-controller.sh",
+          args: [ ADMIN_IP, "/dev/vdc" ]
       end
 
       # Allow Hawk web UI to be accessed by a presentation laptop.
