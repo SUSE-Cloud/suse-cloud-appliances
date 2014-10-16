@@ -13,7 +13,8 @@
     *   If you only have 4GB, you will be able to run the Crowbar admin
         node but nothing else.  This is not very useful but at least
         lets you poke around the Crowbar UI.
-*   [VirtualBox](https://www.virtualbox.org/wiki/Downloads) >= 4.3.0, or
+*   [VirtualBox](https://www.virtualbox.org/wiki/Downloads) >= 4.3.0
+    (but the latest release is strongly recommended), or
     [`libvirt`](http://libvirt.org/) installed, including the development
     libraries, e.g.:
 
