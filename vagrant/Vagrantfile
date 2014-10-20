@@ -4,7 +4,7 @@
 ADMIN_IP = "192.168.124.10"
 NUM_CONTROLLER_NODES = ENV['VAGRANT_CONTROLLER_NODES'] || 2
 NUM_COMPUTE_NODES    = ENV['VAGRANT_COMPUTE_NODES']    || 1
-SLES_BOX             = ENV['VAGRANT_SLES_BOX'] || 'suse/sles11sp3-minimal'
+SLES_BOX             = ENV['VAGRANT_SLES_BOX'] || 'suse/sles11sp3'
 NO_BOX_REGEXP        = /^no_?box$/i
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
