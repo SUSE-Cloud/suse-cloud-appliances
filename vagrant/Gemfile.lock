@@ -1,0 +1,183 @@
+GIT
+  remote: git://github.com/aspiers/fog.git
+  revision: 572bcb7e784a5fe7200eea83f8de5d2d01a1a96d
+  branch: fix/vols
+  specs:
+    fog (1.24.0)
+      fog-brightbox
+      fog-core (~> 1.24)
+      fog-json
+      fog-radosgw (>= 0.0.2)
+      fog-sakuracloud (>= 0.0.4)
+      fog-softlayer
+      ipaddress (~> 0.5)
+      nokogiri (~> 1.5, >= 1.5.11)
+
+GIT
+  remote: git://github.com/aspiers/vagrant-libvirt.git
+  revision: bdd15ee49a5de90fc5e0d35ecbd840be8a71190b
+  branch: working
+  specs:
+    vagrant-libvirt (0.0.23)
+      fog (~> 1.15)
+      nokogiri (~> 1.6.0)
+      ruby-libvirt (>= 0.4.0)
+
+GIT
+  remote: git://github.com/fog/fog-core.git
+  revision: 741f915911c0253a505b0ee52c9a6a41eaaf8a1b
+  branch: master
+  specs:
+    fog-core (1.24.0)
+      builder
+      excon (~> 0.38)
+      formatador (~> 0.2)
+      mime-types
+      net-scp (~> 1.1)
+      net-ssh (>= 2.1.3)
+
+GIT
+  remote: git://github.com/jedi4ever/sahara.git
+  revision: 9d28b50f42e58e8226306695e781511ce2af9d4d
+  specs:
+    sahara (0.0.17)
+      popen4 (~> 0.1.2)
+
+GIT
+  remote: git://github.com/mitchellh/vagrant.git
+  revision: 6986a8eeb20e8d543ad4896924ca63b799a5374f
+  branch: master
+  specs:
+    vagrant (1.6.5)
+      bundler (>= 1.5.2, < 1.7.0)
+      childprocess (~> 0.5.0)
+      erubis (~> 2.7.0)
+      hashicorp-checkpoint (~> 0.1.1)
+      i18n (~> 0.6.0)
+      listen (~> 2.7.1)
+      log4r (~> 1.1.9, < 1.1.11)
+      net-scp (~> 1.1.0)
+      net-ssh (>= 2.6.6, < 2.10.0)
+      nokogiri (= 1.6.3.1)
+      rb-kqueue (~> 0.2.0)
+      wdm (~> 0.1.0)
+      winrm (~> 1.1.3)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    Platform (0.4.0)
+    akami (1.2.2)
+      gyoku (>= 0.4.0)
+      nokogiri
+    builder (3.2.2)
+    celluloid (0.16.0)
+      timers (~> 4.0.0)
+    childprocess (0.5.5)
+      ffi (~> 1.0, >= 1.0.11)
+    coderay (1.1.0)
+    erubis (2.7.0)
+    excon (0.40.0)
+    ffi (1.9.6)
+    fog-brightbox (0.5.1)
+      fog-core (~> 1.22)
+      fog-json
+      inflecto
+    fog-json (1.0.0)
+      multi_json (~> 1.0)
+    fog-radosgw (0.0.3)
+      fog-core (>= 1.21.0)
+      fog-json
+      fog-xml (>= 0.0.1)
+    fog-sakuracloud (0.1.1)
+      fog-core
+      fog-json
+    fog-softlayer (0.3.21)
+      fog-core
+      fog-json
+    fog-xml (0.1.0)
+      fog-core
+      nokogiri (~> 1.5, >= 1.5.11)
+    formatador (0.2.5)
+    gssapi (1.0.3)
+      ffi (>= 1.0.1)
+    gyoku (1.2.2)
+      builder (>= 2.1.2)
+    hashicorp-checkpoint (0.1.4)
+    hitimes (1.2.2)
+    httpclient (2.5.1)
+    httpi (0.9.7)
+      rack
+    i18n (0.6.11)
+    inflecto (0.0.2)
+    ipaddress (0.8.0)
+    listen (2.7.11)
+      celluloid (>= 0.15.2)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
+    little-plugger (1.1.3)
+    log4r (1.1.10)
+    logging (1.8.2)
+      little-plugger (>= 1.1.3)
+      multi_json (>= 1.8.4)
+    method_source (0.8.2)
+    mime-types (2.4.2)
+    mini_portile (0.6.0)
+    multi_json (1.10.1)
+    net-scp (1.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.9.1)
+    nokogiri (1.6.3.1)
+      mini_portile (= 0.6.0)
+    nori (1.1.5)
+    open4 (1.3.4)
+    popen4 (0.1.2)
+      Platform (>= 0.4.0)
+      open4 (>= 0.4.0)
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    rack (1.5.2)
+    rb-fsevent (0.9.4)
+    rb-inotify (0.9.5)
+      ffi (>= 0.5.0)
+    rb-kqueue (0.2.3)
+      ffi (>= 0.5.0)
+    ruby-libvirt (0.5.2)
+    rubyntlm (0.1.1)
+    savon (0.9.5)
+      akami (~> 1.0)
+      builder (>= 2.1.2)
+      gyoku (>= 0.4.0)
+      httpi (~> 0.9)
+      nokogiri (>= 1.4.0)
+      nori (~> 1.0)
+      wasabi (~> 1.0)
+    slop (3.6.0)
+    timers (4.0.1)
+      hitimes
+    uuidtools (2.1.5)
+    wasabi (1.0.0)
+      nokogiri (>= 1.4.0)
+    wdm (0.1.0)
+    winrm (1.1.3)
+      gssapi (~> 1.0.0)
+      httpclient (~> 2.2, >= 2.2.0.2)
+      logging (~> 1.6, >= 1.6.1)
+      nokogiri (~> 1.5)
+      rubyntlm (~> 0.1.1)
+      savon (= 0.9.5)
+      uuidtools (~> 2.1.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  fog!
+  fog-core!
+  pry
+  ruby-libvirt (~> 0.5.2)
+  sahara!
+  vagrant (~> 1.6.5)!
+  vagrant-libvirt!

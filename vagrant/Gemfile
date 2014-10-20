@@ -1,0 +1,21 @@
+source 'https://rubygems.org'
+
+group :development do
+  # bundle config local.vagrant ~/.GIT/3rd-party/vagrant
+  gem 'vagrant', '~> 1.6.5', github: 'mitchellh/vagrant', branch: 'master'
+  gem 'pry'
+end
+
+group :plugins do
+  gem 'ruby-libvirt', '~> 0.5.2' #, git: 'git://libvirt.org/ruby-libvirt.git', branch: 'master'
+
+  #gem 'vagrant-libvirt', github: 'pradels/vagrant-libvirt', branch: 'master'
+  gem 'vagrant-libvirt', github: 'aspiers/vagrant-libvirt', branch: 'working'
+
+  #gem 'fog', github: 'fog/fog', branch: 'master'
+  gem 'fog', github: 'aspiers/fog', branch: 'fix/vols'
+
+  gem 'fog-core', github: 'fog/fog-core', branch: 'master'
+
+  gem 'sahara', github: 'jedi4ever/sahara'
+end
