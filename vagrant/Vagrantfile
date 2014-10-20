@@ -56,7 +56,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     # explanation.
     admin.vm.provider "virtualbox" do |provider, override|
       provider.memory = 2048
-      provider.cpus = 1
+      provider.cpus = 2
 
       # Don't use headless mode
       provider.gui = true
@@ -78,7 +78,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
     admin.vm.provider "libvirt" do |provider, override|
       provider.memory = 2048
-      provider.cpus = 1
+      provider.cpus = 2
 
       provider.volume_cache = "none"
 
@@ -143,7 +143,7 @@ EOSHELL
 
       node.vm.provider 'virtualbox' do |provider, override|
         provider.memory = 2048
-        provider.cpus = 1
+        provider.cpus = 2
 
         # Don't use headless mode
         provider.gui = true
@@ -181,7 +181,7 @@ EOSHELL
 
       node.vm.provider 'libvirt' do |provider, override|
         provider.memory = 2048
-        provider.cpus = 1
+        provider.cpus = 2
 
         provider.volume_cache = 'none'
 
@@ -235,7 +235,7 @@ EOSHELL
 
       node.vm.provider 'virtualbox' do |provider, override|
         provider.memory = 2048
-        provider.cpus = 1
+        provider.cpus = 2
 
         # Don't use headless mode
         provider.gui = true
@@ -247,7 +247,7 @@ EOSHELL
 
       node.vm.provider 'libvirt' do |provider, override|
         provider.memory = 2048
-        provider.cpus = 1
+        provider.cpus = 2
 
         provider.nested = true
         provider.volume_cache = 'none'
