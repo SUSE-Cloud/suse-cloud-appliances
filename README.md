@@ -12,6 +12,8 @@ This repository contains resources for rapid virtualized deployment of
     `vagrant up` command
 *   an [HA guide](HA-GUIDE.md) documenting how to use these resources to
     manually deploy a highly-available cloud from scratch
+*   resources for [automatically preparing and presenting demos](demos/)
+    of functionality within SUSE Cloud
 
 Currently the Vagrant boxes and .iso images required are built on
 SUSE's Internal Build Service a.k.a. IBS which is accessible only to

@@ -1,0 +1,224 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "AWS CloudFormation Sample Template WordPress_Multi_Instance: WordPress is web software you can use to create a beautiful website or blog. This template installs two instances: one running a WordPress deployment and the other using a local MySQL database to store the data.",
+
+  "Parameters" : {
+
+    "FloatingNetwork" : {
+      "Description" : "ID of the Nova floating network",
+      "Type" : "String",
+      "Default" : "@@FloatingNetworkId@@"
+    },
+
+    "FixedNetwork" : {
+      "Description" : "ID of the Nova fixed network",
+      "Type" : "String",
+      "Default" : "@@FixedNetworkId@@"
+    },
+
+    "KeyName" : {
+      "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+      "Type" : "String",
+      "Default" : "suseuser"
+    },
+
+    "InstanceType" : {
+      "Description" : "WebServer EC2 instance type",
+      "Type" : "String",
+      "Default" : "m1.small",
+      "AllowedValues" : [ "m1.tiny", "m1.small", "m1.medium", "m1.large", "m1.xlarge" ],
+      "ConstraintDescription" : "must be a valid EC2 instance type."
+    },
+
+    "WordpressVolumeSize" : {
+      "Description" : "Database Volume size",
+      "Type" : "Number",
+      "Default" : "1",
+      "MinValue" : "1",
+      "MaxValue" : "1024",
+      "ConstraintDescription" : "must be between 1 and 1024 Gb."
+    },
+
+    "MySQLVolumeSize" : {
+      "Description" : "Database Volume size",
+      "Type" : "Number",
+      "Default" : "1",
+      "MinValue" : "1",
+      "MaxValue" : "1024",
+      "ConstraintDescription" : "must be between 1 and 1024 Gb."
+    },
+
+    "WordpressVersion": {
+      "Default": "0.0.8",
+      "Description" : "Wordpress Image Version",
+      "Type": "String",
+      "AllowedValues" : [ "0.0.8"  ]
+    },
+
+    "MySQLVersion": {
+      "Default": "0.0.3",
+      "Description" : "MySQL Image Version",
+      "Type": "String",
+      "AllowedValues" : [ "0.0.3"  ]
+    },
+
+    "WWWSecGroup": {
+      "Description" : "UUID of project www security group",
+      "Type": "String",
+      "Default": "@@WWWSecGroupId@@"
+    },
+
+    "MySQLSecGroup": {
+      "Description" : "UUID of project mysql security group",
+      "Type": "String",
+      "Default": "@@MySQLSecGroupId@@"
+    },
+
+    "DefaultSecGroup": {
+      "Description" : "UUID of project default security group",
+      "Type": "String",
+      "Default": "@@DefaultSecGroupId@@"
+    }
+
+  },
+
+  "Mappings" : {
+    "WordpressVersionMap": {
+      "0.0.8": {"kvm": "Wordpress-0.0.8-kvm"}
+    },
+    "MySQLVersionMap": {
+      "0.0.3": {"kvm": "MySQL-0.0.3-kvm"}
+    }
+  },
+
+  "Resources" : {
+
+    "data": {
+      "Type" : "OS::Quantum::Net",
+      "Properties" : {
+        "name" : "data",
+        "admin_state_up": "true"
+      }
+    },
+
+    "subnet": {
+      "Type": "OS::Quantum::Subnet",
+      "Properties": {
+        "name" : "data",
+        "network_id" : { "Ref" : "data"},
+        "ip_version": 4,
+        "cidr": "172.16.0.0/24",
+        "allocation_pools" : [{"start": "172.16.0.2", "end": "172.16.0.150"}]
+      }
+    },
+
+    "MySQLPort": {
+      "Type": "OS::Quantum::Port",
+      "Properties": {
+        "network_id": { "Ref" : "data" },
+        "security_groups" : [ { "Ref" : "DefaultSecGroup" }, { "Ref" : "MySQLSecGroup" } ],
+        "admin_state_up": "true"
+      }
+    },
+
+    "WordpressPort1": {
+      "Type": "OS::Quantum::Port",
+      "Properties": {
+        "network_id": { "Ref" : "FixedNetwork" },
+        "security_groups" : [ { "Ref" : "DefaultSecGroup" }, { "Ref" : "WWWSecGroup" } ],
+        "admin_state_up": "true"
+      }
+    },
+
+    "WordpressPort2": {
+      "Type": "OS::Quantum::Port",
+      "Properties": {
+        "network_id": { "Ref" : "data" },
+        "security_groups" : [ { "Ref" : "DefaultSecGroup" }, { "Ref" : "WWWSecGroup" } ],
+        "admin_state_up": "true"
+      }
+    },
+
+    "Floating_IP": {
+      "Type": "OS::Quantum::FloatingIP",
+      "Properties": {
+        "floating_network_id": { "Ref" : "FloatingNetwork" }
+      }
+    },
+
+    "floating_ip_assoc": {
+      "Type": "OS::Quantum::FloatingIPAssociation",
+      "Properties": {
+        "floatingip_id": { "Ref" : "Floating_IP" },
+        "port_id": { "Ref" : "WordpressPort1" }
+      }
+    },
+
+    "MySQLServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId" : {"Fn::FindInMap": ["MySQLVersionMap",{"Ref": "MySQLVersion"},"kvm"]},
+        "InstanceType"   : { "Ref" : "InstanceType" },
+        "KeyName"        : { "Ref" : "KeyName" },
+        "AvailabilityZone"  : "nova",
+        "NetworkInterfaces" : [ { "Ref" : "MySQLPort" } ]
+      }
+    },
+
+    "WordpressServer": {
+      "Type": "AWS::EC2::Instance",
+      "DependsOn": "MySQLServer",
+      "Properties": {
+        "ImageId" : {"Fn::FindInMap": ["WordpressVersionMap",{"Ref": "WordpressVersion"},"kvm"]},
+        "InstanceType"   : { "Ref" : "InstanceType" },
+        "KeyName"        : { "Ref" : "KeyName" },
+        "AvailabilityZone"  : "nova",
+        "NetworkInterfaces" : [ { "Ref" : "WordpressPort1" }, { "Ref" : "WordpressPort2" } ]
+      }       
+    },
+
+    "WordpressDataVolume" : {
+      "Type" : "AWS::EC2::Volume",
+      "Properties" : {
+        "Size" : { "Ref" : "WordpressVolumeSize" },
+        "AvailabilityZone" : { "Fn::GetAtt" : [ "WordpressServer", "AvailabilityZone" ]},
+        "Tags" : [{ "Key" : "Usage", "Value" : "Application Volume" }]
+      }
+    },
+
+    "MySQLDataVolume" : {
+      "Type" : "AWS::EC2::Volume",
+      "Properties" : {
+        "Size" : { "Ref" : "MySQLVolumeSize" },
+        "AvailabilityZone" : { "Fn::GetAtt" : [ "MySQLServer", "AvailabilityZone" ]},
+        "Tags" : [{ "Key" : "Usage", "Value" : "Database Volume" }]
+      }
+    },
+
+    "WordpressMountPoint" : {
+      "Type" : "AWS::EC2::VolumeAttachment",
+      "Properties" : {
+        "InstanceId" : { "Ref" : "WordpressServer" },
+        "VolumeId"  : { "Ref" : "WordpressDataVolume" },
+        "Device" : "/dev/vdc"
+      }
+    },
+
+    "MySQLMountPoint" : {
+      "Type" : "AWS::EC2::VolumeAttachment",
+      "Properties" : {
+        "InstanceId" : { "Ref" : "MySQLServer" },
+        "VolumeId"  : { "Ref" : "MySQLDataVolume" },
+        "Device" : "/dev/vdc"
+      }
+    }
+  },
+
+  "Outputs" : {
+    "WebsiteURL" : {
+      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "WordpressServer", "PublicIp" ]} ]] },
+      "Description" : "URL for Wordpress blog"
+    }
+  }
+}
