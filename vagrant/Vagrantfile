@@ -213,8 +213,11 @@ EOSHELL
           args: [ ADMIN_IP, "/dev/vdc" ]
       end
 
+      # Allow Horizon web UI to be accessed by a presentation laptop.
+      node.vm.network :forwarded_port, host: 8080+i-1, guest: 80
+
       # Allow Hawk web UI to be accessed by a presentation laptop.
-      node.vm.network :forwarded_port, guest: 7630, host: 7630+i-1
+      node.vm.network :forwarded_port, host: 7630+i-1, guest: 7630
 
       node.vm.synced_folder ".", "/vagrant", disabled: true
 
