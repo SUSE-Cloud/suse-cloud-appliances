@@ -251,7 +251,7 @@ EOSHELL
 
   NUM_COMPUTE_NODES.times do |i|
     node_name = "compute#{i+1}"
-    private_ip = "192.168.124.#{80+NUM_CONTROLLER_NODES+i}"
+    private_ip = "192.168.124.#{80+NUM_CONTROLLER_NODES+1+i}"
 
     config.vm.define node_name do |node|
       sles_or_pxe_box(node.vm)
