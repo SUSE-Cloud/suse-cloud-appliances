@@ -1,3 +1,4 @@
 MySQL*.qcow2
 Wordpress*.qcow2
 heat-template-wordpress.json
+suseuser.pem
