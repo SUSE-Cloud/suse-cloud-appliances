@@ -28,7 +28,8 @@
         vagrant plugin install vagrant-libvirt
 
 *   a small bootable VM image ([CirrOS image is recommended](http://download.cirros-cloud.net/))
-*   this git repository (see the [project page](../..) for URLs to use with `git clone`)
+*   this git repository (see the [project page](../..) for URLs to use with `git clone`,
+    or just [download a `.zip`](https://github.com/SUSE-Cloud/suse-cloud-vagrant/archive/master.zip))
 *   the `suse/cloud4-admin` box (currently only [available to SUSE
     employees](https://etherpad.nue.suse.com/p/cloud-vagrant)
     but hopefully will be published on https://vagrantcloud.com/suse
