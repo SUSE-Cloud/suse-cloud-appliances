@@ -52,6 +52,8 @@ check_hypervisor () {
                 die "Your host's kvm_intel kernel module needs the nested parameter enabled".
             fi
 
+            export VAGRANT_DEFAULT_PROVIDER=libvirt
+
             # This is only needed for HA setups.
             cd $vagrant_dir
             if ! bundle install; then
@@ -64,6 +66,8 @@ check_hypervisor () {
                 4.[012].*)
                     die "Please upgrade to the most recent VirtualBox"
             esac
+
+            unset VAGRANT_DEFAULT_PROVIDER
             ;;
         *)
             usage "Unrecognised hypervisor '$hypervisor'"
