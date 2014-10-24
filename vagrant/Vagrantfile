@@ -86,6 +86,21 @@ def virtualbox_nics(provider)
   provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
 end
 
+def libvirt_ha_disks(provider)
+  ## create disk for DRBD
+  provider.storage :file,
+    path: "drbd-#{node_name}.qcow2",
+    size: "2100M",
+    device: "vdb"
+
+  # create shared disk for SBD
+  provider.storage :file,
+    path: "sbd.qcow2",
+    size: "8M",
+    device: "vdc",
+    allow_existing: true
+end
+
 def virtualbox_ha_disks(provider)
   ## create disk for DRBD
   provider.customize [
@@ -229,18 +244,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
         # Don't use headless mode
         provider.gui = true
 
-        ## create disk for DRBD
-        provider.storage :file,
-          path: "drbd-#{node_name}.qcow2",
-          size: "2100M",
-          device: "vdb"
-
-        # create shared disk for SBD
-        provider.storage :file,
-          path: "sbd.qcow2",
-          size: "8M",
-          device: "vdc",
-          allow_existing: true
+        libvirt_ha_disks(provider)
 
         libvirt_mgmt_network(provider)
         override.vm.network "private_network",
