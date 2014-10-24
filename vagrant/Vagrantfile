@@ -136,6 +136,14 @@ def virtualbox_ha_disks(provider)
   ]
 end
 
+def forward_controller_ports(node)
+  # Allow Horizon web UI to be accessed by a presentation laptop.
+  node.vm.network :forwarded_port, host: 8080+i-1, guest: 80
+
+  # Allow Hawk web UI to be accessed by a presentation laptop.
+  node.vm.network :forwarded_port, host: 7630+i-1, guest: 7630
+end
+
 Vagrant.configure(vagrantfile_api_version) do |config|
   config.vm.provider :libvirt do |libvirt|
     # libvirt.host = "localhost"
@@ -256,11 +264,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
           args: [ ADMIN_IP, "/dev/vdc" ]
       end
 
-      # Allow Horizon web UI to be accessed by a presentation laptop.
-      node.vm.network :forwarded_port, host: 8080+i-1, guest: 80
-
-      # Allow Hawk web UI to be accessed by a presentation laptop.
-      node.vm.network :forwarded_port, host: 7630+i-1, guest: 7630
+      forward_controller_ports(node)
 
       node.vm.synced_folder ".", "/vagrant", disabled: true
 
