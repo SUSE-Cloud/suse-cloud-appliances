@@ -9,7 +9,8 @@ are used to build a whole cloud via Vagrant.
 However, since these files were originally built,
 [KIWI has learnt how to build Vagrant boxes directly](https://github.com/openSUSE/kiwi/pull/353),
 and so has [OBS](http://openbuildservice.org/), so it is not any
-longer recommended to build boxes using these files.  They are left
+longer recommended to build boxes using only these files.  Some of
+these files are still used by the new build process; others are left
 here for posterity.
 
 ## What is KIWI?

@@ -15,7 +15,7 @@ see the slides for more information.
 ## Preparing the demo
 
 First ensure you have
-[the prerequisites described in the general HOWTO](../../HOWTO.md#prerequisites).
+[the described prerequisites](../../docs/prerequisites.md).
 
 Then depending on your preferred hypervisor, simply run:
 

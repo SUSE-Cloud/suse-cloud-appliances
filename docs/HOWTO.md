@@ -2,52 +2,15 @@
 
 ## Prerequisites
 
-*   Machine with >= 4GB RAM and >= roughly 16GB spare disk
-    *   Ideally you should have 16GB RAM for building a full HA cloud.
-    *   If you only have 8GB and want to build a two-node HA cluster
-        for the control plane then you will not have enough RAM for a
-        compute node in order to provision a VM instance in the cloud.
-        However this is still plenty interesting enough to be worth
-        attempting!  Alternatively you could opt for a single controller
-        node in a non-HA configuration.
-    *   If you only have 4GB, you will be able to run the Crowbar admin
-        node but nothing else.  This is not very useful but at least
-        lets you poke around the Crowbar UI.
-*   [VirtualBox](https://www.virtualbox.org/wiki/Downloads) >= 4.3.0
-    (but the latest release is strongly recommended), or
-    [`libvirt`](http://libvirt.org/) installed, including the development
-    libraries, e.g.:
-
-        zypper in libvirt libvirt-devel
-
-*   [Vagrant](http://www.vagrantup.com/) >= 1.5.x installed (latest 1.6.x recommended)
-*   if using `libvirt`,
-    [`vagrant-libvirt` plugin](https://github.com/pradels/vagrant-libvirt) >= 0.20.0
-    installed, e.g.:
-
-        vagrant plugin install vagrant-libvirt
-
-*   this git repository (see the [project page](../..) for URLs to use with `git clone`,
-    or just [download a `.zip`](https://github.com/SUSE-Cloud/suse-cloud-vagrant/archive/master.zip))
-*   the `suse/cloud4-admin` box (currently only [available to SUSE
-    employees](https://etherpad.nue.suse.com/p/cloud-vagrant)
-    but hopefully will be published on https://vagrantcloud.com/suse
-    soon; please [contact us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud)
-    if you need a copy urgently
-*   a `suse/sles11sp3` or `suse/sles11sp3-minimal` box; again please [contact
-    us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud) regarding this
-    as work is currently in flux
-*   an internet connection, or if you want to do this offline, you need
-    to pre-download the two Vagrant boxes before you disconnect:
-
-        vagrant box add suse/cloud4-admin
-        vagrant box add suse/sles11sp3 # or suse/sles11sp3-minimal
+Please see the [prerequisites page](prerequisites.md) for information
+on hardware requirements and how to set up Vagrant to work with your
+hypervisor.
 
 ## SUSE Cloud installation
 
 N.B. The following steps describe semi-automated booting of the cloud
 infrastructure via Vagrant.  Another more fully automated option is
-to use one of the [pre-canned demos](demos/README.md).
+to use one of the [pre-canned demos](../demos/README.md).
 
 *   If using VirtualBox:
     *   Start the GUI
@@ -67,9 +30,15 @@ to use one of the [pre-canned demos](demos/README.md).
     provision.
 
 There is always exactly one admin server node.  The quantity, shape,
-and size of all nodes are determined by
-[`vagrant.yaml`][(vagrant/vagrant.yaml). You can change the number of controller nodes and compute notes from the defaults of 2 and 1 respectively by editing this file or by pointing
-the `Vagrantfile` at an alternative config file:
+and size of all nodes are determined by a YAML config file.  The
+default is
+[`2-controllers-1-compute.yaml`](../vagrant/configs/2-controllers-1-compute.yaml)
+but there are other examples in
+[the same directory](../vagrant/configs/).
+
+You can change the number of controller nodes and compute notes from
+the defaults of 2 and 1 respectively by editing this file or by
+pointing the `Vagrantfile` at an alternative config file:
 
     export VAGRANT_CONFIG_FILE=/path/to/other/vagrant.yaml
 
@@ -89,14 +58,10 @@ listed in the YAML config file.  Typically this is:
 3.  The compute nodes in numerical order: `compute1`, then `compute2`
     etc.
 
-The first time you do this, it will automatically download the
-required Vagrant boxes from https://vagrantcloud.com.  They are
-approximately 2.6GB in total so please be patient.
-
-It will take some additional time to provision each VM, since not only
-does Vagrant need to copy a fresh virtual disk from the box for each
-VM, but also on first boot the VMs will register against Crowbar and
-then perform some orchestrated setup via Chef.
+It will take a few minutes to provision each VM, since not only does
+Vagrant need to copy a fresh virtual disk from the box for each VM,
+but also on first boot the VMs will register against Crowbar and then
+perform some orchestrated setup via Chef.
 
 Alternatively, you can provision each VM individually, e.g.
 
@@ -145,7 +110,7 @@ etc.
 ## Trying out SUSE Cloud
 
 *   See the provided resources for
-    [automatically preparing and presenting demos](demos/README.md) of
+    [automatically preparing and presenting demos](../demos/README.md) of
     functionality within SUSE Cloud.
 
 Also see the

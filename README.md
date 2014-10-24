@@ -6,31 +6,36 @@ This repository contains resources for rapid virtualized deployment of
 
 ## Contents
 
-*   a [HOWTO guide](HOWTO.md) documenting how to use Vagrant and the
-    provided [`Vagrantfile`](vagrant/Vagrantfile) to deploy a
-    SUSE Cloud environment of (by default) 4 VMs via a single
-    `vagrant up` command
 *   resources for [automatically preparing and presenting demos](demos/)
     of functionality within SUSE Cloud
+*   a [HOWTO guide](docs/HOWTO.md) documenting how to use Vagrant and
+    the provided [`Vagrantfile`](vagrant/Vagrantfile) to deploy a SUSE
+    Cloud environment of (by default) 4 VMs via a single `vagrant up`
+    command
 
-Currently the Vagrant boxes and .iso images required are built on
-SUSE's Internal Build Service a.k.a. IBS which is accessible only to
-employees.  (Employees please follow
-[this HOWTO](https://etherpad.nue.suse.com/p/cloud-vagrant).)  However
-the goal is to make the Vagrant boxes available in the near future via
-https://vagrantcloud.com/suse so that they will be automatically
-downloaded on demand.  If you are external and would like these files
-urgently, please
+Currently the
+[Vagrant boxes and .iso images required](docs/prerequisites.md#vagrant-boxes)
+are built on SUSE's Internal Build Service (a.k.a. IBS) which is
+accessible only to SUSE employees.  (Employees please see
+[this etherpad](https://etherpad.nue.suse.com/p/cloud-vagrant).)
+However the goal is to make the Vagrant boxes available in the near
+future via https://vagrantcloud.com/suse so that they will be
+automatically downloaded on demand.  If you are external and would
+like these files urgently, please
 [contact us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud)
 and we can probably sort something out!
 
+### Building the Vagrant boxes
+
 In theory if you had the time and patience, you could probably build
 them yourself from scratch using the below resources from this
-repository, although that is not recommended:
+repository, although if you want to do that, it is strongly
+recommended that you contact us first, otherwise you are likely to
+waste a lot of your own time.
 
 *   [resources for building the KIWI appliances](kiwi/)
-*   [resources for building the Vagrant boxes](vagrant/) from the KIWI
-    appliances
+*   [resources for building the Vagrant boxes](vagrant/BUILDING-BOXES.md)
+    from the KIWI appliances
 
 ## Support, bugs, development etc.
 

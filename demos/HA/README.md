@@ -6,7 +6,7 @@ an OpenStack cloud which has highly available services.
 ## Preparing the demo
 
 First ensure you have
-[the prerequisites described in the general HOWTO](../../HOWTO.md#prerequisites).
+[the described prerequisites](../../docs/prerequisites.md).
 
 Then depending on your preferred hypervisor, simply run:
 
@@ -19,8 +19,10 @@ or
 This will perform the following steps:
 
 *   Use Vagrant to build one Crowbar admin node, two controller nodes,
-    and a compute node
-*   Set aliases in Crowbar for the controller and compute nodes
+    and a compute node, including an extra DRBD disk on each controller
+    and a shared SBD disk.
+*   Run [`/root/bin/setup-node-aliases.sh`](../../vagrant/provisioning/admin/setup-node-aliases.sh)
+    to set aliases in Crowbar for the controller and compute nodes
 *   Create and apply a standard set of Crowbar proposals
 
 If you prefer to perform any of these steps manually as part of the
