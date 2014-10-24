@@ -1,18 +1,192 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-ADMIN_IP = "192.168.124.10"
-NUM_CONTROLLER_NODES = ENV['VAGRANT_CONTROLLER_NODES'] ?
-                       ENV['VAGRANT_CONTROLLER_NODES'].to_i : 2
-NUM_COMPUTE_NODES    = ENV['VAGRANT_COMPUTE_NODES'] ?
-                       ENV['VAGRANT_COMPUTE_NODES'].to_i : 1
-SLES_BOX             = ENV['VAGRANT_SLES_BOX'] || 'suse/sles11sp3'
-NO_BOX_REGEXP        = /^no_?box$/i
-RAM  = 2048
-CPUS = 2
+require 'yaml'
+
+default_config_file = File.expand_path('configs/2-controllers-1-compute.yaml',
+                                       File.dirname(__FILE__))
+config_file = ENV['VAGRANT_CONFIG_FILE'] || default_config_file
+
+config = YAML.load_file(config_file)
+vmdefaults = config['vms'].find {|vm| vm['name'] == 'DEFAULT' } || {}
+admin_ip = config['networks']['crowbar']['admin_ip']
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 vagrantfile_api_version = "2"
+
+Vagrant.configure(vagrantfile_api_version) do |vconfig|
+  vconfig.vm.provider :libvirt do |libvirt|
+    # libvirt.host = "localhost"
+    # libvirt.username = "root"
+    # libvirt.password = "linux"
+    # libvirt.connect_via_ssh = true
+    # libvirt.storage_pool_name = "default"
+  end
+
+  config['vms'].each_with_index do |vmcfg, i|
+    node_name   = vmcfg['name']
+    next if node_name == 'DEFAULT'
+
+    primary     = vmcfg['primary'] == "true" ? true : false
+    personality = vmcfg['personality']
+    ip = personality == 'admin' \
+         ? admin_ip
+         : config['networks']['crowbar']['pool_start'].
+           sub(/\.(\d+)$/) { '.%d' % ($1.to_i + i) }
+
+    vconfig.vm.define node_name, :primary => primary do |node|
+      box = vmcfg['box'] || vmdefaults['box']
+      node.vm.box = box if box
+      node.vm.box_check_update = false
+
+      # Setup NIC for admin network and for Crowbar in general.
+      # Vagrant requires the first interface of every VM to be NAT:
+      #
+      #   https://docs.vagrantup.com/v2/virtualbox/boxes.html
+      #
+      # which with VirtualBox means it can't communicate with the
+      # other VMs.  SUSE Cloud needs at least one (other) interface
+      # which is able to communicate with other VMs.  On VirtualBox
+      # this will result in it being made host-only.
+      node.vm.network "private_network",
+        ip: ip,
+        libvirt__dhcp_enabled: false
+
+      # The override parameter lets us configure global config parameters
+      # per provider.
+      #
+      # See the 'OVERRIDING CONFIGURATION' section of
+      # http://docs.vagrantup.com/v2/providers/configuration.html and
+      # https://github.com/mitchellh/vagrant/issues/1867 for a full
+      # explanation.
+      node.vm.provider "virtualbox" do |provider, override|
+        common_provider_settings(provider, vmcfg, vmdefaults)
+
+        virtualbox_nics(provider)
+
+        if personality == 'controller'
+          virtualbox_ha_disks(provider, node_name)
+          prep_controller(admin_ip, override, "/dev/sdc")
+        end
+      end
+
+      node.vm.provider "libvirt" do |provider, override|
+        common_provider_settings(provider, vmcfg, vmdefaults)
+
+        provider.volume_cache = "none"
+
+        case personality
+        when 'controller'
+          libvirt_ha_disks(provider, node_name)
+          prep_controller(admin_ip, override, "/dev/vdc")
+        when 'compute'
+          provider.nested = true
+        end
+
+        libvirt_mgmt_network(config, provider)
+      end
+
+      (vmcfg['forward_ports'] || []).each do |forward|
+        node.vm.network :forwarded_port,
+          host_ip: "*",
+          host: forward['host'],
+          guest: forward['guest']
+      end
+
+      if personality == 'admin'
+        provision_admin(node)
+      else
+        node.vm.provision "shell",
+          path: "provisioning/store-vagrant-name.sh",
+          args: node_name
+
+        node.vm.provision "shell",
+          path: "provisioning/do-crowbar_register.sh",
+          args: admin_ip
+      end
+
+      # admin.ssh.forward_agent = true
+
+      disable_default_synced_folder(node)
+      #admin.vm.synced_folder "/mnt/suse-cloud-4", "/srv/tftpboot/repos/Cloud", type: "nfs"
+    end
+  end
+end
+
+def common_provider_settings(provider, vmcfg, vmdefaults)
+  provider.memory = vmcfg['ram']  || vmdefaults['ram']
+  provider.cpus   = vmcfg['cpus'] || vmdefaults['cpus']
+
+  # Don't use headless mode
+  provider.gui = true
+end
+
+def libvirt_ha_disks(provider, node_name)
+  ## create disk for DRBD
+  provider.storage :file,
+    path: "drbd-#{node_name}.qcow2",
+    size: "2100M",
+    device: "vdb"
+
+  # create shared disk for SBD
+  provider.storage :file,
+    path: "sbd.qcow2",
+    size: "8M",
+    device: "vdc",
+    allow_existing: true
+end
+
+def virtualbox_ha_disks(provider, node_name)
+  ## create disk for DRBD
+  provider.customize [
+    'createhd',
+    '--filename', "drbd-#{node_name}.vmdk",
+    '--size', 2100,
+    '--format', 'VMDK'
+  ]
+  provider.customize [
+    'storageattach', :id,
+    '--storagectl', 'SCSI Controller',
+    '--port', 1,
+    '--device', 0,
+    '--type', 'hdd',
+    '--medium', "drbd-#{node_name}.vmdk",
+  ]
+  # create shared disk for SBD
+  provider.customize [
+    'createhd',
+    '--filename', 'sbd.vmdk',
+    '--size', 8,
+    '--format', 'VMDK',
+    '--variant', 'Fixed'
+  ]
+  provider.customize [ 'modifyhd', 'sbd.vmdk', '--type', 'shareable' ]
+  provider.customize [
+    'storageattach', :id,
+    '--storagectl', 'SCSI Controller',
+    '--port', 2,
+    '--device', 0,
+    '--type', 'hdd',
+    '--medium', 'sbd.vmdk',
+  ]
+end
+
+def libvirt_mgmt_network(config, provider)
+  # The vagrant-libvirt provider requires a private management network:
+  #
+  #   https://github.com/pradels/vagrant-libvirt
+  #
+  # This defaults to 192.168.121.0/24 but that's a bit too close to
+  # conventional OpenStack networks for comfort.
+  provider.management_network_address = config['networks']['management']
+  provider.management_network_name = "vagrant-mgmt"
+end
+
+def virtualbox_nics(provider)
+  # Use AMD instead of Intel NICs to avoid VLAN problems
+  provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
+  provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
+end
 
 def provision_admin(admin)
   files_to_provision = [
@@ -69,263 +243,12 @@ def provision_to_tmp(node, files_to_provision)
   end
 end
 
-def libvirt_mgmt_network(provider)
-  # The vagrant-libvirt provider requires a private management network:
-  #
-  #   https://github.com/pradels/vagrant-libvirt
-  #
-  # This defaults to 192.168.121.0/24 but that's a bit too close to
-  # conventional OpenStack networks for comfort.
-  provider.management_network_address = "192.168.101.0/24"
-  provider.management_network_name = "vagrant-mgmt"
-end
-
-def virtualbox_nics(provider)
-  # Use AMD instead of Intel NICs to avoid VLAN problems
-  provider.customize [ 'modifyvm', :id, '--nictype1', 'Am79C973' ]
-  provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
-end
-
-def libvirt_ha_disks(provider)
-  ## create disk for DRBD
-  provider.storage :file,
-    path: "drbd-#{node_name}.qcow2",
-    size: "2100M",
-    device: "vdb"
-
-  # create shared disk for SBD
-  provider.storage :file,
-    path: "sbd.qcow2",
-    size: "8M",
-    device: "vdc",
-    allow_existing: true
-end
-
-def virtualbox_ha_disks(provider)
-  ## create disk for DRBD
-  provider.customize [
-    'createhd',
-    '--filename', "drbd-#{node_name}.vmdk",
-    '--size', 2100,
-    '--format', 'VMDK'
-  ]
-  provider.customize [
-    'storageattach', :id,
-    '--storagectl', 'SCSI Controller',
-    '--port', 1,
-    '--device', 0,
-    '--type', 'hdd',
-    '--medium', "drbd-#{node_name}.vmdk",
-  ]
-  # create shared disk for SBD
-  provider.customize [
-    'createhd',
-    '--filename', 'sbd.vmdk',
-    '--size', 8,
-    '--format', 'VMDK',
-    '--variant', 'Fixed'
-  ]
-  provider.customize [ 'modifyhd', 'sbd.vmdk', '--type', 'shareable' ]
-  provider.customize [
-    'storageattach', :id,
-    '--storagectl', 'SCSI Controller',
-    '--port', 2,
-    '--device', 0,
-    '--type', 'hdd',
-    '--medium', 'sbd.vmdk',
-  ]
+def prep_controller(admin_ip, override, sbd_device)
+  override.vm.provision "shell",
+  path: "provisioning/prep-controller.sh",
+  args: [ admin_ip, sbd_device ]
 end
 
 def disable_default_synced_folder(node)
   node.vm.synced_folder ".", "/vagrant", disabled: true
-end
-
-def forward_controller_ports(node)
-  # Allow Horizon web UI to be accessed by a presentation laptop.
-  node.vm.network :forwarded_port, host: 8080+i-1, guest: 80
-
-  # Allow Hawk web UI to be accessed by a presentation laptop.
-  node.vm.network :forwarded_port, host: 7630+i-1, guest: 7630
-end
-
-Vagrant.configure(vagrantfile_api_version) do |config|
-  config.vm.provider :libvirt do |libvirt|
-    # libvirt.host = "localhost"
-    # libvirt.username = "root"
-    # libvirt.password = "linux"
-    # libvirt.connect_via_ssh = true
-    # libvirt.storage_pool_name = "default"
-  end
-
-  config.vm.define :admin, :primary => true do |admin|
-    admin.vm.box = "suse/cloud4-admin"
-    admin.vm.box_check_update = false
-
-    # The override parameter lets us configure global config parameters
-    # per provider.
-    #
-    # See the 'OVERRIDING CONFIGURATION' section of
-    # http://docs.vagrantup.com/v2/providers/configuration.html and
-    # https://github.com/mitchellh/vagrant/issues/1867 for a full
-    # explanation.
-    admin.vm.provider "virtualbox" do |provider, override|
-      provider.memory = RAM
-      provider.cpus = CPUS
-
-      # Don't use headless mode
-      provider.gui = true
-
-      virtualbox_nics(provider)
-
-      # Setup network for admin node and for Crowbar in general.
-      # Vagrant's VirtualBox provider requires the first interface of
-      # every VM to be NAT:
-      #
-      #   https://docs.vagrantup.com/v2/virtualbox/boxes.html
-      #
-      # which with VirtualBox means it can't communicate with the other
-      # VMs.  And for an HA setup we need two interfaces which are
-      # teamed and able to communicate with other VMs.  On VirtualBox
-      # this means making them host-only.
-      override.vm.network "private_network", ip: ADMIN_IP, auto_config: false
-    end
-
-    admin.vm.provider "libvirt" do |provider, override|
-      provider.memory = RAM
-      provider.cpus = CPUS
-
-      provider.volume_cache = "none"
-
-      # Don't use headless mode
-      provider.gui = true
-
-      libvirt_mgmt_network(provider)
-
-      override.vm.network "private_network",
-        ip: ADMIN_IP,
-        auto_config: false,
-        libvirt__dhcp_enabled: false
-    end
-
-    admin.vm.network :forwarded_port, guest: 3000, host: 3000, host_ip: "*"
-    # admin.ssh.forward_agent = true
-
-    disable_default_synced_folder(admin)
-    #admin.vm.synced_folder "/mnt/suse-cloud-4", "/srv/tftpboot/repos/Cloud", type: "nfs"
-
-    provision_admin(admin)
-  end
-
-  def sles_or_pxe_box(vm)
-    return if SLES_BOX =~ NO_BOX_REGEXP
-    vm.box = SLES_BOX
-    vm.box_check_update = false
-  end
-
-  NUM_CONTROLLER_NODES.times do |i|
-    node_name = "controller#{i+1}"
-    private_ip = "192.168.124.#{80+i}"
-
-    config.vm.define node_name do |node|
-      sles_or_pxe_box(node.vm)
-
-      node.vm.provider 'virtualbox' do |provider, override|
-        provider.memory = RAM
-        provider.cpus = CPUS
-
-        # Don't use headless mode
-        provider.gui = true
-
-        virtualbox_nics(provider)
-
-        virtualbox_ha_disks(provider)
-
-        override.vm.network "private_network", ip: private_ip
-
-        override.vm.provision "shell",
-          path: "provisioning/prep-controller.sh",
-          args: [ ADMIN_IP, "/dev/sdc" ]
-      end
-
-      node.vm.provider 'libvirt' do |provider, override|
-        provider.memory = RAM
-        provider.cpus = CPUS
-
-        provider.volume_cache = 'none'
-
-        # Don't use headless mode
-        provider.gui = true
-
-        libvirt_ha_disks(provider)
-
-        libvirt_mgmt_network(provider)
-        override.vm.network "private_network",
-          ip: private_ip,
-          libvirt__dhcp_enabled: false
-
-        override.vm.provision "shell",
-          path: "provisioning/prep-controller.sh",
-          args: [ ADMIN_IP, "/dev/vdc" ]
-      end
-
-      forward_controller_ports(node)
-
-      disable_default_synced_folder(node)
-
-      node.vm.provision "shell",
-        path: "provisioning/store-vagrant-name.sh",
-        args: node_name
-
-      node.vm.provision "shell",
-        path: "provisioning/do-crowbar_register.sh",
-        args: ADMIN_IP
-    end
-  end
-
-  NUM_COMPUTE_NODES.times do |i|
-    node_name = "compute#{i+1}"
-    private_ip = "192.168.124.#{80+NUM_CONTROLLER_NODES+1+i}"
-
-    config.vm.define node_name do |node|
-      sles_or_pxe_box(node.vm)
-
-      node.vm.provider 'virtualbox' do |provider, override|
-        provider.memory = RAM
-        provider.cpus = CPUS
-
-        # Don't use headless mode
-        provider.gui = true
-
-        virtualbox_nics(provider)
-
-        override.vm.network "private_network", ip: private_ip
-      end
-
-      node.vm.provider 'libvirt' do |provider, override|
-        provider.memory = RAM
-        provider.cpus = CPUS
-
-        provider.nested = true
-        provider.volume_cache = 'none'
-
-        # Don't use headless mode
-        provider.gui = true
-
-        libvirt_mgmt_network(provider)
-        override.vm.network "private_network",
-          ip: private_ip,
-          libvirt__dhcp_enabled: false
-      end
-
-      disable_default_synced_folder(node)
-
-      node.vm.provision "shell",
-        path: "provisioning/store-vagrant-name.sh",
-        args: node_name
-
-      node.vm.provision "shell",
-        path: "provisioning/do-crowbar_register.sh",
-        args: ADMIN_IP
-    end
-  end
 end

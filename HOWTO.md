@@ -62,15 +62,15 @@
     or keep reading to find out how to choose which VMs to
     provision.
 
-There is always exactly one admin server node.  You can change the
-number of controller nodes and compute notes from the defaults of 2
-and 1 respectively by exporting environment variables, e.g.:
+There is always exactly one admin server node.  The quantity, shape,
+and size of all nodes are determined by
+[`vagrant.yaml`][(vagrant/vagrant.yaml). You can change the number of controller nodes and compute notes from the defaults of 2 and 1 respectively by editing this file or by pointing
+the `Vagrantfile` at an alternative config file:
 
-    export VAGRANT_CONTROLLER_NODES=3
-    export VAGRANT_COMPUTE_NODES=3
+    export VAGRANT_CONFIG_FILE=/path/to/other/vagrant.yaml
 
-`vagrant up` will cause all the VMs to be provisioned in the following
-order:
+`vagrant up` will cause all the VMs to be provisioned in the order
+listed in the YAML config file.  Typically this is:
 
 1.  `admin` - the Crowbar admin server node.  After boot-up,
     `install-suse-cloud` will automatically run.  This takes quite a
@@ -79,7 +79,7 @@ order:
     installation, at which point you can visit the Crowbar web UI on
     [http://192.168.124.10:3000/](http://192.168.124.10:3000/) and
     watch the other nodes come online one by one.
-2.  The controller nodes in numerical order: `controller1`, then
+2.  The controller node(s) in numerical order: `controller1`, then
     `controller2` etc.  These will run the OpenStack infrastructure
     services, typically within a Pacemaker cluster.
 3.  The compute nodes in numerical order: `compute1`, then `compute2`

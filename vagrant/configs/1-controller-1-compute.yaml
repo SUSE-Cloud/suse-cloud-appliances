@@ -1,0 +1,26 @@
+# ../Vagrantfile will use this config file to build a cloud
+# with 1 controller and 1 compute node.
+---
+networks:
+  management: 192.168.101.0/24  # FIXME: currently only used for libvirt
+  crowbar:
+    admin_ip: 192.168.124.10
+    pool_start: 192.168.124.50  # temporary; prior to crowbar_register.sh
+vms:
+  - name: DEFAULT
+    cpus: 2
+    ram: 200
+    box: suse/sles11sp3
+  - name: admin
+    personality: admin
+    primary: true
+    box: suse/cloud4-admin
+    forward_ports:
+      - {host: 3000, guest: 3000}  # Crowbar admin web UI
+  - name: controller1
+    personality: controller
+    forward_ports:
+      - {host: 8080, guest: 80}    # Horizon dashboard
+  - name: compute1
+    personality: compute
+    ram: 4000

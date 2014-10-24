@@ -42,7 +42,7 @@ main () {
 
     check_hypervisor
 
-    export VAGRANT_CONTROLLER_NODES=1
+    export VAGRANT_CONFIG_FILE=$vagrant_dir/configs/1-controller-1-compute.yaml
 
     if ! vagrant up --no-parallel; then
         die "vagrant up failed; aborting"
