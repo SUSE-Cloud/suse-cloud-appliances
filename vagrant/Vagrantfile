@@ -86,6 +86,30 @@ def virtualbox_nics(provider)
   provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
 end
 
+def virtualbox_ha_disks(provider)
+  ## create disk for DRBD
+  provider.customize [ 'createhd', '--filename', "drbd-#{node_name}.vmdk", '--size', 2100, '--format', 'VMDK' ]
+  provider.customize [
+    'storageattach', :id,
+    '--storagectl', 'SCSI Controller',
+    '--port', 1,
+    '--device', 0,
+    '--type', 'hdd',
+    '--medium', "drbd-#{node_name}.vmdk",
+  ]
+  # create shared disk for SBD
+  provider.customize [ 'createhd', '--filename', 'sbd.vmdk', '--size', 8, '--format', 'VMDK', '--variant', 'Fixed' ]
+  provider.customize [ 'modifyhd', 'sbd.vmdk', '--type', 'shareable' ]
+  provider.customize [
+    'storageattach', :id,
+    '--storagectl', 'SCSI Controller',
+    '--port', 2,
+    '--device', 0,
+    '--type', 'hdd',
+    '--medium', 'sbd.vmdk',
+  ]
+end
+
 Vagrant.configure(vagrantfile_api_version) do |config|
   config.vm.provider :libvirt do |libvirt|
     # libvirt.host = "localhost"
@@ -176,27 +200,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
         virtualbox_nics(provider)
 
-        ## create disk for DRBD
-        provider.customize [ 'createhd', '--filename', "drbd-#{node_name}.vmdk", '--size', 2100, '--format', 'VMDK' ]
-        provider.customize [
-          'storageattach', :id,
-          '--storagectl', 'SCSI Controller',
-          '--port', 1,
-          '--device', 0,
-          '--type', 'hdd',
-          '--medium', "drbd-#{node_name}.vmdk",
-        ]
-        # create shared disk for SBD
-        provider.customize [ 'createhd', '--filename', 'sbd.vmdk', '--size', 8, '--format', 'VMDK', '--variant', 'Fixed' ]
-        provider.customize [ 'modifyhd', 'sbd.vmdk', '--type', 'shareable' ]
-        provider.customize [
-          'storageattach', :id,
-          '--storagectl', 'SCSI Controller',
-          '--port', 2,
-          '--device', 0,
-          '--type', 'hdd',
-          '--medium', 'sbd.vmdk',
-        ]
+        virtualbox_ha_disks(provider)
 
         override.vm.network "private_network", ip: private_ip
 
