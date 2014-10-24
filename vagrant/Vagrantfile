@@ -136,6 +136,10 @@ def virtualbox_ha_disks(provider)
   ]
 end
 
+def disable_default_synced_folder(node)
+  node.vm.synced_folder ".", "/vagrant", disabled: true
+end
+
 def forward_controller_ports(node)
   # Allow Horizon web UI to be accessed by a presentation laptop.
   node.vm.network :forwarded_port, host: 8080+i-1, guest: 80
@@ -206,7 +210,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     admin.vm.network :forwarded_port, guest: 3000, host: 3000, host_ip: "*"
     # admin.ssh.forward_agent = true
 
-    admin.vm.synced_folder ".", "/vagrant", disabled: true
+    disable_default_synced_folder(admin)
     #admin.vm.synced_folder "/mnt/suse-cloud-4", "/srv/tftpboot/repos/Cloud", type: "nfs"
 
     provision_admin(admin)
@@ -266,7 +270,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
 
       forward_controller_ports(node)
 
-      node.vm.synced_folder ".", "/vagrant", disabled: true
+      disable_default_synced_folder(node)
 
       node.vm.provision "shell",
         path: "provisioning/store-vagrant-name.sh",
@@ -313,7 +317,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
           libvirt__dhcp_enabled: false
       end
 
-      node.vm.synced_folder ".", "/vagrant", disabled: true
+      disable_default_synced_folder(node)
 
       node.vm.provision "shell",
         path: "provisioning/store-vagrant-name.sh",
