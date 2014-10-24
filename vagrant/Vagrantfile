@@ -88,7 +88,12 @@ end
 
 def virtualbox_ha_disks(provider)
   ## create disk for DRBD
-  provider.customize [ 'createhd', '--filename', "drbd-#{node_name}.vmdk", '--size', 2100, '--format', 'VMDK' ]
+  provider.customize [
+    'createhd',
+    '--filename', "drbd-#{node_name}.vmdk",
+    '--size', 2100,
+    '--format', 'VMDK'
+  ]
   provider.customize [
     'storageattach', :id,
     '--storagectl', 'SCSI Controller',
@@ -98,7 +103,13 @@ def virtualbox_ha_disks(provider)
     '--medium', "drbd-#{node_name}.vmdk",
   ]
   # create shared disk for SBD
-  provider.customize [ 'createhd', '--filename', 'sbd.vmdk', '--size', 8, '--format', 'VMDK', '--variant', 'Fixed' ]
+  provider.customize [
+    'createhd',
+    '--filename', 'sbd.vmdk',
+    '--size', 8,
+    '--format', 'VMDK',
+    '--variant', 'Fixed'
+  ]
   provider.customize [ 'modifyhd', 'sbd.vmdk', '--type', 'shareable' ]
   provider.customize [
     'storageattach', :id,
