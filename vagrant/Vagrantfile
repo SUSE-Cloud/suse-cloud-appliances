@@ -14,6 +14,54 @@ CPUS = 2
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 vagrantfile_api_version = "2"
 
+def provision_admin(admin)
+  files_to_provision = [
+    "cloud-admin/network.json",
+    # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
+    # case we don't want it to touch eth0, so we need this evil patch:
+    "cloud-admin/barclamp-network-ignore-eth0.patch",
+
+    # Provide NFS export to share /var/lib/glance
+    "cloud-admin/barclamp-provisioner-nfs-export.patch",
+
+    # another evil hack to avoid a crasher when applying the keystone
+    # barclamp
+    "cloud-admin/barclamp-pacemaker-ignore-target-role-changes.patch",
+
+    # handy utility for setting up node aliases in Crowbar
+    "provisioning/setup-node-aliases.sh",
+
+    # handy utility for configuring proposals in batch
+    "provisioning/crowbar_batch",
+
+    # update to library required by crowbar_batch
+    "provisioning/barclamp_lib.rb",
+
+    # gem required by crowbar_batch
+    "provisioning/easy_diff-0.0.3.gem",
+
+    # sample input files for crowbar_batch
+    "provisioning/HA-cloud.yaml",
+    "provisioning/simple-cloud.yaml",
+  ]
+  provision_to_tmp(admin, files_to_provision)
+
+  admin.vm.provision "shell", path: "provisioning/prep-admin.sh"
+
+  # Automatically install SUSE Cloud on first-boot
+  admin.vm.provision "shell", path: "provisioning/install-suse-cloud.sh"
+
+  admin.vm.provision "shell", inline: <<EOSHELL
+set -e
+
+mkdir -p /root/bin
+mv /tmp/setup-node-aliases.sh /root/bin
+gem install /tmp/easy_diff-0.0.3.gem
+mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
+mv /tmp/*-cloud.yaml /root
+EOSHELL
+end
+
 def provision_to_tmp(node, files_to_provision)
   files_to_provision.each do |source|
     filename = File.basename(source)
@@ -103,51 +151,7 @@ Vagrant.configure(vagrantfile_api_version) do |config|
     admin.vm.synced_folder ".", "/vagrant", disabled: true
     #admin.vm.synced_folder "/mnt/suse-cloud-4", "/srv/tftpboot/repos/Cloud", type: "nfs"
 
-    files_to_provision = [
-      "cloud-admin/network.json",
-      # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
-      # case we don't want it to touch eth0, so we need this evil patch:
-      "cloud-admin/barclamp-network-ignore-eth0.patch",
-
-      # Provide NFS export to share /var/lib/glance
-      "cloud-admin/barclamp-provisioner-nfs-export.patch",
-
-      # another evil hack to avoid a crasher when applying the keystone
-      # barclamp
-      "cloud-admin/barclamp-pacemaker-ignore-target-role-changes.patch",
-
-      # handy utility for setting up node aliases in Crowbar
-      "provisioning/setup-node-aliases.sh",
-
-      # handy utility for configuring proposals in batch
-      "provisioning/crowbar_batch",
-
-      # update to library required by crowbar_batch
-      "provisioning/barclamp_lib.rb",
-
-      # gem required by crowbar_batch
-      "provisioning/easy_diff-0.0.3.gem",
-
-      # sample input files for crowbar_batch
-      "provisioning/HA-cloud.yaml",
-      "provisioning/simple-cloud.yaml",
-    ]
-    provision_to_tmp(admin, files_to_provision)
-
-    admin.vm.provision "shell", path: "provisioning/prep-admin.sh"
-
-    # Automatically install SUSE Cloud on first-boot
-    admin.vm.provision "shell", path: "provisioning/install-suse-cloud.sh"
-
-    admin.vm.provision "shell", inline: <<EOSHELL
-set -e
-
-mkdir -p /root/bin
-mv /tmp/setup-node-aliases.sh /root/bin
-gem install /tmp/easy_diff-0.0.3.gem
-mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
-mv /tmp/*-cloud.yaml /root
-EOSHELL
+    provision_admin(admin)
   end
 
   def sles_or_pxe_box(vm)
