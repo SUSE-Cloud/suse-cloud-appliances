@@ -10,8 +10,6 @@ This repository contains resources for rapid virtualized deployment of
     provided [`Vagrantfile`](vagrant/Vagrantfile) to deploy a
     SUSE Cloud environment of (by default) 4 VMs via a single
     `vagrant up` command
-*   an [HA guide](HA-GUIDE.md) documenting how to use these resources to
-    manually deploy a highly-available cloud from scratch
 *   resources for [automatically preparing and presenting demos](demos/)
     of functionality within SUSE Cloud
 

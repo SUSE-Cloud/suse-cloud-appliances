@@ -45,6 +45,10 @@
 
 ## SUSE Cloud installation
 
+N.B. The following steps describe semi-automated booting of the cloud
+infrastructure via Vagrant.  Another more fully automated option is
+to use one of the [pre-canned demos](demos/README.md).
+
 *   If using VirtualBox:
     *   Start the GUI
     *   *File* → *Preferences* → *Network* then ensure you have:
@@ -140,8 +144,9 @@ etc.
 
 ## Trying out SUSE Cloud
 
-If you want to try out the new high availability functionality,
-see the [HA guide](HA-GUIDE.md).
+*   See the provided resources for
+    [automatically preparing and presenting demos](demos/README.md) of
+    functionality within SUSE Cloud.
 
-Otherwise, see the
+Also see the
 [official SUSE Cloud product documentation](https://www.suse.com/documentation/suse-cloud4/).

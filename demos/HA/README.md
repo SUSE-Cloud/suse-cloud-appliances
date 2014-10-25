@@ -1,7 +1,34 @@
-# How to automatically deploy and test a highly available OpenStack cloud
+# Automatically deploying a highly available OpenStack cloud
 
-First deploy SUSE Cloud and 3 client nodes as described in the
-[HOWTO guide](HOWTO.md).
+This demo shows how easy it is to use the Pacemaker barclamp to deploy
+an OpenStack cloud which has highly available services.
+
+## Preparing the demo
+
+First ensure you have
+[the prerequisites described in the general HOWTO](../../HOWTO.md#prerequisites).
+
+Then depending on your preferred hypervisor, simply run:
+
+    ./build.sh virtualbox
+
+or
+
+    ./build.sh libvirt
+
+This will perform the following steps:
+
+*   Use Vagrant to build one Crowbar admin node, two controller nodes,
+    and a compute node
+*   Set aliases in Crowbar for the controller and compute nodes
+*   Create and apply a standard set of Crowbar proposals
+
+If you prefer to perform any of these steps manually as part of the
+demo (e.g. creating the proposals and/or preparing the cloud for the
+demo), you can easily comment those steps out of `build.sh`.
+
+N.B. All steps run by `./build.sh` are idempotent, so you can safely
+run it as many times as you need.
 
 ## Deployment of a highly available OpenStack cloud
 
