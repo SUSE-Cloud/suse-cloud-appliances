@@ -44,6 +44,9 @@ This will perform the following steps:
     `heat-template-wordpress.json` back into this directory
     so that they can be used from the demo host.
 
+N.B. All steps run by `./build.sh` are idempotent, so you can safely
+run it as many times as you need.
+
 If you prefer to perform any of these steps manually as part of the
 demo (e.g. creating the proposals and/or preparing the cloud for the
 demo), you can easily comment those steps out of `build.sh` or
