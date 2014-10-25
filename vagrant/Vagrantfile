@@ -97,11 +97,11 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
         provision_admin(node)
       else
         node.vm.provision "shell",
-          path: "provisioning/store-vagrant-name.sh",
+          path: "provisioning/non-admin/store-vagrant-name.sh",
           args: node_name
 
         node.vm.provision "shell",
-          path: "provisioning/do-crowbar_register.sh",
+          path: "provisioning/non-admin/do-crowbar_register.sh",
           args: admin_ip
       end
 
@@ -203,27 +203,27 @@ def provision_admin(admin)
     "cloud-admin/barclamp-pacemaker-ignore-target-role-changes.patch",
 
     # handy utility for setting up node aliases in Crowbar
-    "provisioning/setup-node-aliases.sh",
+    "provisioning/admin/setup-node-aliases.sh",
 
     # handy utility for configuring proposals in batch
-    "provisioning/crowbar_batch",
+    "provisioning/admin/crowbar_batch",
 
     # update to library required by crowbar_batch
-    "provisioning/barclamp_lib.rb",
+    "provisioning/admin/barclamp_lib.rb",
 
     # gem required by crowbar_batch
-    "provisioning/easy_diff-0.0.3.gem",
+    "provisioning/admin/easy_diff-0.0.3.gem",
 
     # sample input files for crowbar_batch
-    "provisioning/HA-cloud.yaml",
-    "provisioning/simple-cloud.yaml",
+    "provisioning/admin/HA-cloud.yaml",
+    "provisioning/admin/simple-cloud.yaml",
   ]
   provision_to_tmp(admin, files_to_provision)
 
-  admin.vm.provision "shell", path: "provisioning/prep-admin.sh"
+  admin.vm.provision "shell", path: "provisioning/admin/prep-admin.sh"
 
   # Automatically install SUSE Cloud on first-boot
-  admin.vm.provision "shell", path: "provisioning/install-suse-cloud.sh"
+  admin.vm.provision "shell", path: "provisioning/admin/install-suse-cloud.sh"
 
   admin.vm.provision "shell", inline: <<EOSHELL
 set -e
@@ -245,7 +245,7 @@ end
 
 def prep_controller(admin_ip, override, sbd_device)
   override.vm.provision "shell",
-  path: "provisioning/prep-controller.sh",
+  path: "provisioning/controller/prep-controller.sh",
   args: [ admin_ip, sbd_device ]
 end
 
