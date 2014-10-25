@@ -5,8 +5,6 @@ set -e
 admin_ip="$1"
 sbd_device="$2"
 
-zypper -n in crmsh # can't patch crmsh until it's installed
-
 # Set up SBD disk
 zypper -n in sbd
 /usr/sbin/sbd -d $sbd_device create
