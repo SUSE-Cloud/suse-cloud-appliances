@@ -128,8 +128,9 @@ def libvirt_drbd_disk(provider, node_name)
   ## create disk for DRBD
   provider.storage :file,
     path: "drbd-#{node_name}.qcow2",
-    size: "2100M",
-    device: "vdb"
+    size: '2100M',
+    device: 'vdb',
+    cache: 'none'
 end
 
 def virtualbox_drbd_disk(provider, node_name)
@@ -152,10 +153,11 @@ end
 
 def libvirt_sbd_disk(provider)
   provider.storage :file,
-    path: "sbd.qcow2",
-    size: "8M",
-    device: "vdc",
-    allow_existing: true
+    path: 'sbd.qcow2',
+    size: '8M',
+    device: 'vdc',
+    allow_existing: true,
+    cache: 'none'
 end
 
 def virtualbox_sbd_disk(provider)
