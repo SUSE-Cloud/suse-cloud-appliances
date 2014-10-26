@@ -51,6 +51,19 @@ check_hypervisor () {
             if ! grep -q Y /sys/module/kvm_intel/parameters/nested; then
                 die "Your host's kvm_intel kernel module needs the nested parameter enabled".
             fi
+            if ! grep -q 1 /sys/kernel/mm/ksm/run; then
+                cat <<'EOF'
+You don't have Kernel SamePage Merging (KSM) enabled!
+This could reduce your memory usage quite a bit.
+To enable it, hit Control-C and then run this command as
+root:
+
+    echo 1 > /sys/kernel/mm/ksm/run
+
+Alternatively, press Enter to proceed regardless ...
+EOF
+                read
+            fi
 
             export VAGRANT_DEFAULT_PROVIDER=libvirt
 
