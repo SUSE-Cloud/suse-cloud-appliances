@@ -40,6 +40,12 @@ main () {
     parse_opts "$@"
     parse_args
 
+    if [ $hypervisor = kvm ]; then
+        # Required so vagrant-libvirt can deal with shared disks.
+        export VAGRANT_USE_BUNDLER=yes
+        init_bundler
+    fi
+
     check_hypervisor
 
     if ! vagrant up --no-parallel; then

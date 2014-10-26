@@ -28,21 +28,27 @@ parse_opts () {
 vagrant () {
     cd $vagrant_dir
 
-    case "$hypervisor" in
-        kvm)
-            VAGRANT_I_KNOW_WHAT_IM_DOING_PLEASE_BE_QUIET=1 \
-                bundle exec vagrant "$@"
-            ;;
-        virtualbox)
-            command vagrant "$@"
-            ;;
-        '')
-            die "BUG: \$hypervisor not set"
-            ;;
-        *)
-            die "Unsupported hypervisor '$hypervisor'"
-            ;;
-    esac
+    if [ -n "$VAGRANT_USE_BUNDLER" ]; then
+        VAGRANT_I_KNOW_WHAT_IM_DOING_PLEASE_BE_QUIET=1 \
+            bundle exec vagrant "$@"
+    else
+        command vagrant "$@"
+    fi
+}
+
+init_bundler () {
+    if [ -z "$VAGRANT_KVM_USE_BUNDLER" ]; then
+        return
+    fi
+
+    if ! which bundle >/dev/null 2>&1; then
+        die "Bundler is required!  Please install first."
+    fi
+
+    cd $vagrant_dir
+    if ! bundle install; then
+        die "bundle install failed; cannot proceed"
+    fi
 }
 
 check_hypervisor () {
@@ -66,12 +72,6 @@ EOF
             fi
 
             export VAGRANT_DEFAULT_PROVIDER=libvirt
-
-            # This is only needed for HA setups.
-            cd $vagrant_dir
-            if ! bundle install; then
-                die "vagrant-libvirt needs patches for extra disks"
-            fi
             ;;
         virtualbox)
             version=$( VirtualBox --help | head -n1 | awk '{print $NF}' )
