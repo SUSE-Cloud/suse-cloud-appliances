@@ -64,9 +64,10 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
 
         virtualbox_nics(provider)
 
-        if personality == 'controller'
-          virtualbox_ha_disks(provider, node_name)
-          prep_controller(admin_ip, override, "/dev/sdc")
+        virtualbox_drbd_disk(provider, node_name) if vmcfg['drbd']
+        if vmcfg['sbd']
+          virtualbox_sbd_disk(provider)
+          init_sbd_disk(override)
         end
       end
 
@@ -75,13 +76,13 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
 
         provider.volume_cache = "none"
 
-        case personality
-        when 'controller'
-          libvirt_ha_disks(provider, node_name)
-          prep_controller(admin_ip, override, "/dev/vdc")
-        when 'compute'
-          provider.nested = true
+        libvirt_drbd_disk(provider, node_name) if vmcfg['drbd']
+        if vmcfg['sbd']
+          libvirt_sbd_disk(provider)
+          init_sbd_disk(override)
         end
+
+        provider.nested = true if personality == 'compute'
 
         libvirt_mgmt_network(config, provider)
       end
@@ -105,6 +106,8 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
           args: admin_ip
       end
 
+      setup_glance_NFS(node, admin_ip) if vmcfg['glance-nfs']
+
       # admin.ssh.forward_agent = true
 
       disable_default_synced_folder(node)
@@ -121,22 +124,15 @@ def common_provider_settings(provider, vmcfg, vmdefaults)
   provider.gui = true
 end
 
-def libvirt_ha_disks(provider, node_name)
+def libvirt_drbd_disk(provider, node_name)
   ## create disk for DRBD
   provider.storage :file,
     path: "drbd-#{node_name}.qcow2",
     size: "2100M",
     device: "vdb"
-
-  # create shared disk for SBD
-  provider.storage :file,
-    path: "sbd.qcow2",
-    size: "8M",
-    device: "vdc",
-    allow_existing: true
 end
 
-def virtualbox_ha_disks(provider, node_name)
+def virtualbox_drbd_disk(provider, node_name)
   ## create disk for DRBD
   provider.customize [
     'createhd',
@@ -152,7 +148,17 @@ def virtualbox_ha_disks(provider, node_name)
     '--type', 'hdd',
     '--medium', "drbd-#{node_name}.vmdk",
   ]
-  # create shared disk for SBD
+end
+
+def libvirt_sbd_disk(provider)
+  provider.storage :file,
+    path: "sbd.qcow2",
+    size: "8M",
+    device: "vdc",
+    allow_existing: true
+end
+
+def virtualbox_sbd_disk(provider)
   provider.customize [
     'createhd',
     '--filename', 'sbd.vmdk',
@@ -169,6 +175,20 @@ def virtualbox_ha_disks(provider, node_name)
     '--type', 'hdd',
     '--medium', 'sbd.vmdk',
   ]
+end
+
+def init_sbd_disk(override)
+  # Set up SBD disk
+  override.vm.provision "shell", inline: <<EOSHELL
+    zypper -n in sbd
+    /usr/sbin/sbd -d /dev/vdc create
+EOSHELL
+end
+
+def setup_glance_NFS(node, admin_ip)
+  node.vm.provision "shell",
+    path: "provisioning/controller/setup-glance-NFS.sh",
+    args: admin_ip
 end
 
 def libvirt_mgmt_network(config, provider)
@@ -241,12 +261,6 @@ def provision_to_tmp(node, files_to_provision)
     filename = File.basename(source)
     node.vm.provision "file", source: source, destination: "/tmp/#{filename}"
   end
-end
-
-def prep_controller(admin_ip, override, sbd_device)
-  override.vm.provision "shell",
-  path: "provisioning/controller/prep-controller.sh",
-  args: [ admin_ip, sbd_device ]
 end
 
 def disable_default_synced_folder(node)
