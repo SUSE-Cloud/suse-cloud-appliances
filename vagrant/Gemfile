@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 group :development do
   # bundle config local.vagrant ~/.GIT/3rd-party/vagrant
-  gem 'vagrant', '~> 1.6.5', github: 'mitchellh/vagrant', branch: 'master'
+  gem 'vagrant', '>= 1.6.5', github: 'mitchellh/vagrant', branch: 'master'
   gem 'pry'
 end
 
