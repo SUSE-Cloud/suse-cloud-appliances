@@ -3,7 +3,7 @@
 ## Hardware requirements
 
 *   Machine with >= 4GB RAM and >= roughly 16GB spare disk
-    *   Ideally you should have 16GB RAM for building a full HA cloud.
+    *   You should have at least 16GB RAM for building a full HA cloud.
     *   If you only have 8GB and want to build a two-node HA cluster
         for the control plane then you will not have enough RAM for a
         compute node in order to provision a VM instance in the cloud.
