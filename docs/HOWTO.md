@@ -35,8 +35,8 @@ pointing the `Vagrantfile` at an alternative config file:
 
     export VAGRANT_CONFIG_FILE=/path/to/other/vagrant.yaml
 
-`vagrant up` will cause all the VMs to be provisioned in the order
-listed in the YAML config file.  Typically this is:
+`vagrant up --no-parallel` will cause all the VMs to be provisioned in
+the order listed in the YAML config file.  Typically this is:
 
 1.  `admin` - the Crowbar admin server node.  After boot-up,
     `install-suse-cloud` will automatically run.  This takes quite a
@@ -70,7 +70,7 @@ in the normal Vagrant way, e.g.
 or the entire cloud in one go:
 
     vagrant destroy
-    vagrant up
+    vagrant up --no-parallel
 
 **CAUTION!** If you are using libvirt, please see [this page about
 usage `vagrant-libvirt`](vagrant-libvirt.md) for known pitfalls.
