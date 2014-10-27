@@ -29,13 +29,20 @@ You will need one of the following hypervisors installed:
 
 Here are some points to bear in mind when choosing a hypervisor:
 
-*   KVM is only available on Linux.
+*   KVM is only available on Linux, so if you're on a Mac or Windows,
+    you have to use VirtualBox.
+*   Vagrant has native support for VirtualBox, which therefore tends to be
+    slightly more robust than using the [`vagrant-libvirt` plugin](vagrant-libvirt.md).
 *   [VirtualBox doesn't support nested virtualization.](https://www.virtualbox.org/ticket/4032)
     so OpenStack Compute nodes will need to use the QEMU software hypervisor
     instead, which will be quite a bit slower.
-*   Some kernel developers are wary of the quality of the VirtualBox kernel modules.
-*   Vagrant has native support for VirtualBox, which therefore tends to be
-    slightly more robust than using the [`vagrant-libvirt` plugin](vagrant-libvirt.md).
+*   KVM can harness
+    [Kernel SamePage Merging (KSM)](http://en.wikipedia.org/wiki/Kernel_SamePage_Merging_(KSM))
+    for more efficient use of RAM, sharing memory pages not only between
+    Vagrant (i.e. Crowbar) VMs, but also between cloud instances booted via
+    OpenStack Compute (nova).
+*   Some kernel developers are critical of the quality of the VirtualBox
+    kernel modules.
 
 #### Installing VirtualBox
 
