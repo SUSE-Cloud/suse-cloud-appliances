@@ -12,8 +12,9 @@ This repository contains resources for rapid virtualized deployment of
 *   A [HOWTO guide](docs/HOWTO.md) documenting how to use Vagrant and
     the provided [`Vagrantfile`](vagrant/Vagrantfile) to deploy a SUSE
     Cloud environment of (by default) 4 VMs via a single `vagrant up`
-    command.  Use this instead of one of the demos if you want more
-    manual control over the setup of Crowbar barclamps and OpenStack.
+    command.  Use this instead of one of the [demos](demos/) if you
+    want more manual control over the setup of Crowbar barclamps and
+    OpenStack.
 
 Currently the
 [Vagrant boxes and .iso images required](docs/prerequisites.md#vagrant-boxes)
