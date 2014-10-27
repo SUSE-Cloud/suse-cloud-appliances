@@ -9,7 +9,7 @@ networks:
 vms:
   - name: DEFAULT
     cpus: 2
-    ram: 200
+    ram: 2000
     box: suse/sles11sp3
   - name: admin
     personality: admin
