@@ -15,13 +15,13 @@ GIT
 
 GIT
   remote: git://github.com/aspiers/vagrant-libvirt.git
-  revision: 7044a06ebba9aa8a10c8c0deee73c899f905573e
+  revision: 8ba8296e7d5c9d43c3545d68609e5c8cb9fa850d
   branch: working
   specs:
     vagrant-libvirt (0.0.23)
       fog (~> 1.15)
       nokogiri (~> 1.6.0)
-      ruby-libvirt (>= 0.4.0)
+      ruby-libvirt (~> 0.4)
 
 GIT
   remote: git://github.com/fog/fog-core.git
@@ -45,16 +45,16 @@ GIT
 
 GIT
   remote: git://github.com/mitchellh/vagrant.git
-  revision: 4cab6631898faf7e0029292f57764460e82662e1
-  branch: master
+  revision: c38e17cc29f69aaea1610451333396494181a481
+  tag: v1.6.5
   specs:
-    vagrant (1.7.0.dev)
-      bundler (>= 1.5.2, < 1.8.0)
+    vagrant (1.6.5)
+      bundler (>= 1.5.2, < 1.7.0)
       childprocess (~> 0.5.0)
       erubis (~> 2.7.0)
       hashicorp-checkpoint (~> 0.1.1)
       i18n (~> 0.6.0)
-      listen (~> 2.7.11)
+      listen (~> 2.7.1)
       log4r (~> 1.1.9, < 1.1.11)
       net-scp (~> 1.1.0)
       net-ssh (>= 2.6.6, < 2.10.0)

@@ -2,7 +2,9 @@ source 'https://rubygems.org'
 
 group :development do
   # bundle config local.vagrant ~/.GIT/3rd-party/vagrant
-  gem 'vagrant', '>= 1.6.5', github: 'mitchellh/vagrant', branch: 'master'
+  gem 'vagrant', '>= 1.6.5', github: 'mitchellh/vagrant', tag: 'v1.6.5'
+  # upstream git master currently breaks with libvirt, so use fixes:
+  #gem 'vagrant', '>= 1.7.0', github: 'aspiers/vagrant', branch: 'working'
   gem 'pry'
 end
 
