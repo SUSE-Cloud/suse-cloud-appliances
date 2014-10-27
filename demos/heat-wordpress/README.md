@@ -47,6 +47,12 @@ This will perform the following steps:
     `heat-template-wordpress.json` back into this directory
     so that they can be used from the demo host.
 
+You can also optionally tune the number, size, and shape of the VMs
+being booted, by editing
+[`vagrant/configs/2-controllers-1-compute.yaml`](../../vagrant/configs/2-controllers-1-compute.yaml),
+and tune the barclamp proposal parameters by editing
+[`vagrant/provisioning/admin/HA-cloud.yaml`](../../vagrant/provisioning/admin/HA-cloud.yaml).
+
 N.B. All steps run by `./build.sh` are idempotent, so you can safely
 run it as many times as you need.
 

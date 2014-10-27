@@ -32,6 +32,12 @@ If you prefer to perform any of these steps manually as part of the
 demo (e.g. creating the proposals and/or preparing the cloud for the
 demo), you can easily comment those steps out of `build.sh`.
 
+You can also optionally tune the number, size, and shape of the VMs
+being booted, by editing
+[`vagrant/configs/2-controllers-1-compute.yaml`](../../vagrant/configs/2-controllers-1-compute.yaml),
+and tune the barclamp proposal parameters by editing
+[`vagrant/provisioning/admin/HA-cloud.yaml`](../../vagrant/provisioning/admin/HA-cloud.yaml).
+
 N.B. All steps run by `./build.sh` are idempotent, so you can safely
 run it as many times as you need.
 
