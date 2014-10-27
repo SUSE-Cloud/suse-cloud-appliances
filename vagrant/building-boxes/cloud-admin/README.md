@@ -2,8 +2,10 @@
 
 ## Building the box
 
+**N.B. [These instructions are now obsolete!](../README.md)**
+
 First you need to build the `.vmdk` as detailed in
-[the README for the corresponding KIWI appliance](../../kiwi/cloud-admin/README.md).
+[the README for the corresponding KIWI appliance](../../../kiwi/cloud-admin/README.md).
 
 Then, `cd` to the directory containing this README, and type:
 

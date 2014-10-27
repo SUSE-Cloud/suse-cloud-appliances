@@ -6,12 +6,14 @@ This repository contains resources for rapid virtualized deployment of
 
 ## Contents
 
-*   resources for [automatically preparing and presenting demos](demos/)
-    of functionality within SUSE Cloud
-*   a [HOWTO guide](docs/HOWTO.md) documenting how to use Vagrant and
+*   Resources for [automatically preparing and presenting demos](demos/)
+    of functionality within SUSE Cloud - these essentially reduce the
+    task of setup to a one-line command.
+*   A [HOWTO guide](docs/HOWTO.md) documenting how to use Vagrant and
     the provided [`Vagrantfile`](vagrant/Vagrantfile) to deploy a SUSE
     Cloud environment of (by default) 4 VMs via a single `vagrant up`
-    command
+    command.  Use this instead of one of the demos if you want more
+    manual control over the setup of Crowbar barclamps and OpenStack.
 
 Currently the
 [Vagrant boxes and .iso images required](docs/prerequisites.md#vagrant-boxes)
@@ -27,15 +29,7 @@ and we can probably sort something out!
 
 ### Building the Vagrant boxes
 
-In theory if you had the time and patience, you could probably build
-them yourself from scratch using the below resources from this
-repository, although if you want to do that, it is strongly
-recommended that you contact us first, otherwise you are likely to
-waste a lot of your own time.
-
-*   [resources for building the KIWI appliances](kiwi/)
-*   [resources for building the Vagrant boxes](vagrant/BUILDING-BOXES.md)
-    from the KIWI appliances
+See the [vagrant/building-boxes/](vagrant/building-boxes/) subdirectory.
 
 ## Support, bugs, development etc.
 

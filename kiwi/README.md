@@ -13,6 +13,12 @@ longer recommended to build boxes using only these files.  Some of
 these files are still used by the new build process; others are left
 here for posterity.
 
+If you want to build the boxes yourself, it is strongly recommended
+that you
+[contact us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud)
+for help first, otherwise there is a risk you will waste a lot of your
+own time.
+
 ## What is KIWI?
 
 Here's [a quick introduction to KIWI](http://doc.opensuse.org/projects/kiwi/doc/#chap.introduction)

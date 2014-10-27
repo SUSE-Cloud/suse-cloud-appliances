@@ -212,34 +212,34 @@ end
 
 def provision_admin(admin)
   files_to_provision = [
-    'cloud-admin/network.json',
+    'network.json',
     # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
     # case we don't want it to touch eth0, so we need this evil patch:
-    'cloud-admin/barclamp-network-ignore-eth0.patch',
+    'barclamp-network-ignore-eth0.patch',
 
     # Provide NFS export to share /var/lib/glance
-    'cloud-admin/barclamp-provisioner-nfs-export.patch',
+    'barclamp-provisioner-nfs-export.patch',
 
     # another evil hack to avoid a crasher when applying the keystone
     # barclamp
-    'cloud-admin/barclamp-pacemaker-ignore-target-role-changes.patch',
+    'barclamp-pacemaker-ignore-target-role-changes.patch',
 
     # handy utility for setting up node aliases in Crowbar
-    'provisioning/admin/setup-node-aliases.sh',
+    'setup-node-aliases.sh',
 
     # handy utility for configuring proposals in batch
-    'provisioning/admin/crowbar_batch',
+    'crowbar_batch',
 
     # update to library required by crowbar_batch
-    'provisioning/admin/barclamp_lib.rb',
+    'barclamp_lib.rb',
 
     # gem required by crowbar_batch
-    'provisioning/admin/easy_diff-0.0.3.gem',
+    'easy_diff-0.0.3.gem',
 
     # sample input files for crowbar_batch
-    'provisioning/admin/HA-cloud.yaml',
-    'provisioning/admin/simple-cloud.yaml',
-  ]
+    'HA-cloud.yaml',
+    'simple-cloud.yaml',
+  ].map { |file| 'provisioning/admin/' + file }
   provision_to_tmp(admin, files_to_provision)
 
   admin.vm.provision 'shell', path: 'provisioning/admin/prep-admin.sh'

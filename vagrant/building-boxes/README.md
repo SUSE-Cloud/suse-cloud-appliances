@@ -1,4 +1,4 @@
-# Vagrant boxes
+# Building the Vagrant boxes (superceded by kiwi / OBS build!)
 
 This subdirectory contains resources for building two
 [Vagrant](http://vagrantup.com) boxes from the `.vmdk` virtual disks
@@ -11,8 +11,6 @@ and so has [OBS](http://openbuildservice.org/), so it is not any
 longer recommended to build boxes using these files.  They are left
 here for posterity.
 
-## Building the boxes (superceded by kiwi build!)
-
 There are two different boxes defined within this subdirectory:
 
 *   [`cloud-admin`](cloud-admin/) - the SUSE Cloud admin node,
@@ -21,5 +19,5 @@ There are two different boxes defined within this subdirectory:
     Enterprise Server (SLES) 11 SP3, which will be used to provision
     two controller nodes (forming an HA cluster), and a compute node.
 
-Instructions for building them are contained within the READMEs in
-those subdirectories.
+Obsolete instructions for building them are contained within the
+READMEs in those subdirectories.
