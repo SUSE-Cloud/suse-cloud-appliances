@@ -46,7 +46,7 @@ init_bundler () {
     fi
 
     cd $vagrant_dir
-    if ! bundle install; then
+    if ! bundle install --path vendor/bundle; then
         die "bundle install failed; cannot proceed"
     fi
 }
