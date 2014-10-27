@@ -4,6 +4,9 @@
 global_options:
 - action_for_existing_proposals: skip   # could also be e.g. 'recreate' or 'overwrite'
 proposals:
+- barclamp: provisioner
+  attributes:
+    shell_prompt: USER@ALIAS:CWD SUFFIX
 - barclamp: database
   # Proposal name defaults to 'default'.
   # Default attributes are good enough, so we just need to assign
