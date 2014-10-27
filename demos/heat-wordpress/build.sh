@@ -50,9 +50,7 @@ main () {
 
     vagrant_ssh_config
 
-    if ! vssh admin sudo /root/bin/setup-node-aliases.sh; then
-        die "Failed to set up node aliases; aborting"
-    fi
+    setup_node_aliases
 
     if [ $hypervisor != kvm ]; then
         echo "Can't do nested hardware virtualization; switching to QEMU ..."

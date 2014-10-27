@@ -92,6 +92,12 @@ vagrant_ssh_config () {
     vagrant ssh-config > $VAGRANT_SSH_CONFIG
 }
 
+setup_node_aliases () {
+    if ! vssh admin sudo /root/bin/setup-node-aliases.sh; then
+        die "Failed to set up node aliases; aborting"
+    fi
+}
+
 vssh () {
     ssh -F $VAGRANT_SSH_CONFIG "$@"
 }
