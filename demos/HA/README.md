@@ -16,7 +16,7 @@ Then depending on your preferred hypervisor, simply run:
 
 or
 
-    ./build.sh libvirt
+    ./build.sh kvm
 
 This will perform the following steps:
 
