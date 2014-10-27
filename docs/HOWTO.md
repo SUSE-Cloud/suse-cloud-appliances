@@ -61,11 +61,19 @@ Alternatively, you can provision each VM individually, e.g.
     vagrant up admin
     vagrant up controller1
 
-and so on.  Similarly, you can rebuilt an individual VM from scratch
+and so on.  Similarly, you can rebuild an individual VM from scratch
 in the normal Vagrant way, e.g.
 
     vagrant destroy compute1
     vagrant up compute1
+
+or the entire cloud in one go:
+
+    vagrant destroy
+    vagrant up
+
+**CAUTION!** If you are using libvirt, please see [this page about
+usage `vagrant-libvirt`](vagrant-libvirt.md) for known pitfalls.
 
 ## Connecting to the VMs
 

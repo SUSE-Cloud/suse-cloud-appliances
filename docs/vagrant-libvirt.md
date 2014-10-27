@@ -62,5 +62,15 @@ issues when running `bundle install`:
 
 *   **`vagrant up` fails with some other error.**
 
-    Try `vagrant destroy` and then `vagrant up` again - this can
-    often clear a transient error.
+    vagrant-libvirt is not yet robust at cleaning up after failures,
+    especially concerning disks.  The following process can often
+    clear a transient error:
+
+    *   `vagrant destroy`
+    *   Manually delete any associated disk volumes which got
+        left behind in `/var/lib/libvirt/images`.
+    *   `virsh pool-refresh default`
+    *   `vagrant up`
+
+    See [this bug](https://github.com/pradels/vagrant-libvirt/issues/85#issuecomment-55419054)
+    for more information.
