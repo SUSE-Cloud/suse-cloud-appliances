@@ -90,6 +90,9 @@ proposals:
       neutron-l3:
         - cluster:cluster1
 - barclamp: nova
+  attributes:
+    kvm:
+      ksm_enabled: true
   deployment:
     elements:
       nova-multi-controller:
