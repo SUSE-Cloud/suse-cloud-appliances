@@ -17,6 +17,8 @@ see the slides for more information.
 First ensure you have
 [the described prerequisites](../../docs/prerequisites.md).
 
+Next, read this whole section before running anything :-)
+
 Then depending on your preferred hypervisor, simply run:
 
     ./build.sh virtualbox
@@ -52,6 +54,20 @@ If you prefer to perform any of these steps manually as part of the
 demo (e.g. creating the proposals and/or preparing the cloud for the
 demo), you can easily comment those steps out of `build.sh` or
 `prep-wordpress-project.sh`.
+
+For example, you could comment out the lines which call
+`crowbar batch` near the end of the script, and then apply
+the proposals manually.
+
+If you want, you can even mix'n'match the manual and automatic
+approaches, by adding `--include` / `--exclude` options to the
+invocation of `crowbar batch` filtering which proposals get applied,
+and/or by editing
+[`/root/simple-cloud.yaml`](../../vagrant/provisioning/admin/simple-cloud.yaml)
+on the Crowbar admin node, and commenting out certain proposals.
+However, you should be aware that the proposals need to be applied in
+the order given, regardless of whether they are applied manually or
+automatically.
 
 ## Showing the demo
 

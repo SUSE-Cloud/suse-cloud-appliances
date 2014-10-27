@@ -8,6 +8,8 @@ an OpenStack cloud which has highly available services.
 First ensure you have
 [the described prerequisites](../../docs/prerequisites.md).
 
+Next, read this whole section before running anything :-)
+
 Then depending on your preferred hypervisor, simply run:
 
     ./build.sh virtualbox
@@ -23,7 +25,8 @@ This will perform the following steps:
     and a shared SBD disk.
 *   Run [`/root/bin/setup-node-aliases.sh`](../../vagrant/provisioning/admin/setup-node-aliases.sh)
     to set aliases in Crowbar for the controller and compute nodes
-*   Create and apply a standard set of Crowbar proposals
+*   Create and apply a standard set of Crowbar proposals as described
+    in detail below.
 
 If you prefer to perform any of these steps manually as part of the
 demo (e.g. creating the proposals and/or preparing the cloud for the
@@ -34,22 +37,21 @@ run it as many times as you need.
 
 ## Deployment of a highly available OpenStack cloud
 
-### Identify available nodes
+This section describes how to manually set up the barclamp proposals.
+By default `./build.sh` will automatically do this for you, but if you
+prefer to do it manually, simply comment out the lines which call
+`crowbar batch` near the end of the script, and then follow the below
+instructions.
 
-*   Open the Crowbar UI at [http://192.168.124.10:3000](http://192.168.124.10:3000)
-    (login: `crowbar`, password: `crowbar`)
-*   You should have four nodes active in tab *Nodes* → *Dashboard*
-    (they should be in the green state)
-*   If using Vagrant on Linux, run `./vagrant/scripts/list-MACs.sh` to see the MAC
-    addresses (which also forms the hostname) for each node.
-    Otherwise, just use the VirtualBox GUI to determine the MAC
-    address of the second network interface on each node.
-*   In the Crowbar UI, go to tab *Nodes* → *Bulk Edit* and assign
-    aliases `controller1`, `controller2` and `compute1` to the
-    machines that have the MAC addresses found above.
-
-**N.B.!** Leave the *Public Name* field blank! (since this would
-require extra upstream DNS records.)
+If you want, you can even mix'n'match the manual and automatic
+approaches, by adding `--include` / `--exclude` options to the
+invocation of `crowbar batch` filtering which proposals get applied,
+and/or by editing
+[`/root/HA-cloud.yaml`](../../vagrant/provisioning/admin/HA-cloud.yaml)
+on the Crowbar admin node, and commenting out certain proposals.
+However, you should be aware that the proposals need to be applied in
+the order given, regardless of whether they are applied manually or
+automatically.
 
 ### Deploy a Pacemaker cluster
 
