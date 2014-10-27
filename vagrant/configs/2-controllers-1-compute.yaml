@@ -9,11 +9,12 @@ networks:
 vms:
   - name: DEFAULT
     cpus: 2
-    ram: 2000
+    ram: 2200
     box: suse/sles11sp3
   - name: admin
     personality: admin
     primary: true
+    ram: 2000
     box: suse/cloud4-admin
     forward_ports:
       - {host: 3000, guest: 3000}  # Crowbar admin web UI
