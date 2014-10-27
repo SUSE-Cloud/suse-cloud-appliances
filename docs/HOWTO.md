@@ -12,13 +12,6 @@ N.B. The following steps describe semi-automated booting of the cloud
 infrastructure via Vagrant.  Another more fully automated option is
 to use one of the [pre-canned demos](../demos/README.md).
 
-*   If using VirtualBox:
-    *   Start the GUI
-    *   *File* → *Preferences* → *Network* then ensure you have:
-        *   a single NAT network (in VirtualBox 4.2 this is hardcoded so
-            don’t worry about it)
-        *   a host-only network, named `vboxnet0`, with IP `192.168.124.1`
-            and **DHCP disabled**.
 *   Depending on what cloud configuration you desire, either use Vagrant
     to sequentially provision all four VMs from the default configuration
     (1 admin + 2 controllers + 1 compute node) in one go:
