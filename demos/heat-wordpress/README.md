@@ -81,3 +81,11 @@ automatically.
 *   Give a password `suseuser` for lifecycle operations
 *   Click the launch button
 *   Watch teh shiney
+
+## Performing Vagrant operations
+
+If you want to use `vagrant` to control the VMs, e.g. `vagrant halt` /
+`destroy`, then first `cd` to the `vagrant/` subdirectory of the git
+repository:
+
+    cd ../../vagrant

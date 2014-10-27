@@ -225,3 +225,11 @@ real setup, using a SAN to store the volumes would be recommended.
 *   on `controller1` run `crm_mon` command
 *   kill `controller2` node via `halt` or `shutdown -h now`
 *   watch on consoles with `crm_mon` how all services are bringing up by pacemaker
+
+## Performing Vagrant operations
+
+If you want to use `vagrant` to control the VMs, e.g. `vagrant halt` /
+`destroy`, then first `cd` to the `vagrant/` subdirectory of the git
+repository:
+
+    cd ../../vagrant
