@@ -28,7 +28,8 @@ or
 This will perform the following steps:
 
 *   Build admin, controller, and compute nodes via Vagrant
-*   Set aliases in Crowbar for the controller and compute nodes
+*   Run [`/root/bin/setup-node-aliases.sh`](../../vagrant/provisioning/admin/setup-node-aliases.sh)
+    to set aliases in Crowbar for the controller and compute nodes
 *   Create and apply a standard set of Crowbar proposals
 *   Download the Wordpress and MySQL VM appliances
 *   Prepare the OpenStack cloud for the demo:
@@ -54,12 +55,13 @@ demo), you can easily comment those steps out of `build.sh` or
 
 ## Showing the demo
 
-**FIXME**
+**FIXME - need some more detail here**
 
 *   Log in to the OpenStack dashboard as `suseuser`
 *   Click on *Orchestration*
-*   Create
-*   Upload `.json` file
-*   Name
-*   Launch
+*   Launch a new stack
+*   Upload the `.json` file
+*   Give the name `Wordpress` to the new stack 
+*   Give a password `suseuser` for lifecycle operations
+*   Click the launch button
 *   Watch teh shiney
