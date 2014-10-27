@@ -63,7 +63,8 @@ main () {
         fi
     fi
 
-    if ! vssh admin sudo stdbuf -oL crowbar batch build /root/simple-cloud.yaml
+    if ! vssh admin sudo stdbuf -oL \
+        crowbar batch --timeout 900 build /root/simple-cloud.yaml
     then
         die "Failed to set up proposals; aborting"
     fi

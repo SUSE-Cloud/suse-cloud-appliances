@@ -67,7 +67,8 @@ main () {
         fi
     fi
 
-    if ! vssh admin sudo stdbuf -oL crowbar batch build /root/HA-cloud.yaml
+    if ! vssh admin sudo stdbuf -oL \
+        crowbar batch --timeout 900 build /root/HA-cloud.yaml
     then
         die "Failed to set up proposals; aborting"
     fi
