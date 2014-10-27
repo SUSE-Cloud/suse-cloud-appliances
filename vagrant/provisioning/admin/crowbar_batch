@@ -107,8 +107,13 @@ def build(input_file)
     exit(-1)
   end
 
-  proposals.each do |proposal|
-    build_proposal(proposal)
+  begin
+    proposals.each do |proposal|
+      build_proposal(proposal)
+    end
+  rescue Timeout::Error
+    abort "Timed out at #{Time.now};\n" +
+      "perhaps you need a --timeout value higher than #{@timeout} seconds?"
   end
 end
 
@@ -169,7 +174,8 @@ def build_proposal(proposal)
   return if @include_proposals && ! @include_proposals[fullname]
   return if @exclude_proposals &&   @exclude_proposals[fullname]
 
-  puts "#{barclamp} barclamp, '#{name}' proposal:"
+  time = Time.now.strftime '%T'
+  puts "[#{time}] #{barclamp} barclamp, '#{name}' proposal:"
 
   ensure_proposal_exists(barclamp, name)
 
@@ -220,14 +226,22 @@ def modify_proposal(barclamp, name, proposal)
   old_json = get_proposal_json(barclamp, name)
   new_json = old_json.easy_clone
 
-  # For now we require explicit assignment of roles.  Maybe later we
-  # can allow harnessing of the intended role feature.  Note that we
-  # cannot delete the whole elements Hash since some validation code
-  # relies on roles being present even if they don't have any nodes
-  # assigned.
-  elements = new_json["deployment"][barclamp]["elements"]
-  elements.keys.each do |role|
-    elements[role] = []
+  if proposal.has_key? 'deployment'
+    # For now, if the YAML specifies any assignment of roles to
+    # elements, we require it to explicitly assign *all* roles.  Maybe
+    # later we can allow harnessing of the intended role feature.
+    # Note that we cannot delete the whole 'elements' Hash since some
+    # validation code relies on roles being present even if they don't
+    # have any nodes assigned.
+    elements = new_json["deployment"][barclamp]["elements"]
+    elements.keys.each do |role|
+      elements[role] = []
+    end
+  else
+    # YAML doesn't specify deployment elements, so leave them as they
+    # are currently.  This is useful for modifying core barclamps,
+    # e.g. provisioner.
+    proposal_puts "Keeping existing role assignments"
   end
 
   wipe_attributes(new_json, barclamp, proposal)
@@ -365,6 +379,7 @@ def wait_for_proposal(barclamp, name)
     when 'ready'
       break
     when 'failed'
+      puts
       abort "Failed to apply #{barclamp} proposal '#{name}':\n" +
         JSON.pretty_generate(json)
     end
