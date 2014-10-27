@@ -67,7 +67,7 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
         virtualbox_drbd_disk(provider, node_name) if vmcfg['drbd']
         if vmcfg['sbd']
           virtualbox_sbd_disk(provider)
-          init_sbd_disk(override)
+          init_sbd_disk(override, '/dev/sdc')
         end
       end
 
@@ -79,7 +79,7 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
         libvirt_drbd_disk(provider, node_name) if vmcfg['drbd']
         if vmcfg['sbd']
           libvirt_sbd_disk(provider)
-          init_sbd_disk(override)
+          init_sbd_disk(override, '/dev/vdc')
         end
 
         provider.nested = true if personality == 'compute'
@@ -179,12 +179,12 @@ def virtualbox_sbd_disk(provider)
   ]
 end
 
-def init_sbd_disk(override)
+def init_sbd_disk(override, device)
   # Set up SBD disk
-  override.vm.provision 'shell', inline: <<EOSHELL
+  override.vm.provision 'shell', inline: <<-EOSHELL
     zypper -n in sbd
-    /usr/sbin/sbd -d /dev/vdc create
-EOSHELL
+    /usr/sbin/sbd -d #{device} create
+  EOSHELL
 end
 
 def setup_glance_NFS(node, admin_ip)
