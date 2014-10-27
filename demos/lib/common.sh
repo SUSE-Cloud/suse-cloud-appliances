@@ -98,6 +98,16 @@ setup_node_aliases () {
     fi
 }
 
+setup_node_sh_vars () {
+    if vssh admin sudo \
+        sh -c '/root/bin/node-sh-vars > /tmp/.crowbar-nodes-roles.cache'
+    then
+        echo "Wrote node/role shell variables to /tmp/.crowbar-nodes-roles.cache"
+    else
+        die "Failed to set up node shell variables; aborting"
+    fi
+}
+
 vssh () {
     ssh -F $VAGRANT_SSH_CONFIG "$@"
 }

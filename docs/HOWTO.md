@@ -96,7 +96,7 @@ of their primary interface.  This is not very human-friendly, so
 Crowbar offers the option of assigning aliases (e.g. `controller1`,
 `compute1` etc.) to nodes.  This Vagrant environment provides a simple
 script to automate that: once you have booted your controller and
-compute nodes, simply `ssh` to the admin server as per above, and run
+compute nodes, simply `ssh` to the admin server as per above, and run:
 
     setup-node-aliases.sh
 
@@ -107,6 +107,39 @@ other nodes, e.g.
     ssh controller1
 
 etc.
+
+N.B. The `./build.sh` demo scripts take care of this automatically.
+
+## Setting up node/role shell variables (OPTIONAL)
+
+If you want to poke around behind the scenes and see how Crowbar uses
+Chef, you can use the `knife` command on the admin server.  However it
+can quickly get tedious figuring out the correct node or role name
+corresponding to say, `controller2`.  Therefore the `Vagrantfile`
+automatically installs a handy
+[`node-sh-vars` script](../vagrant/provisioning/admin/node-sh-vars)
+which can set convenient shell variables for the node and role names.
+Once you have booted your controller and compute nodes, simply `ssh`
+to the admin server as per above, and run:
+
+    node-sh-vars > /tmp/.crowbar-nodes-roles.cache
+    source /tmp/.crowbar-nodes-roles.cache
+
+Now you can easily look at Chef nodes via `knife`, e.g.
+
+    knife node show $controller1
+    knife node list
+
+and similarly for roles:
+
+    knife role show $controller1r
+    knife role list
+
+The `Vagrantfile` also sets up `.bash_profile` so that
+`/tmp/.crowbar-nodes-roles.cache` is automatically `source`d
+on login.
+
+N.B. The `./build.sh` demo scripts take care of this automatically.
 
 ## Trying out SUSE Cloud
 

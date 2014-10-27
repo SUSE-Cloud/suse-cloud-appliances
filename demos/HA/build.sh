@@ -55,6 +55,7 @@ main () {
     vagrant_ssh_config
 
     setup_node_aliases
+    setup_node_sh_vars
 
     if [ $hypervisor != kvm ]; then
         echo "Can't do nested hardware virtualization; switching to QEMU ..."
