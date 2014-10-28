@@ -250,7 +250,7 @@ def provision_admin(admin)
   # Automatically install SUSE Cloud on first-boot
   admin.vm.provision 'shell', path: 'provisioning/admin/install-suse-cloud.sh'
 
-  admin.vm.provision 'shell', inline: <<EOSHELL
+  admin.vm.provision 'shell', inline: <<'EOSHELL'
 set -e
 
 mkdir -p /root/bin
@@ -260,8 +260,17 @@ mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
 mv /tmp/*-cloud.yaml /root
 
 # FIXME: parametrize instead of doing this hack
-if dmidecode | egrep -q VirtualBox; then
+echo $PATH > /tmp/.path
+DMIDECODE=/usr/sbin/dmidecode  # $PATH doesn't have here (due to sudo?)
+if $DMIDECODE | grep -q VirtualBox; then
+  echo "On VirtualBox; switching to SCSI virtual disks ..."
   sed -i 's,/dev/vd\([a-z]\),/dev/sd\1,' /root/*-cloud.yaml
+elif $DMIDECODE | egrep -iq 'Bochs|QEMU'; then
+  echo "On KVM; using virtio disks"
+else
+  echo "ERROR: Couldn't figure out what hypervisor we're on?!" >&2
+  $DMIDECODE >&2
+  exit 1
 fi
 
 mv /tmp/node-sh-vars /root/bin
