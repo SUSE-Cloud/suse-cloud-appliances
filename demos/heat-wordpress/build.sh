@@ -1,5 +1,7 @@
 #!/bin/bash
 
+: ${PROPOSALS_YAML:=/root/HA-cloud.yaml}
+
 here=$(cd `dirname $0` && pwd)
 source $here/../lib/common.sh
 vagrant_dir=$(cd $here/../../vagrant && pwd)
@@ -49,17 +51,10 @@ main () {
     fi
 
     vagrant_ssh_config
-
     setup_node_aliases
     setup_node_sh_vars
-
     switch_to_qemu_if_required
-
-    if ! vssh admin sudo stdbuf -oL \
-        crowbar batch --timeout 900 build /root/simple-cloud.yaml
-    then
-        die "Failed to set up proposals; aborting"
-    fi
+    batch_build_proposals "$PROPOSALS_YAML"
 
     cd $here
     echo "Downloading appliances to $here ..."

@@ -126,6 +126,16 @@ switch_to_qemu_if_required () {
     fi
 }
 
+batch_build_proposals () {
+    yaml="$1"
+
+    if ! vssh admin sudo stdbuf -oL \
+        crowbar batch --timeout 900 build $yaml
+    then
+        die "Failed to set up proposals; aborting"
+    fi
+}
+
 vssh () {
     ssh -F $VAGRANT_SSH_CONFIG "$@"
 }
