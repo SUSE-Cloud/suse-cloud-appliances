@@ -44,6 +44,7 @@ main () {
     parse_opts "$@"
     parse_args
 
+    check_vagrant_config
     check_hypervisor
 
     if ! vagrant up --no-parallel; then

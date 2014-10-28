@@ -88,6 +88,19 @@ EOF
     esac
 }
 
+check_vagrant_config () {
+    cd $vagrant_dir
+    if [ -n "$VAGRANT_CONFIG_FILE" ]; then
+        if [ ! -e "$VAGRANT_CONFIG_FILE" ]; then
+            echo "VAGRANT_CONFIG_FILE points to non-existent file $VAGRANT_CONFIG_FILE" >&2
+            die "It should be an absolute path or relative to $vagrant_dir."
+        fi
+        if ! grep -q '^vms: *$' "$VAGRANT_CONFIG_FILE"; then
+            die "$VAGRANT_CONFIG_FILE is not a valid config for Vagrantfile"
+        fi
+    fi
+}
+
 vagrant_ssh_config () {
     vagrant ssh-config > $VAGRANT_SSH_CONFIG
 }
