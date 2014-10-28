@@ -25,7 +25,7 @@ die () {
 }
 
 echo "Removing EULA on first boot ..."
-rm /etc/YaST2/licenses/license.txt
+mv /etc/YaST2/licenses/license.txt{,.orig}
 
 if ! long_hostname="`cat /etc/HOSTNAME`"; then
     die "Failed to determine hostname"
