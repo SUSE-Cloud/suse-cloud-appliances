@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git://github.com/aspiers/vagrant-libvirt.git
-  revision: 8ba8296e7d5c9d43c3545d68609e5c8cb9fa850d
+  revision: b530167bd945c692739f5f83265cb9e5e194519c
   branch: working
   specs:
     vagrant-libvirt (0.0.23)
