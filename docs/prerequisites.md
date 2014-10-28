@@ -46,8 +46,15 @@ Here are some points to bear in mind when choosing a hypervisor:
 
 #### Installing VirtualBox
 
-On openSUSE, it is recommended to install from the
+On SUSE systems, it is recommended to install from the
 [OBS `Virtualization` project](https://build.opensuse.org/project/show/Virtualization).
+The simplest way to do this is probably via 1-click install:
+
+*    Visit http://software.opensuse.org/package/virtualbox
+*    Select "Show other versions"
+*    Select "Show unstable packages"
+*    Select "1 Click Install" at the end of the `Virtualization` line
+*    Download and open the resulting `.ymp` file, and follow the instructions.
 
 For other OSs, here is the [VirtualBox downloads page](https://www.virtualbox.org/wiki/Downloads).
 
