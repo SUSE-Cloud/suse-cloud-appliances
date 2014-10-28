@@ -45,14 +45,13 @@ main () {
     parse_args
 
     check_vagrant_config
+    check_hypervisor
 
     if [ $hypervisor = kvm ]; then
         # Required so vagrant-libvirt can deal with shared disks.
         export VAGRANT_USE_BUNDLER=yes
         init_bundler
     fi
-
-    check_hypervisor
 
     if ! vagrant up --no-parallel; then
         die "vagrant up failed; aborting"
