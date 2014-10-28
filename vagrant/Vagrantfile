@@ -251,35 +251,14 @@ def provision_admin(admin)
   # Automatically install SUSE Cloud on first-boot
   admin.vm.provision 'shell', path: 'provisioning/admin/install-suse-cloud.sh'
 
-  admin.vm.provision 'shell', inline: <<'EOSHELL'
-set -e
+  admin.vm.provision 'shell', path: 'provisioning/admin/provision-root-files.sh'
+  admin.vm.provision 'shell', path: 'provisioning/admin/switch-vdisks.sh'
+  admin.vm.provision 'shell', path: 'provisioning/admin/setup-node-sh-vars.sh'
 
-mkdir -p /root/bin
-mv /tmp/setup-node-aliases.sh /root/bin
-gem install /tmp/easy_diff-0.0.3.gem
-mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
-mv /tmp/*.yaml /root
-
-# FIXME: parametrize instead of doing this hack
-DMIDECODE=/usr/sbin/dmidecode  # $PATH doesn't have /usr/sbin here (due to sudo?)
-if $DMIDECODE | grep -q VirtualBox; then
-  echo "On VirtualBox; using SCSI virtual disks ..."
-elif $DMIDECODE | egrep -iq 'Bochs|QEMU'; then
-  echo "On KVM; switching to virtio disks"
-  sed -i 's,/dev/sd\([a-z]\),/dev/vd\1,' /root/*-cloud*.yaml
-else
-  echo "ERROR: Couldn't figure out what hypervisor we're on?!" >&2
-  $DMIDECODE >&2
-  exit 1
-fi
-
-mv /tmp/node-sh-vars /root/bin
-cat <<EOF >>/root/.bash_profile
-if [ -e /tmp/.crowbar-nodes-roles.cache ]; then
-  source /tmp/.crowbar-nodes-roles.cache
-fi
-EOF
-EOSHELL
+  admin.vm.provision 'shell', inline: <<-'EOSHELL'
+    set -e
+    gem install /tmp/easy_diff-0.0.3.gem
+  EOSHELL
 end
 
 def provision_to_tmp(node, files_to_provision)
