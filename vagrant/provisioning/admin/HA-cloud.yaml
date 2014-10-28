@@ -18,10 +18,10 @@ proposals:
         nodes:
           @@controller1@@:
             devices:
-            - /dev/vdc
+            - /dev/sdc
           @@controller2@@:
             devices:
-            - /dev/vdc
+            - /dev/sdc
     drbd:
       enabled: true
     setup_hb_gui: true
