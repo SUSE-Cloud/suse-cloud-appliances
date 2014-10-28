@@ -1,5 +1,7 @@
 #!/bin/bash
 
+: ${VAGRANT_CONFIG_FILE:=configs/2-controllers-1-compute.yaml}
+export VAGRANT_CONFIG_FILE
 : ${PROPOSALS_YAML:=/root/HA-cloud.yaml}
 
 here=$(cd `dirname $0` && pwd)
