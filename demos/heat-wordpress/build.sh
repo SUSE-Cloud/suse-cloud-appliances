@@ -1,5 +1,7 @@
 #!/bin/bash
 
+: ${VAGRANT_CONFIG_FILE:=configs/1-controller-1-compute.yaml}
+export VAGRANT_CONFIG_FILE
 : ${PROPOSALS_YAML:=/root/HA-cloud.yaml}
 
 here=$(cd `dirname $0` && pwd)
@@ -43,8 +45,6 @@ main () {
     parse_args
 
     check_hypervisor
-
-    export VAGRANT_CONFIG_FILE=$vagrant_dir/configs/1-controller-1-compute.yaml
 
     if ! vagrant up --no-parallel; then
         die "vagrant up failed; aborting"
