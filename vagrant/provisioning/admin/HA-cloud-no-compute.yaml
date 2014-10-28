@@ -100,7 +100,7 @@ proposals:
 #     elements:
 #       nova-multi-controller:
 #         - cluster:cluster1
-#       nova-multi-compute-kvm:
+#       nova-multi-compute-qemu:
 #         - @@compute1@@
 - barclamp: nova_dashboard
   deployment:
