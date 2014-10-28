@@ -102,11 +102,11 @@ proposals:
 #         - cluster:cluster1
 #       nova-multi-compute-qemu:
 #         - @@compute1@@
-- barclamp: nova_dashboard
-  deployment:
-    elements:
-      nova_dashboard-server:
-        - cluster:cluster1
+# - barclamp: nova_dashboard
+#   deployment:
+#     elements:
+#       nova_dashboard-server:
+#         - cluster:cluster1
 # - barclamp: heat
 #   deployment:
 #     elements:
