@@ -53,14 +53,7 @@ main () {
     setup_node_aliases
     setup_node_sh_vars
 
-    if [ $hypervisor != kvm ]; then
-        echo "Can't do nested hardware virtualization; switching to QEMU ..."
-        if ! vssh admin sudo sed -i \
-            's/nova-multi-compute-.*:/nova-multi-compute-qemu:/' \
-            /root/simple-cloud.yaml; then
-            die "Failed to switch simple-cloud.yaml to use QEMU"
-        fi
-    fi
+    switch_to_qemu_if_required
 
     if ! vssh admin sudo stdbuf -oL \
         crowbar batch --timeout 900 build /root/simple-cloud.yaml

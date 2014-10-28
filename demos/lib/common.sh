@@ -108,6 +108,24 @@ setup_node_sh_vars () {
     fi
 }
 
+switch_to_qemu_if_required () {
+    if [ $hypervisor = kvm ]; then
+        return
+    fi
+
+    echo "Can't do nested hardware virtualization; switching to QEMU ..."
+    # I tried and failed to do this with a glob and a single call to
+    # sudo - saw some inexplicable interaction between ssh/sudo/sh.
+    # If anyone can show me how I'd be grateful!
+    if ! vssh admin \
+        'sudo find /root -maxdepth 1 -name *.yaml |
+         xargs sudo sed -i \
+             "s/nova-multi-compute-.*:/nova-multi-compute-qemu:/"'
+    then
+        die "Failed to switch YAML files to use QEMU"
+    fi
+}
+
 vssh () {
     ssh -F $VAGRANT_SSH_CONFIG "$@"
 }
