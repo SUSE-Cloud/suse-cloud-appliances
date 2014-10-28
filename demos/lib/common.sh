@@ -37,7 +37,7 @@ vagrant () {
 }
 
 init_bundler () {
-    if [ -z "$VAGRANT_KVM_USE_BUNDLER" ]; then
+    if [ -z "$VAGRANT_USE_BUNDLER" ]; then
         return
     fi
 
