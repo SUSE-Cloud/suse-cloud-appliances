@@ -239,3 +239,12 @@ If you want to use `vagrant` to control the VMs, e.g. `vagrant halt` /
 repository:
 
     cd ../../vagrant
+
+If you are using `libvirt`, you will probably need to prefix `vagrant`
+with `bundle exec` every time you run it, e.g.:
+
+    bundle exec vagrant status
+    bundle exec vagrant halt compute1
+
+See [the `vagrant-libvirt` page](../../docs/vagrant-libvirt.md) for
+more information.
