@@ -340,7 +340,7 @@ def commit_proposal(barclamp, name)
   if code == 200
     proposal_puts "Committed #{name}"
   elsif code == 202
-    proposal_puts "Queued #{name} waiting for: " + out.join(', ')
+    proposal_puts "Queued #{name} waiting for: #{out}"
   elsif code == 402
     proposal_puts "#{name} already being applied"
   else
