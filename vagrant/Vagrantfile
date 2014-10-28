@@ -237,8 +237,9 @@ def provision_admin(admin)
     'easy_diff-0.0.3.gem',
 
     # sample input files for crowbar_batch
-    'HA-cloud.yaml',
     'simple-cloud.yaml',
+    'HA-cloud.yaml',
+    'HA-cloud-no-compute.yaml',
 
     # handy utility for dealing with nodes/roles via knife
     'node-sh-vars',
@@ -257,14 +258,14 @@ mkdir -p /root/bin
 mv /tmp/setup-node-aliases.sh /root/bin
 gem install /tmp/easy_diff-0.0.3.gem
 mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
-mv /tmp/*-cloud.yaml /root
+mv /tmp/*.yaml /root
 
 # FIXME: parametrize instead of doing this hack
 echo $PATH > /tmp/.path
 DMIDECODE=/usr/sbin/dmidecode  # $PATH doesn't have here (due to sudo?)
 if $DMIDECODE | grep -q VirtualBox; then
   echo "On VirtualBox; switching to SCSI virtual disks ..."
-  sed -i 's,/dev/vd\([a-z]\),/dev/sd\1,' /root/*-cloud.yaml
+  sed -i 's,/dev/vd\([a-z]\),/dev/sd\1,' /root/*-cloud*.yaml
 elif $DMIDECODE | egrep -iq 'Bochs|QEMU'; then
   echo "On KVM; using virtio disks"
 else

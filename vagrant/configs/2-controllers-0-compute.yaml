@@ -1,5 +1,5 @@
 # ../Vagrantfile will use this config file to build a cloud with 2 HA
-# controllers and 1 compute node.  You'll probably need at least 16GB
+# controllers and 0 compute nodes.  You'll probably need at least 8GB
 # RAM on the host for this!
 ---
 networks:
@@ -35,6 +35,3 @@ vms:
     forward_ports:
       - {host: 7631, guest: 7630}  # Hawk web UI for HA clusters
       - {host: 8081, guest: 80}    # Horizon dashboard
-  - name: compute1
-    personality: compute
-    ram: 3000

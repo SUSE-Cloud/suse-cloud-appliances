@@ -3,12 +3,43 @@
 This demo shows how easy it is to use the Pacemaker barclamp to deploy
 an OpenStack cloud which has highly available services.
 
-## Preparing the demo
+## Prerequisites
 
 First ensure you have
 [the described prerequisites](../../docs/prerequisites.md).
 
-Next, read this whole section before running anything :-)
+You'll need at least 16GB RAM on the host for a full HA cloud,
+since this demo defaults to using
+[`vagrant/configs/2-controllers-1-compute.yaml`](../../vagrant/configs/2-controllers-1-compute.yaml)
+in order to determine the number, size, and shape of the VMs
+the [`Vagrantfile`](../../vagrant/Vagrantfile) will boot,
+and
+[`vagrant/provisioning/admin/HA-cloud.yaml`](../../vagrant/provisioning/admin/HA-cloud.yaml)
+in order to determine how the Crowbar barclamps are applied.
+
+However you may be able to get away with 8GB RAM by only setting up
+the two clustered controller nodes running OpenStack services, and
+skipping the compute node and deployment of Nova and Heat.  Obviously
+this will prevent you from booting instances in the OpenStack cloud
+via Nova, but you should still be able to test the HA functionality.
+
+So if your host only has 8GB RAM, first type:
+
+    export VAGRANT_CONFIG_FILE=configs/1-controller-0-compute.yaml
+    export PROPOSALS_YAML=/root/HA-cloud-no-compute.yaml
+
+The value for `VAGRANT_CONFIG_FILE` should either be an absolute path,
+or relative to [the directory containing `Vagrantfile`](../../vagrant).
+
+Whichever files you use, you can optionally tune the number, size, and
+shape of the VMs being booted, by editing whichever file
+`$VAGRANT_CONFIG_FILE` points to, and you can tune the barclamp
+proposal parameters by editing whichever file `$PROPOSALS_YAML` points
+to.
+
+## Preparing the demo
+
+**Read this whole section before running anything!**
 
 Then depending on your preferred hypervisor, simply run:
 
@@ -31,12 +62,6 @@ This will perform the following steps:
 If you prefer to perform any of these steps manually as part of the
 demo (e.g. creating the proposals and/or preparing the cloud for the
 demo), you can easily comment those steps out of `build.sh`.
-
-You can also optionally tune the number, size, and shape of the VMs
-being booted, by editing
-[`vagrant/configs/2-controllers-1-compute.yaml`](../../vagrant/configs/2-controllers-1-compute.yaml),
-and tune the barclamp proposal parameters by editing
-[`vagrant/provisioning/admin/HA-cloud.yaml`](../../vagrant/provisioning/admin/HA-cloud.yaml).
 
 N.B. All steps run by `./build.sh` are idempotent, so you can safely
 run it as many times as you need.
