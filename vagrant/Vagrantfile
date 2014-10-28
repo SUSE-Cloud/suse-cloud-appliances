@@ -261,8 +261,7 @@ mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
 mv /tmp/*.yaml /root
 
 # FIXME: parametrize instead of doing this hack
-echo $PATH > /tmp/.path
-DMIDECODE=/usr/sbin/dmidecode  # $PATH doesn't have here (due to sudo?)
+DMIDECODE=/usr/sbin/dmidecode  # $PATH doesn't have /usr/sbin here (due to sudo?)
 if $DMIDECODE | grep -q VirtualBox; then
   echo "On VirtualBox; switching to SCSI virtual disks ..."
   sed -i 's,/dev/vd\([a-z]\),/dev/sd\1,' /root/*-cloud*.yaml
