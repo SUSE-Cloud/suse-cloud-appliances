@@ -10,10 +10,17 @@ Here is a rough guide, but none of this has been tested yet.
     REM set VAGRANT_CONFIG_FILE=configs/2-controllers-0-compute.yaml
     REM set PROPOSALS_YAML=/root/HA-cloud-no-compute.yaml
 
+Make sure you are in the right directory!
+
+    cd path\to\git\repository
     cd vagrant
+
+If you are not in the directory which contains `Vagrantfile`,
+`configs/` etc. then the following will not work!
+
     vagrant up --no-parallel
 
-FIXME: what next?
+FIXME: what next?  This probably won't work:
 
     vagrant ssh admin
     sudo bash
