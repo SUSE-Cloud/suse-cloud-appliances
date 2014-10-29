@@ -77,7 +77,10 @@ usage `vagrant-libvirt`](vagrant-libvirt.md) for known pitfalls.
 
 ## Connecting to the VMs
 
-You can ssh via `vagrant`, e.g.:
+Of course you can log in on the VM consoles, via the hypervisor's
+GUI.
+
+You can also ssh via `vagrant`, e.g.:
 
     vagrant ssh admin
     vagrant ssh controller1 -- -l root
