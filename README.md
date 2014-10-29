@@ -16,10 +16,6 @@ This repository contains resources for rapid virtualized deployment of
     want more manual control over the setup of Crowbar barclamps and
     OpenStack.
 
-### Building the Vagrant boxes
-
-See the [vagrant/building-boxes/](vagrant/building-boxes/) subdirectory.
-
 ## Support, bugs, development etc.
 
 If you experience a bug or other issue, or want to check the list
