@@ -2,30 +2,41 @@
 
 Here is a rough guide, but none of this has been tested yet.
 
-    set VAGRANT_CONFIG_FILE=configs/2-controllers-1-compute.yaml
-    set PROPOSALS_YAML=/root/HA-cloud.yaml
+Firstly make sure you have all
+[the prerequisites](../../docs/prerequisites.md).
 
-    REM Use these instead for 8GB:
-    REM
-    REM set VAGRANT_CONFIG_FILE=configs/2-controllers-0-compute.yaml
-    REM set PROPOSALS_YAML=/root/HA-cloud-no-compute.yaml
+Then open a command shell.
 
-Make sure you are in the right directory!
+If you have less than 16GB of RAM (but at least 8GB), type this:
 
-    cd path\to\git\repository
+    set VAGRANT_CONFIG_FILE=configs/2-controllers-0-compute.yaml
+
+Make sure you are in the right directory:
+
+    cd path\to\this\git\repository
     cd vagrant
 
-If you are not in the directory which contains `Vagrantfile`,
-`configs/` etc. then the following will not work!
+Your shell should now be in the directory which contains
+`Vagrantfile`, `configs/` etc.  If not then the following will not work!
 
-    vagrant up --no-parallel
+    vagrant up
 
-FIXME: what next?  This probably won't work:
+This will take some time to boot all the nodes.  Once it's finished,
+log into the admin node either via:
 
-    vagrant ssh admin
-    sudo bash
+    vagrant ssh admin -- -l root
+
+or simply via the console in the VirtualBox GUI.  The password is
+`vagrant`.
+
+Now type the following:
 
     setup-node-aliases.sh
-    node-sh-vars > /tmp/.crowbar-nodes-roles.cache
+
+If you have 16GB of RAM, type:
 
     crowbar batch build /root/HA-cloud.yaml
+
+If you have less (but at least 8GB), instead type:
+
+    crowbar batch build /root/HA-cloud-no-compute.yaml
