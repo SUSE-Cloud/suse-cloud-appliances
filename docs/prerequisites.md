@@ -100,8 +100,8 @@ If using `libvirt`, please also see
 
 You will need two boxes, which are fairly big downloads:
 
-*   `suse/cloud4-admin` (2.4GB)
-*   `suse/sles11sp3` (460MB)
+*   `suse/cloud4-admin` (~2.4GB)
+*   `suse/sles11sp3` (~450MB)
 
 ***Please do not rely on conference or hotel wifi to download these!
 Instead, download them via a good internet connection, by typing the
