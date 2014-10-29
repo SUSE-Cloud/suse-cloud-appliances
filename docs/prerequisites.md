@@ -81,7 +81,7 @@ installed, including the development libraries, e.g. on openSUSE, do:
 
     zypper in libvirt libvirt-devel
 
-## Vagrant
+### Vagrant
 
 You will need [Vagrant](http://www.vagrantup.com/) >= 1.6.5 installed.
 For all OSs [the upstream packages](https://www.vagrantup.com/downloads.html)
@@ -96,7 +96,7 @@ installation of plugins, and you will not be able to use the
 If using `libvirt`, please also see
 [vagrant-libvirt.md](vagrant-libvirt.md).
 
-### Vagrant boxes
+#### Vagrant boxes
 
 You will need two boxes, which are fairly big downloads:
 
