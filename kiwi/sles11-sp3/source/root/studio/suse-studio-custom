@@ -17,8 +17,13 @@ then
     # Put commands to be run on the first boot of your appliance here
     echo "Running SUSE Studio first boot script..."
 
-    # Reduce grub prompt time-out
-    sed -i 's/^timeout [0-9]\+/timeout 3/' /boot/grub/menu.lst
+    echo "Reducing grub timeout..."
+    if [[ -f /etc/default/grub ]]; then
+      sed -i 's/^GRUB_TIMEOUT=[0-9]\+/GRUB_TIMEOUT=3/' /etc/default/grub
+      update-bootloader --refresh
+    else
+      sed -i 's/^timeout [0-9]\+/timeout 3/' /boot/grub/menu.lst
+    fi
 
     echo "Installing VirtualBox guest additions ..."
     # Unfortunately the return code can be non-zero even when

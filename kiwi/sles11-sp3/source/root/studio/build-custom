@@ -31,8 +31,10 @@ cat <<EOF >>/etc/sudoers
 
 vagrant ALL=(ALL) NOPASSWD: ALL
 EOF
+
 # Ensure vagrant maintains password-less sudo access even after
 # Crowbar/Chef hijack /etc/sudoers:
+echo "Adding vagrant to sysadmins..."
 groupadd sysadmin
 usermod -G sysadmin vagrant
 
@@ -43,3 +45,7 @@ sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
 
 # Default behaviour of less drives me nuts!
 sed -i 's/\(LESS="\)/\1-X /' /etc/profile
+
+echo "Allow unsupported modules..."
+sed -i 's/^allow_unsupported_modules 0/allow_unsupported_modules 1/' \
+  /etc/modprobe.d/unsupported-modules
