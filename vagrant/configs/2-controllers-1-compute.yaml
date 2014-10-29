@@ -37,4 +37,4 @@ vms:
       - {host: 8081, guest: 80}    # Horizon dashboard
   - name: compute1
     personality: compute
-    ram: 3000
+    ram: 2000
