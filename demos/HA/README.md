@@ -26,7 +26,7 @@ via Nova, but you should still be able to test the HA functionality.
 So if your host only has 8GB RAM, when following the instructions
 below, **either** first copy and paste this into your terminal:
 
-    export VAGRANT_CONFIG_FILE=configs/1-controller-0-compute.yaml
+    export VAGRANT_CONFIG_FILE=configs/2-controllers-0-compute.yaml
     export PROPOSALS_YAML=/root/HA-cloud-no-compute.yaml
 
 **or** use `build-8GB.sh` instead of `build.sh` which does exactly
