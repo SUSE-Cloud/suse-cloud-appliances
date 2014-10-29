@@ -10,7 +10,7 @@ networks:
 vms:
   - name: DEFAULT
     cpus: 2
-    ram: 2200
+    ram: 2500
     box: suse/sles11sp3
   - name: admin
     personality: admin
@@ -37,4 +37,4 @@ vms:
       - {host: 8081, guest: 80}    # Horizon dashboard
   - name: compute1
     personality: compute
-    ram: 2000
+    ram: 1800
