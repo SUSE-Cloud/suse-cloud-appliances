@@ -60,15 +60,15 @@ For other OSs, here is the [VirtualBox downloads page](https://www.virtualbox.or
 
 On Linux systems:
 
-    *   Once installed, make sure that the VirtualBox kernel
-        modules are loaded and that the services (`vboxdrv`) were started.
-    *   Make sure that the user account you are going to use for
-        running VirtualBox and Vagrant (non-`root` recommended) has
-        been added to the `vboxusers` group.
-    *   Make sure that your command shell already has access to the
-        `vboxusers` group.  You can check by running the `groups`
-        command; `vboxusers` should be included in the output.  If
-        not, either run `newgrp vboxusers` or log out and in again.
+*   Once installed, make sure that the VirtualBox kernel
+    modules are loaded and that the services (`vboxdrv`) were started.
+*   Make sure that the user account you are going to use for
+    running VirtualBox and Vagrant (non-`root` recommended) has
+    been added to the `vboxusers` group.
+*   Make sure that your command shell already has access to the
+    `vboxusers` group.  You can check by running the `groups`
+    command; `vboxusers` should be included in the output.  If
+    not, either run `newgrp vboxusers` or log out and in again.
 
 (The `build.sh` scripts in the pre-canned demos automatically check
 all this for you.)
