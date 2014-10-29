@@ -92,7 +92,7 @@ EOF
                 echo "No lsmod found; I guess this is MacOS X."
             fi
 
-            unset VAGRANT_DEFAULT_PROVIDER
+            export VAGRANT_DEFAULT_PROVIDER=virtualbox
             ;;
         *)
             usage "Unrecognised hypervisor '$hypervisor'"
