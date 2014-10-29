@@ -78,6 +78,10 @@ EOF
             case "$version" in
                 4.[012].*)
                     die "Please upgrade to the most recent VirtualBox"
+                    ;;
+                4.3.[0-9])
+                    echo "WARNING: Your VirtualBox is old-ish.  Please consider upgrading." >&2
+                    ;;
             esac
 
             if [ "`uname -s`" = Linux ]; then
