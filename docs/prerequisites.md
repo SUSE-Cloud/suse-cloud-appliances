@@ -71,8 +71,8 @@ On Linux systems:
     command; `vboxusers` should be included in the output.  If
     not, either run `newgrp vboxusers` or log out and in again.
 
-(The `build.sh` scripts in the pre-canned demos automatically check
-all this for you.)
+(The `build.sh` scripts in the [pre-canned demos](../demos/)
+automatically check all this for you.)
 
 #### Installing KVM
 
