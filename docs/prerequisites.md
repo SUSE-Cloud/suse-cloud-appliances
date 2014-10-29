@@ -2,7 +2,7 @@
 
 ## Hardware requirements
 
-*   Machine with >= 4GB RAM and >= roughly 16GB spare disk
+*   Machine with >= 3GB RAM and >= roughly 16GB spare disk
     *   You should have at least 16GB RAM for building a full HA cloud.
     *   If you only have 8GB and want to build a two-node HA cluster
         for the control plane then you will not have enough RAM for a
@@ -10,9 +10,9 @@
         However this is still plenty interesting enough to be worth
         attempting!  Alternatively you could opt for a single controller
         node in a non-HA configuration.
-    *   If you only have 4GB, you will be able to run the Crowbar admin
-        node but nothing else.  This is not very useful but at least
-        lets you poke around the Crowbar UI.
+    *   If you only have 3 or 4GB, you will be able to run the Crowbar
+        admin node but nothing else.  This is not very useful but at
+        least lets you poke around the Crowbar UI.
 *   If using the KVM hypervisor, the capability to do nested
     virtualization will greatly aid performance of instances
     booted via OpenStack Compute (Nova).
