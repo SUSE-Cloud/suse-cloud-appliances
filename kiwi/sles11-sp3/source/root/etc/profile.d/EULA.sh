@@ -19,10 +19,10 @@ check_beta_eula () {
 
     until [ "$answer" == "y" ] || [ "$answer" == "Y" ];
     do
-        echo -n "Do you accept the EULA? [y/N] "
+        echo -n "Do you accept the EULA? [y/n] "
         read -e answer
         if [ "$answer" == "n" ] || [ "$answer" == "N" ]; then
-            sudo halt
+            exit
         fi
     done
 
