@@ -19,6 +19,7 @@ same effect.
         *   Change *Configuration mode for STONITH* to
             **STONITH - Configured with STONITH Block Devices (SBD)**
         *   Enter `/dev/sdc` for both nodes under **Block devices for node**
+            (or `/dev/vdc` if you are running on KVM / libvirt)
     *   *DRBD* section:
         *   Change *Prepare cluster for DRBD* to `true`
             (`controller1` and `controller2` should have free disk to claim)
