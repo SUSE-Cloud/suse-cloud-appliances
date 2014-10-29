@@ -155,7 +155,7 @@ batch_build_proposals () {
     yaml="$1"
 
     if ! vssh admin sudo stdbuf -oL \
-        crowbar batch --timeout 900 build $yaml
+        crowbar batch --timeout 1200 build $yaml
     then
         die "Failed to set up proposals; aborting"
     fi
