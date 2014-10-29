@@ -60,7 +60,7 @@ main () {
     vagrant_ssh_config
     setup_node_aliases
     setup_node_sh_vars
-    switch_to_qemu_if_required
+    switch_to_kvm_if_required
     batch_build_proposals "$PROPOSALS_YAML"
 
     cat <<'EOF'
