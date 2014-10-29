@@ -97,50 +97,25 @@ If using `libvirt`, please also see
 
 ### Vagrant boxes
 
-You will need two boxes:
+You will need two boxes, which are fairly big downloads:
 
-*   the `suse/cloud4-admin` box (currently only [available to SUSE
-    employees](https://etherpad.nue.suse.com/p/cloud-vagrant)
-    but hopefully will be published on https://vagrantcloud.com/suse
-    soon; please [contact us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud)
-    if you need a copy urgently
-*   a `suse/sles11sp3` box; again please [contact
-    us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud) regarding this
-    as work is currently in flux
+*   `suse/cloud4-admin` (2.4GB)
+*   `suse/sles11sp3` (460MB)
 
-For each box there is a corresponding `.json` file containing metadata
-about the box.
+***Please do not rely on conference or hotel wifi to download these!
+Instead, download them via a good internet connection, by typing the
+following in the same user account which you will use them from:***
 
-#### Installing the boxes
-
-**IMPORTANT: make sure you do these steps as the same user with which
-you are going to run Vagrant!**
-
-Note that you need to be in the directory containing the downloaded
-boxes:
-
-    # Adjust path as necessary:
-    cd ~/Downloads
-
-    # If you are using libvirt (adjust filename appropriately):
-    vagrant box add cloud4-admin.x86_64-0.1.1.libvirt-Build4.18.json
-
-    # or if you are using virtualbox:
-    vagrant box add cloud4-admin.x86_64-0.1.1.virtualbox-Build4.18.json
-
-and similarly for the `sles11sp3` box.
+    vagrant box add suse/cloud4-admin
+    vagrant box add suse/sles11sp3
 
 #### Updating an existing box
 
-If a newer version of the box has been released and you want to update to it:
+Please see https://docs.vagrantup.com/v2/boxes/versioning.html
 
-    # Adjust for VirtualBox if necessary
-    vagrant box add --force cloud4-admin.x86_64-0.0.2.libvirt-Build2.2.json
-
-**CAUTION!** If you are using libvirt, this is not enough to do
-`vagrant box add --force` or even `vagrant box remove`; you will also
-have to manually remove the old image from `/var/lib/libvirt/images` and
-then do:
+**CAUTION!** If you are using libvirt, it is not sufficient to do
+`vagrant box update` or similar; you will also have to manually remove
+the old image from `/var/lib/libvirt/images` and then do:
 
     virsh pool-refresh default
 
