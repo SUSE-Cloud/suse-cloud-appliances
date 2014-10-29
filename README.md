@@ -16,18 +16,6 @@ This repository contains resources for rapid virtualized deployment of
     want more manual control over the setup of Crowbar barclamps and
     OpenStack.
 
-Currently the
-[Vagrant boxes and .iso images required](docs/prerequisites.md#vagrant-boxes)
-are built on SUSE's Internal Build Service (a.k.a. IBS) which is
-accessible only to SUSE employees.  (Employees please see
-[this etherpad](https://etherpad.nue.suse.com/p/cloud-vagrant).)
-However the goal is to make the Vagrant boxes available in the near
-future via https://vagrantcloud.com/suse so that they will be
-automatically downloaded on demand.  If you are external and would
-like these files urgently, please
-[contact us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud)
-and we can probably sort something out!
-
 ### Building the Vagrant boxes
 
 See the [vagrant/building-boxes/](vagrant/building-boxes/) subdirectory.
