@@ -19,9 +19,6 @@ if test -f /.kconfig; then
     . /.kconfig
 fi
 
-echo "Removing EULA on first boot ..."
-mv /etc/YaST2/licenses/license.txt{,.orig}
-
 echo "Enabling auto-start of ntp and ssh services on boot ..."
 chkconfig ntp on
 chkconfig sshd on
