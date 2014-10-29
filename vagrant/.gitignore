@@ -1,3 +1,5 @@
+.bundle/
+vendor/
 .vagrant/machines/
 cinder-flat.vmdk
 cinder.vmdk
