@@ -23,13 +23,20 @@ skipping the compute node and deployment of Nova and Heat.  Obviously
 this will prevent you from booting instances in the OpenStack cloud
 via Nova, but you should still be able to test the HA functionality.
 
-So if your host only has 8GB RAM, first type:
+So if your host only has 8GB RAM, when following the instructions
+below, **either** first copy and paste this into your terminal:
 
     export VAGRANT_CONFIG_FILE=configs/1-controller-0-compute.yaml
     export PROPOSALS_YAML=/root/HA-cloud-no-compute.yaml
 
-The value for `VAGRANT_CONFIG_FILE` should either be an absolute path,
-or relative to [the directory containing `Vagrantfile`](../../vagrant).
+**or** use `build-8GB.sh` instead of `build.sh` which does exactly
+the same but is easier to type.
+
+N.B. The value for `VAGRANT_CONFIG_FILE` should either be an absolute
+path, or relative to
+[the directory containing `Vagrantfile`](../../vagrant), whereas the
+value for `PROPOSALS_YAML` points to a path *inside* the admin server
+VM, so should start with `/root/...`.
 
 Whichever files you use, you can optionally tune the number, size, and
 shape of the VMs being booted, by editing whichever file
