@@ -24,7 +24,10 @@ of known issues and other ongoing development, please refer to the
 
 ## History
 
-The resources were originally built for
+These resources were originally built for
 [an OpenStack HA workshop session given on 2014/05/15 at the OpenStack summit in Atlanta](http://openstacksummitmay2014atlanta.sched.org/event/d3db2188dfed4459f8fbd03f5b405b81#.U4C6NXWx1Qo).
 Video, slides, and other material from that workshop are available
 [here](https://github.com/aspiers/openstacksummit2014-atlanta).
+
+They were further enhanced for
+[a further workshop on 2014/11/03 at the OpenStack summit in Paris](https://openstacksummitnovember2014paris.sched.org/event/70cf22bce26516e9d6ae4ae45e966954).
