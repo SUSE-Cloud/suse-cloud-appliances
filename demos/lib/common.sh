@@ -80,16 +80,18 @@ EOF
                     die "Please upgrade to the most recent VirtualBox"
             esac
 
-            if ! groups | grep -q vboxusers; then
-                die "The current user does not have access to the 'vboxusers' group.  This is necessary for VirtualBox to function correctly."
-            fi
-
-            if which lsmod >/dev/null 2>&1; then
-                if ! lsmod | grep -q vboxdrv; then
-                    die "Your system doesn't have the vboxdrv kernel module loaded.  This is necessary for VirtualBox to function correctly."
+            if [ "`uname -s`" = Linux ]; then
+                if ! groups | grep -q vboxusers; then
+                    die "The current user does not have access to the 'vboxusers' group.  This is necessary for VirtualBox to function correctly."
                 fi
-            else
-                echo "No lsmod found; I guess this is MacOS X."
+
+                if which lsmod >/dev/null 2>&1; then
+                    if ! lsmod | grep -q vboxdrv; then
+                        die "Your system doesn't have the vboxdrv kernel module loaded.  This is necessary for VirtualBox to function correctly."
+                    fi
+                else
+                    fatal "BUG: Linux but no lsmod found?!  Huh?"
+                fi
             fi
 
             export VAGRANT_DEFAULT_PROVIDER=virtualbox
