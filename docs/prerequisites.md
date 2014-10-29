@@ -11,8 +11,9 @@
         attempting!  Alternatively you could opt for a single controller
         node in a non-HA configuration.
     *   If you only have 3 or 4GB, you will be able to run the Crowbar
-        admin node but nothing else.  This is not very useful but at
-        least lets you poke around the Crowbar UI.
+        admin node via `vagrant up admin` but nothing else.  This is
+        not very useful but at least lets you poke around [the Crowbar
+        UI](http://192.168.124.10:3000).
 *   If using the KVM hypervisor, the capability to do nested
     virtualization will greatly aid performance of instances
     booted via OpenStack Compute (Nova).
