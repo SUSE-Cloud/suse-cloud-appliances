@@ -95,34 +95,30 @@ However, you should be aware that the proposals need to be applied in
 the order given, regardless of whether they are applied manually or
 automatically.
 
-## Playing with High-Availability
+### Watching the cluster being built
 
-### Introduction
+As soon as the Pacemaker barclamp's `cluster1` proposal has been
+applied (i.e. showing a green bubble icon in the Crowbar web UI),
+you can connect to the [Hawk web UI](https://192.168.124.81:7630)
+and watch as Chef automatically adds new resources to the cluster.
 
-*   open console to `controller1`, `controller2` and compute1 nodes and login there
-*   on `controller1` and `controller2` run `crm_mon` command
-*   on `controller1` run:
+If you're interested in a more internal glimpse of how Crowbar is
+orchestrating Chef behind the scenes to configure resources across the
+nodes,
+[connect to the `admin` VM](../../docs/HOWTO.md#connecting-to-the-vms)
+and then type:
 
-        . .openrc
-        nova service-list
-        nova list
+    tail -f /var/log/crowbar/chef-client/*.log
 
-### Failover scenarios for services
+## Playing with High Availability
 
-*   on `controller1` or `controller2` try to kill OpenStack services
-    using commands like:
+Please see the following pages:
 
-        pkill openstack-keystone
-        pkill openstack-glance
-        pkill openstack-nova
-
-*   watch on consoles with `crm_mon` how all services are bringing up by pacemaker
-
-### Failover scenarios for nodes
-
-*   on `controller1` run `crm_mon` command
-*   kill `controller2` node via `halt` or `shutdown -h now`
-*   watch on consoles with `crm_mon` how all services are bringing up by pacemaker
+*   [testing failover](cluster-failover.md) - how to do nasty
+    things to your OpenStack infrastructure cluster!
+*   [cluster recovery](cluster-recovery.md) - a quick guide
+    for how to recover your cluster to a healthy state after
+    doing nasty things to it :-)
 
 ## Performing Vagrant operations
 
