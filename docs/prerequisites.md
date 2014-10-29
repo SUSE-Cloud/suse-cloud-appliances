@@ -56,7 +56,8 @@ The simplest way to do this is probably via 1-click install:
 *    Select "1 Click Install" at the end of the `Virtualization` line
 *    Download and open the resulting `.ymp` file, and follow the instructions.
 
-For other OSs, here is the [VirtualBox downloads page](https://www.virtualbox.org/wiki/Downloads).
+For other OSs, you can
+[download from virtualbox.org](https://www.virtualbox.org/wiki/Downloads).
 
 On Linux systems:
 
