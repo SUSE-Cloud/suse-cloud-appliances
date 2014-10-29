@@ -48,6 +48,8 @@ to.
 
 **Read this whole section before running anything!**
 
+If you are using Windows, please see [this page](Windows.md).
+
 Then depending on your preferred hypervisor, simply run:
 
     ./build.sh virtualbox
