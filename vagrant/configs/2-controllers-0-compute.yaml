@@ -26,7 +26,6 @@ vms:
     glance-nfs: true
     forward_ports:
       - {host: 7630, guest: 7630}  # Hawk web UI for HA clusters
-      - {host: 8080, guest: 80}    # Horizon dashboard
   - name: controller2
     personality: controller
     drbd: true
@@ -34,4 +33,3 @@ vms:
     glance-nfs: true
     forward_ports:
       - {host: 7631, guest: 7630}  # Hawk web UI for HA clusters
-      - {host: 8081, guest: 80}    # Horizon dashboard
