@@ -21,8 +21,9 @@ files!***
         for the control plane then you will not have enough RAM for a
         compute node in order to provision a VM instance in the cloud.
         However this is still plenty interesting enough to be worth
-        attempting!  Alternatively you could opt for a single controller
-        node in a non-HA configuration.
+        attempting!
+    *   If you have 6GB you could opt for a single controller node in a
+        non-HA configuration.
     *   If you only have 3 or 4GB, you will be able to run the Crowbar
         admin node via `vagrant up admin` but nothing else.  This is
         not very useful but at least lets you poke around [the Crowbar
