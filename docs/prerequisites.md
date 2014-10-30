@@ -108,6 +108,8 @@ You will need two boxes, which are fairly big downloads:
 Instead, download them via a good internet connection, by typing the
 following in the same user account from which you will use them:***
 
+They are available from Vagrant Cloud by typing:
+
     vagrant box add suse/cloud4-admin
     vagrant box add suse/sles11sp3
 
