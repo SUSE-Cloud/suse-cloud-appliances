@@ -89,7 +89,9 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
 
       (vmcfg['forward_ports'] || []).each do |forward|
         node.vm.network :forwarded_port,
-          host_ip: '*',
+          host_ip:
+            ENV['VAGRANT_INSECURE_PORT_FORWARDS'] =~ /^(y(es)?|true|on)$/i ?
+              '*' : '127.0.0.1',
           host: forward['host'],
           guest: forward['guest']
       end

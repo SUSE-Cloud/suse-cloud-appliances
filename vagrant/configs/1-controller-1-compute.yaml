@@ -17,10 +17,15 @@ vms:
     primary: true
     box: suse/cloud4-admin
     forward_ports:
+      # Set the VAGRANT_INSECURE_PORT_FORWARDS environment variable
+      # to 'yes' if you want these forwarded ports accessible from
+      # other machines which can route to your host.  This is useful
+      # when testing/demoing the cloud from a different machine.
       - {host: 3000, guest: 3000}  # Crowbar admin web UI
   - name: controller1
     personality: controller
     forward_ports:
+      # See above note about VAGRANT_INSECURE_PORT_FORWARDS.
       - {host: 8080, guest: 80}    # Horizon dashboard
   - name: compute1
     personality: compute
