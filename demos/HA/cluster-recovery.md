@@ -63,17 +63,6 @@ controller node by connecting to it and running:
 
     chef-client
 
-If you get stuck, the following log files on the admin server node
-should prove informative when debugging Chef:
+## Debugging
 
-*   `/var/log/crowbar/chef-client/*.log` (there is one per node)
-
-Chef will also automatically run every 15 minutes on each node,
-and log to `/var/log/chef/client.log` on the node itself.
-
-This is the main log for the Crowbar server:
-
-*   `/var/log/crowbar/production.log`
-
-See the official SUSE Cloud documentation for
-[a full list of log files](https://www.suse.com/documentation/suse-cloud4/book_cloud_deploy/data/cha_deploy_logs.html).
+Please see [this debugging page](../../docs/debugging.md).
