@@ -1,7 +1,5 @@
 # Running the HA demo on Windows
 
-Here is a rough guide, but none of this has been tested yet.
-
 Firstly make sure you have all
 [the prerequisites](../../docs/prerequisites.md).
 
