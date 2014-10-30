@@ -22,7 +22,7 @@ vms:
   - name: controller1
     personality: controller
     drbd: true
-    sbd: true
+    sbd: create
     glance-nfs: true
     forward_ports:
       - {host: 7630, guest: 7630}  # Hawk web UI for HA clusters
@@ -30,7 +30,7 @@ vms:
   - name: controller2
     personality: controller
     drbd: true
-    sbd: true
+    sbd: share
     glance-nfs: true
     forward_ports:
       - {host: 7631, guest: 7630}  # Hawk web UI for HA clusters

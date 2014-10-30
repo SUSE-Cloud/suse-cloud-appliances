@@ -66,7 +66,7 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
 
         virtualbox_drbd_disk(provider, node_name) if vmcfg['drbd']
         if vmcfg['sbd']
-          virtualbox_sbd_disk(provider)
+          virtualbox_sbd_disk(provider, vmcfg['sbd'])
           init_sbd_disk(override, '/dev/sdc')
         end
       end
@@ -160,15 +160,17 @@ def libvirt_sbd_disk(provider)
     cache: 'none'
 end
 
-def virtualbox_sbd_disk(provider)
-  provider.customize [
-    'createhd',
-    '--filename', 'sbd.vmdk',
-    '--size', 8,
-    '--format', 'VMDK',
-    '--variant', 'Fixed'
-  ]
-  provider.customize [ 'modifyhd', 'sbd.vmdk', '--type', 'shareable' ]
+def virtualbox_sbd_disk(provider, mode)
+  if mode == 'create'
+    provider.customize [
+      'createhd',
+      '--filename', 'sbd.vmdk',
+      '--size', 8,
+      '--format', 'VMDK',
+      '--variant', 'Fixed'
+    ]
+    provider.customize [ 'modifyhd', 'sbd.vmdk', '--type', 'shareable' ]
+  end
   provider.customize [
     'storageattach', :id,
     '--storagectl', 'SCSI Controller',
