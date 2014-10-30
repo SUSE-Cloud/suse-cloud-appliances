@@ -1,5 +1,16 @@
 # Prerequisites
 
+Here's the checklist; click on each item for more details:
+
+*   [Hardware requirements](#hardware-requirements)
+*   [Hypervisor](#hypervisor)
+*   [Vagrant](#vagrant) (medium-sized download)
+*   [Vagrant boxes](#vagrant-boxes) (**big downloads!**)
+*   [This git repository](#git-repository) (small download)
+
+***Please do not rely on conference or hotel wifi to download these
+files!***
+
 ## Hardware requirements
 
 *   Machine with >= 3GB RAM and >= roughly 16GB spare disk
@@ -104,11 +115,8 @@ You will need two boxes, which are fairly big downloads:
 *   `suse/cloud4-admin` (~2.4GB)
 *   `suse/sles11sp3` (~550MB)
 
-***Please do not rely on conference or hotel wifi to download these!
-Instead, download them via a good internet connection, by typing the
-following in the same user account from which you will use them:***
-
-They are available from Vagrant Cloud by typing:
+They are available from Vagrant Cloud by typing the following in the
+same user account from which you will use them:
 
     vagrant box add suse/cloud4-admin
     vagrant box add suse/sles11sp3
@@ -121,7 +129,7 @@ Please see https://docs.vagrantup.com/v2/boxes/versioning.html
 pitfall with updating boxes; please see
 [this caveat](vagrant-libvirt.md#updating-an-existing-box).
 
-### git repo
+### git repository
 
 You will need a copy of this git repository downloaded.  You can
 simply
