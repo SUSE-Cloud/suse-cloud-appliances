@@ -117,14 +117,9 @@ They are available from Vagrant Cloud by typing:
 
 Please see https://docs.vagrantup.com/v2/boxes/versioning.html
 
-**CAUTION!** If you are using libvirt, it is not sufficient to do
-`vagrant box update` or similar; you will also have to manually remove
-the old image from `/var/lib/libvirt/images` and then do:
-
-    virsh pool-refresh default
-
-before adding the new version, due to
-[this bug](https://github.com/pradels/vagrant-libvirt/issues/85#issuecomment-55419054).
+**CAUTION!** If you are using `vagrant-libvirt`, there is a known
+pitfall with updating boxes; please see
+[this caveat](vagrant-libvirt.md#updating-an-existing-box).
 
 ### git repo
 

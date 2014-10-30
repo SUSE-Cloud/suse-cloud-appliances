@@ -34,6 +34,18 @@ that same directory.
 If you are using one of the [pre-canned demos](../demos/) then these
 steps are taken care of automatically.
 
+#### Updating an existing box
+
+**CAUTION!** If you are using libvirt, it is not sufficient to do
+`vagrant box update` or `vagrant box add --force`, or even `vagrant box
+remove`; you will also have to manually remove the old image from
+`/var/lib/libvirt/images` and then do:
+
+    virsh pool-refresh default
+
+before adding the new version, due to
+[this bug](https://github.com/pradels/vagrant-libvirt/issues/85#issuecomment-55419054).
+
 ## Trouble-shooting problems with `bundle install`
 
 Here are suggestions for dealing with some commonly encountered
