@@ -20,3 +20,21 @@ Please see [this guide to cluster recovery](../demos/HA/cluster-recovery.md).
 ## I get a GRUB error on boot of a VM
 
 Most likely your box download got corrupted or truncated.
+
+## Vagrant fails to create a host-only network on VirtualBox
+
+    Progress state: NS_ERROR_FAILURE
+    VBoxManage: error: Failed to create the host-only adapter
+    VBoxManage: error: VBoxNetAdpCtl: Error while adding new interface: VBoxNetAdpCtl: ioctl failed for /dev/vboxnetctl: Inappropriate ioctl for devic
+    VBoxManage: error: Details: code NS_ERROR_FAILURE (0x80004005), component HostNetworkInterface, interface IHostNetworkInterface
+    VBoxManage: error: Context: "int handleCreate(HandlerArg*, int, int*)" at line 66 of file VBoxManageHostonly.cpp
+
+Firstly make sure you don't have another network (e.g. bridge
+interface) configured to use 192.168.124.0/24.  If not, try
+restarting VirtualBox services.  On MacOS X:
+
+    sudo /Library/StartupItems/VirtualBox/VirtualBox restart
+
+On SUSE / Red Hat:
+
+    service vboxdrv restart
