@@ -1,23 +1,29 @@
 # Recovering a SUSE Cloud controller cluster to a healthy state
 
-Abusing a test cluster to see how it handles failures is fun :-)
-However depending on the kind of abuse, you might find that one of
-your nodes ends up getting
-[fenced](http://en.wikipedia.org/wiki/Fencing_(computing)),
-i.e. automatically rebooted.  This is the correct behaviour - it is
-required in order to protect your cluster against data loss or
-corruption.
+[Abusing a test cluster to see how it handles failures](cluster-failover.md)
+is fun :-)  However depending on the kind of abuse, you might find that
+one of your nodes refuses to rejoin the cluster.
 
-However, recovering a degraded (but still functioning) cluster
-to full strength requires some manual intervention.  Again, this
-is intentional design in order to protect the cluster.
+This is most likely because it was not cleanly shut down - either
+because you deliberately killed it, or because it got
+[fenced](http://en.wikipedia.org/wiki/Fencing_(computing)),
+i.e. automatically killed by the
+[STONITH](http://clusterlabs.org/doc/crm_fencing.html) mechanism.
+This is the correct behaviour - it is required in order to protect
+your cluster against data loss or corruption.
+
+However, recovering a degraded (but *still functioning*) cluster to
+full strength requires some manual intervention.  Again, this is
+intentional design in order to protect the cluster.
 
 This document explains how to spot fencing, and what to do if it
 happens.
 
 ## Symptoms of a degraded cluster
 
-*   A VM suddenly reboots without you asking it to.
+Here are some of the symptoms you may see:
+
+*   A VM rebooted without you asking it to.
 *   The Crowbar web UI may show a red bubble icon next to
     a controller node.
 *   The Hawk web UI stops responding on one of the controller

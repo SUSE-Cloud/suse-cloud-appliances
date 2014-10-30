@@ -41,3 +41,6 @@ and running OpenStack services.
 *   Kill the `controller2` VM by powering it off via your hypervisor.
 *   Watch `crm_mon` and/or Hawk (on `controller1`!) to see how the
     active/passive services are failed over by Pacemaker.
+
+At this point you should probably read
+[how to recover a degraded cluster](cluster-recovery.md).
