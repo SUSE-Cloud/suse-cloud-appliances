@@ -13,7 +13,9 @@ files!***
 
 ## Hardware requirements
 
-*   Machine with >= 3GB RAM and >= roughly 16GB spare disk
+*   x86_64 machine with
+    [hardware virtualization capability](http://en.wikipedia.org/wiki/X86_virtualization)
+    (Intel VT-x or AMD-V), and at least ~16GB spare disk and 3GB RAM, but:
     *   You should have at least 16GB RAM for building a full HA cloud.
     *   If you only have 8GB and want to build a two-node HA cluster
         for the control plane then you will not have enough RAM for a
