@@ -78,8 +78,49 @@ check_nested_kvm () {
         return
     fi
 
-    if ! grep -q Y /sys/module/kvm_intel/parameters/nested; then
-        die "Your host's kvm_intel kernel module needs the nested parameter enabled."
+    if grep -q Intel /proc/cpuinfo; then
+        cpu=intel
+    elif grep -q AMD /proc/cpuinfo; then
+        cpu=amd
+    else
+        echo "WARNING: couldn't detect either Intel or AMD CPU; skipping nested KVM check" >&2
+        return
+    fi
+
+    kmod=kvm-$cpu
+    nested=/sys/module/kvm_$cpu/parameters/nested
+    if ! [ -e $nested ]; then
+        cat <<EOF >&2
+Your host's kvm_$cpu kernel module is not loaded!
+
+Make sure its nested parameter is enabled and then load it, e.g. by
+running these commands:
+
+    # Needs root access, so su or sudo first!
+    echo "options $kmod nested=1" > /etc/modprobe.d/90-nested-kvm.conf
+
+    # Load the kernel module
+    modprobe $kmod
+
+Then re-run this script.
+EOF
+        exit 1
+    fi
+
+    if ! grep -q Y $nested; then
+        cat <<EOF >&2
+Your host's kvm_$cpu kernel module needs the nested parameter enabled.
+To enable it, run these commands:
+
+    # Needs root access, so su or sudo first!
+    echo "options $kmod nested=1" > /etc/modprobe.d/90-nested-kvm.conf
+    # Reload the kernel module (shutdown any running VMs first):
+    rmmod $kmod
+    modprobe $kmod
+
+Then re-run this script.
+EOF
+        exit 1
     fi
 }
 
