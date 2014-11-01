@@ -50,6 +50,8 @@ Here are some points to bear in mind when choosing a hypervisor:
     you have to use VirtualBox.
 *   Vagrant has native support for VirtualBox, which therefore tends to be
     slightly more robust than using the [`vagrant-libvirt` plugin](vagrant-libvirt.md).
+*   KVM requires the `vagrant-libvirt` plugin, which has a somewhat
+    [tricky installation process](vagrant-libvirt.md).
 *   [VirtualBox doesn't support nested virtualization.](https://www.virtualbox.org/ticket/4032)
     so OpenStack Compute nodes will need to use the QEMU software hypervisor
     instead, which will be quite a bit slower.
@@ -60,6 +62,10 @@ Here are some points to bear in mind when choosing a hypervisor:
     OpenStack Compute (nova).
 *   Some kernel developers are critical of the quality of the VirtualBox
     kernel modules.
+
+So if you're in a hurry, go with VirtualBox.  However if you have the
+time and patience, and definitely want to run multiple VM instances
+inside your cloud, maybe KVM is the better route.
 
 #### Installing VirtualBox
 
@@ -93,8 +99,8 @@ automatically check all this for you.)
 
 #### Installing KVM
 
-For KVM, you will also need [`libvirt`](http://libvirt.org/) and
-various associated packages installed.  On openSUSE, do:
+For KVM, you will need [`libvirt`](http://libvirt.org/) and various
+associated packages installed.  On openSUSE, do:
 
     zypper install -t pattern kvm_server
 
@@ -112,8 +118,9 @@ although you may well encounter issues, especially relating to
 installation of plugins, and you will not be able to use the
 `vagrant-login` (Vagrant Cloud) and `vagrant-share` plugins.
 
-If using `libvirt`, please also see
-[vagrant-libvirt.md](vagrant-libvirt.md).
+#### Vagrant `libvirt` provider
+
+**If using `libvirt`, please also see [vagrant-libvirt.md](vagrant-libvirt.md).**
 
 #### Vagrant boxes
 
