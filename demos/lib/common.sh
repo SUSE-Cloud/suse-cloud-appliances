@@ -36,18 +36,31 @@ vagrant () {
     fi
 }
 
+read_libvirt_docs () {
+    cat <<EOF >&2
+
+Make sure you have read docs/vagrant-libvirt.md, which is available
+online here:
+
+  https://github.com/SUSE-Cloud/suse-cloud-vagrant/blob/master/docs/vagrant-libvirt.md
+EOF
+    exit 1
+}
+
 init_bundler () {
     if [ -z "$VAGRANT_USE_BUNDLER" ]; then
         return
     fi
 
     if ! which bundle >/dev/null 2>&1; then
-        die "Bundler is required!  Please install first."
+        echo "Bundler is required!  Please install first." >&2
+        read_libvirt_docs
     fi
 
     cd $vagrant_dir
-    if ! bundle install --path vendor/bundle; then
-        die "bundle install failed; cannot proceed"
+    if ! bundle inkstall --path vendor/bundle; then
+        echo "bundle install failed; cannot proceed." >&2
+        read_libvirt_docs
     fi
 }
 
