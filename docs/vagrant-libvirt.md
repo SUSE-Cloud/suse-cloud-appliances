@@ -11,11 +11,14 @@ fixes are not yet released, including:
 
 *   [#252](https://github.com/pradels/vagrant-libvirt/pull/252) and
     [#256](https://github.com/pradels/vagrant-libvirt/pull/256)
-    -- required if sharing disks between VMs
+    -- required if sharing disks between VMs (in particular, **the
+    [HA demo](../demos/HA/) requires a shared SBD disk for cluster
+    fencing**)
 *   [#255](https://github.com/pradels/vagrant-libvirt/pull/255)
     -- required if using the plugin from git
 *   [#261](https://github.com/pradels/vagrant-libvirt/pull/261)
-    -- required if using Vagrant from git
+    -- required if using a pre-release version of Vagrant from its
+    [git `master` branch](https://github.com/mitchellh/vagrant)
 *   [#262](https://github.com/pradels/vagrant-libvirt/pull/262)
     -- required if using ruby-libvirt >= 0.5
 *   [#263](https://github.com/pradels/vagrant-libvirt/pull/263)
