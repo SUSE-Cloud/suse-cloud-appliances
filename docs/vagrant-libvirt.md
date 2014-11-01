@@ -24,18 +24,63 @@ fixes are not yet released, including:
 *   [#263](https://github.com/pradels/vagrant-libvirt/pull/263)
     -- required to allow setting cache mode on additional disks
 
-If any of these bugs affect you, you should instead consider running
-`vagrant` via `bundle exec vagrant`.  This requires first installing
-the gems described in `Gemfile.lock`:
-
-    cd $git_repo_dir/vagrant
-    bundle install --path vendor/bundle
-
-Every subsequent time you want to run vagrant, you will need to be in
-that same directory.
+## Addressing known bugs
 
 If you are using one of the [pre-canned demos](../demos/) then these
-steps are taken care of automatically.
+steps are taken care of automatically by `build.sh`.
+
+Otherwise, if any of these bugs affect you (especially if you are
+planning to try [the HA demo](../demos/HA/)), you have two options.
+One is to simply use VirtualBox instead.  This will provide an easier
+installation, although there are some minor drawbacks
+[already mentioned in the prerequisites document](prerequisites.md#hypervisor).
+
+The other option is to use specially patched unofficial versions of
+`vagrant-libvirt` and associated gems.  This is more complicated,
+although we have made it easier by automating the installation via
+Ruby's *bundler* utility and
+[the provided `Gemfile` / `Gemfile.lock`](../vagrant/Gemfile).
+
+### Installing patched gems via `bundle install`
+
+Firstly you will need some development packages, since some of the
+gems need to be compiled against pre-installed libraries.
+
+On openSUSE:
+
+    sudo zypper install {ruby,libvirt,libxml2,libxslt}-devel rubygem-bundler
+
+On Fedora:
+
+    sudo yum install {ruby,libvirt,libxml2,libxslt}-devel rubygem-bundler
+
+On Ubuntu:
+
+    sudo apt-get install libxslt-dev ruby-dev libxml2-dev ruby-bundler
+
+Then install the gems described in
+[the provided `Gemfile` / `Gemfile.lock`](../vagrant/Gemfile):
+
+    # First cd to the directory where you cloned the git repository!
+    cd vagrant
+    bundle install --path vendor/bundle
+
+If during installation, you get errors associated with `nokogiri`,
+try:
+
+    bundle config build.nokogiri --use-system-libraries
+
+and then re-run the installation.
+
+Once bundler has finished installing, every time you want to run
+vagrant, you **must** be in this same directory which contains
+`Gemfile.lock`, and you **must** prefix **every** `vagrant` command
+with `bundle exec`, e.g.:
+
+    bundle exec vagrant up admin
+    bundle exec vagrant status
+
+etc.
 
 #### Updating an existing box
 
@@ -48,22 +93,6 @@ remove`; you will also have to manually remove the old image from
 
 before adding the new version, due to
 [this bug](https://github.com/pradels/vagrant-libvirt/issues/85#issuecomment-55419054).
-
-## Trouble-shooting problems with `bundle install`
-
-Here are suggestions for dealing with some commonly encountered
-issues when running `bundle install`:
-
-*   **Compilation of a gem fails.**
-
-    Check you have the corresponding development packages
-    (e.g. `ruby-devel` on openSUSE or `ruby-dev` on Debian/Ubuntu).
-
-*   **I get nokogiri errors.**
-
-    Try:
-
-        bundle config build.nokogiri --use-system-libraries
 
 ## Trouble-shooting other problems with `vagrant-libvirt`
 
