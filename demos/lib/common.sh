@@ -54,11 +54,42 @@ init_bundler () {
 check_hypervisor () {
     case "$hypervisor" in
         kvm)
-            if ! grep -q Y /sys/module/kvm_intel/parameters/nested; then
-                die "Your host's kvm_intel kernel module needs the nested parameter enabled".
-            fi
-            if ! grep -q 1 /sys/kernel/mm/ksm/run; then
-                cat <<'EOF'
+            check_nested_kvm
+            check_ksm
+            export VAGRANT_DEFAULT_PROVIDER=libvirt
+            ;;
+        virtualbox)
+            check_virtualbox_version
+            check_virtualbox_env
+            export VAGRANT_DEFAULT_PROVIDER=virtualbox
+            ;;
+        *)
+            usage "Unrecognised hypervisor '$hypervisor'"
+            ;;
+    esac
+}
+
+on_linux () {
+    [ "`uname -s`" = Linux ]
+}
+
+check_nested_kvm () {
+    if ! on_linux; then
+        return
+    fi
+
+    if ! grep -q Y /sys/module/kvm_intel/parameters/nested; then
+        die "Your host's kvm_intel kernel module needs the nested parameter enabled."
+    fi
+}
+
+check_ksm () {
+    if ! on_linux; then
+        return
+    fi
+
+    if ! grep -q 1 /sys/kernel/mm/ksm/run; then
+        cat <<'EOF'
 You don't have Kernel SamePage Merging (KSM) enabled!
 This could reduce your memory usage quite a bit.
 To enable it, hit Control-C and then run this command as
@@ -68,42 +99,38 @@ root:
 
 Alternatively, press Enter to proceed regardless ...
 EOF
-                read
-            fi
+        read
+    fi
+}
 
-            export VAGRANT_DEFAULT_PROVIDER=libvirt
+check_virtualbox_version () {
+    version=$( VirtualBox --help | head -n1 | awk '{print $NF}' )
+    case "$version" in
+        4.[012].*)
+            die "Your VirtualBox is old ($version); please upgrade to the most recent version!"
             ;;
-        virtualbox)
-            version=$( VirtualBox --help | head -n1 | awk '{print $NF}' )
-            case "$version" in
-                4.[012].*)
-                    die "Please upgrade to the most recent VirtualBox"
-                    ;;
-                4.3.[0-9])
-                    echo "WARNING: Your VirtualBox is old-ish.  Please consider upgrading." >&2
-                    ;;
-            esac
-
-            if [ "`uname -s`" = Linux ]; then
-                if ! groups | grep -q vboxusers; then
-                    die "The current user does not have access to the 'vboxusers' group.  This is necessary for VirtualBox to function correctly."
-                fi
-
-                if which lsmod >/dev/null 2>&1; then
-                    if ! lsmod | grep -q vboxdrv; then
-                        die "Your system doesn't have the vboxdrv kernel module loaded.  This is necessary for VirtualBox to function correctly."
-                    fi
-                else
-                    fatal "BUG: Linux but no lsmod found?!  Huh?"
-                fi
-            fi
-
-            export VAGRANT_DEFAULT_PROVIDER=virtualbox
-            ;;
-        *)
-            usage "Unrecognised hypervisor '$hypervisor'"
+        4.3.[0-9])
+            echo "WARNING: Your VirtualBox is old-ish.  Please consider upgrading." >&2
             ;;
     esac
+}
+
+check_virtualbox_env () {
+    if ! on_linux; then
+        return
+    fi
+
+    if ! groups | grep -q vboxusers; then
+        die "The current user does not have access to the 'vboxusers' group.  This is necessary for VirtualBox to function correctly."
+    fi
+
+    if ! which lsmod >/dev/null 2>&1; then
+        die "BUG: on Linux but no lsmod found?!  Huh?"
+    fi
+
+    if ! lsmod | grep -q vboxdrv; then
+        die "Your system doesn't have the vboxdrv kernel module loaded.  This is necessary for VirtualBox to function correctly."
+    fi
 }
 
 check_vagrant_config () {
