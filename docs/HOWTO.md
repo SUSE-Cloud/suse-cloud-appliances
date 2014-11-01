@@ -8,10 +8,17 @@ hypervisor.
 
 ## SUSE Cloud installation
 
-N.B. The following steps describe semi-automated booting of the cloud
+N.B. The following steps describe semi-automatic booting of the cloud
 infrastructure via Vagrant.  Another more fully automated option is
 to use one of the [pre-canned demos](../demos/README.md).
 
+*   Tell Vagrant which provider you want to use, e.g.
+
+        export VAGRANT_DEFAULT_PROVIDER=libvirt
+
+    With Vagrant 1.6.x, VirtualBox is the default; although future
+    versions (i.e. 1.7.x) will instead automatically detect the best
+    default provider.
 *   Depending on what cloud configuration you desire, either use Vagrant
     to sequentially provision all four VMs from the default configuration
     (1 admin + 2 controllers + 1 compute node) in one go:
