@@ -7,6 +7,7 @@ Here's the checklist; click on each item for more details:
 *   [Vagrant](#vagrant) (medium-sized download)
 *   [Vagrant boxes](#vagrant-boxes) (**big downloads!**)
 *   [This git repository](#git-repository) (small download)
+*   [`ssh`](#ssh)
 
 ***Please do not rely on conference or hotel wifi to download these
 files!***
@@ -137,11 +138,27 @@ pitfall with updating boxes; please see
 
 ### git repository
 
-You will need a copy of this git repository downloaded.  You can
-simply
-[download a `.zip`](https://github.com/SUSE-Cloud/suse-cloud-vagrant/archive/master.zip),
-or if you have `git` installed, clone it via `git`.  See the
-[project page](../../..) for URLs to use with `git clone`.
+You will need a copy of this git repository downloaded.  If you have
+`git` installed:
+
+    git clone https://github.com/SUSE-Cloud/suse-cloud-vagrant.git
+    cd suse-cloud-vagrant/
+
+or you can simply
+[download a `.zip`](https://github.com/SUSE-Cloud/suse-cloud-vagrant/archive/master.zip).
+However on Windows it is recommended that you install
+[`git` for Windows](http://msysgit.github.io/) because this will also
+provide you with a working `ssh` client (see below).
 
 N.B. On openSUSE, ensure that you have the `ca-certificates-mozilla`
-package installed for successful cloning from github.
+package installed for successful cloning from github:
+
+    zypper install ca-certificates-mozilla
+
+### ssh
+
+`ssh` is required in order to allow `vagrant ssh` to work.  On Linux
+and MacOS X this is installed by default, but on Windows you will need
+to install it.  This can be done by installing
+[`git` for Windows](http://msysgit.github.io/) and then running
+`vagrant` from within Git BASH.
