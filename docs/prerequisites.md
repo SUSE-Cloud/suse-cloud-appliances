@@ -92,10 +92,12 @@ automatically check all this for you.)
 
 #### Installing KVM
 
-For KVM, you will also need [`libvirt`](http://libvirt.org/)
-installed, including the development libraries, e.g. on openSUSE, do:
+For KVM, you will also need [`libvirt`](http://libvirt.org/) and
+various associated packages installed.  On openSUSE, do:
 
-    zypper in libvirt libvirt-devel
+    zypper install -t pattern kvm_server
+
+For other distros, refer to your distro's documentation.
 
 ### Vagrant
 
