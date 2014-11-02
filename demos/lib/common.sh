@@ -158,13 +158,20 @@ EOF
 }
 
 check_virtualbox_version () {
-    version=$( VirtualBox --help | head -n1 | awk '{print $NF}' )
+    if ! version=$( VBoxManage --help | head -n1 | awk '{print $NF}' ); then
+        echo "WARNING: Couldn't determine VirtualBox version; carrying on anyway." >&2
+        return
+    fi
+
     case "$version" in
         4.[012].*)
             die "Your VirtualBox is old ($version); please upgrade to the most recent version!"
             ;;
         4.3.[0-9])
             echo "WARNING: Your VirtualBox is old-ish.  Please consider upgrading." >&2
+            ;;
+        *)
+            die "Unrecognised VirtualBox version '$version'"
             ;;
     esac
 }
