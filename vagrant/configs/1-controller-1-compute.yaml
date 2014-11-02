@@ -6,7 +6,7 @@ networks:
   management: 192.168.101.0/24  # FIXME: currently only used for libvirt
   crowbar:
     admin_ip: 192.168.124.10
-    pool_start: 192.168.124.50  # temporary; prior to crowbar_register.sh
+    pool_start: 192.168.124.50  # dummy IP, not actually used
 vms:
   - name: DEFAULT
     cpus: 2

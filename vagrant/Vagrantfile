@@ -50,6 +50,7 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
       # this will result in it being made host-only.
       node.vm.network 'private_network',
         ip: ip,
+        auto_config: false,
         libvirt__dhcp_enabled: false
 
       # The override parameter lets us configure global config parameters
