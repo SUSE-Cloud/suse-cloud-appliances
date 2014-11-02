@@ -40,6 +40,8 @@ fencing loops.  (This is the "Do not start corosync on boot after
 fencing" setting in the
 [Pacemaker barclamp proposal](http://192.168.124.10:3000/crowbar/pacemaker/1.0/proposals/cluster1).)
 
+### Recovering the Pacemaker cluster
+
 Therefore to tell the node it can safely rejoin the cluster,
 [connect to the node](../../docs/HOWTO.md#connecting-to-the-vms)
 and type:
@@ -50,6 +52,8 @@ Now you should be able to start the cluster again, e.g.
 
     service openais start
 
+### Recovering Crowbar and Chef
+
 However, this is not sufficient, because all nodes (including the
 Crowbar admin server node) need to be aware that this node is back
 online.  Whilst Pacemaker takes care of that to a large extent,
@@ -58,10 +62,48 @@ to ensure that the node is (re-)registered with Crowbar:
 
     service crowbar_join start
 
-And to be safe, also trigger a Chef run on the other
-controller node by connecting to it and running:
+and then trigger a Chef run on the other controller node by connecting
+to it and running:
 
     chef-client
+
+## Failcounts
+
+In some circumstances, some cluster resources may have exceeded their
+[maximum failcount](http://clusterlabs.org/doc/en-US/Pacemaker/1.1/html/Pacemaker_Explained/s-failure-migration.html),
+in which case they will need manually "cleaning up" before they start
+again.  This Pacemaker feature is provided in order to prevent broken
+resources from "flapping" in an infinite loop.  Clean-up of all
+stopped resources can be done with a single command:
+
+    crm_resource -o | \
+        awk '/\tStopped |Timed Out/ { print $1 }' | \
+        xargs -n1 crm resource cleanup
+
+### Maintenance mode
+
+Another complication which can occasionally crop up during recovery is
+related to Pacemaker's "maintenance mode".  During normal operation,
+`chef-client` sometimes needs to place a node into
+[maintenance mode](http://crmsh.nongnu.org/crm.8.html#cmdhelp_node_standby)
+(e.g. so that it can safely restart a service after a configuration
+file has been updated).  Rather than risk "flapping" the maintenance
+mode status multiple times per run, it keeps the node in standby until
+the `chef-client` run finishes.  However if the run fails, the node
+can be left in maintenance mode, requiring manual remediation.  You
+can tell if this happens because for all resources on that node,
+`crm_mon` etc. will show `(unmanaged)`, and Hawk will display a little
+wrench icon.
+
+You can disable maintenance mode very easily from the node itself:
+
+    crm node ready
+
+## Summary
+
+Currently, cluster recovery is a bit too complicated, especially in
+the 2 node case.  We have plans to make this process more
+user-friendly in the near future!
 
 ## Debugging
 
