@@ -40,7 +40,11 @@ and running OpenStack services.
 
 *   Kill the `controller2` VM by powering it off via your hypervisor.
 *   Watch `crm_mon` and/or Hawk (on `controller1`!) to see how the
-    active/passive services are failed over by Pacemaker.
+    active/passive services are failed over by Pacemaker.  This
+    process will take longer in this Vagrant environment than it would
+    in a production environment, due to timeouts which have been
+    increased to match the lower performance of this virtualized
+    setup.
 
 At this point you should probably read
 [how to recover a degraded cluster](cluster-recovery.md).

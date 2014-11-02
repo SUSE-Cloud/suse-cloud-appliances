@@ -228,6 +228,10 @@ def provision_admin(admin)
     # barclamp
     'barclamp-pacemaker-ignore-target-role-changes.patch',
 
+    # increase SBD timeout to 30 seconds since Vagrant environments
+    # can result in very sluggish VMs, especially when low on memory
+    'increase-SBD-timeout-30s.patch',
+
     # handy utility for setting up node aliases in Crowbar
     'setup-node-aliases.sh',
 
@@ -262,6 +266,10 @@ def provision_admin(admin)
   admin.vm.provision 'shell', inline: <<-'EOSHELL'
     set -e
     gem install /tmp/easy_diff-0.0.3.gem
+
+    cd /opt/dell
+    patch -p1 < /tmp/increase-SBD-timeout-30s.patch
+    /opt/dell/bin/barclamp_install.rb --rpm pacemaker
   EOSHELL
 end
 
