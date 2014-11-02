@@ -146,16 +146,20 @@ pitfall with updating boxes; please see
 ### git repository
 
 You will need a copy of this git repository downloaded.  If you have
-`git` installed:
+`git` installed, do:
 
     git clone https://github.com/SUSE-Cloud/suse-cloud-vagrant.git
     cd suse-cloud-vagrant/
 
-or you can simply
+Alternatively you can simply
 [download a `.zip`](https://github.com/SUSE-Cloud/suse-cloud-vagrant/archive/master.zip).
-However on Windows it is recommended that you install
-[`git` for Windows](http://msysgit.github.io/) because this will also
-provide you with a working `ssh` client (see below).
+However on Windows it is **strongly recommended that you install
+[`git` for Windows](http://msysgit.github.io/)** because this will:
+
+1.  allow you to run the `build.sh` scripts provided with the
+    [pre-canned demos](../demos/) from within
+    [Git BASH](http://msysgit.github.io/#bash), and
+2.  provide you with a working `ssh` client (see below).
 
 N.B. On openSUSE, ensure that you have the `ca-certificates-mozilla`
 package installed for successful cloning from github:
