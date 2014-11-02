@@ -1,9 +1,29 @@
 # Running the HA demo on Windows
 
 Firstly make sure you have all
-[the prerequisites](../../docs/prerequisites.md).
+[the prerequisites](../../docs/prerequisites.md).  In particular,
+ideally you will have installed
+[Git for Windows](http://msysgit.github.io/) which provides a
+[GNU-like `bash` environment](http://msysgit.github.io/#bash) from
+which you can run the standard [`build.sh` script provided](build.sh).
+However this page explains how to run the demo both with and without
+it installed.
 
-Then open a command shell.
+## Running via Git Bash
+
+If you have Git for Windows installed, simply
+launch [Git BASH](http://msysgit.github.io/#bash) from the Start menu,
+make sure you are in the right directory and then run `build.sh`:
+
+    cd path/to/this/git/repository
+    cd demos/HA
+
+and then continue following [the normal README](README.md).
+
+## Running without Git Bash
+
+If you don't have Git for Windows installed, you will have to type
+some commands manually, as follows.
 
 If you have less than 16GB of RAM (but at least 8GB), type this:
 
