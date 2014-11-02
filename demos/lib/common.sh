@@ -164,11 +164,14 @@ check_virtualbox_version () {
     fi
 
     case "$version" in
-        4.[012].*)
+        [1-3].*|4.[012].*)
             die "Your VirtualBox is old ($version); please upgrade to the most recent version!"
             ;;
         4.3.[0-9])
             echo "WARNING: Your VirtualBox is old-ish.  Please consider upgrading." >&2
+            ;;
+        [4-9].*)
+            # New enough!
             ;;
         *)
             die "Unrecognised VirtualBox version '$version'"
