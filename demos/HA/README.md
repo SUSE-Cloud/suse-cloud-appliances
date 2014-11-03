@@ -29,8 +29,9 @@ below, **either** first copy and paste this into your terminal:
     export VAGRANT_CONFIG_FILE=configs/2-controllers-0-compute.yaml
     export PROPOSALS_YAML=/root/HA-cloud-no-compute.yaml
 
-**or** use `build-8GB.sh` instead of `build.sh` which does exactly
-the same but is easier to type.
+**or** type `source build-8GB.sh` which does exactly the same but is
+easier to type.  This will configure `build.sh` below to use the
+alternative profile which uses less RAM.
 
 N.B. The value for `VAGRANT_CONFIG_FILE` should either be an absolute
 path, or relative to
