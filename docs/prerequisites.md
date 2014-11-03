@@ -135,6 +135,28 @@ same user account from which you will use them:
     vagrant box add suse/cloud4-admin
     vagrant box add suse/sles11sp3
 
+#### Adding boxes from the local filesystem
+
+Alternatively if you already have the `.box` and accompanying `.json`
+files downloaded, you can add them directly as follows.
+
+**IMPORTANT: make sure you do these steps as the same user with which
+you are going to run Vagrant!**
+
+Note that you need to be in the directory containing the downloaded
+boxes:
+
+    # Adjust path as necessary:
+    cd ~/Downloads
+
+    # If you are using virtualbox (adjust filename appropriately):
+    vagrant box add cloud4-admin.x86_64-0.1.6.virtualbox-Build1.1.json
+
+    # or if you are using libvirt:
+    vagrant box add cloud4-admin.x86_64-0.1.6.libvirt-Build1.1.json
+
+and similarly for the `sles11sp3` box.
+
 #### Updating an existing box
 
 Please see https://docs.vagrantup.com/v2/boxes/versioning.html
