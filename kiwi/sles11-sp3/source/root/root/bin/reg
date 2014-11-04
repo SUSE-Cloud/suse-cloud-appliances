@@ -2,7 +2,7 @@
 
 set -e
 
-admin_ip="$1"
+admin_ip="${1:-192.168.0.10}"
 
 export PATH="$PATH:/sbin:/usr/sbin/"
 zypper ar http://${admin_ip}:8091/suse-11.3/install sles11-sp3
