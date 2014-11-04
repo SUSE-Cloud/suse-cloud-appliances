@@ -1,0 +1,9 @@
+#!/bin/bash
+
+export PATH="$PATH:/sbin:/usr/sbin/"
+
+/tmp/prep-admin.sh
+/tmp/install-suse-cloud.sh
+/tmp/setup-node-sh-vars.sh
+
+gem install /tmp/easy_diff-0.0.3.gem
