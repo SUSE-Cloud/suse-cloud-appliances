@@ -1,3 +1,0 @@
-#!/bin/bash
-
-crowbar batch build /root/HA-cloud.yaml
