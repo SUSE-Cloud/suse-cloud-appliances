@@ -58,7 +58,7 @@ init_bundler () {
     fi
 
     cd $vagrant_dir
-    if ! bundle inkstall --path vendor/bundle; then
+    if ! bundle install --path vendor/bundle; then
         echo "bundle install failed; cannot proceed." >&2
         read_libvirt_docs
     fi
