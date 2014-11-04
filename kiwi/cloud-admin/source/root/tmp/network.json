@@ -6,20 +6,20 @@
                     "conduit_list": {
                         "intf0": {
                             "if_list": [
-                                "1g2", 
-                                "1g3"
+                                "1g1", 
+                                "1g2"
                             ]
                         }, 
                         "intf1": {
                             "if_list": [
-                                "1g2", 
-                                "1g3"
+                                "1g1", 
+                                "1g2"
                             ]
                         }, 
                         "intf2": {
                             "if_list": [
-                                "1g2", 
-                                "1g3"
+                                "1g1", 
+                                "1g2"
                             ]
                         }
                     }, 
@@ -34,7 +34,7 @@
                         }, 
                         "intf1": {
                             "if_list": [
-                                "?1g2"
+                                "?1g1"
                             ]
                         }, 
                         "intf2": {
@@ -49,17 +49,17 @@
                     "conduit_list": {
                         "intf0": {
                             "if_list": [
-                                "?1g2"
+                                "?1g1"
                             ]
                         }, 
                         "intf1": {
                             "if_list": [
-                                "?1g2"
+                                "?1g1"
                             ]
                         }, 
                         "intf2": {
                             "if_list": [
-                                "?1g2"
+                                "?1g1"
                             ]
                         }
                     }, 
@@ -69,17 +69,17 @@
                     "conduit_list": {
                         "intf0": {
                             "if_list": [
-                                "?1g2"
+                                "?1g1"
                             ]
                         }, 
                         "intf1": {
                             "if_list": [
-                                "1g2"
+                                "1g1"
                             ]
                         }, 
                         "intf2": {
                             "if_list": [
-                                "1g2"
+                                "1g1"
                             ]
                         }
                     }, 
