@@ -31,7 +31,7 @@ short_hostname="${long_hostname%%.*}"
 if [ "$short_hostname" = "$long_hostname" ]; then
     die "Failed to determine FQDN for hostname ($short_hostname)"
 fi
-ADMIN_IP=192.168.124.10
+ADMIN_IP=192.168.0.10
 if ! grep -q "^$ADMIN_IP " /etc/hosts; then
     echo "$ADMIN_IP   $long_hostname $short_hostname" >> /etc/hosts
 fi
