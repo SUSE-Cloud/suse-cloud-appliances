@@ -10,7 +10,9 @@ mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
 gem install /tmp/easy_diff-0.0.3.gem
 
 cd /opt/dell
+
 patch -p1 < /tmp/fix-chef-client-when-cluster-down.patch
+patch -p1 < /tmp/allow-disabled-STONITH.patch
 /opt/dell/bin/barclamp_install.rb --rpm pacemaker
 
 patch -p1 < /tmp/fix-crowbar_register.patch
