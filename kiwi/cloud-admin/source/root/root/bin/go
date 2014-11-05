@@ -3,6 +3,9 @@
 export PATH="$PATH:/sbin:/usr/sbin/"
 
 mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
+cd /opt/dell
+patch -p1 < /tmp/fix-chef-client-when-cluster-down.patch
+/opt/dell/bin/barclamp_install.rb --rpm pacemaker
 
 /tmp/prep-admin.sh
 /tmp/install-suse-cloud.sh
