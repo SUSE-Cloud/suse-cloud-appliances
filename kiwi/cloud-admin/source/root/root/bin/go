@@ -6,3 +6,6 @@ cd /var/lib/firstboot
 
 ./install-suse-cloud.sh
 ./setup-node-sh-vars.sh
+
+# why is this needed?!
+rcapache2 restart
