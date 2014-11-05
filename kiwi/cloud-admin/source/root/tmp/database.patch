@@ -1,0 +1,43 @@
+From 2ef555e6e65ba9b260f425e4ade0090ae3deefd0 Mon Sep 17 00:00:00 2001
+From: Adam Spiers <adam@indian.linksys.moosehall>
+Date: Wed, 5 Nov 2014 04:21:29 +0100
+Subject: [PATCH] WTF
+
+---
+ chef/cookbooks/postgresql/recipes/server.rb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/chef/cookbooks/postgresql/recipes/server.rb b/chef/cookbooks/postgresql/recipes/server.rb
+index a6f8f53..0d4def2 100644
+--- a/chef/cookbooks/postgresql/recipes/server.rb
++++ b/chef/cookbooks/postgresql/recipes/server.rb
+@@ -87,7 +87,7 @@
+ 
+ # Include the right "family" recipe for installing the server
+ # since they do things slightly differently.
+-case node['platform_family']
++case node['platform_family'] || node['platform']
+ when "rhel", "fedora", "suse"
+   include_recipe "postgresql::server_redhat"
+ when "debian"
+@@ -101,7 +101,7 @@
+   owner "postgres"
+   group "postgres"
+   mode 0600
+-  notifies change_notify, 'service[postgresql]', :immediately
++  #notifies change_notify, 'service[postgresql]', :immediately
+ end
+ 
+ template "#{node['postgresql']['dir']}/pg_hba.conf" do
+@@ -109,7 +109,7 @@
+   owner "postgres"
+   group "postgres"
+   mode 00600
+-  notifies change_notify, 'service[postgresql]', :immediately
++  #notifies change_notify, 'service[postgresql]', :immediately
+ end
+ 
+ ha_enabled = node[:database][:ha][:enabled]
+-- 
+1.8.4.5
+

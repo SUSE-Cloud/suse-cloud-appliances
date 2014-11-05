@@ -15,6 +15,9 @@ patch -p1 < /tmp/fix-chef-client-when-cluster-down.patch
 patch -p1 < /tmp/allow-disabled-STONITH.patch
 /opt/dell/bin/barclamp_install.rb --rpm pacemaker
 
+patch -p1 < /tmp/database.patch
+/opt/dell/bin/barclamp_install.rb --rpm database
+
 patch -p1 < /tmp/fix-crowbar_register.patch
 mkdir -p /nfs/{postgresql,rabbitmq}
 echo '/nfs <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
