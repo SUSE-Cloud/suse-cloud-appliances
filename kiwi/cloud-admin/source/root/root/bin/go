@@ -3,6 +3,8 @@
 export PATH="$PATH:/sbin:/usr/sbin/"
 
 mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
+gem install /tmp/easy_diff-0.0.3.gem
+
 cd /opt/dell
 patch -p1 < /tmp/fix-chef-client-when-cluster-down.patch
 /opt/dell/bin/barclamp_install.rb --rpm pacemaker
@@ -17,6 +19,5 @@ sed -i 's/#resume_guests_state_on_host_boot=false/resume_guests_state_on_host_bo
 
 /tmp/prep-admin.sh
 /tmp/install-suse-cloud.sh
-#/tmp/setup-node-sh-vars.sh
 
-gem install /tmp/easy_diff-0.0.3.gem
+#/tmp/setup-node-sh-vars.sh
