@@ -2,6 +2,8 @@
 
 export PATH="$PATH:/sbin:/usr/sbin/"
 
+mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
+
 /tmp/prep-admin.sh
 /tmp/install-suse-cloud.sh
 /tmp/setup-node-sh-vars.sh
