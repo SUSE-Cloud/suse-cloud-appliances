@@ -26,6 +26,7 @@ proposals:
   attributes:
     ha:
       storage:
+        mode: drbd
         shared:
           fstype: nfs
           options: rw
