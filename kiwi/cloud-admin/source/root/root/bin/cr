@@ -2,6 +2,7 @@
 
 nodes=( $( knife node list ) )
 aliases=(
+    admin # DUMMY, only used for alignment
     controller1
     controller2
     compute1
