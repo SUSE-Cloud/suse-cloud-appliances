@@ -19,3 +19,6 @@ echo '/nfs <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no
 /tmp/prep-admin.sh
 /tmp/install-suse-cloud.sh
 /tmp/setup-node-sh-vars.sh
+# wtf is this needed for?!
+rcapache2 restart
+
