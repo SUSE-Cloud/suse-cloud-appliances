@@ -2,6 +2,10 @@
 
 export PATH="$PATH:/sbin:/usr/sbin/"
 
+# atftp required at build-time for oemboot/suse-SLES11 bug
+# but conflicts with tftp crowbar wants
+zypper -n rm atftp
+
 mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
 gem install /tmp/easy_diff-0.0.3.gem
 
