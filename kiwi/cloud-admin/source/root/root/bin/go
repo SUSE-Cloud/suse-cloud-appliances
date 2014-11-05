@@ -7,6 +7,11 @@ cd /opt/dell
 patch -p1 < /tmp/fix-chef-client-when-cluster-down.patch
 /opt/dell/bin/barclamp_install.rb --rpm pacemaker
 
+mkdir -p /nfs
+
+echo '/nfs <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
+/opt/dell/bin/barclamp_install.rb --rpm provisioner
+
 /tmp/prep-admin.sh
 /tmp/install-suse-cloud.sh
 #/tmp/setup-node-sh-vars.sh
