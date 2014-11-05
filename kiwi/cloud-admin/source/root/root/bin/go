@@ -12,6 +12,9 @@ mkdir -p /nfs
 echo '/nfs <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
 /opt/dell/bin/barclamp_install.rb --rpm provisioner
 
+sed -i 's/#resume_guests_state_on_host_boot=false/resume_guests_state_on_host_boot=true/' /opt/dell/chef/cookbooks/nova/templates/default/nova.conf.erb
+/opt/dell/bin/barclamp_install.rb --rpm nova
+
 /tmp/prep-admin.sh
 /tmp/install-suse-cloud.sh
 #/tmp/setup-node-sh-vars.sh
