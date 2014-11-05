@@ -1,12 +1,26 @@
-From 2ef555e6e65ba9b260f425e4ade0090ae3deefd0 Mon Sep 17 00:00:00 2001
+From 28cb17ab19f54f42904cd1ea09970f59b56170fb Mon Sep 17 00:00:00 2001
 From: Adam Spiers <adam@indian.linksys.moosehall>
 Date: Wed, 5 Nov 2014 04:21:29 +0100
 Subject: [PATCH] WTF
 
 ---
- chef/cookbooks/postgresql/recipes/server.rb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ chef/cookbooks/postgresql/attributes/default.rb | 2 +-
+ chef/cookbooks/postgresql/recipes/server.rb     | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/chef/cookbooks/postgresql/attributes/default.rb b/chef/cookbooks/postgresql/attributes/default.rb
+index ea5b4d9..5791103 100644
+--- a/chef/cookbooks/postgresql/attributes/default.rb
++++ b/chef/cookbooks/postgresql/attributes/default.rb
+@@ -158,7 +158,7 @@
+ #
+ # The ssl config attribute is generated in the recipe to avoid awkward
+ # merge/precedence order during the Chef run.
+-case node['platform_family']
++case node['platform_family'] || node['platform']
+ when 'debian'
+   default['postgresql']['config']['data_directory'] = "/var/lib/postgresql/#{node['postgresql']['version']}/main"
+   default['postgresql']['config']['hba_file'] = "/etc/postgresql/#{node['postgresql']['version']}/main/pg_hba.conf"
 diff --git a/chef/cookbooks/postgresql/recipes/server.rb b/chef/cookbooks/postgresql/recipes/server.rb
 index a6f8f53..0d4def2 100644
 --- a/chef/cookbooks/postgresql/recipes/server.rb
