@@ -12,7 +12,7 @@ proposals:
     stonith:
       mode: manual
     drbd:
-      enabled: true
+      enabled: false
     setup_hb_gui: true
   deployment:
     elements:
@@ -29,7 +29,11 @@ proposals:
   attributes:
     ha:
       storage:
-        mode: drbd
+        mode: shared
+        shared:
+          fstype: nfs
+          options: rw
+          device: 192.168.0.10:/nfs/postgresql
         drbd:
           size: 1
   deployment:
@@ -40,7 +44,11 @@ proposals:
   attributes:
     ha:
       storage:
-        mode: drbd
+        mode: shared
+        shared:
+          fstype: nfs
+          options: rw
+          device: 192.168.0.10:/nfs/rabbitmq
         drbd:
           size: 1
   deployment:

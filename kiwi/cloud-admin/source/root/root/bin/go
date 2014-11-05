@@ -8,6 +8,10 @@ gem install /tmp/easy_diff-0.0.3.gem
 cd /opt/dell
 patch -p1 < /tmp/fix-chef-client-when-cluster-down.patch
 
+mkdir -p /nfs/{postgresql,rabbitmq}
+
+echo '/nfs <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
+
 /tmp/prep-admin.sh
 /tmp/install-suse-cloud.sh
 /tmp/setup-node-sh-vars.sh
