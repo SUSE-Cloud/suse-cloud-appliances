@@ -24,4 +24,7 @@ sed -i 's/#resume_guests_state_on_host_boot=false/resume_guests_state_on_host_bo
 /tmp/prep-admin.sh
 /tmp/install-suse-cloud.sh
 
+# wtf is this needed for?!
+rcapache2 restart
+
 #/tmp/setup-node-sh-vars.sh
