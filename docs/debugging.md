@@ -42,9 +42,9 @@ This is the main log for the Crowbar server:
 ## Debugging Pacemaker
 
 Pacemaker logs to `/var/log/messages` on each node in the cluster.
-Hawk has some very useful history exploration functionality which
-makes it easier to get a chronologically sorted, cluster-wide view of
-events.
+[Hawk](../demos/HA/README.md#hawk-web-ui) has some very useful history
+exploration functionality which makes it easier to get a
+chronologically sorted, cluster-wide view of events.
 
 Please also see [this guide to cluster recovery](../demos/HA/cluster-recovery.md).
 

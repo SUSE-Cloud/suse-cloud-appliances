@@ -98,10 +98,21 @@ automatically.
 
 ### Watching the cluster being built
 
+#### Hawk web UI
+
 As soon as the Pacemaker barclamp's `cluster1` proposal has been
-applied (i.e. showing a green bubble icon in the Crowbar web UI),
-you can connect to the [Hawk web UI](https://192.168.124.81:7630)
-and watch as Chef automatically adds new resources to the cluster.
+applied (i.e. showing a green bubble icon in the Crowbar web UI), you
+can connect to the [Hawk web UI](http://clusterlabs.org/wiki/Hawk) via:
+
+*   `controller1`: [https://192.168.124.81:7630](https://192.168.124.81:7630)
+                or [https://localhost:7630](https://localhost:7630)
+*   `controller2`: [https://192.168.124.82:7630](https://192.168.124.82:7630)
+                or [https://localhost:7631](https://localhost:7631)
+
+Then log in with username `hacluster` and password `crowbar`, and
+watch as Chef automatically adds new resources to the cluster.
+
+#### Chef log files
 
 If you're interested in a more internal glimpse of how Crowbar is
 orchestrating Chef behind the scenes to configure resources across the

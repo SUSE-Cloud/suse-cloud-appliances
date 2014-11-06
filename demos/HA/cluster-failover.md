@@ -12,10 +12,9 @@ and running OpenStack services.
 *   [Connect to the `controller1` and `controller2` VMs](../../docs/HOWTO.md#connecting-to-the-vms)
 *   On `controller1` and `controller2`, run `crm_mon` command.
 *   You can also monitor the cluster from the
-    [Hawk](http://clusterlabs.org/wiki/Hawk) web interface, via
-    [`controller1`](http://192.168.124.81:7630) or
-    [`controller2`](http://192.168.124.82:7631) (choose the one which
-    you don't plan to kill during failover testing!)
+    [Hawk web interface](README.md#hawk-web-ui) running on either
+    controller (choose the one which you don't plan to kill during
+    failover testing!)
 *   On `controller1` run:
 
         source .openrc

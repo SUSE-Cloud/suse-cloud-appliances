@@ -80,6 +80,9 @@ stopped resources can be done with a single command:
         awk '/\tStopped |Timed Out/ { print $1 }' | \
         xargs -n1 crm resource cleanup
 
+You can also clean up services individually via the
+[Hawk web interface](README.md#hawk-web-ui).
+
 ### Maintenance mode
 
 Another complication which can occasionally crop up during recovery is
