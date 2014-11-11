@@ -5,8 +5,9 @@ set -e
 cd /opt/dell/
 patch -p1 < /tmp/barclamp-pacemaker-ignore-target-role-changes.patch
 
-cp /tmp/network.json /etc/crowbar/network.json
-rm -f /tmp/network.json
+# Removed the use of this network json, because not everyone may want this.
+#cp /tmp/network.json /etc/crowbar/network.json
+#rm -f /tmp/network.json
 
 # Scrap pointless 45 second tcpdump per interface
 sed -i 's/45/1/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
