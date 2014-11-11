@@ -266,7 +266,6 @@ def provision_admin(admin)
 
   admin.vm.provision 'shell', inline: <<-'EOSHELL'
     set -e
-    gem install /tmp/easy_diff-0.0.3.gem
 
     cd /opt/dell
     patch -p1 < /tmp/increase-SBD-timeout-30s.patch
