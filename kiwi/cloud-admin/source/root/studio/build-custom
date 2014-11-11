@@ -61,6 +61,12 @@ sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
 # Default behaviour of less drives me nuts!
 sed -i 's/\(LESS="\)/\1-X /' /etc/profile
 
+# Pick the right firstboot.xml to use
+sed -i.orig 's/firstboot.xml/firstboot-suse-cloud.xml/g' /etc/sysconfig/firstboot
+
+# Enable firstboot
+touch /var/lib/YaST2/reconfig_system
+
 echo "Setting up zypper repos ..."
 
 # -K disables local caching of rpm files, since they are already local
