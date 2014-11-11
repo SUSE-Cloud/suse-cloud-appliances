@@ -1,0 +1,10 @@
+#!/bin/bash
+
+export PATH="$PATH:/sbin:/usr/sbin/"
+
+mv /tmp/crowbar_batch /tmp/barclamp_lib.rb /opt/dell/bin
+gem install /tmp/easy_diff-0.0.3.gem
+
+/tmp/prep-admin.sh
+/tmp/install-suse-cloud.sh
+/tmp/setup-node-sh-vars.sh

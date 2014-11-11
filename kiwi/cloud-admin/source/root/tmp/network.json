@@ -1,0 +1,320 @@
+{
+    "attributes": {
+        "network": {
+            "conduit_map": [
+                {
+                    "conduit_list": {
+                        "intf0": {
+                            "if_list": [
+                                "1g1", 
+                                "1g2"
+                            ]
+                        }, 
+                        "intf1": {
+                            "if_list": [
+                                "1g1", 
+                                "1g2"
+                            ]
+                        }, 
+                        "intf2": {
+                            "if_list": [
+                                "1g1", 
+                                "1g2"
+                            ]
+                        }
+                    }, 
+                    "pattern": "team/.*/.*"
+                }, 
+                {
+                    "conduit_list": {
+                        "intf0": {
+                            "if_list": [
+                                "?1g1"
+                            ]
+                        }, 
+                        "intf1": {
+                            "if_list": [
+                                "?1g2"
+                            ]
+                        }, 
+                        "intf2": {
+                            "if_list": [
+                                "?1g1"
+                            ]
+                        }
+                    }, 
+                    "pattern": "dual/.*/.*"
+                }, 
+                {
+                    "conduit_list": {
+                        "intf0": {
+                            "if_list": [
+                                "?1g1"
+                            ]
+                        }, 
+                        "intf1": {
+                            "if_list": [
+                                "?1g1"
+                            ]
+                        }, 
+                        "intf2": {
+                            "if_list": [
+                                "?1g1"
+                            ]
+                        }
+                    }, 
+                    "pattern": "single/.*/.*"
+                }, 
+                {
+                    "conduit_list": {
+                        "intf0": {
+                            "if_list": [
+                                "?1g1"
+                            ]
+                        }, 
+                        "intf1": {
+                            "if_list": [
+                                "1g1"
+                            ]
+                        }, 
+                        "intf2": {
+                            "if_list": [
+                                "1g1"
+                            ]
+                        }
+                    }, 
+                    "pattern": ".*/.*/.*"
+                }, 
+                {
+                    "conduit_list": {
+                        "intf0": {
+                            "if_list": [
+                                "1g1"
+                            ]
+                        }, 
+                        "intf1": {
+                            "if_list": [
+                                "?1g1"
+                            ]
+                        }, 
+                        "intf2": {
+                            "if_list": [
+                                "?1g1"
+                            ]
+                        }
+                    }, 
+                    "pattern": "mode/1g_adpt_count/role"
+                }
+            ], 
+            "interface_map": [
+                {
+                    "bus_order": [
+                        "0000:00/0000:00:01", 
+                        "0000:00/0000:00:03"
+                    ], 
+                    "pattern": "PowerEdge R610"
+                }, 
+                {
+                    "bus_order": [
+                        "0000:00/0000:00:01.1/0000:01:00.0", 
+                        "0000:00/0000:00:01.1/0000.01:00.1", 
+                        "0000:00/0000:00:01.0/0000:02:00.0", 
+                        "0000:00/0000:00:01.0/0000:02:00.1"
+                    ], 
+                    "pattern": "PowerEdge R620"
+                }, 
+                {
+                    "bus_order": [
+                        "0000:00/0000:00:01", 
+                        "0000:00/0000:00:03"
+                    ], 
+                    "pattern": "PowerEdge R710"
+                }, 
+                {
+                    "bus_order": [
+                        "0000:00/0000:00:04", 
+                        "0000:00/0000:00:02"
+                    ], 
+                    "pattern": "PowerEdge C6145"
+                }, 
+                {
+                    "bus_order": [
+                        "0000:00/0000:00:1c", 
+                        "0000:00/0000:00:07", 
+                        "0000:00/0000:00:09", 
+                        "0000:00/0000:00:01"
+                    ], 
+                    "pattern": "PowerEdge C2100"
+                }, 
+                {
+                    "bus_order": [
+                        "0000:00/0000:00:01", 
+                        "0000:00/0000:00:03", 
+                        "0000:00/0000:00:07"
+                    ], 
+                    "pattern": "C6100"
+                }, 
+                {
+                    "bus_order": [
+                        "0000:00/0000:00:01", 
+                        "0000:00/0000:00:02"
+                    ], 
+                    "pattern": "product"
+                }
+            ], 
+            "mode": "single", 
+            "networks": {
+                "admin": {
+                    "add_bridge": false, 
+                    "broadcast": "192.168.0.255", 
+                    "conduit": "intf0", 
+                    "netmask": "255.255.255.0", 
+                    "ranges": {
+                        "admin": {
+                            "end": "192.168.0.11", 
+                            "start": "192.168.0.10"
+                        }, 
+                        "dhcp": {
+                            "end": "192.168.0.80", 
+                            "start": "192.168.0.21"
+                        }, 
+                        "host": {
+                            "end": "192.168.0.160", 
+                            "start": "192.168.0.81"
+                        }, 
+                        "switch": {
+                            "end": "192.168.0.250", 
+                            "start": "192.168.0.241"
+                        }
+                    }, 
+                    "router": "192.168.0.1", 
+                    "router_pref": 10, 
+                    "subnet": "192.168.0.0", 
+                    "use_vlan": false, 
+                    "vlan": 1
+                }, 
+                "bmc": {
+                    "add_bridge": false, 
+                    "broadcast": "192.168.0.255", 
+                    "conduit": "bmc", 
+                    "netmask": "255.255.255.0", 
+                    "ranges": {
+                        "host": {
+                            "end": "192.168.0.240", 
+                            "start": "192.168.0.162"
+                        }
+                    }, 
+                    "subnet": "192.168.0.0", 
+                    "use_vlan": false, 
+                    "vlan": 100
+                }, 
+                "bmc_vlan": {
+                    "add_bridge": false, 
+                    "broadcast": "192.168.0.255", 
+                    "conduit": "intf2", 
+                    "netmask": "255.255.255.0", 
+                    "ranges": {
+                        "host": {
+                            "end": "192.168.0.161", 
+                            "start": "192.168.0.161"
+                        }
+                    }, 
+                    "subnet": "192.168.0.0", 
+                    "use_vlan": true, 
+                    "vlan": 100
+                }, 
+                "nova_fixed": {
+                    "add_bridge": false, 
+                    "broadcast": "10.1.0.255", 
+                    "conduit": "intf1", 
+                    "netmask": "255.255.255.0", 
+                    "ranges": {
+                        "dhcp": {
+                            "end": "10.1.0.254", 
+                            "start": "10.1.0.50"
+                        }, 
+                        "router": {
+                            "end": "10.1.0.49", 
+                            "start": "10.1.0.1"
+                        }
+                    }, 
+                    "router": "10.1.0.1", 
+                    "router_pref": 20, 
+                    "subnet": "10.1.0.0", 
+                    "use_vlan": true, 
+                    "vlan": 100
+                }, 
+                "nova_floating": {
+                    "add_bridge": false, 
+                    "broadcast": "192.168.126.191", 
+                    "conduit": "intf1", 
+                    "netmask": "255.255.255.192", 
+                    "ranges": {
+                        "host": {
+                            "end": "192.168.126.191", 
+                            "start": "192.168.126.129"
+                        }
+                    }, 
+                    "subnet": "192.168.126.128", 
+                    "use_vlan": true, 
+                    "vlan": 300
+                }, 
+                "os_sdn": {
+                    "add_bridge": false, 
+                    "broadcast": "192.168.130.255", 
+                    "conduit": "intf1", 
+                    "netmask": "255.255.255.0", 
+                    "ranges": {
+                        "host": {
+                            "end": "192.168.130.254", 
+                            "start": "192.168.130.10"
+                        }
+                    }, 
+                    "subnet": "192.168.130.0", 
+                    "use_vlan": true, 
+                    "vlan": 400
+                }, 
+                "public": {
+                    "add_bridge": false, 
+                    "broadcast": "192.168.126.255", 
+                    "conduit": "intf1", 
+                    "netmask": "255.255.255.0", 
+                    "ranges": {
+                        "dhcp": {
+                            "end": "192.168.126.127", 
+                            "start": "192.168.126.50"
+                        }, 
+                        "host": {
+                            "end": "192.168.126.49", 
+                            "start": "192.168.126.2"
+                        }
+                    }, 
+                    "router": "192.168.126.1", 
+                    "router_pref": 5, 
+                    "subnet": "192.168.126.0", 
+                    "use_vlan": true, 
+                    "vlan": 300
+                }, 
+                "storage": {
+                    "add_bridge": false, 
+                    "broadcast": "192.168.125.255", 
+                    "conduit": "intf1", 
+                    "netmask": "255.255.255.0", 
+                    "ranges": {
+                        "host": {
+                            "end": "192.168.125.239", 
+                            "start": "192.168.125.10"
+                        }
+                    }, 
+                    "subnet": "192.168.125.0", 
+                    "use_vlan": true, 
+                    "vlan": 200
+                }
+            }, 
+            "start_up_delay": 30, 
+            "teaming": {
+                "mode": 1
+            }
+        }
+    }
+}

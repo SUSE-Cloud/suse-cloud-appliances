@@ -40,15 +40,18 @@ echo "Enabling auto-start of ntp and ssh services on boot ..."
 chkconfig ntp on
 chkconfig sshd on
 
-echo "Adding vagrant to sudoers"
-cat <<EOF >>/etc/sudoers
+if grep -q '^vagrant:' /etc/passwd; then
+    echo "Adding vagrant to sudoers"
+    cat <<EOF >>/etc/sudoers
 
 vagrant ALL=(ALL) NOPASSWD: ALL
 EOF
-# Ensure vagrant maintains password-less sudo access even after
-# Crowbar/Chef hijack /etc/sudoers:
-groupadd sysadmin
-usermod -G sysadmin vagrant
+    # Ensure vagrant maintains password-less sudo access even after
+    # Crowbar/Chef hijack /etc/sudoers:
+    echo "Adding vagrant to sysadmins..."
+    groupadd sysadmin
+    usermod -G sysadmin vagrant
+fi
 
 # This avoids annoyingly long timeouts on reverse DNS
 # lookups when connecting via ssh.
