@@ -13,12 +13,9 @@ proposals:
       mode: manual
     drbd:
       enabled: true
-    setup_hb_gui: true
+    setup_hb_gui: false
   deployment:
     elements:
-      hawk-server:
-      - @@controller1@@
-      - @@controller2@@
       pacemaker-cluster-member:
       - @@controller1@@
       - @@controller2@@

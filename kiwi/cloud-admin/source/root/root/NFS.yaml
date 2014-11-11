@@ -10,15 +10,12 @@ proposals:
   action_if_exists: overwrite
   attributes:
     stonith:
-      mode: manual
+      mode: disabled
     drbd:
       enabled: false
-    setup_hb_gui: true
+    setup_hb_gui: false
   deployment:
     elements:
-      hawk-server:
-      - @@controller1@@
-      - @@controller2@@
       pacemaker-cluster-member:
       - @@controller1@@
       - @@controller2@@
