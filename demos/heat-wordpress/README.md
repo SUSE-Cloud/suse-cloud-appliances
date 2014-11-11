@@ -86,7 +86,10 @@ automatically.
 *   Give the name `Wordpress` to the new stack 
 *   Give a password `suseuser` for lifecycle operations
 *   Click the launch button
-*   Watch teh shiney
+*   Watch the stack boot up in the various views
+*   Log in to the Wordpress web UI and go through the installation
+    *   Use the IP of the MySQL instance on the newly created private network
+    *   The database name, user, and password are all `wordpress`
 
 ## Performing Vagrant operations
 
