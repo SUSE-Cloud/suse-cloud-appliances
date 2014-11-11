@@ -105,7 +105,7 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
           args: node_name
 
         node.vm.provision 'shell',
-          path: 'provisioning/non-admin/do-crowbar_register.sh',
+          path: 'provisioning/non-admin/register-with-suse-cloud',
           args: admin_ip
       end
 
