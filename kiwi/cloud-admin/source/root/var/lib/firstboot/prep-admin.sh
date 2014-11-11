@@ -12,6 +12,10 @@ sed -i 's/45/1/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
 # Create the directory for shared glance storage
 mkdir -p /var/lib/glance
 
+# Create the NFS export for shared storage for HA PostgreSQL and RabbitMQ
+mkdir -p /nfs/{postgresql,rabbitmq}
+echo '/nfs <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
+
 # Bypass the provisioner's check for HAE repos, since we're already
 # providing these via the special SUSE-CLOUD-SLE11-SP3-DEPS installation media
 # in /srv/tftpboot/suse-11.3/install
