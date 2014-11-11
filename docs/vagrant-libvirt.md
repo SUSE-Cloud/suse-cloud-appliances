@@ -2,11 +2,11 @@
 
 There is a nice
 [`vagrant-libvirt` plugin](https://github.com/pradels/vagrant-libvirt)
-available, which you can install via:
+available, which you could install via:
 
     vagrant plugin install vagrant-libvirt
 
-However there are several known bugs with the plugin for which the
+**However** there are several known bugs with the plugin for which the
 fixes are not yet released, including:
 
 *   [#252](https://github.com/pradels/vagrant-libvirt/pull/252) and
