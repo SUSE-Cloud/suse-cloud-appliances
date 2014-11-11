@@ -24,34 +24,31 @@ die () {
     exit 1
 }
 
-if ! long_hostname="`cat /etc/HOSTNAME`"; then
-    die "Failed to determine hostname"
-fi
-short_hostname="${long_hostname%%.*}"
-if [ "$short_hostname" = "$long_hostname" ]; then
-    die "Failed to determine FQDN for hostname ($short_hostname)"
-fi
-ADMIN_IP=192.168.124.10
-if ! grep -q "^$ADMIN_IP " /etc/hosts; then
-    echo "$ADMIN_IP   $long_hostname $short_hostname" >> /etc/hosts
-fi
+#if ! long_hostname="`cat /etc/HOSTNAME`"; then
+#    die "Failed to determine hostname"
+#fi
+#short_hostname="${long_hostname%%.*}"
+#if [ "$short_hostname" = "$long_hostname" ]; then
+#    die "Failed to determine FQDN for hostname ($short_hostname)"
+#fi
+#ADMIN_IP=192.168.0.10
+#if ! grep -q "^$ADMIN_IP " /etc/hosts; then
+#    echo "$ADMIN_IP   $long_hostname $short_hostname" >> /etc/hosts
+#fi
 
 echo "Enabling auto-start of ntp and ssh services on boot ..."
 chkconfig ntp on
 chkconfig sshd on
 
-if grep -q '^vagrant:' /etc/passwd; then
-    echo "Adding vagrant to sudoers"
-    cat <<EOF >>/etc/sudoers
-
-vagrant ALL=(ALL) NOPASSWD: ALL
-EOF
-    # Ensure vagrant maintains password-less sudo access even after
-    # Crowbar/Chef hijack /etc/sudoers:
-    echo "Adding vagrant to sysadmins..."
-    groupadd sysadmin
-    usermod -G sysadmin vagrant
-fi
+#echo "Adding vagrant to sudoers"
+#cat <<EOF >>/etc/sudoers
+#
+#vagrant ALL=(ALL) NOPASSWD: ALL
+#EOF
+# Ensure vagrant maintains password-less sudo access even after
+# Crowbar/Chef hijack /etc/sudoers:
+#groupadd sysadmin
+#usermod -G sysadmin vagrant
 
 # This avoids annoyingly long timeouts on reverse DNS
 # lookups when connecting via ssh.
@@ -60,6 +57,12 @@ sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
 
 # Default behaviour of less drives me nuts!
 sed -i 's/\(LESS="\)/\1-X /' /etc/profile
+
+# Pick the right firstboot.xml to use
+sed -i.orig 's/firstboot.xml/firstboot-suse-cloud.xml/g' /etc/sysconfig/firstboot
+
+# Enable firstboot
+touch /var/lib/YaST2/reconfig_system
 
 echo "Setting up zypper repos ..."
 
