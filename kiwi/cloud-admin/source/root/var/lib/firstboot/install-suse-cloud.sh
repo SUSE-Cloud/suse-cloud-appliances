@@ -17,7 +17,7 @@ zypper -n install -t pattern cloud_admin
 # work around https://bugzilla.novell.com/show_bug.cgi?id=895417
 install -o chef -g chef -m 750 -d /var/run/chef
 
-install-suse-cloud -v
+install-suse-cloud 
 
 # . /etc/profile.d/crowbar.sh
 # crowbar network allocate_ip default cloud4-admin.openstack.site public host
