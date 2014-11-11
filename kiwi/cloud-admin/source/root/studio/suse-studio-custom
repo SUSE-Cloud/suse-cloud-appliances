@@ -32,12 +32,16 @@ then
     # (suse_studio_firstboot gets deleted upon successful completion)
     echo "Running SUSE Studio first boot script..."
 
-    # atftp required at build-time for oemboot/suse-SLES11 bug
-    # but conflicts with tftp crowbar wants
-    if rpm -q --quiet atftp; then
-        echo "Deinstalling atftp ..."
-        zypper -n rm atftp
-    fi
+    cd /var/lib/firstboot
+    for script in provision-root-files.sh prep-admin.sh; do
+        if ! ./$script; then
+            warn <<EOF
+WARNING: /var/lib/firstboot/$script failed.
+Will attempt to continue in 60 seconds anyway ...
+EOF
+            sleep 60
+        fi
+    done
 
     # Reduce grub prompt time-out
     sed -i 's/^timeout [0-9]\+/timeout 3/' /boot/grub/menu.lst
