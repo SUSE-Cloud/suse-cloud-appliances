@@ -1,0 +1,24 @@
+From 2faf49dbaa1205683b27035f33cef53ad83ab363 Mon Sep 17 00:00:00 2001
+From: Adam Spiers <aspiers@suse.com>
+Date: Wed, 5 Nov 2014 04:27:52 +0100
+Subject: [PATCH] allow 'disabled' STONITH
+
+---
+ crowbar_framework/app/models/pacemaker_service.rb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/crowbar_framework/app/models/pacemaker_service.rb b/crowbar_framework/app/models/pacemaker_service.rb
+index 84e81ad..94d9dc2 100644
+--- a/crowbar_framework/app/models/pacemaker_service.rb
++++ b/crowbar_framework/app/models/pacemaker_service.rb
+@@ -280,6 +280,7 @@ def validate_proposal_stonith stonith_attributes, members
+           validation_error "Node  #{member} does not seem to be running in libvirt."
+         end
+       end
++    when "disabled"
+     else
+       validation_error "Unknown STONITH mode: #{stonith_attributes["mode"]}."
+     end
+-- 
+1.8.4.5
+

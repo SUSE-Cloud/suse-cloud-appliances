@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+# This script was written for any Crowbar hacker who gets fed up of
+# copying and pasting Chef node and role names when using knife!
+# It outputs some shell code setting easy-to-type variables for the
+# nodes and roles in the Crowbar cluster, where the variables being set
+# are an abbreviated version of the aliases, with an 'r' suffix for the
+# corresponding roles.  For example, if you have nodes aliased 'node1',
+# 'node2', and 'node3', you'll get something like:
+#
+#   n1=d52-54-00-b5-4c-c6.cloud.site           # node name for node1
+#   n2=d52-54-00-e5-6b-a0.cloud.site           # node name for node2
+#   n3=d52-54-00-03-fb-01.cloud.site           # node name for node3
+#   n1r=crowbar-d52-54-00-b5-4c-c6_cloud_site  # role name for node1
+#   n2r=crowbar-d52-54-00-e5-6b-a0_cloud_site  # role name for node2
+#   n3r=crowbar-d52-54-00-03-fb-01_cloud_site  # role name for node3
+#
+# Recommended installation:
+#
+#   Copy to your admin node somewhere in its $PATH
+#
+# Example usage from admin node:
+#
+#   eval "$( /path/to/this/script )"
+#   knife node show $n1
+#   knife role show $n1r
+#
+# Example usage from outside admin node:
+#
+#   eval "$( ssh root@192.168.124.10 /path/to/this/script )"
+#   ssh root@192.168.124.10 knife node show $n1
+#   ssh root@192.168.124.10 knife role show $n1r
+#
+# And of course you can cache the result, to quickly reuse across multiple shells:
+#
+#   ssh root@192.168.124.10 /path/to/this/script > /tmp/.crowbar-nodes-roles.cache
+#   source /tmp/.crowbar-nodes-roles.cache
+
+for machine in $( crowbar machines list ); do
+    [ "$machine" = $( hostname -f ) ] && continue
+    alias=$( crowbar machines show "$machine" | sed -n '/^ *"alias": "\(.\+\)",\?/{s//\1/;p}' )
+    short="${alias/node/n}"
+    short="${short//-/}"
+    echo "$short=$machine # node name for $alias"
+    role="crowbar-${machine//./_}"
+    echo "${short}r=$role # role name for $alias"
+done | \
+sort -k3 -k1 | \
+column -t | \
+sed 's/\([^ ]\)  \([^ #]\)/\1 \2/g'

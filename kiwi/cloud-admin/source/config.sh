@@ -83,6 +83,7 @@ test -d /studio || mkdir /studio
 cp /image/.profile /studio/profile
 cp /image/config.xml /studio/config.xml
 rm -rf /studio/overlay-tmp
+rm -rf /usr/share/doc || :
 true
 
 #======================================

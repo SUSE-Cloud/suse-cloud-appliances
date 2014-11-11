@@ -1,0 +1,15 @@
+#!/bin/bash
+
+nodes=( $( knife node list ) )
+aliases=(
+    admin # DUMMY, only used for alignment
+    controller1
+    controller2
+    compute1
+    compute2
+)
+for (( i=1; i < ${#nodes[@]}; i++ )); do
+    crowbar machines rename ${nodes[$i]} ${aliases[$i]}
+done
+
+crowbar batch build /root/${1:-NFS}.yaml

@@ -1,0 +1,19 @@
+commit 2304955ac5ca426aa00614cc2f7ae91f1abfc2b5
+Author: Ralf Haferkamp <rhafer@suse.de>
+Date:   Thu May 15 17:18:20 2014 +0200
+
+    Ignore target-role to "Stopped" changes when updating resources
+
+diff --git a/chef/cookbooks/pacemaker/providers/primitive.rb b/chef/cookbooks/pacemaker/providers/primitive.rb
+index 5206a35..358bc30 100644
+--- a/chef/cookbooks/pacemaker/providers/primitive.rb
++++ b/chef/cookbooks/pacemaker/providers/primitive.rb
+@@ -104,6 +104,8 @@ def maybe_configure_params(name, cmds, data_type)
+     # Postel's Law whilst minimising activity on the Chef client node.
+     if current_value.to_s == new_value.to_s
+       Chef::Log.info("#{name}'s #{param} #{data_type} didn't change")
++    elsif data_type == :meta && param == "target-role" && new_value == "Stopped"
++      Chef::Log.info("#{name}'s #{param} #{data_type} would be changed from #{current_value} to #{new_value} -- skipping")
+     else
+       Chef::Log.info("#{name}'s #{param} #{data_type} changed from #{current_value} to #{new_value}")
+       cmd = configure_cmd_prefix + %' --set-parameter "#{param}" --parameter-value "#{new_value}"'
