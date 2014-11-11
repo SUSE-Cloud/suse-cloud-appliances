@@ -9,6 +9,9 @@ set -e
 
 cd /tmp
 
+cp network.json /etc/crowbar/network.json
+rm -f network.json
+
 mkdir -p /root/bin
 mv setup-node-aliases.sh /root/bin
 

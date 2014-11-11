@@ -8,9 +8,6 @@ patch -d /opt/dell -p1 < barclamp-network-ignore-eth0.patch
 patch -d /opt/dell -p1 < barclamp-provisioner-nfs-export.patch
 patch -d /opt/dell -p1 < barclamp-pacemaker-ignore-target-role-changes.patch
 
-cp /tmp/network.json /etc/crowbar/network.json
-rm -f /tmp/network.json
-
 # Scrap pointless 45 second tcpdump per interface
 sed -i 's/45/1/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
 
