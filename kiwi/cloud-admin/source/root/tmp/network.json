@@ -162,7 +162,7 @@
                     "pattern": "product"
                 }
             ], 
-            "mode": "single", 
+            "mode": "dual", 
             "networks": {
                 "admin": {
                     "add_bridge": false, 
@@ -206,7 +206,7 @@
                     }, 
                     "subnet": "192.168.0.0", 
                     "use_vlan": false, 
-                    "vlan": 100
+                    "vlan": 1
                 }, 
                 "bmc_vlan": {
                     "add_bridge": false, 
@@ -225,90 +225,90 @@
                 }, 
                 "nova_fixed": {
                     "add_bridge": false, 
-                    "broadcast": "10.1.0.255", 
+                    "broadcast": "10.1.3.255", 
                     "conduit": "intf1", 
                     "netmask": "255.255.255.0", 
                     "ranges": {
                         "dhcp": {
-                            "end": "10.1.0.254", 
-                            "start": "10.1.0.50"
+                            "end": "10.1.3.254", 
+                            "start": "10.1.3.50"
                         }, 
                         "router": {
-                            "end": "10.1.0.49", 
-                            "start": "10.1.0.1"
+                            "end": "10.1.3.49", 
+                            "start": "10.1.3.1"
                         }
                     }, 
-                    "router": "10.1.0.1", 
+                    "router": "10.1.3.1", 
                     "router_pref": 20, 
-                    "subnet": "10.1.0.0", 
+                    "subnet": "10.1.3.0", 
                     "use_vlan": true, 
-                    "vlan": 100
+                    "vlan": 103
                 }, 
                 "nova_floating": {
                     "add_bridge": false, 
-                    "broadcast": "192.168.126.191", 
+                    "broadcast": "10.1.1.191", 
                     "conduit": "intf1", 
                     "netmask": "255.255.255.192", 
                     "ranges": {
                         "host": {
-                            "end": "192.168.126.191", 
-                            "start": "192.168.126.129"
+                            "end": "10.1.1.191", 
+                            "start": "10.1.1.129"
                         }
                     }, 
-                    "subnet": "192.168.126.128", 
+                    "subnet": "10.1.1.128", 
                     "use_vlan": true, 
-                    "vlan": 300
+                    "vlan": 101
                 }, 
                 "os_sdn": {
                     "add_bridge": false, 
-                    "broadcast": "192.168.130.255", 
+                    "broadcast": "10.1.2.255", 
                     "conduit": "intf1", 
                     "netmask": "255.255.255.0", 
                     "ranges": {
                         "host": {
-                            "end": "192.168.130.254", 
-                            "start": "192.168.130.10"
+                            "end": "10.1.2.254", 
+                            "start": "10.1.2.10"
                         }
                     }, 
-                    "subnet": "192.168.130.0", 
+                    "subnet": "10.1.2.0", 
                     "use_vlan": true, 
-                    "vlan": 400
+                    "vlan": 102
                 }, 
                 "public": {
                     "add_bridge": false, 
-                    "broadcast": "192.168.126.255", 
+                    "broadcast": "10.1.1.255", 
                     "conduit": "intf1", 
                     "netmask": "255.255.255.0", 
                     "ranges": {
                         "dhcp": {
-                            "end": "192.168.126.127", 
-                            "start": "192.168.126.50"
+                            "end": "10.1.1.127", 
+                            "start": "10.1.1.50"
                         }, 
                         "host": {
-                            "end": "192.168.126.49", 
-                            "start": "192.168.126.2"
+                            "end": "10.1.1.49", 
+                            "start": "10.1.1.2"
                         }
                     }, 
-                    "router": "192.168.126.1", 
+                    "router": "10.1.1.1", 
                     "router_pref": 5, 
-                    "subnet": "192.168.126.0", 
+                    "subnet": "10.1.1.0", 
                     "use_vlan": true, 
-                    "vlan": 300
+                    "vlan": 101
                 }, 
                 "storage": {
                     "add_bridge": false, 
-                    "broadcast": "192.168.125.255", 
+                    "broadcast": "10.1.0.255", 
                     "conduit": "intf1", 
                     "netmask": "255.255.255.0", 
                     "ranges": {
                         "host": {
-                            "end": "192.168.125.239", 
-                            "start": "192.168.125.10"
+                            "end": "10.1.0.239", 
+                            "start": "10.1.0.10"
                         }
                     }, 
-                    "subnet": "192.168.125.0", 
+                    "subnet": "10.1.0.0", 
                     "use_vlan": true, 
-                    "vlan": 200
+                    "vlan": 100
                 }
             }, 
             "start_up_delay": 30, 
