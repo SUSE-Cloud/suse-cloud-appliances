@@ -11,7 +11,7 @@ cp /tmp/network.json /etc/crowbar/network.json
 rm -f /tmp/network.json
 
 # Scrap pointless 45 second tcpdump per interface
-sed -i 's/45/5/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
+sed -i 's/45/1/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
 
 # Create the directory for shared glance storage
 mkdir -p /var/lib/glance
