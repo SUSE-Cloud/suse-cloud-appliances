@@ -29,7 +29,7 @@ or
 
 This will perform the following steps:
 
-*   Build admin, controller, and compute nodes via Vagrant
+*   Build an admin node, a controller node, and a compute node via Vagrant
 *   Run [`/root/bin/setup-node-aliases.sh`](../../vagrant/provisioning/admin/setup-node-aliases.sh)
     to set aliases in Crowbar for the controller and compute nodes
 *   Create and apply a standard set of Crowbar proposals
@@ -49,7 +49,7 @@ This will perform the following steps:
 
 You can also optionally tune the number, size, and shape of the VMs
 being booted, by editing
-[`vagrant/configs/2-controllers-1-compute.yaml`](../../vagrant/configs/2-controllers-1-compute.yaml),
+[`vagrant/configs/1-controller-1-compute.yaml`](../../vagrant/configs/1-controller-1-compute.yaml),
 and tune the barclamp proposal parameters by editing
 [`vagrant/provisioning/admin/HA-cloud.yaml`](../../vagrant/provisioning/admin/HA-cloud.yaml).
 
