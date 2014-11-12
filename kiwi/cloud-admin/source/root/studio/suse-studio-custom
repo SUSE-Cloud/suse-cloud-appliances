@@ -14,6 +14,18 @@
 
 # Put commands to be run on every boot here.
 
+warn () {
+    cat <<EOF >&2
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+EOF
+    cat >&2
+    cat <<EOF >&2
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+EOF
+}
+
 if [ -f /etc/init.d/suse_studio_firstboot ]
 then
     # Put commands to be run only on the first boot of your appliance here
@@ -40,13 +52,9 @@ then
             echo "Removing kernel source and headers ..."
             rpm -e kernel-default-devel kernel-source
         else
-            cat <<EOF >&2
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+            warn <<EOF
 WARNING: VirtualBox guest additions failed to install.
 Probably worth checking /var/log/vboxadd-install.log.
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 EOF
         fi
     else
