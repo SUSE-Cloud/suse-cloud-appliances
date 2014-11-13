@@ -46,6 +46,7 @@ main () {
 
     check_vagrant_config
     check_hypervisor
+    use_bundler_with_kvm
 
     if ! vagrant up --no-parallel; then
         die "vagrant up failed; aborting"
