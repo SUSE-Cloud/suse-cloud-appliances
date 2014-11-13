@@ -256,11 +256,11 @@ def provision_admin(admin)
   provision_to_tmp(admin, files_to_provision)
 
   admin.vm.provision 'shell', path: 'provisioning/admin/prep-admin.sh'
+  admin.vm.provision 'shell', path: 'provisioning/admin/provision-root-files.sh'
 
   # Automatically install SUSE Cloud on first-boot
   admin.vm.provision 'shell', path: 'provisioning/admin/install-suse-cloud.sh'
 
-  admin.vm.provision 'shell', path: 'provisioning/admin/provision-root-files.sh'
   admin.vm.provision 'shell', path: 'provisioning/admin/switch-vdisks.sh'
   admin.vm.provision 'shell', path: 'provisioning/admin/setup-node-sh-vars.sh'
 
