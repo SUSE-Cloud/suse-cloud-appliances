@@ -2,7 +2,7 @@
 
 : ${VAGRANT_CONFIG_FILE:=configs/1-controller-1-compute.yaml}
 export VAGRANT_CONFIG_FILE
-: ${PROPOSALS_YAML:=/root/HA-cloud.yaml}
+: ${PROPOSALS_YAML:=/root/simple-cloud.yaml}
 
 here=$(cd `dirname $0` && pwd)
 source $here/../lib/common.sh
