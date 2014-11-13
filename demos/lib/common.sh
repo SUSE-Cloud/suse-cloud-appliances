@@ -82,6 +82,14 @@ check_hypervisor () {
     esac
 }
 
+use_bundler_with_kvm () {
+    if [ $hypervisor = kvm ]; then
+        # Required so vagrant-libvirt can deal with shared disks.
+        export VAGRANT_USE_BUNDLER=yes
+        init_bundler
+    fi
+}
+
 on_linux () {
     [ "`uname -s`" = Linux ]
 }
