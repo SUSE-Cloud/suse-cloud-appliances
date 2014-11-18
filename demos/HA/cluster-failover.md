@@ -28,9 +28,9 @@ and running OpenStack services.
 *   On `controller1` or `controller2` try to kill OpenStack services
     using commands like:
 
-        pkill openstack-keystone
-        pkill openstack-glance
-        pkill openstack-nova
+        pkill keystone-all
+        pkill glance-api
+        pkill nova-api
 
 *   Watch `crm_mon` and/or Hawk to see how all services are kept running
     by Pacemaker.
