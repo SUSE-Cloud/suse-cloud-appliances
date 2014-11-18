@@ -1,0 +1,25 @@
+From 53fad1f305466427bf8d5f71faa2bc845314d28e Mon Sep 17 00:00:00 2001
+From: Dirk Mueller <dmueller@suse.com>
+Date: Wed, 8 Oct 2014 16:46:55 +0200
+Subject: [PATCH] Tighten check for HAE repos
+
+Just an empty directory is not enough, there should be
+repomd metadata in there. so check for the availability
+of the metadata.
+---
+ chef/cookbooks/provisioner/libraries/repositories.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/chef/cookbooks/provisioner/libraries/repositories.rb b/chef/cookbooks/provisioner/libraries/repositories.rb
+index 3b1e9ac..64734f5 100644
+--- a/chef/cookbooks/provisioner/libraries/repositories.rb
++++ b/chef/cookbooks/provisioner/libraries/repositories.rb
+@@ -48,7 +48,7 @@ def inspect_repos(node)
+           suse_optional_repos.each do |name|
+             repos[name] ||= Mash.new
+             next unless repos[name][:url].nil?
+-            missing ||= !(File.exists? "#{node[:provisioner][:root]}/repos/#{name}")
++            missing ||= !(File.exists? "#{node[:provisioner][:root]}/repos/#{name}/repodata/repomd.xml")
+           end
+ 
+           # set an attribute about missing repos so that cookbooks and crowbar
