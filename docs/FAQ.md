@@ -38,3 +38,22 @@ restarting VirtualBox services.  On MacOS X:
 On SUSE / Red Hat:
 
     service vboxdrv restart
+
+## Vagrant NetworkCollision on VirtualBox
+
+    INFO interface: Machine: error-exit ["Vagrant::Errors::NetworkCollision", "The specified host network collides with a non-hostonly network!\nThis will cause your specified IP    to be inaccessible. Please change\nthe IP or name of your host only network so that it no longer matches that of\na bridged or non-hostonly network."]
+
+Make sure you have only one host-only network configured to use 192.168.124.0/24 . If you have libvirt running, check that no libvirt network using 192.168.124.0/24 .
+
+## Vagrant fails ssh error on VirtualBox
+
+    The following SSH command responded with a non-zero exit status.
+
+If you are using the vagrant cloud box, make sure you are on the vagrantcloud branch.
+
+## Vagrant can't ssh, I modified the network configuration in the yaml files
+
+The IP ranges are not supposed to be modified. Please revert the change and try again.
+
+
+
