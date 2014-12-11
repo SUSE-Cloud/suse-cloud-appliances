@@ -75,6 +75,14 @@ However, you should be aware that the proposals need to be applied in
 the order given, regardless of whether they are applied manually or
 automatically.
 
+## Crowbar web UI
+
+At any time whilst `build.sh` is running and has reached the point
+where Crowbar is up and running, you can browse
+[the Crowbar web UI](http://192.168.124.10:3000/) (username and
+password are both `crowbar` by default) to see the current state of
+your cloud infrastructure.
+
 ## Showing the demo
 
 **FIXME - need some more detail here**

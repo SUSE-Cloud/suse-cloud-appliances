@@ -98,6 +98,14 @@ automatically.
 
 ### Watching the cluster being built
 
+#### Crowbar web UI
+
+At any time whilst `build.sh` is running and has reached the point
+where Crowbar is up and running, you can browse
+[the Crowbar web UI](http://192.168.124.10:3000/) (username and
+password are both `crowbar` by default) to see the current state of
+your cloud infrastructure.
+
 #### Hawk web UI
 
 As soon as the Pacemaker barclamp's `cluster1` proposal has been
