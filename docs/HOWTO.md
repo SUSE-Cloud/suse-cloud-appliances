@@ -50,8 +50,9 @@ the order listed in the YAML config file.  Typically this is:
     few minutes to complete, since it has to start several services.
     Once you see the next VM start to boot, you know it has completed
     installation, at which point you can visit
-    [the Crowbar web UI](http://192.168.124.10:3000/) and watch the
-    other nodes come online one by one.
+    [the Crowbar web UI](http://192.168.124.10:3000/) (username and
+    password are both `crowbar` by default) and watch the other nodes
+    come online one by one.
 2.  The controller node(s) in numerical order: `controller1`, then
     `controller2` etc.  These will run the OpenStack infrastructure
     services, typically within a Pacemaker cluster.
@@ -153,9 +154,10 @@ N.B. The `./build.sh` demo scripts take care of this automatically.
 
 ## Trying out SUSE Cloud
 
+*   Browse around [the Crowbar web UI](http://192.168.124.10:3000/)
+    (username and password are given above)
 *   See the provided resources for
     [automatically preparing and presenting demos](../demos/README.md) of
     functionality within SUSE Cloud.
-
-Also see the
-[official SUSE Cloud product documentation](https://www.suse.com/documentation/suse-cloud4/).
+*   Read the
+    [official SUSE Cloud product documentation](https://www.suse.com/documentation/suse-cloud4/).
