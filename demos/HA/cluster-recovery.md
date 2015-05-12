@@ -104,7 +104,7 @@ You can disable maintenance mode very easily from the node itself:
 
 ## Summary
 
-Currently, cluster recovery is a bit too complicated, especially in
+Currently, cluster recovery can be a bit complicated, especially in
 the 2 node case.  We have plans to make this process more
 user-friendly in the near future!
 

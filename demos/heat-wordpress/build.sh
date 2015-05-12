@@ -2,7 +2,7 @@
 
 : ${VAGRANT_CONFIG_FILE:=configs/1-controller-1-compute.yaml}
 export VAGRANT_CONFIG_FILE
-: ${PROPOSALS_YAML:=/root/HA-cloud.yaml}
+: ${PROPOSALS_YAML:=/root/simple-cloud.yaml}
 
 here=$(cd `dirname $0` && pwd)
 source $here/../lib/common.sh
@@ -46,6 +46,7 @@ main () {
 
     check_vagrant_config
     check_hypervisor
+    use_bundler_with_kvm
 
     if ! vagrant up --no-parallel; then
         die "vagrant up failed; aborting"
