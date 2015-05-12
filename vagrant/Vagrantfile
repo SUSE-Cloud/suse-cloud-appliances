@@ -240,15 +240,6 @@ def provision_admin(admin)
     # handy utility for setting up node aliases in Crowbar
     'setup-node-aliases.sh',
 
-    # handy utility for configuring proposals in batch
-    'crowbar_batch',
-
-    # update to library required by crowbar_batch
-    'barclamp_lib.rb',
-
-    # gem required by crowbar_batch
-    'easy_diff-0.0.3.gem',
-
     # sample input files for crowbar_batch
     'simple-cloud.yaml',
     'HA-cloud.yaml',
