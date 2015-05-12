@@ -127,7 +127,7 @@
       <netmask>255.255.255.0</netmask>
       <route></route>
       <name_servers>192.168.124.1</name_servers>
-      <hostname>cloud4-admin.openstack.site</hostname>
+      <hostname>cloud5-admin.openstack.site</hostname>
     </network>
     <startup_programs>
     </startup_programs>

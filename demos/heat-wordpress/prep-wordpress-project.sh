@@ -43,8 +43,9 @@ fi
 for role in admin; do
     if ! exists 'user role' $role --project $DEMO_PROJECT $DEMO_USER; then
         echo "Giving $DEMO_USER $role role in $DEMO_PROJECT project ..."
-        # Cloud 4's new openstack CLI doesn't support adding roles to users:
+        # Cloud 4's new openstack CLI didn't support adding roles to users:
         #openstack user role add $role --user $DEMO_USER --project $DEMO_PROJECT
+        # FIXME: worth revisiting with Cloud 5
         keystone user-role-add --user $DEMO_USER --role $role --tenant $DEMO_PROJECT
     fi
 done

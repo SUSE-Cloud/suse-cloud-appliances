@@ -15,7 +15,7 @@ vms:
   - name: admin
     personality: admin
     primary: true
-    box: suse/cloud4-admin
+    box: suse/cloud5-admin
     forward_ports:
       # Set the VAGRANT_INSECURE_PORT_FORWARDS environment variable
       # to 'yes' if you want these forwarded ports accessible from
