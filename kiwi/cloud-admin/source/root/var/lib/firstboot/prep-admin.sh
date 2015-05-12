@@ -5,7 +5,6 @@ set -e
 cd /var/lib/firstboot
 
 patch -d /opt/dell -p1 < barclamp-pacemaker-ignore-target-role-changes.patch
-patch -d /opt/dell -p1 < fix-crowbar_register.patch
 patch -d /opt/dell -p1 < fix-chef-client-when-cluster-down.patch
 
 # Scrap pointless 45 second tcpdump per interface
