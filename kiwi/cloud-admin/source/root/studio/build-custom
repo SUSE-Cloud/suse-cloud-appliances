@@ -75,18 +75,18 @@ echo "Setting up zypper repos ..."
 #
 # -G disables GPG check for the repository.
 zypper ar -G -K -t yast2  file:///srv/tftpboot/suse-11.3/install SLES-11-SP3
-#zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/SLES11-SP3-Updates SLES-11-SP3-Updates
+#zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/SLES11-SP3-Updates SLES-11-SP3-Updates
 
 # We don't expect to install anything new from the SDK after booting up the appliance
-# zypper ar -G -K -t yast2  file:///srv/tftpboot/repos/SLE-11-SP3-SDK SLE11-SP3-SDK
-# zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/SLE-11-SP3-SDK-Updates SLE11-SP3-SDK-Updates
+# zypper ar -G -K -t yast2  file:///srv/tftpboot/suse-11.3/repos/SLE-11-SP3-SDK SLE11-SP3-SDK
+# zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/SLE-11-SP3-SDK-Updates SLE11-SP3-SDK-Updates
 
-zypper ar -G -K -t yast2  file:///srv/tftpboot/repos/Cloud SUSE-Cloud
+zypper ar -G -K -t yast2  file:///srv/tftpboot/suse-11.3/repos/Cloud SUSE-Cloud
 # Not needed since we have the installation media above:
-# zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/SUSE-Cloud-5-Pool SUSE-Cloud-5-Pool
+# zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/SUSE-Cloud-5-Pool SUSE-Cloud-5-Pool
 # Not needed since we're using a Devel:Cloud:5:Staging .iso:
-# zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/SUSE-Cloud-5-Updates SUSE-Cloud-5-Updates
+# zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/SUSE-Cloud-5-Updates SUSE-Cloud-5-Updates
 
-# zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:Shared:11-SP3 Devel_Cloud_Shared_11-SP3
-# zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:5 Devel_Cloud_5
-# zypper ar -G -K -t rpm-md file:///srv/tftpboot/repos/Devel:Cloud:5:Staging Devel_Cloud_5_Staging
+# zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/Devel:Cloud:Shared:11-SP3 Devel_Cloud_Shared_11-SP3
+# zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/Devel:Cloud:5 Devel_Cloud_5
+# zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/Devel:Cloud:5:Staging Devel_Cloud_5_Staging
