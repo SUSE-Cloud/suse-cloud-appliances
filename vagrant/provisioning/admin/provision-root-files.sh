@@ -15,6 +15,4 @@ rm -f network.json
 mkdir -p /root/bin
 mv setup-node-aliases.sh /root/bin
 
-gem install easy_diff-0.0.3.gem
-mv crowbar_batch barclamp_lib.rb /opt/dell/bin
 mv *.yaml /root
