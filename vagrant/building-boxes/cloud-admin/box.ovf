@@ -13,11 +13,11 @@
       <Description>Logical network used by this appliance.</Description>
     </Network>
   </NetworkSection>
-  <VirtualSystem ovf:id="cloud4-admin">
+  <VirtualSystem ovf:id="cloud5-admin">
     <Info>A virtual machine</Info>
     <ProductSection>
       <Info>Meta-information about the installed software</Info>
-      <Product>SUSE Cloud 4</Product>
+      <Product>SUSE Cloud 5</Product>
       <Vendor>SUSE</Vendor>
       <Version>0.0.1</Version>
       <ProductUrl>https://www.suse.com/products/suse-cloud/</ProductUrl>
@@ -25,7 +25,7 @@
     </ProductSection>
     <AnnotationSection>
       <Info>A human-readable annotation</Info>
-      <Annotation>This VM contains a pre-installed Crowbar admin node from SUSE Cloud 4, and is based on a streamlined SLES11 SP3 image.</Annotation>
+      <Annotation>This VM contains a pre-installed Crowbar admin node from SUSE Cloud 5, and is based on a streamlined SLES11 SP3 image.</Annotation>
     </AnnotationSection>
 <!--
     <EulaSection>
@@ -43,7 +43,7 @@
       <System>
         <vssd:ElementName>Virtual Hardware Family</vssd:ElementName>
         <vssd:InstanceID>0</vssd:InstanceID>
-        <vssd:VirtualSystemIdentifier>cloud4-admin</vssd:VirtualSystemIdentifier>
+        <vssd:VirtualSystemIdentifier>cloud5-admin</vssd:VirtualSystemIdentifier>
         <vssd:VirtualSystemType>virtualbox-2.2</vssd:VirtualSystemType>
       </System>
       <Item>
@@ -127,7 +127,7 @@
         <rasd:ResourceType>10</rasd:ResourceType>
       </Item>
     </VirtualHardwareSection>
-    <vbox:Machine ovf:required="false" version="1.12-linux" uuid="{9af1feeb-ad3f-4e16-8e67-c3e48850b06f}" name="cloud4-admin" OSType="Linux" snapshotFolder="Snapshots" lastStateChange="2014-05-01T22:55:03Z">
+    <vbox:Machine ovf:required="false" version="1.12-linux" uuid="{9af1feeb-ad3f-4e16-8e67-c3e48850b06f}" name="cloud5-admin" OSType="Linux" snapshotFolder="Snapshots" lastStateChange="2014-05-01T22:55:03Z">
       <ovf:Info>Complete VirtualBox machine configuration in VirtualBox format</ovf:Info>
       <Hardware version="2">
         <CPU count="2" hotplug="false">

@@ -4,12 +4,12 @@
 
 This is a very minimal guide to debugging SUSE Cloud issues.  You can
 also consult the
-[official product documentation](https://www.suse.com/documentation/suse-cloud4/book_cloud_deploy/data/cha_depl_trouble.html).
+[official product documentation](https://www.suse.com/documentation/suse-cloud-5/book_cloud_deploy/data/cha_depl_trouble.html).
 
 ## Architecture
 
 Understanding
-[SUSE Cloud's architecture](https://www.suse.com/documentation/suse-cloud4/book_cloud_deploy/data/cha_depl_arch.html)
+[SUSE Cloud's architecture](https://www.suse.com/documentation/suse-cloud-5/book_cloud_deploy/data/cha_depl_arch.html)
 is an essential part of being able to effectively debug issues.
 
 ## Debugging Chef
@@ -51,4 +51,4 @@ Please also see [this guide to cluster recovery](../demos/HA/cluster-recovery.md
 ## Other log files
 
 See the official SUSE Cloud documentation for
-[a full list of log files](https://www.suse.com/documentation/suse-cloud4/book_cloud_deploy/data/cha_deploy_logs.html).
+[a full list of log files](https://www.suse.com/documentation/suse-cloud-5/book_cloud_deploy/data/cha_deploy_logs.html).

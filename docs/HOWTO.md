@@ -160,4 +160,4 @@ N.B. The `./build.sh` demo scripts take care of this automatically.
     [automatically preparing and presenting demos](../demos/README.md) of
     functionality within SUSE Cloud.
 *   Read the
-    [official SUSE Cloud product documentation](https://www.suse.com/documentation/suse-cloud4/).
+    [official SUSE Cloud product documentation](https://www.suse.com/documentation/suse-cloud-5/).
