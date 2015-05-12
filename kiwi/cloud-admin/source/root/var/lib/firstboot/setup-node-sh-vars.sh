@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mv /tmp/node-sh-vars /root/bin
+mv /var/lib/firstboot/node-sh-vars /root/bin
 
 cat <<EOF >>/root/.bash_profile
 if [ -e /tmp/.crowbar-nodes-roles.cache ]; then
