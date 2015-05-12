@@ -3,7 +3,7 @@
 set -e
 
 export PATH="$PATH:/sbin:/usr/sbin/"
-export REPOS_SKIP_CHECKS="SLES11_SP3 SLES11-SP3-Pool"
+export REPOS_SKIP_CHECKS="SLES11_SP3 SLES11-SP3-Pool SUSE-Cloud-5-Pool SUSE-Cloud-5-Updates"
 
 # To trick install-suse-clouds check for "screen". It should be save
 # to run with screen here. As install-suse-cloud won't pull the network
