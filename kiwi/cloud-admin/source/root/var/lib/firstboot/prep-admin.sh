@@ -21,7 +21,7 @@ echo '/nfs <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no
 # providing these via the special SUSE-CLOUD-SLE11-SP3-DEPS installation media
 # in /srv/tftpboot/suse-11.3/install
 for repo in SLE11-HAE-SP3-{Pool,Updates}; do
-    ln -s ../suse-11.3/install /srv/tftpboot/repos/$repo
+    ln -s ../install /srv/tftpboot/suse-11.3/repos/$repo
 done
 
 # atftp required at build-time for oemboot/suse-SLES11 bug
