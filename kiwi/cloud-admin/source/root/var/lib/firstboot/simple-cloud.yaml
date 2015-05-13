@@ -52,7 +52,7 @@ proposals:
     elements:
       neutron-server:
         - @@controller1@@
-      neutron-l3:
+      neutron-network:
         - @@controller1@@
 - barclamp: nova
   attributes:
