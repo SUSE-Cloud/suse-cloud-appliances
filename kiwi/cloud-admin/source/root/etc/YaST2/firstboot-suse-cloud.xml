@@ -116,7 +116,7 @@
           Please refer to the SUSE Cloud Deployment Guide for more information.&lt;/p&gt;
           &lt;p&gt;Only when your network settings are all defined, continue the crowbar install
           by typing: &lt;/p&gt;
-          &lt;p&gt;screen go&lt;/p&gt;
+          &lt;p&gt;screen -L go&lt;/p&gt;
           &lt;p&gt;It's important that the network settings are correctly defined
           before running this, otherwise you will need to start over.&lt;/p&gt;
           &lt;p&gt;Click Finish.&lt;/p&gt;
