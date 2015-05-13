@@ -9,7 +9,11 @@ export PATH="$PATH:/sbin:/usr/sbin/"
 #                 normally isn't due to presence of SP3 media)
 # SUSE-Cloud-5-Pool is not required since it simply duplicates the Cloud media
 # SUSE-Cloud-5-Updates is not required since updates are included in this Cloud media
-export REPOS_SKIP_CHECKS="SLES11_SP3 SLES11-SP3-Pool SUSE-Cloud-5-Pool SUSE-Cloud-5-Updates"
+# SLE11-HAE-SP3-Pool is not required since HAE is included in the -DEPS media
+# SLE11-HAE-SP3-Updates is not required since HAE is included in the -DEPS media
+export REPOS_SKIP_CHECKS="SLES11_SP3 SLES11-SP3-Pool
+                          SUSE-Cloud-5-Pool SUSE-Cloud-5-Updates
+                          SLE11-HAE-SP3-Pool SLE11-HAE-SP3-Updates"
 
 # To trick install-suse-clouds check for "screen". It should be save
 # to run with screen here. As install-suse-cloud won't pull the network
