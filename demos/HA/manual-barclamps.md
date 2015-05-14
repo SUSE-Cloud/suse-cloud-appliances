@@ -92,7 +92,7 @@ real setup, using a SAN to store the volumes would be recommended.
 *   Go to tab *Barclamps* → *OpenStack* and click on *Create* for Neutron
 *   Do not change any option
 *   Under *Deployment*, remove the node that is assigned to the **neutron-server** role, and drag `cluster1` to the **neutron-server** role
-*   remove the node that is assigned to the **neutron-l3** role, and drag and drop `cluster1` to **neutron-l3** role
+*   remove the node that is assigned to the **neutron-network** role, and drag and drop `cluster1` to **neutron-network** role
 *   Click on *Apply* to deploy Neutron
 
 ### Deploy Barclamps / OpenStack / Nova

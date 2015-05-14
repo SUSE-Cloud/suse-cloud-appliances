@@ -79,7 +79,7 @@ proposals:
     elements:
       neutron-server:
         - cluster:cluster1
-      neutron-l3:
+      neutron-network:
         - cluster:cluster1
 - barclamp: nova
   attributes:
