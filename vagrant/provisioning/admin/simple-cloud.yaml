@@ -14,22 +14,22 @@ proposals:
   deployment:
     elements:
       database-server:
-        - @@controller1@@
+        - "@@controller1@@"
 - barclamp: rabbitmq
   deployment:
     elements:
       rabbitmq-server:
-        - @@controller1@@
+        - "@@controller1@@"
 - barclamp: keystone
   deployment:
     elements:
       keystone-server:
-        - @@controller1@@
+        - "@@controller1@@"
 - barclamp: glance
   deployment:
     elements:
       glance-server:
-        - @@controller1@@
+        - "@@controller1@@"
 - barclamp: cinder
   wipe_attributes:
     - volumes
@@ -44,16 +44,16 @@ proposals:
   deployment:
     elements:
       cinder-controller:
-        - @@controller1@@
+        - "@@controller1@@"
       cinder-volume:
-        - @@compute1@@
+        - "@@compute1@@"
 - barclamp: neutron
   deployment:
     elements:
       neutron-server:
-        - @@controller1@@
+        - "@@controller1@@"
       neutron-network:
-        - @@controller1@@
+        - "@@controller1@@"
 - barclamp: nova
   attributes:
     kvm:
@@ -61,16 +61,16 @@ proposals:
   deployment:
     elements:
       nova-multi-controller:
-        - @@controller1@@
+        - "@@controller1@@"
       nova-multi-compute-qemu:
-        - @@compute1@@
+        - "@@compute1@@"
 - barclamp: nova_dashboard
   deployment:
     elements:
       nova_dashboard-server:
-        - @@controller1@@
+        - "@@controller1@@"
 - barclamp: heat
   deployment:
     elements:
       heat-server:
-        - @@controller1@@
+        - "@@controller1@@"
