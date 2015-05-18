@@ -17,11 +17,11 @@ proposals:
   deployment:
     elements:
       hawk-server:
-      - @@controller1@@
-      - @@controller2@@
+      - "@@controller1@@"
+      - "@@controller2@@"
       pacemaker-cluster-member:
-      - @@controller1@@
-      - @@controller2@@
+      - "@@controller1@@"
+      - "@@controller2@@"
 - barclamp: database
   # Proposal name defaults to 'default'.
   # Default attributes are good enough, so we just need to assign
@@ -73,7 +73,7 @@ proposals:
       cinder-controller:
         - cluster:cluster1
       cinder-volume:
-        - @@compute1@@
+        - "@@compute1@@"
 - barclamp: neutron
   deployment:
     elements:
@@ -90,8 +90,8 @@ proposals:
       nova-multi-controller:
         - cluster:cluster1
       nova-multi-compute-kvm:
-        - @@compute1@@
-        - @@compute2@@
+        - "@@compute1@@"
+        - "@@compute2@@"
 - barclamp: nova_dashboard
   deployment:
     elements:
