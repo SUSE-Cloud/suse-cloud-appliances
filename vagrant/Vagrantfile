@@ -258,14 +258,6 @@ def provision_admin(admin)
 
   admin.vm.provision 'shell', path: 'provisioning/admin/switch-vdisks.sh'
   admin.vm.provision 'shell', path: 'provisioning/admin/setup-node-sh-vars.sh'
-
-  admin.vm.provision 'shell', inline: <<-'EOSHELL'
-    set -e
-
-    cd /opt/dell
-    patch -p1 < /tmp/increase-SBD-timeout-30s.patch
-    /opt/dell/bin/barclamp_install.rb --rpm pacemaker
-  EOSHELL
 end
 
 def provision_to_tmp(node, files_to_provision)

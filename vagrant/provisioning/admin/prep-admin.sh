@@ -7,6 +7,7 @@ cd /tmp
 patch -d /opt/dell -p1 < barclamp-network-ignore-eth0.patch
 patch -d /opt/dell -p1 < barclamp-provisioner-nfs-export.patch
 patch -d /opt/dell -p1 < barclamp-pacemaker-ignore-target-role-changes.patch
+patch -d /opt/dell -p1 < increase-SBD-timeout-30s.patch
 patch -d /opt/dell -p1 -R < barclamp-provisioner-hae-check.patch
 
 # Scrap pointless 45 second tcpdump per interface
