@@ -4,6 +4,11 @@ set -e
 
 admin_ip="$1"
 
+# To trick crowbar_register check for "screen". It should be safe
+# to run without screen here, as crowbar_register won't pull the network
+# from eth0 because we patched the network cookbook accordingly.
+export STY="dummy"
+
 export PATH="$PATH:/sbin:/usr/sbin/"
 zypper ar http://${admin_ip}:8091/suse-11.3/install sles11-sp3
 until [ -f crowbar_register ]; do

@@ -15,9 +15,9 @@ export REPOS_SKIP_CHECKS="SLES11_SP3 SLES11-SP3-Pool
                           SUSE-Cloud-5-Pool SUSE-Cloud-5-Updates
                           SLE11-HAE-SP3-Pool SLE11-HAE-SP3-Updates"
 
-# To trick install-suse-clouds check for "screen". It should be save
-# to run with screen here. As install-suse-cloud won't pull the network
-# from eth0 because of the above patch.
+# To trick install-suse-clouds check for "screen". It should be safe
+# to run without screen here, as install-suse-cloud won't pull the network
+# from eth0 because we patched the network cookbook accordingly.
 export STY="dummy"
 
 # ensure cloud_admin pattern is fully installed
