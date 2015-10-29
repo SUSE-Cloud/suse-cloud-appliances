@@ -21,6 +21,18 @@ Please see [this guide to cluster recovery](../demos/HA/cluster-recovery.md).
 
 Most likely your box download got corrupted or truncated.
 
+## Vagrant fails during the creation of my controllers
+
+If the Vagrant build fails with the following error:
+
+    Defined interface to use (eth1) does not seem to be on the admin network.
+    Is DHCP used for it?
+
+Then VirtualBox has a host-only network conflicting with the one from
+Vagrant. Please refer to the **Vagrant `virtualbox` provider** section
+in [the prerequisites](prerequisites.md) to fix this, and then restart
+the Vagrant build.
+
 ## Vagrant fails to create a host-only network on VirtualBox
 
     Progress state: NS_ERROR_FAILURE

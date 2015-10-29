@@ -118,9 +118,19 @@ although you may well encounter issues, especially relating to
 installation of plugins, and you will not be able to use the
 `vagrant-login` (Vagrant Cloud) and `vagrant-share` plugins.
 
+#### Vagrant `virtualbox` provider
+
+If using the `virtualbox` provider, you may need to manually remove the
+default host-only network, as it may conflict with the host-only network
+that Vagrant will create.
+
+In order to do so, go to the VirtualBox settings (*File* →
+*Settings...*), then to the list of host-only networks (*Network* →
+*Host-Only Networks*), select *vboxnet0* and click the "remove" icon.
+
 #### Vagrant `libvirt` provider
 
-**If using `libvirt`, please also see [vagrant-libvirt.md](vagrant-libvirt.md).**
+**If using the `libvirt` provider, please also see [vagrant-libvirt.md](vagrant-libvirt.md).**
 
 #### Vagrant boxes
 
