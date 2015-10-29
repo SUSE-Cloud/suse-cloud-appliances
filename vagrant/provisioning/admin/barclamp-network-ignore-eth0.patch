@@ -1,25 +1,29 @@
-commit a70065df5acce0c88c62abf06a196462031b9ea3
-Author: Ralf Haferkamp <rhafer@suse.de>
-Date:   Tue May 6 15:47:44 2014 +0200
+From ed1fea70a5fe31e4a2b68a4e3317eea8a56659fa Mon Sep 17 00:00:00 2001
+From: Ralf Haferkamp <rhafer@suse.de>
+Date: Tue, 6 May 2014 15:47:44 +0200
+Subject: [PATCH] Added hack to ignore eth0 to allow use by vagrant
 
-    Added hack to ignore eth0 to allow use by vagrant
+---
+ chef/cookbooks/network/recipes/default.rb       |  4 ++++
+ chef/data_bags/crowbar/bc-template-network.json | 12 ++++++------
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/chef/cookbooks/network/recipes/default.rb b/chef/cookbooks/network/recipes/default.rb
-index 7be86ad..dd266d4 100644
+index e9fb9d2..0f13e71 100644
 --- a/chef/cookbooks/network/recipes/default.rb
 +++ b/chef/cookbooks/network/recipes/default.rb
-@@ -256,6 +256,8 @@ Nic.refresh_all
+@@ -277,6 +277,8 @@ Nic.refresh_all
  
  # Kill any nics that we don't want hanging around anymore.
- Nic.nics.each do |nic|
+ Nic.nics.reverse_each do |nic|
 +  # Hack to make vagrant happy
 +  next if nic.name == "eth0"
    next if ifs[nic.name]
    # If we are bringing this node under management, kill any nics we did not
    # configure, except for loopback interfaces.
-@@ -395,6 +397,8 @@ when "centos","redhat"
-   end
- when "suse"
+@@ -431,6 +433,8 @@ when "suse"
+   ethtool_options = ethtool_options.join(" ")
+ 
    Nic.nics.each do |nic|
 +    # Hack to make vagrant happy
 +    next if nic.name == "eth0"
@@ -27,12 +31,12 @@ index 7be86ad..dd266d4 100644
      template "/etc/sysconfig/network/ifcfg-#{nic.name}" do
        source "suse-cfg.erb"
 diff --git a/chef/data_bags/crowbar/bc-template-network.json b/chef/data_bags/crowbar/bc-template-network.json
-index ddee3a0..702dc9f 100644
+index 1057e44..1182f8d 100644
 --- a/chef/data_bags/crowbar/bc-template-network.json
 +++ b/chef/data_bags/crowbar/bc-template-network.json
-@@ -69,13 +69,13 @@
+@@ -71,13 +71,13 @@
            "pattern": "team/.*/.*",
-           "conduit_list": { 
+           "conduit_list": {
              "intf0": {
 -              "if_list": [ "1g1", "1g2" ]
 +              "if_list": [ "1g2", "1g3" ]
@@ -47,9 +51,9 @@ index ddee3a0..702dc9f 100644
              }
            }
          },
-@@ -97,13 +97,13 @@
+@@ -99,13 +99,13 @@
            "pattern": "single/.*/.*",
-           "conduit_list": { 
+           "conduit_list": {
              "intf0": {
 -              "if_list": [ "?1g1" ]
 +              "if_list": [ "?1g2" ]
@@ -64,3 +68,6 @@ index ddee3a0..702dc9f 100644
              }
            }
          },
+-- 
+2.6.0
+

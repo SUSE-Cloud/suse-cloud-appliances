@@ -8,7 +8,7 @@ diff --git a/chef/cookbooks/pacemaker/providers/primitive.rb b/chef/cookbooks/pa
 index 5206a35..358bc30 100644
 --- a/chef/cookbooks/pacemaker/providers/primitive.rb
 +++ b/chef/cookbooks/pacemaker/providers/primitive.rb
-@@ -104,6 +104,8 @@ def maybe_configure_params(name, cmds, data_type)
+@@ -130,6 +130,8 @@ def maybe_configure_params(name, cmds, data_type)
      # Postel's Law whilst minimising activity on the Chef client node.
      if current_value.to_s == new_value.to_s
        Chef::Log.info("#{name}'s #{param} #{data_type} didn't change")
@@ -16,4 +16,4 @@ index 5206a35..358bc30 100644
 +      Chef::Log.info("#{name}'s #{param} #{data_type} would be changed from #{current_value} to #{new_value} -- skipping")
      else
        Chef::Log.info("#{name}'s #{param} #{data_type} changed from #{current_value} to #{new_value}")
-       cmd = configure_cmd_prefix + %' --set-parameter "#{param}" --parameter-value "#{new_value}"'
+       cmd = configure_cmd_prefix +
