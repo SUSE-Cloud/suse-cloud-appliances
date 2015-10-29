@@ -38,9 +38,9 @@ function setup_overlay {
     here=$( cd `dirname "$0"`; pwd -P )
     tftpboot=$here/source/root/srv/tftpboot
     bind_mount /mnt/suse-cloud-sle11-deps $tftpboot/suse-11.3/install
-    bind_mount /mnt/suse-cloud-5          $tftpboot/repos/Cloud
+    bind_mount /mnt/suse-cloud-5          $tftpboot/suse-11.3/repos/Cloud
     for repo in "${repos[@]}"; do
-        bind_mount $MIRROR_DIR/$repo $tftpboot/repos/$repo
+        bind_mount $MIRROR_DIR/$repo $tftpboot/suse-11.3/repos/$repo
     done
 }
 
