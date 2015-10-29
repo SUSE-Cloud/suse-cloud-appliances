@@ -15,7 +15,7 @@ here for posterity.
 
 If you want to build the boxes yourself, it is strongly recommended
 that you
-[contact us](https://forums.suse.com/forumdisplay.php?65-SUSE-Cloud)
+[contact us](https://forums.suse.com/forumdisplay.php?65-SUSE-OpenStack-Cloud)
 for help first, otherwise there is a risk you will waste a lot of your
 own time.
 
@@ -50,7 +50,7 @@ are very welcome - just [fork this repository](https://github.com/fghaas/opensta
 There are two different virtual appliances defined within this
 subdirectory:
 
-*   [`cloud-admin`](cloud-admin/) - the SUSE Cloud admin node,
+*   [`cloud-admin`](cloud-admin/) - the SUSE OpenStack Cloud admin node,
     which runs Crowbar and Chef, and
 *   [`sles11-sp3`](sles11-sp3/) - a cut-down preload image of SUSE Linux
     Enterprise Server (SLES) 11 SP3, which will be used to provision

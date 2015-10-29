@@ -45,9 +45,9 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
       #   https://docs.vagrantup.com/v2/virtualbox/boxes.html
       #
       # which with VirtualBox means it can't communicate with the
-      # other VMs.  SUSE Cloud needs at least one (other) interface
-      # which is able to communicate with other VMs.  On VirtualBox
-      # this will result in it being made host-only.
+      # other VMs.  SUSE OpenStack Cloud needs at least one (other)
+      # interface which is able to communicate with other VMs.
+      # On VirtualBox this will result in it being made host-only.
       node.vm.network 'private_network',
         ip: ip,
         auto_config: false,
@@ -253,7 +253,7 @@ def provision_admin(admin)
   admin.vm.provision 'shell', path: 'provisioning/admin/prep-admin.sh'
   admin.vm.provision 'shell', path: 'provisioning/admin/provision-root-files.sh'
 
-  # Automatically install SUSE Cloud on first-boot
+  # Automatically install SUSE OpenStack Cloud on first-boot
   admin.vm.provision 'shell', path: 'provisioning/admin/install-suse-cloud.sh'
 
   admin.vm.provision 'shell', path: 'provisioning/admin/switch-vdisks.sh'

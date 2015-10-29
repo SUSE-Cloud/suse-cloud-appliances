@@ -1,4 +1,4 @@
-# How to automatically deploy SUSE Cloud via Vagrant
+# How to automatically deploy SUSE OpenStack Cloud via Vagrant
 
 ## Prerequisites
 
@@ -6,7 +6,7 @@ Please see the [prerequisites page](prerequisites.md) for information
 on hardware requirements and how to set up Vagrant to work with your
 hypervisor.
 
-## SUSE Cloud installation
+## SUSE OpenStack Cloud installation
 
 N.B. The following steps describe semi-automatic booting of the cloud
 infrastructure via Vagrant.  Another more fully automated option is
@@ -152,12 +152,12 @@ on login.
 
 N.B. The `./build.sh` demo scripts take care of this automatically.
 
-## Trying out SUSE Cloud
+## Trying out SUSE OpenStack Cloud
 
 *   Browse around [the Crowbar web UI](http://192.168.124.10:3000/)
     (username and password are given above)
 *   See the provided resources for
     [automatically preparing and presenting demos](../demos/README.md) of
-    functionality within SUSE Cloud.
+    functionality within SUSE OpenStack Cloud.
 *   Read the
-    [official SUSE Cloud product documentation](https://www.suse.com/documentation/suse-cloud-5/).
+    [official SUSE OpenStack Cloud product documentation](https://www.suse.com/documentation/suse-cloud-5/).

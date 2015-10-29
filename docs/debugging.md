@@ -1,15 +1,15 @@
-# A crash course in debugging SUSE Cloud issues
+# A crash course in debugging SUSE OpenStack Cloud issues
 
 **Please first check [the FAQ](FAQ.md).**
 
-This is a very minimal guide to debugging SUSE Cloud issues.  You can
-also consult the
+This is a very minimal guide to debugging SUSE OpenStack Cloud issues.
+You can also consult the
 [official product documentation](https://www.suse.com/documentation/suse-cloud-5/book_cloud_deploy/data/cha_depl_trouble.html).
 
 ## Architecture
 
 Understanding
-[SUSE Cloud's architecture](https://www.suse.com/documentation/suse-cloud-5/book_cloud_deploy/data/cha_depl_arch.html)
+[SUSE OpenStack Cloud's architecture](https://www.suse.com/documentation/suse-cloud-5/book_cloud_deploy/data/cha_depl_arch.html)
 is an essential part of being able to effectively debug issues.
 
 ## Debugging Chef
@@ -50,5 +50,5 @@ Please also see [this guide to cluster recovery](../demos/HA/cluster-recovery.md
 
 ## Other log files
 
-See the official SUSE Cloud documentation for
+See the official SUSE OpenStack Cloud documentation for
 [a full list of log files](https://www.suse.com/documentation/suse-cloud-5/book_cloud_deploy/data/cha_deploy_logs.html).

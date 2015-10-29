@@ -1,14 +1,14 @@
-# Vagrant resources for SUSE Cloud
+# Vagrant resources for SUSE OpenStack Cloud
 
 This repository contains resources for rapid virtualized deployment of
-[SUSE Cloud](https://www.suse.com/products/suse-cloud/) via
+[SUSE OpenStack Cloud](https://www.suse.com/products/suse-cloud/) via
 [Vagrant](http://www.vagrantup.com/).
 
 ## Contents
 
 *   Resources for [automatically preparing and presenting demos](demos/)
-    of functionality within SUSE Cloud - these essentially reduce the
-    task of setup to a one-line command.
+    of functionality within SUSE OpenStack Cloud - these essentially
+    reduce the task of setup to a one-line command.
 *   A [HOWTO guide](docs/HOWTO.md) documenting how to use Vagrant and
     the provided [`Vagrantfile`](vagrant/Vagrantfile) to deploy a SUSE
     Cloud environment of (by default) 4 VMs via a single `vagrant up`

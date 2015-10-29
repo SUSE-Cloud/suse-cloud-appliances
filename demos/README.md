@@ -1,8 +1,8 @@
-# Pre-canned demos of SUSE Cloud functionality
+# Pre-canned demos of SUSE OpenStack Cloud functionality
 
 This subdirectory contains resources for automatically
-preparing and presenting demos of SUSE Cloud functionality from
-within a Vagrant environment.
+preparing and presenting demos of SUSE OpenStack Cloud functionality
+from within a Vagrant environment.
 
 ## Demos
 

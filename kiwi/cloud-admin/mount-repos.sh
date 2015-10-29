@@ -10,7 +10,7 @@ repos=(
     #SLE11-HAE-SP3-{Pool,Updates} # embedded within SUSE-CLOUD-SLE11-SP3-DEPS
 
     #SUSE-Cloud-5-Pool     # not needed since we have installation media
-    # SUSE-Cloud-5-Updates # not needed since we're using a Devel:Cloud:5:Staging .iso
+    #SUSE-Cloud-5-Updates  # not needed since we're using a Devel:Cloud:5:Staging .iso
 
     # Devel:Cloud:Shared:11-SP3
     # Devel:Cloud:Shared:11-SP3:Update

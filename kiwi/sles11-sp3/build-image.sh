@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# Script for building SUSE Cloud admin appliance
+# Script for building SUSE OpenStack Cloud admin appliance
 #
 # See ../build-lib.sh for more info.
 

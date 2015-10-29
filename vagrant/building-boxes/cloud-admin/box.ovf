@@ -17,7 +17,7 @@
     <Info>A virtual machine</Info>
     <ProductSection>
       <Info>Meta-information about the installed software</Info>
-      <Product>SUSE Cloud 5</Product>
+      <Product>SUSE OpenStack Cloud 5</Product>
       <Vendor>SUSE</Vendor>
       <Version>0.0.1</Version>
       <ProductUrl>https://www.suse.com/products/suse-cloud/</ProductUrl>
@@ -25,7 +25,7 @@
     </ProductSection>
     <AnnotationSection>
       <Info>A human-readable annotation</Info>
-      <Annotation>This VM contains a pre-installed Crowbar admin node from SUSE Cloud 5, and is based on a streamlined SLES11 SP3 image.</Annotation>
+      <Annotation>This VM contains a pre-installed Crowbar admin node from SUSE OpenStack Cloud 5, and is based on a streamlined SLES11 SP3 image.</Annotation>
     </AnnotationSection>
 <!--
     <EulaSection>

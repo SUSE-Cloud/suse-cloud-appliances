@@ -1,4 +1,4 @@
-# Recovering a SUSE Cloud controller cluster to a healthy state
+# Recovering a SUSE OpenStack Cloud controller cluster to a healthy state
 
 [Abusing a test cluster to see how it handles failures](cluster-failover.md)
 is fun :-)  However depending on the kind of abuse, you might find that
