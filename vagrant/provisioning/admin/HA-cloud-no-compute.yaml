@@ -24,7 +24,6 @@ proposals:
             - /dev/sdc
     drbd:
       enabled: true
-    setup_hb_gui: true
   deployment:
     elements:
       hawk-server:
