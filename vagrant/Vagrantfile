@@ -101,6 +101,9 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
         provision_admin(node)
       else
         node.vm.provision 'shell',
+          path: 'provisioning/non-admin/update-motd'
+
+        node.vm.provision 'shell',
           path: 'provisioning/non-admin/store-vagrant-name.sh',
           args: node_name
 
