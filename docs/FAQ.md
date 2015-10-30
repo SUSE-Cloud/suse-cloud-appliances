@@ -50,3 +50,23 @@ restarting VirtualBox services.  On MacOS X:
 On SUSE / Red Hat:
 
     service vboxdrv restart
+
+## `crowbar batch` fails on start
+
+If `crowbar batch` fails with an error like:
+
+    /opt/dell/bin/barclamp_lib.rb:536:in `eval': (<unknown>): found character that cannot start any token while scanning for the next token at line 19 column 11 (Psych::SyntaxError)
+            from /usr/lib64/ruby/2.1.0/psych.rb:370:in `parse_stream'
+            from /usr/lib64/ruby/2.1.0/psych.rb:318:in `parse'
+            from /usr/lib64/ruby/2.1.0/psych.rb:245:in `load'
+            from /opt/dell/bin/crowbar_batch:100:in `build'
+            from (eval):1:in `run_sub_command'
+            from /opt/dell/bin/barclamp_lib.rb:536:in `eval'
+            from /opt/dell/bin/barclamp_lib.rb:536:in `run_sub_command'
+            from /opt/dell/bin/barclamp_lib.rb:540:in `run_command'
+            from /opt/dell/bin/crowbar_batch:553:in `main'
+            from /opt/dell/bin/crowbar_batch:556:in `<main>'
+
+This is most likely happening because the aliases for the nodes were not
+created. Simply run the `setup-node-aliases.sh` command on the node
+`admin` and then run `crowbar batch` again.
