@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+# Disable chef-client service: this is not production, so we do not need to
+# enforce the configuration, and disabling chef-client means that no chef-client
+# run will slow down the deployment.
+
+chkconfig -d chef-client
+service chef-client stop
