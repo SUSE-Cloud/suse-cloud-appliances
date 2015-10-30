@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+sed -i "s/SLES 11 SP3/SUSE OpenStack Cloud 5/" /etc/motd
