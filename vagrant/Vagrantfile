@@ -101,12 +101,18 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
         provision_admin(node)
       else
         node.vm.provision 'shell',
+          path: 'provisioning/non-admin/update-motd'
+
+        node.vm.provision 'shell',
           path: 'provisioning/non-admin/store-vagrant-name.sh',
           args: node_name
 
         node.vm.provision 'shell',
           path: 'provisioning/non-admin/register-with-suse-cloud',
           args: admin_ip
+
+        node.vm.provision 'shell',
+          path: 'provisioning/non-admin/stop-chef-client'
       end
 
       setup_glance_NFS(node, admin_ip) if vmcfg['glance-nfs']

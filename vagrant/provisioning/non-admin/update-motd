@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+sed -i "s/SUSE Cloud 4/SUSE OpenStack Cloud 5/" /etc/motd
