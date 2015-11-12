@@ -81,8 +81,10 @@ controller nodes are not used to allow easy testing of failover. On a
 real setup, using a SAN to store the volumes would be recommended.
 
 *   Go to tab *Barclamps* → *OpenStack* and click on *Create* for Cinder
-*   Change the following options:
-    * Change *Type of Volume* to **Local file**
+*   Remove the `default` backend
+*   Add a new backend with the following options:
+    * Change *Type of Volume* to **Local File**
+    * Change *Name for Backend* to **local**
 *   Under *Deployment*, remove the node that is assigned to the **cinder-controller** role, and drag `cluster1` to the **cinder-controller** role
 *   Under *Deployment*, remove the node that is assigned to the **cinder-volume** role, and drag **compute1** to the **cinder-volume** role
 *   Click on *Apply* to deploy Cinder
@@ -91,6 +93,8 @@ real setup, using a SAN to store the volumes would be recommended.
 
 *   Go to tab *Barclamps* → *OpenStack* and click on *Create* for Neutron
 *   Do not change any option
+*   Change the following options:
+    * Change *Modular Layer 2 mechanism drivers* to **linuxbridge**
 *   Under *Deployment*, remove the node that is assigned to the **neutron-server** role, and drag `cluster1` to the **neutron-server** role
 *   remove the node that is assigned to the **neutron-network** role, and drag and drop `cluster1` to **neutron-network** role
 *   Click on *Apply* to deploy Neutron
