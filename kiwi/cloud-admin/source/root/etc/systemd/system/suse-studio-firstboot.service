@@ -1,0 +1,14 @@
+[Unit]
+Description=Execute the SUSE Studio first boot script, if it exists
+ConditionPathExists=/etc/init.d/suse_studio_firstboot
+
+Before=xdm.service getty@tty1.service
+
+After=network.service
+
+[Service]
+Type=oneshot
+ExecStartPre=-/usr/bin/plymouth --hide-splash
+ExecStart=/bin/sh /etc/init.d/suse_studio_firstboot
+StandardInput=tty
+

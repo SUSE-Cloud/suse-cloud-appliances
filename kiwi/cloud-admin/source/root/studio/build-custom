@@ -10,21 +10,19 @@
 #
 
 # read in some variables
-if test -f /studio/profile; then
-    . /studio/profile
-fi
+. /studio/profile
 
 # read in KIWI utility functions
-if test -f /.kconfig; then
-    . /.kconfig
-fi
+. /.kconfig
 
 die () {
     echo >&2 "$*"
     exit 1
 }
 
-if ! long_hostname="`cat /etc/HOSTNAME`"; then
+#==========================================================
+
+if ! long_hostname="`cat /etc/hostname`"; then
     die "Failed to determine hostname"
 fi
 short_hostname="${long_hostname%%.*}"
@@ -36,57 +34,55 @@ if ! grep -q "^$ADMIN_IP " /etc/hosts; then
     echo "$ADMIN_IP   $long_hostname $short_hostname" >> /etc/hosts
 fi
 
-echo "Enabling auto-start of ntp and ssh services on boot ..."
-chkconfig ntp on
-chkconfig sshd on
+systemctl enable crowbar.service
 
-if grep -q '^vagrant:' /etc/passwd; then
-    echo "Adding vagrant to sudoers"
-    cat <<EOF >>/etc/sudoers
+sed -i.orig 's/firstboot.xml/firstboot-suse-openstack-cloud.xml/g' /etc/sysconfig/firstboot
 
-vagrant ALL=(ALL) NOPASSWD: ALL
-EOF
-    # Ensure vagrant maintains password-less sudo access even after
-    # Crowbar/Chef hijack /etc/sudoers:
-    echo "Adding vagrant to sysadmins..."
-    groupadd sysadmin
-    usermod -G sysadmin vagrant
-fi
+#==========================================================
 
 # This avoids annoyingly long timeouts on reverse DNS
 # lookups when connecting via ssh.
-echo "Disabling UseDNS in sshd ..."
+echo "Disabling UseDNS in sshd..."
 sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
 
 # Default behaviour of less drives me nuts!
 sed -i 's/\(LESS="\)/\1-X /' /etc/profile
 
-# Pick the right firstboot.xml to use
-sed -i.orig 's/firstboot.xml/firstboot-suse-cloud.xml/g' /etc/sysconfig/firstboot
+# Reduce grub prompt timeout
+echo "Reducing grub timeout..."
+sed -i 's/^timeout=[0-9]\+/timeout=2/' /boot/grub2/grub.cfg
 
-# Enable firstboot
-touch /var/lib/YaST2/reconfig_system
+cat <<EOF >>/root/.bash_profile
+if [ -e /tmp/.crowbar-nodes-roles.cache ]; then
+  source /tmp/.crowbar-nodes-roles.cache
+fi
+EOF
 
-echo "Setting up zypper repos ..."
+#==========================================================
+
+echo "Setting up zypper repos..."
 
 # -K disables local caching of rpm files, since they are already local
 # to the VM (or at least to its host in the NFS / synced folders cases),
 # so caching would just unnecessarily bloat the VM.
 #
 # -G disables GPG check for the repository.
-zypper ar -G -K -t yast2  file:///srv/tftpboot/suse-11.3/install SLES-11-SP3
-#zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/SLES11-SP3-Updates SLES-11-SP3-Updates
+zypper ar -G -K -t yast2  file:///srv/tftpboot/suse-12.1/x86_64/install DEPS-ISO
 
-# We don't expect to install anything new from the SDK after booting up the appliance
-# zypper ar -G -K -t yast2  file:///srv/tftpboot/suse-11.3/repos/SLE-11-SP3-SDK SLE11-SP3-SDK
-# zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/SLE-11-SP3-SDK-Updates SLE11-SP3-SDK-Updates
+#==========================================================
 
-zypper ar -G -K -t yast2  file:///srv/tftpboot/suse-11.3/repos/Cloud SUSE-Cloud
-# Not needed since we have the installation media above:
-# zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/SUSE-Cloud-5-Pool SUSE-Cloud-5-Pool
-# Not needed since we're using a Devel:Cloud:5:Staging .iso:
-# zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/SUSE-Cloud-5-Updates SUSE-Cloud-5-Updates
+echo "Patching Crowbar for appliance..."
 
-# zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/Devel:Cloud:Shared:11-SP3 Devel_Cloud_Shared_11-SP3
-# zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/Devel:Cloud:5 Devel_Cloud_5
-# zypper ar -G -K -t rpm-md file:///srv/tftpboot/suse-11.3/repos/Devel:Cloud:5:Staging Devel_Cloud_5_Staging
+# Scrap pointless 45 second tcpdump per interface
+sed -i 's/45/1/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
+
+# Create the directory for shared glance storage
+mkdir -p /var/lib/glance
+
+# Create the NFS export for shared storage for HA PostgreSQL and RabbitMQ
+mkdir -p /nfs/{postgresql,rabbitmq}
+echo '/nfs <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
+
+#==========================================================
+
+exit 0

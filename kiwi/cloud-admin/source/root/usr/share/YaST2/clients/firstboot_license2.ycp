@@ -1,0 +1,46 @@
+/*
+ *
+ * Module:             firstboot_timezone.ycp
+ *
+ * Author:             Ladislav Slezak <lslezak@suse.cz>
+ *
+ * Submodules:
+ *
+ *
+ * Purpose:	display a license in running system
+ *
+ *
+ *
+ * $Id:$
+ */
+
+{
+    textdomain "firstboot";
+
+    import "Misc";
+    import "GetInstArgs";
+
+
+    any result = nil;
+
+    map args = GetInstArgs::argmap();
+    args["directory"] =  "/usr/share/firstboot/licenses/2";
+    args["action"] = Misc::SysconfigRead(.sysconfig.firstboot.LICENSE_REFUSAL_ACTION, "abort");
+
+    y2milestone("inst_license options: %1", args);
+
+//  currently the pattern is hardcoded in ProductLicense::AskLicenseAgreement() function to license.txt and license_%1.txt
+//    args["patterns"] = [Misc::SysconfigRead(.sysconfig.firstboot.directory, "eula.txt")];
+
+    result = WFM::CallFunction( "inst_license", [ args ] );
+
+    if (result == `halt)
+    {
+	UI::CloseDialog();
+	y2milestone("Halting the system...");
+	SCR::Execute(.target.bash, "/sbin/halt");
+    }
+
+    return result;
+
+}
