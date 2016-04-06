@@ -59,7 +59,6 @@ chkconfig sshd on
 # Sysconfig Update
 #--------------------------------------
 echo '** Update sysconfig entries...'
-baseUpdateSysConfig /etc/sysconfig/keyboard KEYTABLE us.map.gz
 baseUpdateSysConfig /etc/sysconfig/network/config FIREWALL no
 baseUpdateSysConfig /etc/init.d/suse_studio_firstboot NETWORKMANAGER no
 baseUpdateSysConfig /etc/sysconfig/SuSEfirewall2 FW_SERVICES_EXT_TCP 22\ 80\ 443
