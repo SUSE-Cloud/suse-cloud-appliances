@@ -48,10 +48,6 @@ sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
 # Default behaviour of less drives me nuts!
 sed -i 's/\(LESS="\)/\1-X /' /etc/profile
 
-# Reduce grub prompt timeout
-echo "Reducing grub timeout..."
-sed -i 's/^timeout=[0-9]\+/timeout=2/' /boot/grub2/grub.cfg
-
 cat <<EOF >>/root/.bash_profile
 if [ -e /tmp/.crowbar-nodes-roles.cache ]; then
   source /tmp/.crowbar-nodes-roles.cache

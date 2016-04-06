@@ -71,33 +71,33 @@ baseUpdateSysConfig /etc/sysconfig/console CONSOLE_FONT lat9w-16.psfu
 #--------------------------------------
 echo '** Setting up overlay files...'
 mkdir -p /root/
-mv /studio/overlay-tmp/files//root//DRBD.yaml /root//DRBD.yaml
-chown root:root /root//DRBD.yaml
-chmod 644 /root//DRBD.yaml
+mv /studio/overlay-tmp/files/root/DRBD.yaml /root/DRBD.yaml
+chown root:root /root/DRBD.yaml
+chmod 644 /root/DRBD.yaml
 mkdir -p /etc/YaST2/
-mv /studio/overlay-tmp/files//etc/YaST2//firstboot-suse-openstack-cloud.xml /etc/YaST2//firstboot-suse-openstack-cloud.xml
-chown root:root /etc/YaST2//firstboot-suse-openstack-cloud.xml
-chmod 644 /etc/YaST2//firstboot-suse-openstack-cloud.xml
+mv /studio/overlay-tmp/files/etc/YaST2/firstboot-suse-openstack-cloud.xml /etc/YaST2/firstboot-suse-openstack-cloud.xml
+chown root:root /etc/YaST2/firstboot-suse-openstack-cloud.xml
+chmod 644 /etc/YaST2/firstboot-suse-openstack-cloud.xml
 mkdir -p /etc/
-mv /studio/overlay-tmp/files//etc//motd /etc//motd
-chown root:root /etc//motd
-chmod 644 /etc//motd
+mv /studio/overlay-tmp/files/etc/motd /etc/motd
+chown root:root /etc/motd
+chmod 644 /etc/motd
 mkdir -p /root/
-mv /studio/overlay-tmp/files//root//NFS.yaml /root//NFS.yaml
-chown root:root /root//NFS.yaml
-chmod 644 /root//NFS.yaml
+mv /studio/overlay-tmp/files/root/NFS.yaml /root/NFS.yaml
+chown root:root /root/NFS.yaml
+chmod 644 /root/NFS.yaml
 mkdir -p /root/bin/
-mv /studio/overlay-tmp/files//root/bin//node-sh-vars /root/bin//node-sh-vars
-chown root:root /root/bin//node-sh-vars
-chmod 755 /root/bin//node-sh-vars
+mv /studio/overlay-tmp/files/root/bin/node-sh-vars /root/bin/node-sh-vars
+chown root:root /root/bin/node-sh-vars
+chmod 755 /root/bin/node-sh-vars
 mkdir -p /root/bin/
-mv /studio/overlay-tmp/files//root/bin//setup-node-aliases.sh /root/bin//setup-node-aliases.sh
-chown root:root /root/bin//setup-node-aliases.sh
-chmod 755 /root/bin//setup-node-aliases.sh
+mv /studio/overlay-tmp/files/root/bin/setup-node-aliases.sh /root/bin/setup-node-aliases.sh
+chown root:root /root/bin/setup-node-aliases.sh
+chmod 755 /root/bin/setup-node-aliases.sh
 mkdir -p /root/
-mv /studio/overlay-tmp/files//root//simple-cloud.yaml /root//simple-cloud.yaml
-chown root:root /root//simple-cloud.yaml
-chmod 644 /root//simple-cloud.yaml
+mv /studio/overlay-tmp/files/root/simple-cloud.yaml /root/simple-cloud.yaml
+chown root:root /root/simple-cloud.yaml
+chmod 644 /root/simple-cloud.yaml
 test -d /studio || mkdir /studio
 cp /image/.profile /studio/profile
 cp /image/config.xml /studio/config.xml
@@ -115,6 +115,8 @@ EOF
 
     exit 1
 fi
+chown root:root /studio/suse-studio-custom
+chmod 755 /studio/suse-studio-custom
 rm -rf /studio/overlay-tmp
 true
 

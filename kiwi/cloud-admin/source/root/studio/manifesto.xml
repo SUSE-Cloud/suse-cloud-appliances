@@ -41,6 +41,8 @@
         <source path="http://sle-mirror.cluster.xs/updates/SLE-SDK-12-SP1-Updates/x86_64/"/>
       </repository>
       <packages type="image" patternType="onlyRequired">
+        <package name="patterns-sles-base"/>
+        <package name="patterns-sles-Minimal"/>
         <package name="yast2-firstboot"/>
         <package name="ca-certificates"/>
         <package name="cracklib-dict-full"/>
@@ -99,7 +101,7 @@
       <language>POSIX</language>
       <keytable>us.map.gz</keytable>
     </locale>
-    <estimated_size>920</estimated_size>
+    <estimated_size>1050</estimated_size>
     <size_offset>0</size_offset>
     <non_interactive/>
     <oem_disk_size>16G</oem_disk_size>
@@ -182,10 +184,6 @@ sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
 # Default behaviour of less drives me nuts!
 sed -i 's/\(LESS="\)/\1-X /' /etc/profile
 
-# Reduce grub prompt timeout
-echo "Reducing grub timeout..."
-sed -i 's/^timeout=[0-9]\+/timeout=2/' /boot/grub2/grub.cfg
-
 cat <<EOF >>/root/.bash_profile
 if [ -e /tmp/.crowbar-nodes-roles.cache ]; then
   source /tmp/.crowbar-nodes-roles.cache
@@ -221,6 +219,33 @@ echo '/nfs <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no
 
 exit 0]]>
     </build_script>
+    <boot_script>
+      <![CDATA[#!/bin/bash
+#
+# This script is executed whenever your appliance boots.  Here you can add
+# commands to be executed before the system enters the first runlevel.  This
+# could include loading kernel modules, starting daemons that aren't managed
+# by init files, asking questions at the console, etc.
+#
+# The 'kiwi_type' variable will contain the format of the appliance (oem =
+# disk image, vmx = VMware, iso = CD/DVD, xen = Xen).
+#
+
+# read in some variables
+. /studio/profile
+
+if [ -f /etc/init.d/suse_studio_firstboot ]
+then
+
+  # Put commands to be run on the first boot of your appliance here
+  echo "Running SUSE Studio first boot script..."
+
+  # Reduce grub prompt timeout
+  echo "Reducing grub timeout..."
+  sed -i 's/^timeout=[0-9]\+/timeout=2/' /boot/grub2/grub.cfg
+
+fi]]>
+    </boot_script>
     <eula count="4">
       <text id="486527">SUSE(r) Linux Enterprise Server 12 Service Pack 1
 
