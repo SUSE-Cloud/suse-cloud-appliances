@@ -68,6 +68,12 @@ baseUpdateSysConfig /etc/sysconfig/firstboot FIRSTBOOT_WELCOME_DIR /etc/YaST2/fi
 baseUpdateSysConfig /etc/sysconfig/firstboot FIRSTBOOT_FINISH_FILE /etc/YaST2/firstboot/congratulate.txt
 touch /var/lib/YaST2/reconfig_system
 
+echo "** Workaround broken timezone support for SLE 12 in kiwi..."
+cat <<EOF > /etc/sysconfig/clock
+TIMEZONE="UTC"
+DEFAULT_TIMEZONE="UTC"
+EOF
+
 echo "** Setting up zypper repos..."
 # -K disables local caching of rpm files, since they are already local
 # to the VM (or at least to its host in the NFS / synced folders cases),
@@ -91,6 +97,9 @@ fi
 EOF
 
 echo "** Patching Crowbar for appliance..."
+/patches/apply-patches
+rm -rf /patches
+
 # Scrap pointless 45 second tcpdump per interface
 sed -i 's/45/1/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
 

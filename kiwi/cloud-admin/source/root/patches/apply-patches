@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd $(dirname $0)
+patch -p2 -d /opt/dell/bin < 0001-install-chef-suse-Fix-usage-of-DEPS-iso.patch
