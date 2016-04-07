@@ -113,6 +113,7 @@ mkdir -p /var/lib/glance
 echo '/var/lib/glance <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
 
 echo "** Enabling services..."
+chkconfig haveged on
 chkconfig sshd on
 chkconfig crowbar on
 
