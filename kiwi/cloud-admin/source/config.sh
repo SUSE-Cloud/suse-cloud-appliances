@@ -58,7 +58,6 @@ suseImportBuildKey
 echo '** Update sysconfig entries...'
 baseUpdateSysConfig /etc/sysconfig/network/config FIREWALL no
 baseUpdateSysConfig /etc/sysconfig/console CONSOLE_FONT lat9w-16.psfu
-baseUpdateSysConfig /etc/default/grub GRUB_TIMEOUT 2
 
 
 #======================================
@@ -114,10 +113,12 @@ sed -i 's/45/1/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
 
 # Create the NFS export for shared storage for HA PostgreSQL and RabbitMQ
 mkdir -p /nfs/{postgresql,rabbitmq}
-echo '/nfs <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
+echo '/nfs/postgresql <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
+echo '/nfs/rabbitmq <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
 
 # Create the directory for shared glance storage
 mkdir -p /var/lib/glance
+echo '/var/lib/glance <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
 
 echo "** Enabling services..."
 chkconfig sshd on

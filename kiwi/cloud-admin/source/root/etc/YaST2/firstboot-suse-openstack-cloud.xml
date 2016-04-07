@@ -104,6 +104,7 @@
                 </module>
                 <module>
                     <label>Welcome</label>
+                    <enabled config:type="boolean">false</enabled>
                     <name>firstboot_welcome</name>
                 </module>
                 <module>
@@ -113,13 +114,33 @@
                 </module>
                 <module>
                     <label>License Agreement</label>
-                    <enabled config:type="boolean">true</enabled>
+                    <enabled config:type="boolean">false</enabled>
                     <name>firstboot_license_novell</name>
                 </module>
                 <module>
                     <label>License Agreement</label>
-                    <enabled config:type="boolean">true</enabled>
+                    <enabled config:type="boolean">false</enabled>
                     <name>firstboot_license</name>
+                </module>
+                <module>
+                    <label>License Agreement</label>
+                    <enabled config:type="boolean">true</enabled>
+                    <name>firstboot_license1</name>
+                </module>
+                <module>
+                    <label>License Agreement</label>
+                    <enabled config:type="boolean">true</enabled>
+                    <name>firstboot_license2</name>
+                </module>
+                <module>
+                    <label>License Agreement</label>
+                    <enabled config:type="boolean">true</enabled>
+                    <name>firstboot_license3</name>
+                </module>
+                <module>
+                    <label>License Agreement</label>
+                    <enabled config:type="boolean">true</enabled>
+                    <name>firstboot_license4</name>
                 </module>
                 <module>
                     <label>Host Name</label>
@@ -148,7 +169,7 @@
                  </module>
                 <module>
                     <label>Time and Date</label>
-                    <enabled config:type="boolean">true</enabled>
+                    <enabled config:type="boolean">false</enabled>
                     <name>firstboot_timezone</name>
                 </module>
                 <module>
@@ -168,17 +189,17 @@
                 </module>
                 <module>
                     <label>Root Password</label>
-                    <enabled config:type="boolean">true</enabled>
+                    <enabled config:type="boolean">false</enabled>
                     <name>inst_root</name>
                 </module>
                 <module>
                     <label>Users</label>
-                    <enabled config:type="boolean">true</enabled>
+                    <enabled config:type="boolean">false</enabled>
                     <name>inst_auth</name>
                 </module>
                 <module>
                     <label>Users</label>
-                    <enabled config:type="boolean">true</enabled>
+                    <enabled config:type="boolean">false</enabled>
                     <name>inst_user</name>
                 </module>
                 <module>
@@ -202,6 +223,11 @@
                     <label>Finish Setup</label>
                     <name>inst_congratulate</name>
                 </module>
+                <module>
+                    <label>Crowbar</label>
+                    <name>crowbar</name>
+                    <enabled config:type="boolean">true</enabled>
+                </module>
 
             </modules>
         </workflow>
@@ -215,14 +241,13 @@
         <congratulate>
           <label>
             &lt;p&gt;The installation of the SUSE OpenStack Cloud Admin Server has completed successfully.&lt;/p&gt;
-            &lt;p&gt;To finish setting up SUSE OpenStack Cloud, you will need to define the network configuration by
-            executing &lt;tt&gt;yast2 crowbar&lt;/tt&gt;.
+            &lt;p&gt;To finish setting up SUSE OpenStack Cloud, you will need to define the network configuration in
+            the next panel (it can be restarted later on with &lt;tt&gt;yast2 crowbar&lt;/tt&gt;).
             Please refer to the SUSE OpenStack Cloud Deployment Guide for more information.&lt;/p&gt;
-            &lt;p&gt;When your network configuration is complete, continue the installation by connecting to the web
+            &lt;p&gt;When your network configuration is complete, continue the setup by connecting to the web
             interface at http://192.168.124.10&lt;/p&gt;
             &lt;p&gt;It is important that the network configuration is correct before proceeding,
             otherwise you will need to start over.&lt;/p&gt;
-            &lt;p&gt;Click Finish.&lt;/p&gt;
             &lt;p&gt;Please visit us at http://www.suse.com/&lt;/p&gt;
           </label>
         </congratulate>
