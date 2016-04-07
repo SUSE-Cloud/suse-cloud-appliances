@@ -52,72 +52,77 @@ baseSetRunlevel 3
 suseImportBuildKey
 
 
-# Enable sshd
-chkconfig sshd on
-
 #======================================
 # Sysconfig Update
 #--------------------------------------
 echo '** Update sysconfig entries...'
 baseUpdateSysConfig /etc/sysconfig/network/config FIREWALL no
-baseUpdateSysConfig /etc/init.d/suse_studio_firstboot NETWORKMANAGER no
-baseUpdateSysConfig /etc/sysconfig/SuSEfirewall2 FW_SERVICES_EXT_TCP 22\ 80\ 443
 baseUpdateSysConfig /etc/sysconfig/console CONSOLE_FONT lat9w-16.psfu
+baseUpdateSysConfig /etc/default/grub GRUB_TIMEOUT 2
 
 
 #======================================
-# Setting up overlay files 
+# Custom changes for Cloud
 #--------------------------------------
-echo '** Setting up overlay files...'
-mkdir -p /root/
-mv /studio/overlay-tmp/files/root/DRBD.yaml /root/DRBD.yaml
-chown root:root /root/DRBD.yaml
-chmod 644 /root/DRBD.yaml
-mkdir -p /etc/YaST2/
-mv /studio/overlay-tmp/files/etc/YaST2/firstboot-suse-openstack-cloud.xml /etc/YaST2/firstboot-suse-openstack-cloud.xml
-chown root:root /etc/YaST2/firstboot-suse-openstack-cloud.xml
-chmod 644 /etc/YaST2/firstboot-suse-openstack-cloud.xml
-mkdir -p /etc/
-mv /studio/overlay-tmp/files/etc/motd /etc/motd
-chown root:root /etc/motd
-chmod 644 /etc/motd
-mkdir -p /root/
-mv /studio/overlay-tmp/files/root/NFS.yaml /root/NFS.yaml
-chown root:root /root/NFS.yaml
-chmod 644 /root/NFS.yaml
-mkdir -p /root/bin/
-mv /studio/overlay-tmp/files/root/bin/node-sh-vars /root/bin/node-sh-vars
-chown root:root /root/bin/node-sh-vars
-chmod 755 /root/bin/node-sh-vars
-mkdir -p /root/bin/
-mv /studio/overlay-tmp/files/root/bin/setup-node-aliases.sh /root/bin/setup-node-aliases.sh
-chown root:root /root/bin/setup-node-aliases.sh
-chmod 755 /root/bin/setup-node-aliases.sh
-mkdir -p /root/
-mv /studio/overlay-tmp/files/root/simple-cloud.yaml /root/simple-cloud.yaml
-chown root:root /root/simple-cloud.yaml
-chmod 644 /root/simple-cloud.yaml
-test -d /studio || mkdir /studio
-cp /image/.profile /studio/profile
-cp /image/config.xml /studio/config.xml
-chown root:root /studio/build-custom
-chmod 755 /studio/build-custom
-# run custom build_script after build
-if ! /studio/build-custom; then
-    cat <<EOF
+die () {
+    echo >&2 "$*"
+    exit 1
+}
 
-*********************************
-/studio/build-custom failed!
-*********************************
+echo '** Enabling YaST firstboot...'
+sed -i.orig 's/firstboot.xml/firstboot-suse-cloud.xml/g' /etc/sysconfig/firstboot
+touch /var/lib/YaST2/reconfig_system
 
+echo '** Setting up hostname...'
+if ! long_hostname="`cat /etc/hostname`"; then
+    die "Failed to determine hostname"
+fi
+short_hostname="${long_hostname%%.*}"
+if [ "$short_hostname" == "$long_hostname" ]; then
+    die "Failed to determine FQDN for hostname ($short_hostname)"
+fi
+ADMIN_IP=192.168.124.10
+if ! grep -q "^$ADMIN_IP " /etc/hosts; then
+    echo "$ADMIN_IP   $long_hostname $short_hostname" >> /etc/hosts
+fi
+
+echo "** Setting up zypper repos..."
+# -K disables local caching of rpm files, since they are already local
+# to the VM (or at least to its host in the NFS / synced folders cases),
+# so caching would just unnecessarily bloat the VM.
+#
+# -G disables GPG check for the repository.
+zypper ar -G -K -t yast2  file:///srv/tftpboot/suse-12.1/x86_64/install DEPS-ISO
+
+echo "** Customizing config..."
+# This avoids annoyingly long timeouts on reverse DNS
+# lookups when connecting via ssh.
+sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
+
+# Default behaviour of less drives me nuts!
+sed -i 's/\(LESS="\)/\1-X /' /etc/profile
+
+cat <<EOF >>/root/.bash_profile
+if [ -e /tmp/.crowbar-nodes-roles.cache ]; then
+  source /tmp/.crowbar-nodes-roles.cache
+fi
 EOF
 
-    exit 1
-fi
-chown root:root /studio/suse-studio-custom
-chmod 755 /studio/suse-studio-custom
-rm -rf /studio/overlay-tmp
-true
+echo "** Patching Crowbar for appliance..."
+# Scrap pointless 45 second tcpdump per interface
+sed -i 's/45/1/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
+
+# Create the NFS export for shared storage for HA PostgreSQL and RabbitMQ
+mkdir -p /nfs/{postgresql,rabbitmq}
+echo '/nfs <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
+
+# Create the directory for shared glance storage
+mkdir -p /var/lib/glance
+
+echo "** Enabling services..."
+chkconfig sshd on
+chkconfig crowbar on
+
 
 #======================================
 # SSL Certificates Configuration
