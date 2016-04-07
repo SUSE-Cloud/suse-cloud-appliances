@@ -70,7 +70,7 @@ die () {
 }
 
 echo '** Enabling YaST firstboot...'
-sed -i.orig 's/firstboot.xml/firstboot-suse-cloud.xml/g' /etc/sysconfig/firstboot
+sed -i.orig 's/firstboot.xml/firstboot-suse-openstack-cloud.xml/g' /etc/sysconfig/firstboot
 touch /var/lib/YaST2/reconfig_system
 
 echo '** Setting up hostname...'
