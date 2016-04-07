@@ -3,7 +3,7 @@ suse-12.1:
   x86_64:
     ptf:
       name: "PTF"
-      required: "recommended"
+      required: "mandatory"
       features: ["os", "ha", "openstack", "ceph"]
       url:
       ask_on_error: false
