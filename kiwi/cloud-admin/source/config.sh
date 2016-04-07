@@ -63,27 +63,10 @@ baseUpdateSysConfig /etc/sysconfig/console CONSOLE_FONT lat9w-16.psfu
 #======================================
 # Custom changes for Cloud
 #--------------------------------------
-die () {
-    echo >&2 "$*"
-    exit 1
-}
-
 echo '** Enabling YaST firstboot...'
-sed -i.orig 's/firstboot.xml/firstboot-suse-openstack-cloud.xml/g' /etc/sysconfig/firstboot
+baseUpdateSysConfig /etc/sysconfig/firstboot FIRSTBOOT_WELCOME_DIR /etc/YaST2/firstboot/
+baseUpdateSysConfig /etc/sysconfig/firstboot FIRSTBOOT_FINISH_FILE /etc/YaST2/firstboot/congratulate.txt
 touch /var/lib/YaST2/reconfig_system
-
-echo '** Setting up hostname...'
-if ! long_hostname="`cat /etc/hostname`"; then
-    die "Failed to determine hostname"
-fi
-short_hostname="${long_hostname%%.*}"
-if [ "$short_hostname" == "$long_hostname" ]; then
-    die "Failed to determine FQDN for hostname ($short_hostname)"
-fi
-ADMIN_IP=192.168.124.10
-if ! grep -q "^$ADMIN_IP " /etc/hosts; then
-    echo "$ADMIN_IP   $long_hostname $short_hostname" >> /etc/hosts
-fi
 
 echo "** Setting up zypper repos..."
 # -K disables local caching of rpm files, since they are already local
@@ -91,7 +74,7 @@ echo "** Setting up zypper repos..."
 # so caching would just unnecessarily bloat the VM.
 #
 # -G disables GPG check for the repository.
-zypper ar -G -K -t yast2  file:///srv/tftpboot/suse-12.1/x86_64/install DEPS-ISO
+zypper ar -G -K -t yast2 file:///srv/tftpboot/suse-12.1/x86_64/install DEPS-ISO
 
 echo "** Customizing config..."
 # This avoids annoyingly long timeouts on reverse DNS

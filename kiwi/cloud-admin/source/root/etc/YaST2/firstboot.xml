@@ -104,7 +104,7 @@
                 </module>
                 <module>
                     <label>Welcome</label>
-                    <enabled config:type="boolean">false</enabled>
+                    <enabled config:type="boolean">true</enabled>
                     <name>firstboot_welcome</name>
                 </module>
                 <module>
@@ -214,6 +214,11 @@
                     <proposal>firstboot_hardware</proposal>
                 </module>
                 <module>
+                    <label>Crowbar</label>
+                    <name>crowbar</name>
+                    <enabled config:type="boolean">true</enabled>
+                </module>
+                <module>
                     <label>Finish Setup</label>
                     <name>firstboot_write</name>
                     <enable_back>no</enable_back>
@@ -221,14 +226,8 @@
                 </module>
                 <module>
                     <label>Finish Setup</label>
-                    <name>inst_congratulate</name>
+                    <name>firstboot_finish</name>
                 </module>
-                <module>
-                    <label>Crowbar</label>
-                    <name>crowbar</name>
-                    <enabled config:type="boolean">true</enabled>
-                </module>
-
             </modules>
         </workflow>
     </workflows>
@@ -238,18 +237,5 @@
 	-->
 	<ac_label_1><label>Configuring network...</label></ac_label_1>
 	<ac_label_2><label>Configuring hardware...</label></ac_label_2>
-        <congratulate>
-          <label>
-            &lt;p&gt;The installation of the SUSE OpenStack Cloud Admin Server has completed successfully.&lt;/p&gt;
-            &lt;p&gt;To finish setting up SUSE OpenStack Cloud, you will need to define the network configuration in
-            the next panel (it can be restarted later on with &lt;tt&gt;yast2 crowbar&lt;/tt&gt;).
-            Please refer to the SUSE OpenStack Cloud Deployment Guide for more information.&lt;/p&gt;
-            &lt;p&gt;When your network configuration is complete, continue the setup by connecting to the web
-            interface at http://192.168.124.10&lt;/p&gt;
-            &lt;p&gt;It is important that the network configuration is correct before proceeding,
-            otherwise you will need to start over.&lt;/p&gt;
-            &lt;p&gt;Please visit us at http://www.suse.com/&lt;/p&gt;
-          </label>
-        </congratulate>
     </texts>
 </productDefines>

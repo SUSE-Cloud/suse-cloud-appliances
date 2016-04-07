@@ -1,0 +1,20 @@
+<p><b>Welcome!</b></p>
+<p>
+ There are a few more steps to take before the SUSE OpenStack Cloud Admin
+ Server is ready to use.
+</p>
+<p>
+ Please agree to the End User License Agreements, and then define the initial
+ settings to use for the deployment. This guide will then end, and you will be
+ able to complete the setup by connecting to the web interface of the SUSE
+ OpenStack Cloud Admin Server.
+</p>
+<p>
+ As part of the initial settings, it is important that the network
+ configuration that you defined is correct: if not, you will need to start
+ over.
+ Please refer to the SUSE OpenStack Cloud Deployment Guide for more
+ information.
+ In case of doubt, you may execute again <tt>yast2 crowbar</tt> after this
+ guide to double-check or change again the settings before proceeding further.
+</p>
