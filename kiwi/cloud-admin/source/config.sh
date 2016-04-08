@@ -68,7 +68,10 @@ baseUpdateSysConfig /etc/sysconfig/firstboot FIRSTBOOT_WELCOME_DIR /etc/YaST2/fi
 baseUpdateSysConfig /etc/sysconfig/firstboot FIRSTBOOT_FINISH_FILE /etc/YaST2/firstboot/congratulate.txt
 touch /var/lib/YaST2/reconfig_system
 
-echo "** Workaround broken timezone support for SLE 12 in kiwi..."
+echo "** Working around bug in YaST firstboot (bsc#974489)..."
+sed -i '/\/etc\/init.d\/kbd restart/d' /usr/lib/YaST2/startup/Firstboot-Stage/S09-cleanup
+
+echo "** Working around broken timezone support for SLE 12 in kiwi..."
 cat <<EOF > /etc/sysconfig/clock
 TIMEZONE="UTC"
 DEFAULT_TIMEZONE="UTC"
