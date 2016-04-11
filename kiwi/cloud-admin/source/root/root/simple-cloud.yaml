@@ -1,5 +1,5 @@
-# Input file for 'crowbar autobuild' command which sets up a
-# cloud with a single controller and a single KVM compute node.
+# Input file for 'crowbar batch build' command which sets up a cloud
+# with a single controller and a single KVM compute node.
 ---
 global_options:
 - action_for_existing_proposals: skip   # could also be e.g. 'recreate' or 'overwrite'
@@ -60,14 +60,14 @@ proposals:
       ksm_enabled: true
   deployment:
     elements:
-      nova-multi-controller:
+      nova-controller:
         - "@@controller1@@"
-      nova-multi-compute-kvm:
+      nova-compute-kvm:
         - "@@compute1@@"
-- barclamp: nova_dashboard
+- barclamp: horizon
   deployment:
     elements:
-      nova_dashboard-server:
+      horizon-server:
         - "@@controller1@@"
 - barclamp: heat
   deployment:

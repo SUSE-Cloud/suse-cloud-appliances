@@ -1,0 +1,54 @@
+From a2504f9d54b78c5d73cb8e5febac44f86d73c696 Mon Sep 17 00:00:00 2001
+From: Vincent Untz <vuntz@suse.com>
+Date: Mon, 11 Apr 2016 21:26:06 +0200
+Subject: [PATCH] Disable calamari role in Crowbar for appliance
+
+The appliance doesn't ship calamari, due to conflicting django
+requirement with horizon.
+---
+ chef/data_bags/crowbar/template-ceph.json                            | 1 -
+ crowbar_framework/app/models/ceph_service.rb                         | 2 +-
+ crowbar_framework/app/views/barclamp/ceph/_edit_attributes.html.haml | 2 +-
+ 3 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/chef/data_bags/crowbar/template-ceph.json b/chef/data_bags/crowbar/template-ceph.json
+index bd3290c..7cb8dfd 100644
+--- a/chef/data_bags/crowbar/template-ceph.json
++++ b/chef/data_bags/crowbar/template-ceph.json
+@@ -54,7 +54,6 @@
+       },
+       "elements": {},
+       "element_order": [
+-        [ "ceph-calamari" ],
+         [ "ceph-mon" ],
+         [ "ceph-osd" ],
+         [ "ceph-radosgw" ]
+diff --git a/crowbar_framework/app/models/ceph_service.rb b/crowbar_framework/app/models/ceph_service.rb
+index aff8de9..02806c4 100644
+--- a/crowbar_framework/app/models/ceph_service.rb
++++ b/crowbar_framework/app/models/ceph_service.rb
+@@ -133,7 +133,7 @@ class CephService < PacemakerServiceObject
+     calamari_node = calamari_nodes.first
+ 
+     base["deployment"]["ceph"]["elements"] = {
+-        "ceph-calamari" => calamari_node.nil? ? [] : [calamari_node.name],
++        #"ceph-calamari" => calamari_node.nil? ? [] : [calamari_node.name],
+         "ceph-mon" => mon_nodes.map { |x| x.name },
+         "ceph-osd" => osd_nodes.map { |x| x.name },
+         "ceph-radosgw" => radosgw_node.nil? ? [] : [radosgw_node.name]
+diff --git a/crowbar_framework/app/views/barclamp/ceph/_edit_attributes.html.haml b/crowbar_framework/app/views/barclamp/ceph/_edit_attributes.html.haml
+index bedde22..282c7f0 100644
+--- a/crowbar_framework/app/views/barclamp/ceph/_edit_attributes.html.haml
++++ b/crowbar_framework/app/views/barclamp/ceph/_edit_attributes.html.haml
+@@ -23,7 +23,7 @@
+         = string_field %w(radosgw ssl keyfile)
+         = boolean_field %w(radosgw ssl insecure)
+ 
+-    %fieldset
++    -#%fieldset
+       %legend
+         = t(".calamari.header")
+ 
+-- 
+2.7.4
+

@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# This script assigns aliases for a 4-node deployment with a 2-node
+# cluster for HA on the controller. This is a typical setup for demos,
+# hence its presence here.
 
 nodes=( $( knife node list ) )
 aliases=(

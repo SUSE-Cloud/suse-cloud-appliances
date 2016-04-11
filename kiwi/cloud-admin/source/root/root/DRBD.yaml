@@ -1,6 +1,6 @@
-# Input file for 'crowbar autobuild' command which sets up a cloud
-# with a single 2-node HA cluster using DRBD and SBD for STONITH, and
-# a single KVM compute node.
+# Input file for 'crowbar batch build' command which sets up a cloud
+# with a single 2-node HA cluster using DRBD and manually configured
+# STONITH (can be SBD, for instance), and a single KVM compute node.
 ---
 global_options:
 - action_for_existing_proposals: skip   # could also be e.g. 'recreate' or 'overwrite'
@@ -87,15 +87,15 @@ proposals:
       ksm_enabled: true
   deployment:
     elements:
-      nova-multi-controller:
+      nova-controller:
         - cluster:cluster1
-      nova-multi-compute-kvm:
+      nova-compute-kvm:
         - "@@compute1@@"
         - "@@compute2@@"
-- barclamp: nova_dashboard
+- barclamp: horizon
   deployment:
     elements:
-      nova_dashboard-server:
+      horizon-server:
         - cluster:cluster1
 - barclamp: heat
   deployment:

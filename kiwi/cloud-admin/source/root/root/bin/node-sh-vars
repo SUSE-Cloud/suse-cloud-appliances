@@ -39,6 +39,7 @@
 for machine in $( crowbar machines list ); do
     [ "$machine" = $( hostname -f ) ] && continue
     alias=$( crowbar machines show "$machine" | sed -n '/^ *"alias": "\(.\+\)",\?/{s//\1/;p}' )
+    [ -z "$alias" ] && continue
     short="${alias/node/n}"
     short="${short//-/}"
     echo "$short=$machine # node name for $alias"
