@@ -1,19 +1,36 @@
 # Input file for 'crowbar batch build' command which sets up a cloud
 # with a single 2-node HA cluster using NFS and manually configured
 # STONITH (can be SBD, for instance), and a single KVM compute node.
+#
+# The 192.168.124.10 IP address needs to be replaced with the IP address
+# of the admin server in case it got changed.
 ---
 global_options:
 - action_for_existing_proposals: skip   # could also be e.g. 'recreate' or 'overwrite'
 proposals:
+- barclamp: nfs_client
+  name: controller
+  attributes:
+    exports:
+      glance:
+        nfs_server: 192.168.124.10
+        export: "/var/lib/glance"
+        mount_path: "/var/lib/glance"
+        mount_options:
+        - ''
+  deployment:
+    elements:
+      nfs-client:
+      - "@@controller1@@"
+      - "@@controller2@@"
 - barclamp: pacemaker
-  name: cluster1
+  name: controller
   action_if_exists: overwrite
   attributes:
     stonith:
       mode: manual
     drbd:
       enabled: false
-    setup_hb_gui: true
   deployment:
     elements:
       hawk-server:
@@ -33,13 +50,13 @@ proposals:
         shared:
           fstype: nfs
           options: rw
-          device: 192.168.0.10:/nfs/postgresql
+          device: 192.168.124.10:/nfs/postgresql
         drbd:
           size: 1
   deployment:
     elements:
       database-server:
-        - cluster:cluster1
+        - cluster:controller
 - barclamp: rabbitmq
   attributes:
     ha:
@@ -48,23 +65,23 @@ proposals:
         shared:
           fstype: nfs
           options: rw
-          device: 192.168.0.10:/nfs/rabbitmq
+          device: 192.168.124.10:/nfs/rabbitmq
         drbd:
           size: 1
   deployment:
     elements:
       rabbitmq-server:
-        - cluster:cluster1
+        - cluster:controller
 - barclamp: keystone
   deployment:
     elements:
       keystone-server:
-        - cluster:cluster1
+        - cluster:controller
 - barclamp: glance
   deployment:
     elements:
       glance-server:
-        - cluster:cluster1
+        - cluster:controller
 - barclamp: cinder
   wipe_attributes:
     - volumes
@@ -79,16 +96,16 @@ proposals:
   deployment:
     elements:
       cinder-controller:
-        - cluster:cluster1
+        - cluster:controller
       cinder-volume:
         - "@@compute1@@"
 - barclamp: neutron
   deployment:
     elements:
       neutron-server:
-        - cluster:cluster1
+        - cluster:controller
       neutron-network:
-        - cluster:cluster1
+        - cluster:controller
 - barclamp: nova
   attributes:
     kvm:
@@ -96,7 +113,7 @@ proposals:
   deployment:
     elements:
       nova-controller:
-        - cluster:cluster1
+        - cluster:controller
       nova-compute-kvm:
         - "@@compute1@@"
         - "@@compute2@@"
@@ -104,9 +121,9 @@ proposals:
   deployment:
     elements:
       horizon-server:
-        - cluster:cluster1
+        - cluster:controller
 - barclamp: heat
   deployment:
     elements:
       heat-server:
-        - cluster:cluster1
+        - cluster:controller
