@@ -71,12 +71,6 @@ touch /var/lib/YaST2/reconfig_system
 echo "** Working around bug in YaST firstboot (bsc#974489)..."
 sed -i '/\/etc\/init.d\/kbd restart/d' /usr/lib/YaST2/startup/Firstboot-Stage/S09-cleanup
 
-echo "** Working around broken timezone support for SLE 12 in kiwi..."
-cat <<EOF > /etc/sysconfig/clock
-TIMEZONE="UTC"
-DEFAULT_TIMEZONE="UTC"
-EOF
-
 echo "** Setting up zypper repos..."
 # -K disables local caching of rpm files, since they are already local
 # to the VM (or at least to its host in the NFS / synced folders cases),
@@ -84,6 +78,12 @@ echo "** Setting up zypper repos..."
 zypper ar -K -t yast2 file:///srv/tftpboot/suse-12.1/x86_64/install DEPS-ISO
 
 echo "** Customizing config..."
+if [ "$kiwi_type" == "iso" ]; then
+    mv /etc/issue.live /etc/issue
+else
+    rm /etc/issue.live
+fi
+
 # This avoids annoyingly long timeouts on reverse DNS
 # lookups when connecting via ssh.
 sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
@@ -114,7 +114,12 @@ mkdir -p /var/lib/glance
 echo '/var/lib/glance <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
 
 echo "** Enabling services..."
+# helps with gpg in VMs
 chkconfig haveged on
+# we want ntpd to start early, as it doesn't reply to ntpdate 5 minutes,
+# which can slow node discovery (new behavior happening because it
+# doesn't synchronize with any other servers, see bsc#954982)
+chkconfig ntpd on
 chkconfig sshd on
 chkconfig crowbar on
 
