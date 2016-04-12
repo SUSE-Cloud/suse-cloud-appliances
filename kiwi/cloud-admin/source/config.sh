@@ -81,9 +81,7 @@ echo "** Setting up zypper repos..."
 # -K disables local caching of rpm files, since they are already local
 # to the VM (or at least to its host in the NFS / synced folders cases),
 # so caching would just unnecessarily bloat the VM.
-#
-# -G disables GPG check for the repository.
-zypper ar -G -K -t yast2 file:///srv/tftpboot/suse-12.1/x86_64/install DEPS-ISO
+zypper ar -K -t yast2 file:///srv/tftpboot/suse-12.1/x86_64/install DEPS-ISO
 
 echo "** Customizing config..."
 # This avoids annoyingly long timeouts on reverse DNS
