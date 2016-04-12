@@ -2,8 +2,12 @@
 # with a single 2-node HA cluster using DRBD and manually configured
 # STONITH (can be SBD, for instance), and a single KVM compute node.
 #
-# The 192.168.124.10 IP address needs to be replaced with the IP address
-# of the admin server in case it got changed.
+# If nodes are libvirt VMs, it is possible to configure STONITH with
+# libvirt (hence no need for manual configuration): it's simply a matter
+# of uncommenting a few lines in the pacemaker proposal below.
+#
+# The 192.168.124.10 IP address must be replaced with the IP address of
+# the admin server in case it got changed.
 ---
 global_options:
 - action_for_existing_proposals: skip   # could also be e.g. 'recreate' or 'overwrite'
@@ -29,6 +33,11 @@ proposals:
   attributes:
     stonith:
       mode: manual
+      # If libvirt can be used for STONITH, comment the line above, and
+      # uncomment the next three lines.
+      # mode: libvirt
+      # libvirt:
+      #   hypervisor_ip: 192.168.124.1
     drbd:
       enabled: true
   deployment:
