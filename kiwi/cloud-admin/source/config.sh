@@ -80,8 +80,10 @@ zypper ar -K -t yast2 file:///srv/tftpboot/suse-12.1/x86_64/install DEPS-ISO
 echo "** Customizing config..."
 if [ "$kiwi_type" == "iso" ]; then
     mv /etc/issue.live /etc/issue
+    mv /etc/YaST2/control.xml.live /etc/YaST2/control.xml
 else
     rm /etc/issue.live
+    rm /etc/YaST2/control.xml.live
 fi
 
 # This avoids annoyingly long timeouts on reverse DNS
