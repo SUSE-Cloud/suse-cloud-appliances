@@ -225,20 +225,9 @@ def provision_admin(admin)
     # case we don't want it to touch eth0, so we need this evil patch:
     'barclamp-network-ignore-eth0.patch',
 
-    # Provide NFS export to share /var/lib/glance
-    'barclamp-provisioner-nfs-export.patch',
-
-    # another evil hack to avoid a crasher when applying the keystone
-    # barclamp
-    'barclamp-pacemaker-ignore-target-role-changes.patch',
-
     # increase SBD timeout to 30 seconds since Vagrant environments
     # can result in very sluggish VMs, especially when low on memory
     'increase-SBD-timeout-30s.patch',
-
-    # revert a change to detection mechanism of HAE availability, that
-    # breaks when using the DEPS ISO
-    'barclamp-provisioner-hae-check.patch',
 
     # handy utility for setting up node aliases in Crowbar
     'setup-node-aliases.sh',

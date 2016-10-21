@@ -2,4 +2,4 @@
 
 set -e
 
-sed -i "s/SLES 11 SP3/SUSE OpenStack Cloud 5/" /etc/motd
+sed -i "s/SLES 12 SP1/SUSE OpenStack Cloud 6/" /etc/motd

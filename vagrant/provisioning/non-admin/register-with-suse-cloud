@@ -10,9 +10,9 @@ admin_ip="$1"
 export STY="dummy"
 
 export PATH="$PATH:/sbin:/usr/sbin/"
-zypper ar http://${admin_ip}:8091/suse-11.3/install sles11-sp3
+zypper ar http://${admin_ip}:8091/suse-12.1/x86_64/install cloud6-deps
 until [ -f crowbar_register ]; do
-    wget http://${admin_ip}:8091/suse-11.3/crowbar_register
+    wget http://${admin_ip}:8091/suse-12.1/x86_64/crowbar_register
 done
 chmod a+x crowbar_register
 ./crowbar_register --force --interface eth1 --gpg-auto-import-keys --no-gpg-checks
