@@ -3,10 +3,9 @@
 # FILE          : config.sh
 #----------------
 # PROJECT       : OpenSuSE KIWI Image System
-# COPYRIGHT     : (c) 2014 SUSE LINUX Products GmbH. All rights reserved
+# COPYRIGHT     : (c) 2006 SUSE LINUX Products GmbH. All rights reserved
 #               :
 # AUTHOR        : Marcus Schaefer <ms@suse.de>
-# AUTHOR        : Thomas Boerger <tboerger@suse.de>
 #               :
 # BELONGS TO    : Operating System images
 #               :
@@ -57,34 +56,31 @@ suseImportBuildKey
 # Sysconfig Update
 #--------------------------------------
 echo '** Update sysconfig entries...'
-baseUpdateSysConfig /etc/sysconfig/keyboard KEYTABLE us.map.gz
 baseUpdateSysConfig /etc/sysconfig/network/config FIREWALL no
-baseUpdateSysConfig /etc/sysconfig/network/config NETWORKMANAGER no
-baseUpdateSysConfig /etc/sysconfig/SuSEfirewall2 FW_SERVICES_EXT_TCP 22\ 80\ 443
 baseUpdateSysConfig /etc/sysconfig/console CONSOLE_FONT lat9w-16.psfu
 
-chown root:root /studio/build-custom
-chmod 755 /studio/build-custom
-# run custom build_script after build
-if ! /studio/build-custom; then
-    cat <<EOF
 
-*********************************
-/studio/build-custom failed!
-*********************************
+#======================================
+# Custom changes for Cloud
+#--------------------------------------
+echo '** Enabling YaST firstboot...'
+touch /var/lib/YaST2/reconfig_system
 
-EOF
-    exit 1
-fi
+echo "** Working around bug in YaST firstboot (bsc#974489)..."
+sed -i '/\/etc\/init.d\/kbd restart/d' /usr/lib/YaST2/startup/Firstboot-Stage/S09-cleanup
 
-chown root:root /studio/suse-studio-custom
-chmod 755 /studio/suse-studio-custom
-test -d /studio || mkdir /studio
+# This avoids annoyingly long timeouts on reverse DNS
+# lookups when connecting via ssh.
+sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
 
-cp /image/.profile /studio/profile
-cp /image/config.xml /studio/config.xml
-rm -rf /studio/overlay-tmp
-true
+# Default behaviour of less drives me nuts!
+sed -i 's/\(LESS="\)/\1-X /' /etc/profile
+
+echo "** Enabling services..."
+# helps with gpg in VMs
+chkconfig haveged on
+chkconfig sshd on
+
 
 #======================================
 # SSL Certificates Configuration

@@ -1,5 +1,7 @@
   ____
 /@    ~-.
-\/ __ .- |   SLES 12 SP1 infrastructure node
+\/ __ .- |   SLES 12 SP1 Infrastructure Node
  // //  @
 
+WARNING! This appliance contains unsupported code!
+Do NOT use this appliance for production deployments!
