@@ -66,6 +66,9 @@ baseUpdateSysConfig /etc/sysconfig/console CONSOLE_FONT lat9w-16.psfu
 echo "** Enabling firstboot service..."
 chkconfig appliance-firstboot on
 
+# Working around broken timezone support for SLE 12 in kiwi
+systemd-firstboot --timezone=UTC
+
 # This avoids annoyingly long timeouts on reverse DNS
 # lookups when connecting via ssh.
 sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
