@@ -63,11 +63,8 @@ baseUpdateSysConfig /etc/sysconfig/console CONSOLE_FONT lat9w-16.psfu
 #======================================
 # Custom changes for Cloud
 #--------------------------------------
-echo '** Enabling YaST firstboot...'
-touch /var/lib/YaST2/reconfig_system
-
-echo "** Working around bug in YaST firstboot (bsc#974489)..."
-sed -i '/\/etc\/init.d\/kbd restart/d' /usr/lib/YaST2/startup/Firstboot-Stage/S09-cleanup
+echo "** Enabling firstboot service..."
+chkconfig appliance-firstboot on
 
 # This avoids annoyingly long timeouts on reverse DNS
 # lookups when connecting via ssh.
