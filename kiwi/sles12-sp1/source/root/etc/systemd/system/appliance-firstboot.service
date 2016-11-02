@@ -8,3 +8,6 @@ Type=oneshot
 #ExecStartPre=-/usr/bin/plymouth --hide-splash
 ExecStart=/usr/bin/appliance-firstboot
 #StandardInput=tty
+
+[Install]
+WantedBy=multi-user.target
