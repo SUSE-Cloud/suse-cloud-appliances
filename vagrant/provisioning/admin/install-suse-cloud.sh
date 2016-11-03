@@ -4,6 +4,10 @@ set -e
 
 export PATH="$PATH:/sbin:/usr/sbin/"
 
+# The appliance may install packages on first boot, so allow zypper to wait
+# for this to complete
+export ZYPP_LOCK_TIMEOUT=120
+
 # To trick install-suse-clouds check for "screen". It should be safe
 # to run without screen here, as install-suse-cloud won't pull the network
 # from eth0 because we patched the network cookbook accordingly.
