@@ -1,5 +1,5 @@
 # ../Vagrantfile will use this config file to build a cloud with 2 HA
-# controllers and 0 compute nodes.  You'll probably need at least 8GB
+# controllers and 0 compute nodes.  You'll probably need at least 12GB
 # RAM on the host for this!
 ---
 networks:
@@ -10,12 +10,11 @@ networks:
 vms:
   - name: DEFAULT
     cpus: 2
-    ram: 2200
+    ram: 4000
     box: suse/sles12sp1
   - name: admin
     personality: admin
     primary: true
-    ram: 2000
     box: suse/cloud6-admin
     forward_ports:
       # Set the VAGRANT_INSECURE_PORT_FORWARDS environment variable
