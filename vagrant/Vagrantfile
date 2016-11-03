@@ -110,6 +110,9 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
         node.vm.provision 'shell',
           path: 'provisioning/non-admin/register-with-suse-cloud',
           args: admin_ip
+
+        node.vm.provision 'shell',
+          path: 'provisioning/non-admin/deps-release'
       end
 
       setup_glance_NFS(node, admin_ip) if vmcfg['glance-nfs']

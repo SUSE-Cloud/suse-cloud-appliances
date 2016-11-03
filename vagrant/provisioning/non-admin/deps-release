@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+# Replace sles-release with suse-openstack-cloud-deps-release; this is
+# required to install sle-ha-release.
+zypper --non-interactive in --auto-agree-with-licenses --replacefiles suse-openstack-cloud-deps-release
