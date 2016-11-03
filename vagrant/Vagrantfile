@@ -3,7 +3,7 @@
 
 require 'yaml'
 
-default_config_file = File.expand_path('configs/2-controllers-1-compute.yaml',
+default_config_file = File.expand_path('configs/2-controllers-2-computes.yaml',
                                        File.dirname(__FILE__))
 config_file = ENV['VAGRANT_CONFIG_FILE'] || default_config_file
 
