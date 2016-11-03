@@ -24,32 +24,37 @@ test -f /.profile && . /.profile
 #======================================
 # Greeting...
 #--------------------------------------
-echo "Configure image: [$name]..."
+echo "Configure image: [$kiwi_iname]..."
 
 #======================================
-# SuSEconfig
+# Mount system filesystems
 #--------------------------------------
-echo "** Running suseConfig..."
-suseConfig
-
-echo "** Running ldconfig..."
-/sbin/ldconfig
+baseMount
 
 #======================================
 # Setup baseproduct link
 #--------------------------------------
 suseSetupProduct
 
-
-#======================================
-# Setup default runlevel
-#--------------------------------------
-baseSetRunlevel 3
-
 #======================================
 # Add missing gpg keys to rpm
 #--------------------------------------
 suseImportBuildKey
+
+#======================================
+# Activate services
+#--------------------------------------
+baseInsertService sshd
+
+#======================================
+# Setup default target, multi-user
+#--------------------------------------
+baseSetRunlevel 3
+
+#======================================
+# SuSEconfig
+#--------------------------------------
+suseConfig
 
 
 #======================================
@@ -76,10 +81,9 @@ sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
 # Default behaviour of less drives me nuts!
 sed -i 's/\(LESS="\)/\1-X /' /etc/profile
 
-echo "** Enabling services..."
+echo "** Enabling additional services..."
 # helps with gpg in VMs
 chkconfig haveged on
-chkconfig sshd on
 
 
 #======================================
@@ -87,3 +91,14 @@ chkconfig sshd on
 #--------------------------------------
 echo '** Rehashing SSL Certificates...'
 c_rehash
+
+
+#======================================
+# Umount kernel filesystems
+#--------------------------------------
+baseCleanMount
+
+#======================================
+# Exit safely
+#--------------------------------------
+exit 0
