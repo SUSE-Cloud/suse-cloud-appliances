@@ -236,9 +236,6 @@ def provision_admin(admin)
     'simple-cloud.yaml',
     'HA-cloud.yaml',
     'HA-cloud-no-compute.yaml',
-
-    # handy utility for dealing with nodes/roles via knife
-    'node-sh-vars',
   ].map { |file| 'provisioning/admin/' + file }
   provision_to_tmp(admin, files_to_provision)
 
@@ -249,7 +246,6 @@ def provision_admin(admin)
   admin.vm.provision 'shell', path: 'provisioning/admin/install-suse-cloud.sh'
 
   admin.vm.provision 'shell', path: 'provisioning/admin/switch-vdisks.sh'
-  admin.vm.provision 'shell', path: 'provisioning/admin/setup-node-sh-vars.sh'
 end
 
 def provision_to_tmp(node, files_to_provision)
