@@ -116,6 +116,7 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
       end
 
       setup_glance_NFS(node, admin_ip) if vmcfg['glance-nfs']
+      setup_nova_NFS(node, admin_ip) if vmcfg['nova-nfs']
 
       # admin.ssh.forward_agent = true
 
@@ -201,6 +202,12 @@ end
 def setup_glance_NFS(node, admin_ip)
   node.vm.provision 'shell',
     path: 'provisioning/controller/setup-glance-NFS.sh',
+    args: admin_ip
+end
+
+def setup_nova_NFS(node, admin_ip)
+  node.vm.provision 'shell',
+    path: 'provisioning/compute/setup-nova-NFS.sh',
     args: admin_ip
 end
 

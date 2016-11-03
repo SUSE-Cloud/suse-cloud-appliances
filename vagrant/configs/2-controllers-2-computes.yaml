@@ -42,7 +42,9 @@ vms:
     personality: compute
     ram: 1800
     sbd: share
+    nova-nfs: true
   - name: compute2
     personality: compute
     ram: 1800
     sbd: share
+    nova-nfs: true
