@@ -9,7 +9,7 @@ proposals:
   attributes:
     shell_prompt: USER@ALIAS:CWD SUFFIX
 - barclamp: pacemaker
-  name: cluster1
+  name: services
   action_if_exists: overwrite
   attributes:
     stonith:
@@ -46,7 +46,7 @@ proposals:
   deployment:
     elements:
       database-server:
-        - cluster:cluster1
+        - cluster:services
 - barclamp: rabbitmq
   attributes:
     ha:
@@ -57,17 +57,17 @@ proposals:
   deployment:
     elements:
       rabbitmq-server:
-        - cluster:cluster1
+        - cluster:services
 - barclamp: keystone
   deployment:
     elements:
       keystone-server:
-        - cluster:cluster1
+        - cluster:services
 - barclamp: glance
   deployment:
     elements:
       glance-server:
-        - cluster:cluster1
+        - cluster:services
 - barclamp: cinder
   wipe_attributes:
     - volumes
@@ -82,7 +82,7 @@ proposals:
   deployment:
     elements:
       cinder-controller:
-        - cluster:cluster1
+        - cluster:services
       cinder-volume:
         - "@@compute1@@"
         - "@@compute2@@"
@@ -97,9 +97,9 @@ proposals:
   deployment:
     elements:
       neutron-server:
-        - cluster:cluster1
+        - cluster:services
       neutron-network:
-        - cluster:cluster1
+        - cluster:services
 - barclamp: nova
   attributes:
     kvm:
@@ -107,14 +107,14 @@ proposals:
   deployment:
     elements:
       nova-controller:
-        - cluster:cluster1
+        - cluster:services
 - barclamp: horizon
   deployment:
     elements:
       horizon-server:
-        - cluster:cluster1
+        - cluster:services
 - barclamp: heat
   deployment:
     elements:
       heat-server:
-        - cluster:cluster1
+        - cluster:services
