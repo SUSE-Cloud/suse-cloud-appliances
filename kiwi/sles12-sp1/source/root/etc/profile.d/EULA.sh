@@ -2,6 +2,7 @@
 
 check_eula () {
     local LICENSE_FILE
+    local answer
 
     if [ ! -e $HOME/.eula-accepted ]; then
         touch $HOME/.eula-accepted
@@ -22,6 +23,7 @@ check_eula () {
             less $LICENSE_FILE 2>/dev/null || more $LICENSE_FILE 2>/dev/null || cat $LICENSE_FILE
         fi
 
+        answer=
         until [ "$answer" == "y" ] || [ "$answer" == "Y" ];
         do
             echo -n "Do you accept the EULA? [y/n] "
