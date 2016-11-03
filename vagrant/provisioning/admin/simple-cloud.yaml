@@ -49,7 +49,6 @@ proposals:
         - "@@compute1@@"
 - barclamp: neutron
   attributes:
-    use_l2pop: false
     ml2_mechanism_drivers:
     - linuxbridge
     ml2_type_drivers:
@@ -68,14 +67,14 @@ proposals:
       ksm_enabled: true
   deployment:
     elements:
-      nova-multi-controller:
+      nova-controller:
         - "@@controller1@@"
-      nova-multi-compute-qemu:
+      nova-compute-qemu:
         - "@@compute1@@"
-- barclamp: nova_dashboard
+- barclamp: horizon
   deployment:
     elements:
-      nova_dashboard-server:
+      horizon-server:
         - "@@controller1@@"
 - barclamp: heat
   deployment:
