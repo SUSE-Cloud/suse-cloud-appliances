@@ -15,6 +15,7 @@ proposals:
     stonith:
       mode: sbd
       sbd:
+        watchdog_module: softdog
         nodes:
           @@controller1@@:
             devices:
