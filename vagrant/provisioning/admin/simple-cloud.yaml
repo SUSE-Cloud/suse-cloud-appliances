@@ -63,6 +63,7 @@ proposals:
         - "@@controller1@@"
 - barclamp: nova
   attributes:
+    use_migration: true
     kvm:
       ksm_enabled: true
   deployment:
