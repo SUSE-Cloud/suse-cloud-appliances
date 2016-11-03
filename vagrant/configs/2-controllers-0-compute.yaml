@@ -21,7 +21,7 @@ vms:
       # to 'yes' if you want these forwarded ports accessible from
       # other machines which can route to your host.  This is useful
       # when testing/demoing the cloud from a different machine.
-      - {host: 3000, guest: 3000}  # Crowbar admin web UI
+      - {host: 8000, guest: 80}  # Crowbar admin web UI
   - name: controller1
     personality: controller
     drbd: true
