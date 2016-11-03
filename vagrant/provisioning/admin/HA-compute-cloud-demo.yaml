@@ -8,6 +8,36 @@ proposals:
 - barclamp: provisioner
   attributes:
     shell_prompt: USER@ALIAS:CWD SUFFIX
+- barclamp: nfs_client
+  name: glance
+  attributes:
+    exports:
+      "/var/lib/glance":
+        nfs_server: 192.168.124.10
+        export: "/var/lib/glance"
+        mount_path: "/var/lib/glance"
+        mount_options:
+        - ''
+  deployment:
+    elements:
+      nfs-client:
+      - "@@controller1@@"
+      - "@@controller2@@"
+- barclamp: nfs_client
+  name: nova
+  attributes:
+    exports:
+      "/var/lib/nova/instances":
+        nfs_server: 192.168.124.10
+        export: "/var/lib/nova/instances"
+        mount_path: "/var/lib/nova/instances"
+        mount_options:
+        - ''
+  deployment:
+    elements:
+      nfs-client:
+      - "@@compute1@@"
+      - "@@compute2@@"
 - barclamp: pacemaker
   name: services
   action_if_exists: overwrite

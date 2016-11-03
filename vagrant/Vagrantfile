@@ -98,7 +98,7 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
       end
 
       if personality == 'admin'
-        provision_admin(node)
+        provision_admin(node, admin_ip)
       else
         node.vm.provision 'shell',
           path: 'provisioning/non-admin/update-motd'
@@ -114,9 +114,6 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
         node.vm.provision 'shell',
           path: 'provisioning/non-admin/deps-release'
       end
-
-      setup_glance_NFS(node, admin_ip) if vmcfg['glance-nfs']
-      setup_nova_NFS(node, admin_ip) if vmcfg['nova-nfs']
 
       # admin.ssh.forward_agent = true
 
@@ -199,18 +196,6 @@ def init_sbd_disk(override, device)
   EOSHELL
 end
 
-def setup_glance_NFS(node, admin_ip)
-  node.vm.provision 'shell',
-    path: 'provisioning/controller/setup-glance-NFS.sh',
-    args: admin_ip
-end
-
-def setup_nova_NFS(node, admin_ip)
-  node.vm.provision 'shell',
-    path: 'provisioning/compute/setup-nova-NFS.sh',
-    args: admin_ip
-end
-
 def libvirt_mgmt_network(config, provider)
   # The vagrant-libvirt provider requires a private management network:
   #
@@ -228,7 +213,7 @@ def virtualbox_nics(provider)
   provider.customize [ 'modifyvm', :id, '--nictype2', 'Am79C973' ]
 end
 
-def provision_admin(admin)
+def provision_admin(admin, admin_ip)
   files_to_provision = [
     'network.json',
     # Normally Crowbar seizes control of *all* interfaces.  But in the Vagrant
@@ -255,6 +240,8 @@ def provision_admin(admin)
   admin.vm.provision 'shell', path: 'provisioning/admin/provision-root-files.sh'
 
   admin.vm.provision 'shell', path: 'provisioning/admin/switch-vdisks.sh'
+  admin.vm.provision 'shell', path: 'provisioning/admin/switch-admin-ip.sh',
+      args: admin_ip
 
   # Automatically install SUSE OpenStack Cloud on first-boot
   admin.vm.provision 'shell', path: 'provisioning/admin/install-suse-cloud.sh'

@@ -26,7 +26,6 @@ vms:
     personality: controller
     drbd: true
     sbd: create
-    glance-nfs: true
     forward_ports:
       # See above note about VAGRANT_INSECURE_PORT_FORWARDS.
       - {host: 7630, guest: 7630}  # Hawk web UI for HA clusters
@@ -34,7 +33,6 @@ vms:
     personality: controller
     drbd: true
     sbd: share
-    glance-nfs: true
     forward_ports:
       # See above note about VAGRANT_INSECURE_PORT_FORWARDS.
       - {host: 7631, guest: 7630}  # Hawk web UI for HA clusters
