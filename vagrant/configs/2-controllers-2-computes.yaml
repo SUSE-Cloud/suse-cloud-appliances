@@ -41,6 +41,8 @@ vms:
   - name: compute1
     personality: compute
     ram: 1800
+    sbd: share
   - name: compute2
     personality: compute
     ram: 1800
+    sbd: share
