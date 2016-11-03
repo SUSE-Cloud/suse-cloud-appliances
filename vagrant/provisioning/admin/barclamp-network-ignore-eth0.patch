@@ -12,7 +12,7 @@ diff --git a/chef/cookbooks/network/recipes/default.rb b/chef/cookbooks/network/
 index e9fb9d2..0f13e71 100644
 --- a/chef/cookbooks/network/recipes/default.rb
 +++ b/chef/cookbooks/network/recipes/default.rb
-@@ -277,6 +277,8 @@ Nic.refresh_all
+@@ -328,6 +328,8 @@ Nic.refresh_all
  
  # Kill any nics that we don't want hanging around anymore.
  Nic.nics.reverse_each do |nic|
@@ -21,7 +21,7 @@ index e9fb9d2..0f13e71 100644
    next if ifs[nic.name]
    # If we are bringing this node under management, kill any nics we did not
    # configure, except for loopback interfaces.
-@@ -431,6 +433,8 @@ when "suse"
+@@ -482,6 +484,8 @@ when "suse"
    ethtool_options = ethtool_options.join(" ")
  
    Nic.nics.each do |nic|
@@ -30,10 +30,10 @@ index e9fb9d2..0f13e71 100644
      next unless ifs[nic.name]
      template "/etc/sysconfig/network/ifcfg-#{nic.name}" do
        source "suse-cfg.erb"
-diff --git a/chef/data_bags/crowbar/bc-template-network.json b/chef/data_bags/crowbar/bc-template-network.json
+diff --git a/chef/data_bags/crowbar/template-network.json b/chef/data_bags/crowbar/template-network.json
 index 1057e44..1182f8d 100644
---- a/chef/data_bags/crowbar/bc-template-network.json
-+++ b/chef/data_bags/crowbar/bc-template-network.json
+--- a/chef/data_bags/crowbar/template-network.json
++++ b/chef/data_bags/crowbar/template-network.json
 @@ -71,13 +71,13 @@
            "pattern": "team/.*/.*",
            "conduit_list": {
