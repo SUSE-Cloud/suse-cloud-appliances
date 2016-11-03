@@ -236,6 +236,8 @@ def provision_admin(admin)
     'simple-cloud.yaml',
     'HA-cloud.yaml',
     'HA-cloud-no-compute.yaml',
+    'HA-compute-cloud.yaml',
+    'HA-compute-cloud-demo.yaml',
   ].map { |file| 'provisioning/admin/' + file }
   provision_to_tmp(admin, files_to_provision)
 
