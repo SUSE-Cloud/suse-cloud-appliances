@@ -49,10 +49,10 @@ proposals:
         nodes:
           @@controller1@@:
             devices:
-            - /dev/sdc
+            - /dev/sdb
           @@controller2@@:
             devices:
-            - /dev/sdc
+            - /dev/sdb
     drbd:
       enabled: true
   deployment:

@@ -65,11 +65,11 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
 
         virtualbox_nics(provider)
 
-        virtualbox_drbd_disk(provider, node_name) if vmcfg['drbd']
         if vmcfg['sbd']
           virtualbox_sbd_disk(provider, vmcfg['sbd'])
-          init_sbd_disk(override, '/dev/sdc')
+          init_sbd_disk(override, '/dev/sdb')
         end
+        virtualbox_drbd_disk(provider, node_name) if vmcfg['drbd']
       end
 
       node.vm.provider 'libvirt' do |provider, override|
@@ -77,11 +77,11 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
 
         provider.volume_cache = 'none'
 
-        libvirt_drbd_disk(provider, node_name) if vmcfg['drbd']
         if vmcfg['sbd']
           libvirt_sbd_disk(provider)
-          init_sbd_disk(override, '/dev/vdc')
+          init_sbd_disk(override, '/dev/vdb')
         end
+        libvirt_drbd_disk(provider, node_name) if vmcfg['drbd']
 
         provider.nested = true if personality == 'compute'
 
@@ -136,7 +136,7 @@ def libvirt_drbd_disk(provider, node_name)
   provider.storage :file,
     path: "drbd-#{node_name}.qcow2",
     size: '2100M',
-    device: 'vdb',
+    device: 'vdc',
     cache: 'none'
 end
 
@@ -151,7 +151,7 @@ def virtualbox_drbd_disk(provider, node_name)
   provider.customize [
     'storageattach', :id,
     '--storagectl', 'SCSI Controller',
-    '--port', 1,
+    '--port', 2,
     '--device', 0,
     '--type', 'hdd',
     '--medium', "drbd-#{node_name}.vmdk",
@@ -162,7 +162,7 @@ def libvirt_sbd_disk(provider)
   provider.storage :file,
     path: 'sbd.qcow2',
     size: '8M',
-    device: 'vdc',
+    device: 'vdb',
     allow_existing: true,
     cache: 'none'
 end
@@ -181,7 +181,7 @@ def virtualbox_sbd_disk(provider, mode)
   provider.customize [
     'storageattach', :id,
     '--storagectl', 'SCSI Controller',
-    '--port', 2,
+    '--port', 1,
     '--device', 0,
     '--type', 'hdd',
     '--medium', 'sbd.vmdk',
