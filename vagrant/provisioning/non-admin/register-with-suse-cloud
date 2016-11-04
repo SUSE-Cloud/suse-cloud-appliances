@@ -4,15 +4,26 @@ set -e
 
 admin_ip="$1"
 
+export PATH="$PATH:/sbin:/usr/sbin/"
+
+count=0
+while true; do
+    wget http://${admin_ip}:8091/suse-12.1/x86_64/crowbar_register || true
+    [ -f crowbar_register ] && break
+    count=$((count+1))
+    if [ $count -ge 90 ]; then
+        echo "Giving up on fetching crowbar_register..." 1>&2
+        false
+    fi
+    sleep 10
+done
+
+zypper ar http://${admin_ip}:8091/suse-12.1/x86_64/install cloud6-deps
+
 # To trick crowbar_register check for "screen". It should be safe
 # to run without screen here, as crowbar_register won't pull the network
 # from eth0 because we patched the network cookbook accordingly.
 export STY="dummy"
 
-export PATH="$PATH:/sbin:/usr/sbin/"
-zypper ar http://${admin_ip}:8091/suse-12.1/x86_64/install cloud6-deps
-until [ -f crowbar_register ]; do
-    wget http://${admin_ip}:8091/suse-12.1/x86_64/crowbar_register
-done
 chmod a+x crowbar_register
 ./crowbar_register --force --interface eth1 --gpg-auto-import-keys --no-gpg-checks
