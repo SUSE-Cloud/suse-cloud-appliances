@@ -1,5 +1,5 @@
 # ../Vagrantfile will use this config file to build a cloud with 2 HA
-# controllers and 1 compute node.  You'll probably need at least 16GB
+# controllers and 1 compute node.  You'll probably need at least 18GB
 # RAM on the host for this!
 ---
 networks:
@@ -24,6 +24,7 @@ vms:
       - {host: 8000, guest: 80}  # Crowbar admin web UI
   - name: controller1
     personality: controller
+    ram: 6000
     drbd: true
     sbd: create
     forward_ports:
@@ -31,6 +32,7 @@ vms:
       - {host: 7630, guest: 7630}  # Hawk web UI for HA clusters
   - name: controller2
     personality: controller
+    ram: 6000
     drbd: true
     sbd: share
     forward_ports:
