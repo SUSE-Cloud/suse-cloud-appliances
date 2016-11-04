@@ -63,6 +63,9 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
       node.vm.provider 'virtualbox' do |provider, override|
         common_provider_settings(provider, vmcfg, vmdefaults)
 
+        # Don't use headless mode
+        provider.gui = true
+
         virtualbox_nics(provider)
 
         if vmcfg['sbd']
@@ -126,9 +129,6 @@ end
 def common_provider_settings(provider, vmcfg, vmdefaults)
   provider.memory = vmcfg['ram']  || vmdefaults['ram']
   provider.cpus   = vmcfg['cpus'] || vmdefaults['cpus']
-
-  # Don't use headless mode
-  provider.gui = true
 end
 
 def libvirt_drbd_disk(provider, node_name)
