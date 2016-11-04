@@ -1,0 +1,54 @@
+#!/bin/bash
+
+set -e
+
+admin_ip="192.168.124.10"
+
+if [ ! -f ~/.openrc ]; then
+    echo "No .openrc file!"
+    exit 1
+fi
+
+CIRROS_TAR=cirros-0.3.4-x86_64-uec.tar.gz
+TEMP=$(mktemp -d)
+
+cleanup() {
+    rm -rf $TEMP
+}
+
+function extract_id() {
+    grep ' id ' | awk '{ print $4 }'
+}
+
+function findfirst() {
+    find $TEMP -name "$1" | head -1
+}
+
+trap cleanup INT EXIT
+
+wget --no-verbose http://${admin_ip}:8091/files/tempest/$CIRROS_TAR --directory-prefix=$TEMP
+tar -xvzf $TEMP/$CIRROS_TAR -C $TEMP
+
+source .openrc
+
+echo -n "Adding kernel ... "
+KERNEL_ID=$(glance --insecure --os-image-api-version 1 image-create \
+    --name "cirros-kernel" \
+    --is-public True --container-format aki \
+    --disk-format aki < $(findfirst '*-vmlinuz') | extract_id)
+echo "done."
+
+echo -n "Adding ramdisk ... "
+RAMDISK_ID=$(glance --insecure --os-image-api-version 1 image-create \
+    --name="cirros-ramdisk" \
+    --is-public True --container-format ari \
+    --disk-format ari < $(findfirst '*-initrd') | extract_id)
+echo "done."
+
+echo -n "Adding image ... "
+MACHINE_ID=$(glance --insecure --os-image-api-version 1 image-create \
+    --name="cirros-machine" \
+    --is-public True --container-format ami --disk-format ami \
+    --property kernel_id=$KERNEL_ID \
+    --property ramdisk_id=$RAMDISK_ID < $(findfirst '*.img') | extract_id)
+echo "done."

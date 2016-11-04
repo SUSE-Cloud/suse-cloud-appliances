@@ -103,19 +103,11 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
       if personality == 'admin'
         provision_admin(node, admin_ip)
       else
-        node.vm.provision 'shell',
-          path: 'provisioning/non-admin/update-motd'
+        provision_non_admin(node, node_name, admin_ip)
+      end
 
-        node.vm.provision 'shell',
-          path: 'provisioning/non-admin/store-vagrant-name.sh',
-          args: node_name
-
-        node.vm.provision 'shell',
-          path: 'provisioning/non-admin/register-with-suse-cloud',
-          args: admin_ip
-
-        node.vm.provision 'shell',
-          path: 'provisioning/non-admin/deps-release'
+      if personality == 'controller'
+        provision_controller(node, admin_ip)
       end
 
       # admin.ssh.forward_agent = true
@@ -241,10 +233,33 @@ def provision_admin(admin, admin_ip)
 
   admin.vm.provision 'shell', path: 'provisioning/admin/switch-vdisks.sh'
   admin.vm.provision 'shell', path: 'provisioning/admin/switch-admin-ip.sh',
-      args: admin_ip
+    args: admin_ip
 
   # Automatically install SUSE OpenStack Cloud on first-boot
   admin.vm.provision 'shell', path: 'provisioning/admin/install-suse-cloud.sh'
+end
+
+def provision_non_admin(node, node_name, admin_ip)
+  node.vm.provision 'shell', path: 'provisioning/non-admin/update-motd'
+
+  node.vm.provision 'shell', path: 'provisioning/non-admin/store-vagrant-name.sh',
+    args: node_name
+
+  node.vm.provision 'shell', path: 'provisioning/non-admin/register-with-suse-cloud',
+    args: admin_ip
+
+  node.vm.provision 'shell', path: 'provisioning/non-admin/deps-release'
+end
+
+def provision_controller(node, admin_ip)
+  files_to_provision = [
+    # utility to upload Cirros
+    'upload-cirros',
+  ].map { |file| 'provisioning/controller/' + file }
+  provision_to_tmp(node, files_to_provision)
+
+  node.vm.provision 'shell', path: 'provisioning/controller/provision-root-files.sh',
+    args: admin_ip
 end
 
 def provision_to_tmp(node, files_to_provision)
