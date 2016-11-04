@@ -132,6 +132,7 @@ proposals:
         - cluster:services
 - barclamp: nova
   attributes:
+    use_shared_instance_storage: true
     use_migration: true
     kvm:
       ksm_enabled: true
