@@ -12,4 +12,8 @@ cd /tmp
 mkdir -p /root/bin
 mv setup-node-aliases.sh /root/bin
 
+# remove pre-existing yaml files from appliance for the demo, to avoid
+# confusion
+rm /root/*.yaml
+
 mv *.yaml /root
