@@ -152,11 +152,13 @@ end
 
 def libvirt_sbd_disk(provider)
   provider.storage :file,
-    path: 'sbd.qcow2',
+    path: 'sbd.img',
     size: '8M',
     device: 'vdb',
     allow_existing: true,
-    cache: 'unsafe'
+    shareable: true,
+    type: 'raw',
+    cache: 'none'
 end
 
 def virtualbox_sbd_disk(provider, mode)
