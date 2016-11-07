@@ -1,0 +1,20 @@
+<p>
+ <b>The first part of the setup of the SUSE OpenStack Cloud Admin Server has
+ completed successfully!</b>
+</p>
+<p>
+ Complete the setup of the SUSE OpenStack Cloud Admin Server by connecting to
+ the web interface at <b>http://192.168.124.10/</b> (or the IP address you
+ picked for the Admin Server in the admin network during the initial settings).
+</p>
+<p>
+ If you changed the IP range of the admin network, then you will need to update
+ the IP address of the Admin Server accordingly in <tt>/etc/hosts</tt> and
+ <tt>/etc/sysconfig/network/ifcfg-eth0</tt> as well as the default route in
+ <tt>/etc/sysconfig/network/routes</tt> and the DNS server in
+ <tt>/etc/resolv.conf</tt>. Reconfiguring the network interface will also be
+ required; this can be achieved with <tt>ifdown eth0 && ifup eth0</tt>.
+</p>
+<p>
+ Please visit us at <b>https://www.suse.com/</b>.
+</p>

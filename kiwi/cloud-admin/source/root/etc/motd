@@ -1,5 +1,7 @@
   ____
 /@    ~-.
-\/ __ .- |   SUSE OpenStack Cloud 5 admin node
+\/ __ .- |   SUSE OpenStack Cloud 6 Admin Server
  // //  @
 
+WARNING! This appliance contains unsupported code!
+Do NOT use this appliance for production deployments!

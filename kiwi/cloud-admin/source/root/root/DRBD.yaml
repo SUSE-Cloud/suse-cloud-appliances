@@ -1,0 +1,130 @@
+# Input file for 'crowbar batch build' command which sets up a cloud
+# with a single 2-node HA cluster using DRBD and manually configured
+# STONITH (can be SBD, for instance), and a single KVM compute node.
+#
+# If nodes are libvirt VMs, it is possible to configure STONITH with
+# libvirt (hence no need for manual configuration): it's simply a matter
+# of uncommenting a few lines in the pacemaker proposal below.
+#
+# The 192.168.124.10 IP address must be replaced with the IP address of
+# the admin server in case it got changed.
+---
+global_options:
+- action_for_existing_proposals: skip   # could also be e.g. 'recreate' or 'overwrite'
+proposals:
+- barclamp: nfs_client
+  name: controller
+  attributes:
+    exports:
+      glance:
+        nfs_server: 192.168.124.10
+        export: "/var/lib/glance"
+        mount_path: "/var/lib/glance"
+        mount_options:
+        - ''
+  deployment:
+    elements:
+      nfs-client:
+      - "@@controller1@@"
+      - "@@controller2@@"
+- barclamp: pacemaker
+  name: controller
+  action_if_exists: overwrite
+  attributes:
+    stonith:
+      mode: manual
+      # If libvirt can be used for STONITH, comment the line above, and
+      # uncomment the next three lines.
+      # mode: libvirt
+      # libvirt:
+      #   hypervisor_ip: 192.168.124.1
+    drbd:
+      enabled: true
+  deployment:
+    elements:
+      hawk-server:
+      - "@@controller1@@"
+      - "@@controller2@@"
+      pacemaker-cluster-member:
+      - "@@controller1@@"
+      - "@@controller2@@"
+- barclamp: database
+  # Proposal name defaults to 'default'.
+  # Default attributes are good enough, so we just need to assign
+  # nodes to roles:
+  attributes:
+    ha:
+      storage:
+        mode: drbd
+        drbd:
+          size: 1
+  deployment:
+    elements:
+      database-server:
+        - cluster:controller
+- barclamp: rabbitmq
+  attributes:
+    ha:
+      storage:
+        mode: drbd
+        drbd:
+          size: 1
+  deployment:
+    elements:
+      rabbitmq-server:
+        - cluster:controller
+- barclamp: keystone
+  deployment:
+    elements:
+      keystone-server:
+        - cluster:controller
+- barclamp: glance
+  deployment:
+    elements:
+      glance-server:
+        - cluster:controller
+- barclamp: cinder
+  wipe_attributes:
+    - volumes
+  attributes:
+    volumes:
+      - backend_name: local
+        backend_driver: local
+        local:
+          file_size: 200
+          volume_name: cinder-volumes
+          file_name: /var/lib/cinder/volume.raw
+  deployment:
+    elements:
+      cinder-controller:
+        - cluster:controller
+      cinder-volume:
+        - "@@compute1@@"
+- barclamp: neutron
+  deployment:
+    elements:
+      neutron-server:
+        - cluster:controller
+      neutron-network:
+        - cluster:controller
+- barclamp: nova
+  attributes:
+    kvm:
+      ksm_enabled: true
+  deployment:
+    elements:
+      nova-controller:
+        - cluster:controller
+      nova-compute-kvm:
+        - "@@compute1@@"
+        - "@@compute2@@"
+- barclamp: horizon
+  deployment:
+    elements:
+      horizon-server:
+        - cluster:controller
+- barclamp: heat
+  deployment:
+    elements:
+      heat-server:
+        - cluster:controller

@@ -56,34 +56,75 @@ suseImportBuildKey
 # Sysconfig Update
 #--------------------------------------
 echo '** Update sysconfig entries...'
-baseUpdateSysConfig /etc/sysconfig/keyboard KEYTABLE us.map.gz
 baseUpdateSysConfig /etc/sysconfig/network/config FIREWALL no
-baseUpdateSysConfig /etc/sysconfig/network/config NETWORKMANAGER no
-baseUpdateSysConfig /etc/sysconfig/SuSEfirewall2 FW_SERVICES_EXT_TCP 22\ 80\ 443
 baseUpdateSysConfig /etc/sysconfig/console CONSOLE_FONT lat9w-16.psfu
 
-chown root:root /studio/build-custom
-chmod 755 /studio/build-custom
-# run custom build_script after build
-if ! /studio/build-custom; then
-    cat <<EOF
 
-*********************************
-/studio/build-custom failed!
-*********************************
+#======================================
+# Custom changes for Cloud
+#--------------------------------------
+echo '** Enabling YaST firstboot...'
+baseUpdateSysConfig /etc/sysconfig/firstboot FIRSTBOOT_WELCOME_DIR /etc/YaST2/firstboot/
+baseUpdateSysConfig /etc/sysconfig/firstboot FIRSTBOOT_FINISH_FILE /etc/YaST2/firstboot/congratulate.txt
+touch /var/lib/YaST2/reconfig_system
 
-EOF
-    exit 1
+echo "** Working around bug in YaST firstboot (bsc#974489)..."
+sed -i '/\/etc\/init.d\/kbd restart/d' /usr/lib/YaST2/startup/Firstboot-Stage/S09-cleanup
+
+echo "** Setting up zypper repos..."
+# -K disables local caching of rpm files, since they are already local
+# to the VM (or at least to its host in the NFS / synced folders cases),
+# so caching would just unnecessarily bloat the VM.
+zypper ar -K -t yast2 file:///srv/tftpboot/suse-12.1/x86_64/install DEPS-ISO
+
+echo "** Customizing config..."
+if [ "$kiwi_type" == "iso" ]; then
+    mv /etc/issue.live /etc/issue
+    mv /etc/YaST2/control.xml.live /etc/YaST2/control.xml
+else
+    rm /etc/issue.live
+    rm /etc/YaST2/control.xml.live
 fi
 
-chown root:root /studio/suse-studio-custom
-chmod 755 /studio/suse-studio-custom
-test -d /studio || mkdir /studio
+# This avoids annoyingly long timeouts on reverse DNS
+# lookups when connecting via ssh.
+sed -i 's/^#\?UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
 
-cp /image/.profile /studio/profile
-cp /image/config.xml /studio/config.xml
-rm -rf /studio/overlay-tmp
-true
+# Default behaviour of less drives me nuts!
+sed -i 's/\(LESS="\)/\1-X /' /etc/profile
+
+cat <<EOF >>/root/.bash_profile
+if [ -e /tmp/.crowbar-nodes-roles.cache ]; then
+  source /tmp/.crowbar-nodes-roles.cache
+fi
+EOF
+
+echo "** Patching Crowbar for appliance..."
+/patches/apply-patches
+rm -rf /patches
+
+# Scrap pointless 45 second tcpdump per interface
+sed -i 's/45/1/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
+
+# Create the NFS export for shared storage for HA PostgreSQL and RabbitMQ
+mkdir -p /nfs/{postgresql,rabbitmq}
+echo '/nfs/postgresql <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
+echo '/nfs/rabbitmq <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
+
+# Create the directory for shared glance storage
+mkdir -p /var/lib/glance
+echo '/var/lib/glance <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
+
+echo "** Enabling services..."
+# helps with gpg in VMs
+chkconfig haveged on
+# we want ntpd to start early, as it doesn't reply to ntpdate 5 minutes,
+# which can slow node discovery (new behavior happening because it
+# doesn't synchronize with any other servers, see bsc#954982)
+chkconfig ntpd on
+chkconfig sshd on
+chkconfig crowbar on
+
 
 #======================================
 # SSL Certificates Configuration

@@ -1,0 +1,54 @@
+From 8c81ddd4442560ef7b7d86f4ee78bcdb0256cee0 Mon Sep 17 00:00:00 2001
+From: Vincent Untz <vuntz@suse.com>
+Date: Thu, 7 Apr 2016 15:49:54 +0200
+Subject: [PATCH] install-chef-suse: Fix usage of DEPS iso
+
+The test was wrong, and the Cloud repo is gone now.
+---
+ scripts/install-chef-suse.sh | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
+
+diff --git a/scripts/install-chef-suse.sh b/scripts/install-chef-suse.sh
+index 6685ac4..fb62e65 100755
+--- a/scripts/install-chef-suse.sh
++++ b/scripts/install-chef-suse.sh
+@@ -510,23 +510,22 @@ for arch in $product_arches; do
+         continue
+     fi
+ 
+-    if [ -f $MEDIA/content ] && egrep -q "REPOID.*/suse-cloud-deps/" $MEDIA/content; then
+-        echo "Detected SUSE OpenStack Cloud Deps media."
+-        REPOS_SKIP_CHECKS+=" SLES12-SP1-Pool SLES12-SP1-Updates"
+-    else
+-    check_media_content \
+-        SLES12-SP1 \
+-        $MEDIA \
+-        #b52c0f2b41a6a10d49cc89edcdc1b13d
+-    fi
+-
+     check_media_links $MEDIA
+ 
+-    if ! is_ses; then
++    if [ -f $MEDIA/content ] && egrep -q "REPOID.*/suse-openstack-cloud-deps/" $MEDIA/content; then
++        echo "Detected SUSE OpenStack Cloud Deps media."
++    else
+         check_media_content \
+-            Cloud \
+-            /srv/tftpboot/suse-12.1/$arch/repos/Cloud \
+-            #1558be86e7354d31e71e7c8c2574031a
++            SLES12-SP1 \
++            $MEDIA \
++            #b52c0f2b41a6a10d49cc89edcdc1b13d
++
++        if ! is_ses; then
++            check_media_content \
++                Cloud \
++                /srv/tftpboot/suse-12.1/$arch/repos/Cloud \
++                #1558be86e7354d31e71e7c8c2574031a
++        fi
+     fi
+ done
+ 
+-- 
+2.7.4
+
