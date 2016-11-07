@@ -1,4 +1,4 @@
-SUSE(R) Linux Enterprise Server 11 SP3
+SUSE(R) Linux Enterprise Server 11 SP1
 SUSE Software License Agreement
 
 PLEASE READ THIS AGREEMENT CAREFULLY. BY PURCHASING, INSTALLING 

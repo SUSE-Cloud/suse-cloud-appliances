@@ -3,14 +3,14 @@
   <studio_uuid>8466bd24-fd59-11df-9f90-475ae2f5345b</studio_uuid>
   <appliance_uuid>6c9f5282-d14a-11e3-868f-a31de2e61522</appliance_uuid>
   <config>
-    <image name="SLES_11_SP3_ReOS_for_OpenStack_summit_20" displayname="SLES_11_SP3_ReOS_for_OpenStack_summit_20" schemaversion="5.2">
+    <image name="SLES_12_SP1_ReOS_for_OpenStack_summit_20" displayname="SLES_12_SP1_ReOS_for_OpenStack_summit_20" schemaversion="5.2">
       <description type="system">
         <author>Adam Spiers</author>
         <contact>studio-devel@suse.de</contact>
-        <specification>SLES 11 SP2</specification>
+        <specification>SLES 12 SP2</specification>
       </description>
       <preferences>
-        <type checkprebuilt="true" boot="vmxboot/suse-SLES11" fsnocheck="true" filesystem="ext3" format="qcow2" image="vmx">
+        <type checkprebuilt="true" boot="vmxboot/suse-SLES12" fsnocheck="true" filesystem="ext3" format="qcow2" image="vmx">
           <size unit="M" additive="false">16384</size>
         </type>
         <version>0.0.1</version>
@@ -26,16 +26,16 @@
         <user name="root" pwd="$1$UEgt7H0y$uFQj1U3Jt2DCTrkLugoB.." home="/root" shell="/bin/bash"/>
       </users>
       <repository type="yast2">
-        <source path="http://sle-mirror.cluster.xs/install/SLES-11-SP3-x86_64/"/>
+        <source path="http://sle-mirror.cluster.xs/install/SLES-12-SP1-x86_64/"/>
       </repository>
       <repository type="rpm-md">
-        <source path="http://sle-mirror.cluster.xs/updates/SLES11-SP3-Updates/sle-11-x86_64/"/>
+        <source path="http://sle-mirror.cluster.xs/updates/SLES12-SP1-Updates/sle-12-x86_64/"/>
       </repository>
       <repository type="yast2">
-        <source path="http://sle-mirror.cluster.xs/install/SLE-11-SP3-SDK-x86_64/"/>
+        <source path="http://sle-mirror.cluster.xs/install/SLE-12-SP1-SDK-x86_64/"/>
       </repository>
       <repository type="rpm-md">
-        <source path="http://sle-mirror.cluster.xs/updates/SLE11-SDK-SP3-Updates/sle-11-x86_64/"/>
+        <source path="http://sle-mirror.cluster.xs/updates/SLE12-SDK-SP1-Updates/sle-12-x86_64/"/>
       </repository>
       <packages type="image" patternType="onlyRequired">
         <opensusePattern name="base"/>
@@ -97,13 +97,13 @@
       </packages>
     </image>
   </config>
-  <extra_config name="SLES_11_SP3_ReOS_for_OpenStack_summit_20">
+  <extra_config name="SLES_12_SP1_ReOS_for_OpenStack_summit_20">
     <appliance_id>1180710</appliance_id>
     <arch>x86_64</arch>
     <version>0.0.1</version>
     <logo>22/e257716b5506b9dd61d954ec0fafd9</logo>
     <background>da/59b0fadac2d5f3bd0163fa34bcd8ab</background>
-    <base_system>SLES11_SP3</base_system>
+    <base_system>SLES12_SP1</base_system>
     <image_type>kvm</image_type>
     <time_zone>America/New_York</time_zone>
     <region>USA</region>
@@ -112,7 +112,7 @@
     <xen_host>false</xen_host>
     <exclude_docs>false</exclude_docs>
     <disable_branding>false</disable_branding>
-    <template>SLES 11 SP2, Server</template>
+    <template>SLES 12 SP2, Server</template>
     <locale>
       <language>en_US.UTF-8</language>
       <keytable>us.map.gz</keytable>
@@ -127,7 +127,7 @@
       <netmask>255.255.255.0</netmask>
       <route></route>
       <name_servers>192.168.124.1</name_servers>
-      <hostname>sles11-sp3.openstack.site</hostname>
+      <hostname>sles12-sp1.openstack.site</hostname>
     </network>
     <startup_programs>
     </startup_programs>

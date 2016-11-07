@@ -4,7 +4,7 @@
 [general information on KIWI](../README.md).**
 
 The KIWI appliance definition in this subdirectory is for building a
-Crowbar admin node on top of SLES11 SP3.  Once provisioned, this node
+Crowbar admin node on top of SLES12 SP1.  Once provisioned, this node
 will be responsible for automatically provisioning the rest of the
 OpenStack cloud (in a highly available configuration, if requested by
 the cloud operator).
@@ -18,26 +18,26 @@ First [ensure that you have KIWI installed](../README.md).
 There are two ways to build this appliance from scratch:
 
 1.  The slow (but more "complete" and fully supported) way, which requires the following:
-    *   [SUSE Linux Enterprise Server (SLES) 11 SP3 installation media](https://download.suse.com/Download?buildid=Q_VbW21BiB4~) (you only need `SLES-11-SP3-DVD-x86_64-GM-DVD1.iso`; DVD2 is the source code)
-    *   [SUSE Linux Enterprise High Availability Extension (SLE HAE) 11 SP3](https://download.suse.com/Download?buildid=x_3696pRI0w~) (again, you only need `SLE-HA-11-SP3-x86_64-GM-CD1.iso`)
+    *   [SUSE Linux Enterprise Server (SLES) 11 SP1 installation media](https://download.suse.com/Download?buildid=Q_VbW21BiB4~) (you only need `SLES-12-SP1-DVD-x86_64-GM-DVD1.iso`; DVD2 is the source code)
+    *   [SUSE Linux Enterprise High Availability Extension (SLE HAE) 11 SP1](https://download.suse.com/Download?buildid=x_3696pRI0w~) (again, you only need `SLE-HA-11-SP1-x86_64-GM-CD1.iso`)
     *   [SUSE OpenStack Cloud 5 installation media](https://download.suse.com/Download?buildid=412RpZiKVhk~) (again, you only need SUSE-CLOUD-5-x86_64-GM-DVD1.iso)
     *   Package repositories containing updates for each of the above, to obtain the latest bugfixes and enhancements.
         *   Updates are available via subscriptions with a 60-day free evaluation; however all these products are Free Software, so of course you can still use them fully after 60 days - you just won't continue getting updates.
-        *   The easiest way to obtain the updates is probably via the [Subscription Management Tool (SMT) 11 SP3](https://download.suse.com/Download?buildid=l8FuDkiYOg0~) ([more info on SMT here](https://www.suse.com/solutions/tools/smt.html)).
+        *   The easiest way to obtain the updates is probably via the [Subscription Management Tool (SMT) 11 SP1](https://download.suse.com/Download?buildid=l8FuDkiYOg0~) ([more info on SMT here](https://www.suse.com/solutions/tools/smt.html)).
         *   Here are the links for free 60-day evaluations of [SLES](https://www.suse.com/products/server/eval.html), [SUSE OpenStack Cloud](https://www.suse.com/products/suse-cloud/), and [SLE HAE](https://www.suse.com/products/highavailability/eval.html).
 
     This way takes quite some time (and about 15GB of spare disk) to
     set up, because you need to first build an SMT environment, and
-    then mirror all the packages (including updates) for SLES 11 SP3,
-    SLE 11 HAE SP3, SLE 11 SDK SP3, and SUSE OpenStack Cloud 5.
+    then mirror all the packages (including updates) for SLES 12 SP1,
+    SLE 12 HAE SP1, SLE 12 SDK SP1, and SUSE OpenStack Cloud 5.
 
 2.  The quick way (which is currently only supported on a best effort
     basis) drastically reduces the number of dependencies by relying
     on:
 
-    *   a specially constructed `SUSE-CLOUD-SLE11-SP3-DEPS` `.iso`
+    *   a specially constructed `SUSE-CLOUD-SLE12-SP1-DEPS` `.iso`
         which contains the minimal set of packages which SUSE OpenStack
-        Cloud 5 requires from SLES 11 SP3 and SLE 11 HAE SP3 including the
+        Cloud 5 requires from SLES 12 SP1 and SLE 12 HAE SP1 including the
         latest updates, and
     *   an `.iso` of the latest (unreleased) development build of
         SUSE OpenStack Cloud, which contains the latest updates.
@@ -46,7 +46,7 @@ There are two ways to build this appliance from scratch:
 
 Both ways also require:
 
-*   [SLE 11 SDK SP3](https://download.suse.com/Download?buildid=fQKpDcAhPVY) (although
+*   [SLE 12 SDK SP1](https://download.suse.com/Download?buildid=fQKpDcAhPVY) (although
     if you are willing to tolerate a slightly ugly `grub` boot menu then you can avoid
     this requirement by commenting out the SDK packages and repositories in
     [`source/config.xml.tmpl`](source/config.xml.tmpl)), and
@@ -61,29 +61,29 @@ The appliance [`config.xml` template](source/config.xml.tmpl)
 currently assumes certain mountpoints are set up on the system which
 will build the image.  For the slow way:
 
-*   `/mnt/sles-11-sp3`: SLES 11 SP3 installation media
+*   `/mnt/sles-12-sp1`: SLES 12 SP1 installation media
 *   `/mnt/suse-cloud-5`: SUSE OpenStack Cloud 5 installation media
 
 For the quick way:
 
-*   `/mnt/sles-11-sp3`: the `SUSE-CLOUD-SLE11-SP3-DEPS` `.iso`
+*   `/mnt/sles-12-sp1`: the `SUSE-CLOUD-SLE12-SP1-DEPS` `.iso`
 *   `/mnt/suse-cloud-5`: the `.iso` of the latest development build of SUSE OpenStack Cloud
-*   `/mnt/sle-11-sdk-sp3`: SLE 11 SDK SP3 installation media (although
+*   `/mnt/sle-12-sdk-sp1`: SLE 12 SDK SP1 installation media (although
     this can be omitted as per above.  FIXME: this also currently requires
     editing the [`config.xml` template](source/config.xml.tmpl).)
 
 It also assumes that the update channels will have been mirrored to
 certain locations.  For the slow way:
 
-*   `/data/install/mirrors/SLE-11-SP3-SDK/sle-11-x86_64`
-*   `/data/install/mirrors/SLE11-HAE-SP3-Pool/sle-11-x86_64`
-*   `/data/install/mirrors/SLE11-HAE-SP3-Updates/sle-11-x86_64`
-*   `/data/install/mirrors/SUSE-Cloud-5-Pool/sle-11-x86_64`
-*   `/data/install/mirrors/SUSE-Cloud-5-Updates/sle-11-x86_64`
+*   `/data/install/mirrors/SLE-12-SP1-SDK/sle-12-x86_64`
+*   `/data/install/mirrors/SLE12-HAE-SP1-Pool/sle-12-x86_64`
+*   `/data/install/mirrors/SLE12-HAE-SP1-Updates/sle-12-x86_64`
+*   `/data/install/mirrors/SUSE-Cloud-5-Pool/sle-12-x86_64`
+*   `/data/install/mirrors/SUSE-Cloud-5-Updates/sle-12-x86_64`
 
 For the quick way:
 
-*   `/data/install/mirrors/SLE-11-SP3-SDK/sle-11-x86_64`
+*   `/data/install/mirrors/SLE-12-SP1-SDK/sle-12-x86_64`
 
 (FIXME: this currently requires editing the
 [`config.xml` template](source/config.xml.tmpl).)

@@ -139,7 +139,7 @@ textdomain="control"
             <regexp_item>^SUSE (LINUX|Linux) Enterprise Server 12.*$</regexp_item>
         </only_update_selected_reverse_list>
 
-        <!-- Only upgrading from SLES11 or SLES12 is supported, otherwise warning is displayed -->
+        <!-- Only upgrading from SLES12 or SLES12 is supported, otherwise warning is displayed -->
         <products_supported_for_upgrade config:type="list">
             <regexp_item>^SUSE (LINUX|Linux) Enterprise Server 11.*$</regexp_item>
             <regexp_item>^SUSE (LINUX|Linux) Enterprise Server 12.*$</regexp_item>

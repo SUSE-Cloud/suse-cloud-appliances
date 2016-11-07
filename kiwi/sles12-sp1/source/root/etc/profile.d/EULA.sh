@@ -8,7 +8,7 @@ check_beta_eula () {
     LICENSE_FILE=/etc/YaST2/licenses/SUSE-Beta-EULA-020314.txt
 
     # Code stolen from
-    # https://github.com/SUSE/studio/blob/master/kiwi-job/templates/SLES11_SP3/root/etc/init.d/suse_studio_firstboot.in
+    # https://github.com/SUSE/studio/blob/master/kiwi-job/templates/SLES12_SP1/root/etc/init.d/suse_studio_firstboot.in
     stty -nl ixon ignbrk -brkint
 
     if [ `uname -m` == "s390x" ]; then

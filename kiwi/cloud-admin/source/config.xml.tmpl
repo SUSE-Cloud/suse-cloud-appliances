@@ -3,15 +3,15 @@
   <description type='system'>
     <author>Adam Spiers</author>
     <contact>aspiers@suse.com</contact>
-    <specification>SLES 11 SP3</specification>
+    <specification>SLES 12 SP1</specification>
   </description>
   <preferences>
 <!--
-    <type format='qcow2' image='vmx' boot='vmxboot/suse-SLES11' filesystem='ext3' fsnocheck='true' primary='true' checkprebuilt='true'>
+    <type format='qcow2' image='vmx' boot='vmxboot/suse-SLES12' filesystem='ext3' fsnocheck='true' primary='true' checkprebuilt='true'>
       <size unit='M' additive='false'>16384</size>
     </type>
 -->
-    <type format='vmdk' image='vmx' boot='vmxboot/suse-SLES11' filesystem='ext3' fsnocheck='true'>
+    <type format='vmdk' image='vmx' boot='vmxboot/suse-SLES12' filesystem='ext3' fsnocheck='true'>
       <size unit='M' additive='false'>16384</size>
     </type>
     <version>0.0.1</version>
@@ -97,7 +97,7 @@
     <package name='ltrace'/>
     <package name='yast2-gtk'/>
 
-    <!-- package from openSUSE Virtualization / Devel:Cloud:Shared:11-SP3:Update:Vagrant project -->
+    <!-- package from openSUSE Virtualization / Devel:Cloud:Shared:11-SP1:Update:Vagrant project -->
     <package name='zerofree'/>
   </packages>
   <packages type='bootstrap'>
@@ -111,33 +111,33 @@
   <!--
     Since we are adding a few extra goodies to the admin node to make
     it a more pleasant environment for testing/debugging, the
-    SUSE-CLOUD-SLE11-SP3-DEPS .iso is not sufficient; kiwi still needs the
-    full SP3.  But that's OK as long as we don't have to embed the
-    whole of SP3 in /srv/tftpboot.
+    SUSE-CLOUD-SLE12-SP1-DEPS .iso is not sufficient; kiwi still needs the
+    full SP1.  But that's OK as long as we don't have to embed the
+    whole of SP1 in /srv/tftpboot.
   -->
   <repository type='yast2'>
-    <source path='/mnt/sles-11-sp3'/>
+    <source path='/mnt/sles-12-sp1'/>
   </repository>
   <repository type='yast2'>
     <source path='/mnt/suse-cloud-5-deps'/>
   </repository>
   <!--
-    Updates are *mostly* covered by SUSE-CLOUD-SLE11-SP3-DEPS, but we probably
+    Updates are *mostly* covered by SUSE-CLOUD-SLE12-SP1-DEPS, but we probably
     also want updates for the extra goodies mentioned above.
 
   <repository type='rpm-md'>
-    <source path='@@MIRRORS@@/SLES11-SP3-Updates/sle-11-x86_64'/>
+    <source path='@@MIRRORS@@/SLES12-SP1-Updates/sle-12-x86_64'/>
   </repository>
   -->
   <repository type='yast2'>
-    <source path='@@MIRRORS@@/SLE-11-SP3-SDK/sle-11-x86_64'/>
+    <source path='@@MIRRORS@@/SLE-12-SP1-SDK/sle-12-x86_64'/>
   </repository>
 <!--
 None of the packages we get from SDK have updates (and even if they
 do later, we probably don't need them).
 
   <repository type='rpm-md'>
-    <source path='@@MIRRORS@@/SLE-11-SP3-SDK-Updates/sle-11-x86_64'/>
+    <source path='@@MIRRORS@@/SLE-12-SP1-SDK-Updates/sle-12-x86_64'/>
   </repository>
 -->
   <repository type='yast2'>
@@ -147,30 +147,30 @@ do later, we probably don't need them).
 Don't need this since the product installation media above provides the same packages:
 
   <repository type='rpm-md'>
-    <source path='@@MIRRORS@@/SUSE-Cloud-5-Pool/sle-11-x86_64'/>
+    <source path='@@MIRRORS@@/SUSE-Cloud-5-Pool/sle-12-x86_64'/>
   </repository>
 -->
 <!--
 We don't need these since we're using a recent Devel:Cloud:5:Staging .iso:
 
   <repository type='rpm-md'>
-    <source path='@@MIRRORS@@/SUSE-Cloud-5-Updates/sle-11-x86_64'/>
+    <source path='@@MIRRORS@@/SUSE-Cloud-5-Updates/sle-12-x86_64'/>
   </repository>
 
   <repository type='rpm-md'>
-    <source path='@@MIRRORS@@/Devel:Cloud:Shared:11-SP3/sle-11-x86_64'/>
+    <source path='@@MIRRORS@@/Devel:Cloud:Shared:11-SP1/sle-12-x86_64'/>
   </repository>
   <repository type='rpm-md'>
-    <source path='@@MIRRORS@@/Devel:Cloud:Shared:11-SP3:Update/sle-11-x86_64'/>
+    <source path='@@MIRRORS@@/Devel:Cloud:Shared:11-SP1:Update/sle-12-x86_64'/>
   </repository>
   <repository type='rpm-md'>
-    <source path='@@MIRRORS@@/Devel:Cloud:5/sle-11-x86_64'/>
+    <source path='@@MIRRORS@@/Devel:Cloud:5/sle-12-x86_64'/>
   </repository>
   <repository type='rpm-md'>
-    <source path='@@MIRRORS@@/Devel:Cloud:5:Staging/sle-11-x86_64'/>
+    <source path='@@MIRRORS@@/Devel:Cloud:5:Staging/sle-12-x86_64'/>
   </repository>
 -->
   <repository type='rpm-md'>
-    <source path="obs://Devel:Cloud:Shared:11-SP3:Update:Vagrant/SLE_11_SP3" />
+    <source path="obs://Devel:Cloud:Shared:11-SP1:Update:Vagrant/SLE_12_SP1" />
   </repository>
 </image>

@@ -25,7 +25,7 @@
     </ProductSection>
     <AnnotationSection>
       <Info>A human-readable annotation</Info>
-      <Annotation>This VM contains a pre-installed Crowbar admin node from SUSE OpenStack Cloud 5, and is based on a streamlined SLES11 SP3 image.</Annotation>
+      <Annotation>This VM contains a pre-installed Crowbar admin node from SUSE OpenStack Cloud 5, and is based on a streamlined SLES12 SP1 image.</Annotation>
     </AnnotationSection>
 <!--
     <EulaSection>
