@@ -1,6 +1,6 @@
-# ../Vagrantfile will use this config file to build a cloud
-# with 1 controller and 1 compute node.  You'll probably need
-# at least 12GB RAM on the host for this!
+# ../Vagrantfile will use this config file to build a cloud with 2 HA
+# controllers and 2 compute nodes. You'll probably need at least 20GB
+# RAM on the host for this!
 ---
 networks:
   management: 192.168.101.0/24  # FIXME: currently only used for libvirt
@@ -25,9 +25,24 @@ vms:
   - name: controller1
     personality: controller
     ram: 6000
+    drbd: true
+    sbd: create
     forward_ports:
       # See above note about VAGRANT_INSECURE_PORT_FORWARDS.
-      - {host: 8080, guest: 80}    # Horizon dashboard
+      - {host: 7630, guest: 7630}  # Hawk web UI for HA clusters
+  - name: controller2
+    personality: controller
+    ram: 6000
+    drbd: true
+    sbd: share
+    forward_ports:
+      # See above note about VAGRANT_INSECURE_PORT_FORWARDS.
+      - {host: 7631, guest: 7630}  # Hawk web UI for HA clusters
   - name: compute1
     personality: compute
-    ram: 2000
+    ram: 1800
+    sbd: share
+  - name: compute2
+    personality: compute
+    ram: 1800
+    sbd: share

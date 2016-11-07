@@ -8,20 +8,36 @@ proposals:
 - barclamp: provisioner
   attributes:
     shell_prompt: USER@ALIAS:CWD SUFFIX
+- barclamp: nfs_client
+  name: glance
+  attributes:
+    exports:
+      "/var/lib/glance":
+        nfs_server: 192.168.124.10
+        export: "/var/lib/glance"
+        mount_path: "/var/lib/glance"
+        mount_options:
+        - ''
+  deployment:
+    elements:
+      nfs-client:
+      - "@@controller1@@"
+      - "@@controller2@@"
 - barclamp: pacemaker
-  name: cluster1
+  name: services
   action_if_exists: overwrite
   attributes:
     stonith:
       mode: sbd
       sbd:
+        watchdog_module: softdog
         nodes:
           @@controller1@@:
             devices:
-            - /dev/sdc
+            - /dev/sdb
           @@controller2@@:
             devices:
-            - /dev/sdc
+            - /dev/sdb
     drbd:
       enabled: true
   deployment:
@@ -45,7 +61,7 @@ proposals:
   deployment:
     elements:
       database-server:
-        - cluster:cluster1
+        - cluster:services
 - barclamp: rabbitmq
   attributes:
     ha:
@@ -56,17 +72,17 @@ proposals:
   deployment:
     elements:
       rabbitmq-server:
-        - cluster:cluster1
+        - cluster:services
 - barclamp: keystone
   deployment:
     elements:
       keystone-server:
-        - cluster:cluster1
+        - cluster:services
 - barclamp: glance
   deployment:
     elements:
       glance-server:
-        - cluster:cluster1
+        - cluster:services
 # - barclamp: cinder
 #   wipe_attributes:
 #     - volumes
@@ -81,12 +97,11 @@ proposals:
 #   deployment:
 #     elements:
 #       cinder-controller:
-#         - cluster:cluster1
+#         - cluster:services
 #       cinder-volume:
 #         - "@@compute1@@"
 - barclamp: neutron
   attributes:
-    use_l2pop: false
     ml2_mechanism_drivers:
     - linuxbridge
     ml2_type_drivers:
@@ -96,26 +111,27 @@ proposals:
   deployment:
     elements:
       neutron-server:
-        - cluster:cluster1
+        - cluster:services
       neutron-network:
-        - cluster:cluster1
+        - cluster:services
 # - barclamp: nova
 #   attributes:
+#     use_migration: true
 #     kvm:
 #       ksm_enabled: true
 #   deployment:
 #     elements:
-#       nova-multi-controller:
-#         - cluster:cluster1
-#       nova-multi-compute-qemu:
+#       nova-controller:
+#         - cluster:services
+#       nova-compute-qemu:
 #         - "@@compute1@@"
-# - barclamp: nova_dashboard
+# - barclamp: horizon
 #   deployment:
 #     elements:
-#       nova_dashboard-server:
-#         - cluster:cluster1
+#       horizon-server:
+#         - cluster:services
 # - barclamp: heat
 #   deployment:
 #     elements:
 #       heat-server:
-#         - cluster:cluster1
+#         - cluster:services

@@ -1,5 +1,5 @@
 # ../Vagrantfile will use this config file to build a cloud with 2 HA
-# controllers and 1 compute node.  You'll probably need at least 16GB
+# controllers and 1 compute node.  You'll probably need at least 18GB
 # RAM on the host for this!
 ---
 networks:
@@ -10,32 +10,31 @@ networks:
 vms:
   - name: DEFAULT
     cpus: 2
-    ram: 2500
-    box: suse/sles11sp3
+    ram: 4000
+    box: suse/sles12sp1
   - name: admin
     personality: admin
     primary: true
-    ram: 2000
-    box: suse/cloud5-admin
+    box: suse/cloud6-admin
     forward_ports:
       # Set the VAGRANT_INSECURE_PORT_FORWARDS environment variable
       # to 'yes' if you want these forwarded ports accessible from
       # other machines which can route to your host.  This is useful
       # when testing/demoing the cloud from a different machine.
-      - {host: 3000, guest: 3000}  # Crowbar admin web UI
+      - {host: 8000, guest: 80}  # Crowbar admin web UI
   - name: controller1
     personality: controller
+    ram: 6000
     drbd: true
     sbd: create
-    glance-nfs: true
     forward_ports:
       # See above note about VAGRANT_INSECURE_PORT_FORWARDS.
       - {host: 7630, guest: 7630}  # Hawk web UI for HA clusters
   - name: controller2
     personality: controller
+    ram: 6000
     drbd: true
     sbd: share
-    glance-nfs: true
     forward_ports:
       # See above note about VAGRANT_INSECURE_PORT_FORWARDS.
       - {host: 7631, guest: 7630}  # Hawk web UI for HA clusters

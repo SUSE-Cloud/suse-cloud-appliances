@@ -1,6 +1,6 @@
 # Input file for 'crowbar autobuild' command which sets up a cloud
 # with a single 2-node HA cluster using DRBD and SBD for STONITH, and
-# a single KVM compute node.
+# two KVM compute node as part of the HA cluster.
 ---
 global_options:
 - action_for_existing_proposals: skip   # could also be e.g. 'recreate' or 'overwrite'
@@ -23,6 +23,21 @@ proposals:
       nfs-client:
       - "@@controller1@@"
       - "@@controller2@@"
+- barclamp: nfs_client
+  name: nova
+  attributes:
+    exports:
+      "/var/lib/nova/instances":
+        nfs_server: 192.168.124.10
+        export: "/var/lib/nova/instances"
+        mount_path: "/var/lib/nova/instances"
+        mount_options:
+        - ''
+  deployment:
+    elements:
+      nfs-client:
+      - "@@compute1@@"
+      - "@@compute2@@"
 - barclamp: pacemaker
   name: services
   action_if_exists: overwrite
@@ -38,6 +53,12 @@ proposals:
           @@controller2@@:
             devices:
             - /dev/sdb
+          @@compute1@@:
+            devices:
+            - /dev/sdb
+          @@compute2@@:
+            devices:
+            - /dev/sdb
     drbd:
       enabled: true
   deployment:
@@ -48,6 +69,9 @@ proposals:
       pacemaker-cluster-member:
       - "@@controller1@@"
       - "@@controller2@@"
+      pacemaker-remote:
+      - "@@compute1@@"
+      - "@@compute2@@"
 - barclamp: database
   # Proposal name defaults to 'default'.
   # Default attributes are good enough, so we just need to assign
@@ -100,6 +124,7 @@ proposals:
         - cluster:services
       cinder-volume:
         - "@@compute1@@"
+        - "@@compute2@@"
 - barclamp: neutron
   attributes:
     ml2_mechanism_drivers:
@@ -116,6 +141,7 @@ proposals:
         - cluster:services
 - barclamp: nova
   attributes:
+    use_shared_instance_storage: true
     use_migration: true
     kvm:
       ksm_enabled: true
@@ -124,7 +150,7 @@ proposals:
       nova-controller:
         - cluster:services
       nova-compute-qemu:
-        - "@@compute1@@"
+        - remotes:services
 - barclamp: horizon
   deployment:
     elements:

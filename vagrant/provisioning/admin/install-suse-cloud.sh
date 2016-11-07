@@ -4,16 +4,9 @@ set -e
 
 export PATH="$PATH:/sbin:/usr/sbin/"
 
-# SLES11_SP3 should not be checked since we are using the -DEPS media in lieu
-# SLES11-SP3-Pool is not required due to presence of the -DEPS media (and
-#                 normally isn't due to presence of SP3 media)
-# SUSE-Cloud-5-Pool is not required since it simply duplicates the Cloud media
-# SUSE-Cloud-5-Updates is not required since updates are included in this Cloud media
-# SLE11-HAE-SP3-Pool is not required since HAE is included in the -DEPS media
-# SLE11-HAE-SP3-Updates is not required since HAE is included in the -DEPS media
-export REPOS_SKIP_CHECKS="SLES11_SP3 SLES11-SP3-Pool
-                          SUSE-Cloud-5-Pool SUSE-Cloud-5-Updates
-                          SLE11-HAE-SP3-Pool SLE11-HAE-SP3-Updates"
+# The appliance may install packages on first boot, so allow zypper to wait
+# for this to complete
+export ZYPP_LOCK_TIMEOUT=120
 
 # To trick install-suse-clouds check for "screen". It should be safe
 # to run without screen here, as install-suse-cloud won't pull the network
@@ -30,5 +23,5 @@ install -o chef -g chef -m 750 -d /var/run/chef
 install-suse-cloud -v
 
 . /etc/profile.d/crowbar.sh
-crowbar network allocate_ip default cloud5-admin.openstack.site public host
+crowbar network allocate_ip default cloud6-admin.openstack.site public host
 chef-client

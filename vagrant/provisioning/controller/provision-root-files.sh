@@ -2,6 +2,8 @@
 
 set -e
 
+admin_ip="$1"
+
 # Vagrant's file provisioner runs as the vagrant user:
 # http://docs.vagrantup.com/v2/provisioning/file.html
 # so files intended for root also have to be moved to
@@ -9,11 +11,7 @@ set -e
 
 cd /tmp
 
+sed -i "s,192.168.124.10,${admin_ip},g" upload-cirros
+
 mkdir -p /root/bin
-mv setup-node-aliases.sh /root/bin
-
-# remove pre-existing yaml files from appliance for the demo, to avoid
-# confusion
-rm /root/*.yaml
-
-mv *.yaml /root
+mv upload-cirros /root/bin

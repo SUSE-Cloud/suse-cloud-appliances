@@ -1,6 +1,6 @@
 # Input file for 'crowbar autobuild' command which sets up a cloud
 # with a single 2-node HA cluster using DRBD and SBD for STONITH, and
-# a single KVM compute node.
+# no compute node yet (preparation for compute HA demo).
 ---
 global_options:
 - action_for_existing_proposals: skip   # could also be e.g. 'recreate' or 'overwrite'
@@ -23,6 +23,21 @@ proposals:
       nfs-client:
       - "@@controller1@@"
       - "@@controller2@@"
+- barclamp: nfs_client
+  name: nova
+  attributes:
+    exports:
+      "/var/lib/nova/instances":
+        nfs_server: 192.168.124.10
+        export: "/var/lib/nova/instances"
+        mount_path: "/var/lib/nova/instances"
+        mount_options:
+        - ''
+  deployment:
+    elements:
+      nfs-client:
+      - "@@compute1@@"
+      - "@@compute2@@"
 - barclamp: pacemaker
   name: services
   action_if_exists: overwrite
@@ -100,6 +115,7 @@ proposals:
         - cluster:services
       cinder-volume:
         - "@@compute1@@"
+        - "@@compute2@@"
 - barclamp: neutron
   attributes:
     ml2_mechanism_drivers:
@@ -116,6 +132,7 @@ proposals:
         - cluster:services
 - barclamp: nova
   attributes:
+    use_shared_instance_storage: true
     use_migration: true
     kvm:
       ksm_enabled: true
@@ -123,8 +140,6 @@ proposals:
     elements:
       nova-controller:
         - cluster:services
-      nova-compute-qemu:
-        - "@@compute1@@"
 - barclamp: horizon
   deployment:
     elements:
