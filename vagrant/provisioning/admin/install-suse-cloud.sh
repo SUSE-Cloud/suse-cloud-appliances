@@ -23,5 +23,5 @@ install -o chef -g chef -m 750 -d /var/run/chef
 install-suse-cloud -v
 
 . /etc/profile.d/crowbar.sh
-crowbar network allocate_ip default cloud6-admin.openstack.site public host
+crowbar network allocate_ip default cloud7-admin.openstack.site public host
 chef-client

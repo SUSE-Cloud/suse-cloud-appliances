@@ -11,11 +11,11 @@ vms:
   - name: DEFAULT
     cpus: 2
     ram: 4000
-    box: suse/sles12sp1
+    box: suse/sles12sp2
   - name: admin
     personality: admin
     primary: true
-    box: suse/cloud6-admin
+    box: suse/cloud7-admin
     forward_ports:
       # Set the VAGRANT_INSECURE_PORT_FORWARDS environment variable
       # to 'yes' if you want these forwarded ports accessible from

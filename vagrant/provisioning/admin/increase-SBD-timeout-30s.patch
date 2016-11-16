@@ -1,4 +1,4 @@
-From 8fb6b1c9a23c4d0933f7156f4dc9a643bb742b49 Mon Sep 17 00:00:00 2001
+From ff9766595c0f265c77d4359e8f95d2850243257b Mon Sep 17 00:00:00 2001
 From: Adam Spiers <aspiers@suse.com>
 Date: Sun, 2 Nov 2014 12:59:31 +0000
 Subject: [PATCH] increase SBD timeout to 30s for Vagrant environments
@@ -8,15 +8,15 @@ Subject: [PATCH] increase SBD timeout to 30s for Vagrant environments
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/chef/cookbooks/pacemaker/templates/suse/sysconfig_sbd.erb b/chef/cookbooks/pacemaker/templates/suse/sysconfig_sbd.erb
-index f22b35e..de986e6 100644
+index f6e71a9..94caab2 100644
 --- a/chef/cookbooks/pacemaker/templates/suse/sysconfig_sbd.erb
 +++ b/chef/cookbooks/pacemaker/templates/suse/sysconfig_sbd.erb
-@@ -49,4 +49,4 @@
+@@ -49,4 +49,4 @@ SBD_WATCHDOG=yes
  # Additional options for starting sbd
  #
  # The next line enables the watchdog support, and makes SBD checks Pacemaker quorum and node health:
 -SBD_OPTS="-W -P -n <%= @node_name %>"
 +SBD_OPTS="-W -P -I 30 -n <%= @node_name %>"
 -- 
-1.8.4.5
+2.10.1
 
