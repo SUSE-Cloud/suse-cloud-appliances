@@ -34,7 +34,7 @@ diff --git a/chef/data_bags/crowbar/template-network.json b/chef/data_bags/crowb
 index 1057e44..1182f8d 100644
 --- a/chef/data_bags/crowbar/template-network.json
 +++ b/chef/data_bags/crowbar/template-network.json
-@@ -71,13 +71,13 @@
+@@ -80,13 +80,13 @@
            "pattern": "team/.*/.*",
            "conduit_list": {
              "intf0": {
@@ -51,7 +51,7 @@ index 1057e44..1182f8d 100644
              }
            }
          },
-@@ -99,13 +99,13 @@
+@@ -108,13 +108,13 @@
            "pattern": "single/.*/.*",
            "conduit_list": {
              "intf0": {
