@@ -1,0 +1,35 @@
+From bc30cadfd1369d6ed2c94cf6db24f94ef5ca9da5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kristoffer=20Gr=C3=B6nlund?= <krig@koru.se>
+Date: Tue, 13 May 2014 16:15:19 +0200
+Subject: [PATCH] medium: report: Make regexp groups non-capturing to avoid
+ limit (bnc#877484)
+
+---
+ modules/report.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/modules/report.py b/modules/report.py
+index bc53d87..110a92b 100644
+--- a/modules/report.py
++++ b/modules/report.py
+@@ -1288,7 +1288,7 @@ def events(self):
+         Show all events.
+         '''
+         rsc_l = self.cibnotcloned_l
+-        rsc_l += ["%s(:[0-9]+)?" % x for x in self.cibcloned_l]
++        rsc_l += ["%s(?::[0-9]+)?" % x for x in self.cibcloned_l]
+         all_re_l = self.build_re("resource", rsc_l) + \
+             self.build_re("node", self.cibnode_l) + \
+             self.build_re("events", [])
+@@ -1343,7 +1343,7 @@ def resource(self, *args):
+         exp_cloned_l = []
+         for rsc in expanded_l:
+             if rsc in self.cibcloned_l:
+-                exp_cloned_l.append("%s(:[0-9]+)?" % rsc)
++                exp_cloned_l.append("%s(?::[0-9]+)?" % rsc)
+             else:
+                 exp_cloned_l.append(rsc)
+         rsc_re_l = self.build_re("resource", exp_cloned_l)
+-- 
+1.8.4.5
+

@@ -1,0 +1,5 @@
+{
+  "provider": "virtualbox",
+  "format": "vmdk",
+  "virtual_size": 16
+}

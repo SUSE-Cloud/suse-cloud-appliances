@@ -1,0 +1,37 @@
+From 0d9a3958875194b70756906cec59f6d421c97b7b Mon Sep 17 00:00:00 2001
+From: Vincent Untz <vuntz@suse.com>
+Date: Wed, 14 May 2014 22:38:40 -0400
+Subject: [PATCH] ha: Make neutron-ha-tool start after haproxy and
+ neutron-server
+
+Otherwise, neutron-ha-tool fails to start.
+
+Of course, we only do that when neutron-server and neutron-l3 roles are
+on the same cluster, and both with HA.
+---
+ chef/cookbooks/neutron/recipes/l3_ha.rb | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/chef/cookbooks/neutron/recipes/l3_ha.rb b/chef/cookbooks/neutron/recipes/l3_ha.rb
+index e6ad2a9..75ba443 100644
+--- a/chef/cookbooks/neutron/recipes/l3_ha.rb
++++ b/chef/cookbooks/neutron/recipes/l3_ha.rb
+@@ -116,8 +116,14 @@
+   only_if { use_l3_agent }
+ end
+ 
++if node.roles.include?("neutron-server") && node[:neutron][:ha][:server][:enabled]
++  ha_tool_ordering = "g-haproxy cl-neutron-server #{agents_clone_name} #{ha_tool_primitive_name}"
++else
++  ha_tool_ordering = "#{agents_clone_name} #{ha_tool_primitive_name}"
++end
++
+ pacemaker_order "o-neutron-ha-tool" do
+-  ordering "#{agents_clone_name} #{ha_tool_primitive_name}"
++  ordering ha_tool_ordering
+   score "Mandatory"
+   action [ :create ]
+   only_if { use_l3_agent }
+-- 
+1.9.3
+

@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+# This script is executed whenever your appliance boots.  Here you can add
+# commands to be executed before the system enters the first runlevel.  This
+# could include loading kernel modules, starting daemons that aren't managed
+# by init files, asking questions at the console, etc.
+#
+# The 'kiwi_type' variable will contain the format of the appliance (oem =
+# disk image, vmx = VMware, iso = CD/DVD, xen = Xen).
+#
+
+# read in some variables
+. /studio/profile
+
+if [ -f /etc/init.d/suse_studio_firstboot ]
+then
+    # Put commands to be run on the first boot of your appliance here
+    echo "Running SUSE Studio first boot script..."
+
+    # Reduce grub prompt time-out
+    sed -i 's/^timeout [0-9]\+/timeout 3/' /boot/grub/menu.lst
+
+    echo "Installing VirtualBox guest additions ..."
+    # Unfortunately the return code can be non-zero even when
+    # it worked.
+    sh /tmp/VBoxLinuxAdditions.run
+    if lsmod | grep vbox; then
+        echo "VirtualBox guest additions installed!"
+        echo "Removing kernel source and headers ..."
+        rpm -e kernel-default-devel kernel-source
+    else
+        cat <<EOF >&2
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+WARNING: VirtualBox guest additions failed to install.
+Probably worth checking /var/log/vboxadd-install.log.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+EOF
+    fi
+fi

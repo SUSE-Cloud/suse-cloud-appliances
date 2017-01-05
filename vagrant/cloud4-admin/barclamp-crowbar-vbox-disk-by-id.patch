@@ -1,0 +1,31 @@
+From d77918eaf27a1c7ac62586c3ebd42325e0a2d5bf Mon Sep 17 00:00:00 2001
+From: Adam Spiers <aspiers@suse.com>
+Date: Mon, 12 May 2014 17:56:52 -0400
+Subject: [PATCH] avoid use of /dev/disk/by-id in VirtualBox
+
+---
+ crowbar_framework/app/models/node_object.rb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/crowbar_framework/app/models/node_object.rb b/crowbar_framework/app/models/node_object.rb
+index 66b8c82..2ba428b 100644
+--- a/crowbar_framework/app/models/node_object.rb
++++ b/crowbar_framework/app/models/node_object.rb
+@@ -1185,8 +1185,12 @@ def unique_device_for(device)
+ 
+     if meta and meta["disks"]
+       # Keep these paths in sync with BarclampLibrary::Barclamp::Inventory::Disk#unique_name 
+-      # within the deployer barclamp To return always similar values.
+-      result = %w(by-id by-path).map do |type|
++      # within the deployer barclamp to return always similar values.
++      disk_lookups = ["by-path"]
++      unless @node[:dmi][:system][:product_name] =~ /VirtualBox/i
++        disk_lookups.unshift "by-id"
++      end
++      result = disk_lookups.map do |type|
+         if meta["disks"][type] and not meta["disks"][type].empty?
+           "#{type}/#{meta["disks"][type].first}"
+         end
+-- 
+1.8.4.5
+

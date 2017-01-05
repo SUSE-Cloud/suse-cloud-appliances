@@ -1,0 +1,28 @@
+From fa64c5b2ef3210dc78a80af994f42b8da602aaef Mon Sep 17 00:00:00 2001
+From: Vincent Untz <vuntz@suse.com>
+Date: Sun, 11 May 2014 22:22:19 -0400
+Subject: [PATCH] sbd: Wait for cluster to be up after corosync restart
+
+Every time we start corosync, we need to wait for the cluster to be up.
+And when we use sbd, we restart corosync to start sbd, so we need to
+wait there too.
+---
+ chef/cookbooks/pacemaker/recipes/stonith.rb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/chef/cookbooks/pacemaker/recipes/stonith.rb b/chef/cookbooks/pacemaker/recipes/stonith.rb
+index dac3160..c5f1bb8 100644
+--- a/chef/cookbooks/pacemaker/recipes/stonith.rb
++++ b/chef/cookbooks/pacemaker/recipes/stonith.rb
+@@ -68,6 +68,8 @@
+       # We want to allocate slots before restarting corosync
+       notifies :run, "execute[Allocate SBD slot]", :immediately
+       notifies :restart, "service[#{node[:corosync][:platform][:service_name]}]", :immediately
++      # After restarting corosync, we need to wait for the cluster to be online again
++      notifies :create, "ruby_block[wait for cluster to be online]", :immediately
+     end
+   end
+ 
+-- 
+1.9.1
+

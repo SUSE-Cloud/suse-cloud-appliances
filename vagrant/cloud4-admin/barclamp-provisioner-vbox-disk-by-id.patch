@@ -1,0 +1,25 @@
+From 93c44857f7d4669d83aa25384afa87fea7eb284b Mon Sep 17 00:00:00 2001
+From: Adam Spiers <aspiers@suse.com>
+Date: Mon, 12 May 2014 18:05:36 -0400
+Subject: [PATCH] avoid use of /dev/disk/by-id in VirtualBox
+
+---
+ chef/cookbooks/provisioner/recipes/bootdisk.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/chef/cookbooks/provisioner/recipes/bootdisk.rb b/chef/cookbooks/provisioner/recipes/bootdisk.rb
+index d4ee6c3..c636826 100644
+--- a/chef/cookbooks/provisioner/recipes/bootdisk.rb
++++ b/chef/cookbooks/provisioner/recipes/bootdisk.rb
+@@ -58,7 +58,7 @@
+     # This name should be more stable than the /dev/disk/by-path one.
+ 
+     basedir="/dev/disk/by-id"
+-    if File.exists? basedir
++    if node[:dmi][:system][:product_name] !~ /VirtualBox/i && File.exists?(basedir)
+       bootdisks=::Dir.entries(basedir).sort.select do |m|
+         f = File.join(basedir, m)
+         File.symlink?(f) && (File.readlink(f).split('/')[-1] == dev)
+-- 
+1.8.4.5
+

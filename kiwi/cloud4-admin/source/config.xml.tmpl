@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<image name='Crowbar_admin_ReOS_Cloud4' displayname='Crowbar_admin_node_for_Cloud4' schemaversion='5.2'>
+  <description type='system'>
+    <author>Adam Spiers</author>
+    <contact>aspiers@suse.com</contact>
+    <specification>SLES 11 SP3</specification>
+  </description>
+  <preferences>
+<!--
+    <type format='qcow2' image='vmx' boot='vmxboot/suse-SLES11' filesystem='ext3' fsnocheck='true' primary='true' checkprebuilt='true'>
+      <size unit='M' additive='false'>16384</size>
+    </type>
+-->
+    <type format='vmdk' image='vmx' boot='vmxboot/suse-SLES11' filesystem='ext3' fsnocheck='true'>
+      <size unit='M' additive='false'>16384</size>
+    </type>
+    <version>0.0.1</version>
+    <packagemanager>zypper</packagemanager>
+    <rpm-check-signatures>false</rpm-check-signatures>
+    <rpm-force>false</rpm-force>
+    <boot-theme>studio</boot-theme>
+    <timezone>America/New_York</timezone>
+    <hwclock>utc</hwclock>
+    <locale>en_US</locale>
+  </preferences>
+  <users group='root'>
+    <user name='root' pwd='$1$UEgt7H0y$uFQj1U3Jt2DCTrkLugoB..' home='/root' shell='/bin/bash'/>
+  </users>
+  <users group='vagrant'>
+    <user name='vagrant' home='/home/vagrant' shell='/bin/bash'/>
+  </users>
+  <packages type='image' patternType='onlyRequired'>
+    <opensusePattern name='base'/>
+    <opensusePattern name='cloud_admin'/>
+    <archive name='bootsplash.tar' bootinclude='true'/>
+    <package name='gfxboot-branding-SLES'/>
+    <package name='bootsplash-branding-SLES'/>
+
+    <package name='acpid'/>
+    <package name='gcc'/>
+    <package name='gdb'/>
+    <package name='glibc-locale'/>
+    <package name='grub'/>
+    <package name='iftop'/>
+    <package name='iotop'/>
+    <package name='iputils'/>
+    <package name='kernel-default'/>
+    <package name='kernel-default-devel'/>
+    <package name='less'/>
+    <package name='lsof'/>
+    <package name='man'/>
+    <package name='man-pages'/>
+    <package name='man-pages-posix'/>
+    <package name='mdadm'/>
+    <package name='net-tools'/>
+    <package name='nfs-client'/>
+    <package name='ntp'/>
+    <package name='openssl-certs'/>
+    <package name='patch'/>
+    <package name='perl-satsolver'/>
+    <package name='rsync'/>
+    <package name='screen'/>
+    <package name='strace'/>
+    <package name='sudo'/>
+    <package name='suse-sam'/>
+    <package name='suse-sam-data'/>
+    <package name='SuSEfirewall2'/>
+    <package name='syslog-ng'/>
+    <package name='tar'/>
+    <package name='tcpdump'/>
+    <package name='telnet'/>
+    <package name='terminfo'/>
+    <package name='vim'/>
+    <package name='xorg-x11-fonts'/>
+    <package name='xorg-x11-xauth'/>
+    <package name='yast2'/>
+    <package name='yast2-firewall'/>
+    <package name='yast2-firstboot'/>
+    <package name='yast2-ncurses'/>
+    <package name='yast2-ncurses-pkg'/>
+    <package name='yast2-network'/>
+    <package name='yast2-qt'/>
+    <package name='zypper'/>
+
+    <!-- nice to have but not strictly required -->
+<!--
+    <package name='wireshark'/>
+    <package name='emacs'/>
+    <package name='emacs-x11'/>
+-->
+
+    <!-- packages from SDK -->
+    <package name='gfxboot-devel' bootinclude='true'/>
+<!--
+    <package name='git'/>
+-->
+    <package name='ltrace'/>
+    <package name='yast2-gtk'/>
+
+    <!-- package from openSUSE Virtualization project -->
+    <package name='zerofree'/>
+  </packages>
+  <packages type='bootstrap'>
+    <package name='filesystem'/>
+    <package name='glibc-locale'/>
+    <package name='module-init-tools'/>
+  </packages>
+
+  <!-- see http://doc.opensuse.org/projects/kiwi/doc/#sec.description.repository -->
+
+  <!--
+    Since we are adding a few extra goodies to the admin node to make
+    it a more pleasant environment for testing/debugging, the
+    SUSE-CLOUD-3-DEPS .iso is not sufficient; kiwi still needs the
+    full SP3.  But that's OK as long as we don't have to embed the
+    whole of SP3 in /srv/tftpboot.
+  -->
+  <repository type='yast2'>
+    <source path='/mnt/sles-11-sp3'/>
+  </repository>
+  <repository type='yast2'>
+    <source path='/mnt/suse-cloud-4-deps'/>
+  </repository>
+  <!--
+    Updates are *mostly* covered by SUSE-CLOUD-3-DEPS, but we probably
+    also want updates for the extra goodies mentioned above.
+
+  <repository type='rpm-md'>
+    <source path='@@MIRRORS@@/SLES11-SP3-Updates/sle-11-x86_64'/>
+  </repository>
+  -->
+  <repository type='yast2'>
+    <source path='@@MIRRORS@@/SLE-11-SP3-SDK/sle-11-x86_64'/>
+  </repository>
+<!--
+None of the packages we get from SDK have updates (and even if they
+do later, we probably don't need them).
+
+  <repository type='rpm-md'>
+    <source path='@@MIRRORS@@/SLE-11-SP3-SDK-Updates/sle-11-x86_64'/>
+  </repository>
+-->
+  <repository type='yast2'>
+    <source path='/mnt/suse-cloud-4'/>
+  </repository>
+<!--
+Don't need this since the product installation media above provides the same packages:
+
+  <repository type='rpm-md'>
+    <source path='@@MIRRORS@@/SUSE-Cloud-3.0-Pool/sle-11-x86_64'/>
+  </repository>
+-->
+<!--
+We don't need these since we're using a recent Devel:Cloud:3:Staging .iso:
+
+  <repository type='rpm-md'>
+    <source path='@@MIRRORS@@/SUSE-Cloud-3.0-Updates/sle-11-x86_64'/>
+  </repository>
+
+  <repository type='rpm-md'>
+    <source path='@@MIRRORS@@/Devel:Cloud:Shared:11-SP3/sle-11-x86_64'/>
+  </repository>
+  <repository type='rpm-md'>
+    <source path='@@MIRRORS@@/Devel:Cloud:Shared:11-SP3:Update/sle-11-x86_64'/>
+  </repository>
+  <repository type='rpm-md'>
+    <source path='@@MIRRORS@@/Devel:Cloud:3/sle-11-x86_64'/>
+  </repository>
+  <repository type='rpm-md'>
+    <source path='@@MIRRORS@@/Devel:Cloud:3:Staging/sle-11-x86_64'/>
+  </repository>
+-->
+  <repository type='rpm-md'>
+    <source path='opensuse://Virtualization/SLE_11_SP3'/>
+  </repository>
+</image>

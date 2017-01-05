@@ -1,0 +1,11 @@
+{
+  "name": "suse/cloud3-admin",
+  "description": "This box contains a SUSE Cloud 3 admin node preinstalled on SLES11 SP3 x86_64.",
+  "versions": [{
+    "version": "0.0.1",
+    "providers": [{
+      "name": "virtualbox",
+      "url": "cloud3-admin.box"
+    }]
+  }]
+}
