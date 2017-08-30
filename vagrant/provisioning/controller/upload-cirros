@@ -32,23 +32,23 @@ tar -xvzf $TEMP/$CIRROS_TAR -C $TEMP
 source .openrc
 
 echo -n "Adding kernel ... "
-KERNEL_ID=$(glance --insecure --os-image-api-version 1 image-create \
+KERNEL_ID=$(glance --insecure image-create \
     --name "cirros-kernel" \
-    --is-public True --container-format aki \
+    --visibility public --container-format aki \
     --disk-format aki < $(findfirst '*-vmlinuz') | extract_id)
 echo "done."
 
 echo -n "Adding ramdisk ... "
-RAMDISK_ID=$(glance --insecure --os-image-api-version 1 image-create \
+RAMDISK_ID=$(glance --insecure image-create \
     --name="cirros-ramdisk" \
-    --is-public True --container-format ari \
+    --visibility public --container-format ari \
     --disk-format ari < $(findfirst '*-initrd') | extract_id)
 echo "done."
 
 echo -n "Adding image ... "
-MACHINE_ID=$(glance --insecure --os-image-api-version 1 image-create \
+MACHINE_ID=$(glance --insecure image-create \
     --name="cirros-machine" \
-    --is-public True --container-format ami --disk-format ami \
+    --visibility public --container-format ami --disk-format ami \
     --property kernel_id=$KERNEL_ID \
     --property ramdisk_id=$RAMDISK_ID < $(findfirst '*.img') | extract_id)
 echo "done."
