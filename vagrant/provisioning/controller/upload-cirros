@@ -16,10 +16,6 @@ cleanup() {
     rm -rf $TEMP
 }
 
-function extract_id() {
-    grep ' id ' | awk '{ print $4 }'
-}
-
 function findfirst() {
     find $TEMP -name "$1" | head -1
 }
@@ -32,23 +28,27 @@ tar -xvzf $TEMP/$CIRROS_TAR -C $TEMP
 source .openrc
 
 echo -n "Adding kernel ... "
-KERNEL_ID=$(glance --insecure image-create \
-    --name "cirros-kernel" \
-    --visibility public --container-format aki \
-    --disk-format aki < $(findfirst '*-vmlinuz') | extract_id)
+KERNEL_ID=$(openstack --insecure image create \
+    -f value -c id \
+    --public --container-format aki  --disk-format aki \
+    --file $(findfirst '*-vmlinuz') \
+    "cirros-kernel")
 echo "done."
 
 echo -n "Adding ramdisk ... "
-RAMDISK_ID=$(glance --insecure image-create \
-    --name="cirros-ramdisk" \
-    --visibility public --container-format ari \
-    --disk-format ari < $(findfirst '*-initrd') | extract_id)
+RAMDISK_ID=$(openstack --insecure image create \
+    -f value -c id \
+    --public --container-format ari  --disk-format ari \
+    --file $(findfirst '*-initrd') \
+    "cirros-ramdisk")
 echo "done."
 
 echo -n "Adding image ... "
-MACHINE_ID=$(glance --insecure image-create \
-    --name="cirros-machine" \
-    --visibility public --container-format ami --disk-format ami \
+MACHINE_ID=$(openstack --insecure image create \
+    -f value -c id \
+    --public --container-format ami --disk-format ami \
     --property kernel_id=$KERNEL_ID \
-    --property ramdisk_id=$RAMDISK_ID < $(findfirst '*.img') | extract_id)
+    --property ramdisk_id=$RAMDISK_ID \
+    --file $(findfirst '*.img') \
+    "cirros-machine")
 echo "done."
