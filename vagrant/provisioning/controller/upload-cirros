@@ -22,8 +22,8 @@ function findfirst() {
 
 trap cleanup INT EXIT
 
-wget --no-verbose http://${admin_ip}:8091/files/tempest/$CIRROS_TAR --directory-prefix=$TEMP
-tar -xvzf $TEMP/$CIRROS_TAR -C $TEMP
+wget -q --no-verbose http://${admin_ip}:8091/files/tempest/$CIRROS_TAR --directory-prefix=$TEMP
+tar -xzf $TEMP/$CIRROS_TAR -C $TEMP
 
 source .openrc
 
