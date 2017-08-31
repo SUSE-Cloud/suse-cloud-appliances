@@ -218,6 +218,10 @@ def provision_admin(admin, admin_ip)
     # can result in very sluggish VMs, especially when low on memory
     'increase-SBD-timeout-30s.patch',
 
+    # fix for https://bugs.launchpad.net/nova/+bug/1691831 is not in a
+    # maintenance update yet, apply it manually
+    'apply-fix-lp#1691831.patch',
+
     # handy utility for setting up node aliases in Crowbar
     'setup-node-aliases.sh',
 
