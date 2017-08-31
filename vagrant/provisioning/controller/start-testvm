@@ -1,0 +1,57 @@
+#!/bin/bash
+
+set -e
+
+if [ ! -f ~/.openrc ]; then
+    echo "No .openrc file!"
+    exit 1
+fi
+
+source .openrc
+
+echo -n "Starting test instance ... "
+FIXED_NETWORK_ID=$(openstack --insecure network show -f value -c id fixed)
+TESTVM_ID=$(openstack --insecure server create \
+    -f value -c id \
+    --wait \
+    --nic net-id=$FIXED_NETWORK_ID \
+    --image cirros-machine \
+    --flavor m1.tiny \
+    testvm)
+TESTVM_HOST=$(openstack --insecure server show \
+    -f value -c OS-EXT-SRV-ATTR:host \
+    $TESTVM_ID)
+echo "done."
+
+echo -n "Adding a floating IP ... "
+TESTVM_FIXED_ADDRESS=$(openstack --insecure server show \
+    -f value -c addresses $TESTVM_ID | sed "s/fixed=//g")
+TESTVM_PORT_ID=$(openstack --insecure port list \
+    -f value -c ID -c "Fixed IP Addresses" | grep $TESTVM_FIXED_ADDRESS | awk '{ print $1 }')
+FLOATING_IP_ID=$(openstack --insecure floating ip create \
+    -f value -c id \
+    --port $TESTVM_PORT_ID \
+    floating)
+FLOATING_IP=$(openstack --insecure floating ip show \
+    -f value -c floating_ip_address $FLOATING_IP_ID)
+echo "done."
+
+echo -n "Allowing ICMP and SSH access ... "
+PROJECT_ID=$(openstack --insecure project show \
+    -f value -c id \
+    openstack)
+SECURITY_GROUP_ID=$(openstack --insecure security group list \
+    -f value -c ID -c Project | grep $PROJECT_ID | awk '{ print $1 }')
+openstack --insecure security group rule create \
+    --proto icmp $SECURITY_GROUP_ID > /dev/null
+openstack --insecure security group rule create \
+    --proto tcp --dst-port 22 $SECURITY_GROUP_ID > /dev/null
+echo "done."
+
+NOVA_EVACUATE_HOST=$(crm resource show nova-evacuate | sed "s/.*running on: //g")
+
+echo
+echo "Test instance: testvm"
+echo "Floating IP of testvm: $FLOATING_IP"
+echo "Compute node hosting testvm: $TESTVM_HOST"
+echo "Controller node running nova-evacuate: $NOVA_EVACUATE_HOST"

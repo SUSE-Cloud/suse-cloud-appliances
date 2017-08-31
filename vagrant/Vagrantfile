@@ -257,6 +257,8 @@ def provision_controller(node, admin_ip)
   files_to_provision = [
     # utility to upload Cirros
     'upload-cirros',
+    # script to start instance
+    'start-testvm',
   ].map { |file| 'provisioning/controller/' + file }
   provision_to_tmp(node, files_to_provision)
 
