@@ -6,6 +6,9 @@ if [ ! -d /livecd ]; then
     zypper --non-interactive install man
 fi
 
-# use UTC as timezone, working around broken timezone support for SLE 12 in
-# kiwi...
-timedatectl set-timezone UTC
+# automatically do the inital setup; we don't want to connect to an external
+# database with the appliance
+systemctl start apache2
+systemctl start crowbar-init
+/usr/lib/firstboot/wait-for-crowbar-init
+crowbarctl database create

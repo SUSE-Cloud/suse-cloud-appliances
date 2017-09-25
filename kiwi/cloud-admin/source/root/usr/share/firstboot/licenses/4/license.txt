@@ -1,5 +1,5 @@
-SUSE(r) Enterprise Storage 2.1 Base Configuration and SUSE(r) Enterprise 
-Storage 2.1 Expansion Node
+﻿SUSE® Enterprise Storage 4 Base Configuration and SUSE® Enterprise Storage 
+4 Expansion Node
 
 
 SUSE End User License Agreement
@@ -34,35 +34,42 @@ LICENSED USE
 LICENSES. 
 The Software and each of its components are owned by Licensor or other 
 licensors and are protected under copyright laws and other applicable laws.
-SUSE(r) Enterprise Storage Base Configuration
+SUSE® Enterprise Storage Base Configuration
 Subject to compliance with the terms and conditions of this Agreement, 
 Licensor grants to You a perpetual, non-exclusive, non-transferable, worldwide 
 license to reproduce and use within Your Organization (as defined below) up to 
-four (4) copies of SUSE(r) Enterprise Storage  deployed on one (1) to two (2) 
-CPU socket server nodes and up to four (4) copies of SUSE Linux Enterprise 
-Server deployed on the same one (1) to two (2) CPU socket server nodes  for 
-the sole purpose of running up to four (4) copies of the Ceph(r) OSD (object 
-storage daemon) component on same  server nodes within a specific storage 
-cluster. With respect to the same storage cluster, Licensor grants to You a 
-perpetual, non-exclusive, non-transferable, worldwide license to reproduce and 
-use within Your Organization (as defined below) one (1) copy of SUSE(r) 
-Enterprise Storage and one (1) copy of SUSE Linux Enterprise Server  for the 
-sole purpose of running one (1) Ceph(r) management node on the same storage 
-cluster. Licensor also grants You with respect to the same storage cluster, a 
-perpetual, non-exclusive, non-transferable, worldwide license to reproduce and 
-use within Your Organization (as defined below) copies of SUSE(r) Enterprise 
-Storage, on SUSE Linux Enterprise Server  for the sole purpose of running 
-copies  of the Ceph(r) MON (monitor) component on such storage cluster.
-SUSE(r) Enterprise Storage Expansion Node
+four (4) copies of SUSE® Enterprise Storage deployed on one (1) to two (2) 
+CPU socket server nodes and up to four (4) copies of SUSE®  Linux Enterprise 
+Server deployed on the same one (1) to two (2) CPU socket server nodes for the 
+sole purpose of running up to four (4) copies of the SES Object Storage Daemon 
+(as defined in SUSE's Terms and Conditions available at 
+https://www.suse.com/products/terms_and_conditions.pdf ("Terms and 
+Conditions") component on same server nodes within a specific storage cluster. 
+With respect to the same storage cluster, Licensor grants to You a perpetual, 
+non-exclusive, non-transferable, worldwide license to reproduce and use within 
+Your Organization (as defined below) up to six (6) copies of SUSE® 
+Enterprise Storage and up to six (6) copies of SUSE® Linux Enterprise Server 
+for the sole purpose of running up to six (6) SES Infrastructure Nodes (as 
+defined in the Terms and Conditions) on the same storage cluster.
+
+SUSE® Enterprise Storage Expansion Node
 Subject to compliance with the terms and conditions of this Agreement, 
 Licensor grants to You a perpetual, non-exclusive, non-transferable, worldwide 
 license to reproduce and use within Your Organization (as defined below) one 
-(1) copy of SUSE Enterprise Storage deployed on a one (1) to two (2) CPU 
-socket server node and one (1) copy of SUSE Linux Enterprise Server deployed 
-on the same one (1) to two (2) CPU socket server node for the sole purpose of 
-running one (1) copy  of the Ceph(r) OSD (object storage daemon) component on 
-one (1) particular storage cluster provided that such storage cluster already 
-has one (1) SUSE(r) Enterprise Storage Base Configuration actively deployed.
+(1) copy of SUSE® Enterprise Storage deployed on a one (1) to two (2) CPU 
+socket server node and one (1) copy of SUSE® Linux Enterprise Server 
+deployed on the same one (1) to two (2) CPU socket server node for the sole 
+purpose of running one (1) copy  of the SES Object Storage Daemon (as defined 
+in the Terms and Conditions) component on one (1) particular storage cluster 
+provided that such storage cluster already has one (1) SUSE® Enterprise 
+Storage Base Configuration actively deployed.  With respect to the same 
+storage cluster, Licensor grants to You a perpetual, non-exclusive, 
+non-transferable, worldwide license to reproduce and use within Your 
+Organization (as defined below) up to one (1) copy of SUSE® Enterprise 
+Storage and up to one (1) copy of SUSE® Linux Enterprise Server for the sole 
+purpose of running up to one (1) SES Infrastructure Node (as defined in the 
+Terms and Conditions) on the same storage cluster.    
+.
 "Organization" means a legal entity, excluding subsidiaries and affiliates 
 with a separate existence for tax purposes or for legal personality purposes. 
 An example of an Organization in the private sector would be a corporation, 
@@ -70,6 +77,7 @@ partnership, or trust, excluding any subsidiaries or affiliates of the
 organization with a separate tax identification number or company registration 
 number. A public sector example of an Organization would be a specific 
 government body or local government authority.
+
 
 THIRD PARTY/OPEN SOURCE.  Nothing in this Agreement shall restrict, limit or 
 otherwise affect any rights or obligations You may have, or conditions to 
@@ -85,8 +93,7 @@ support unless You purchase a subscription offering that expressly includes
 such services.  Licensor sells subscription offerings for the Software that 
 entitles You to fee based technical support and/or internal use of Software 
 updates provided on a specified annual period ("Subscription Offering") and 
-are subject to the terms of the Subscription Offering Terms and Conditions 
-available https://www.suse.com/products/terms_and_conditions.pdf. 
+are subject to the Terms and Conditions. 
 
 MARKS.  No right or license, express or implied, is granted under this 
 Agreement with respect to any trademark, trade name or service mark of 
@@ -129,7 +136,7 @@ deployments of the Software by the third party on Your behalf.
 Appliance License.  If, either directly from Licensor or from a third party, 
 you have received a hardware, software or other appliance that uses the 
 Software, You acknowledge and agree to use the Software solely for the purpose 
-of running the appliance and not as a general purpose operating system.  
+of running the appliance and not as a general purpose operating system. 
 
 OWNERSHIP 
 
@@ -189,7 +196,7 @@ PRICE CHARGED FOR THE PRODUCTS.  Some jurisdictions do not allow certain
 disclaimers and limitations of warranties, so portions of the above 
 limitations may not apply to You.  This limited warranty gives You specific 
 rights and You may also have other rights which vary by state or jurisdiction. 
- 
+
 
 LIMITATION OF LIABILITY
 
@@ -218,7 +225,7 @@ excluded to the maximum extent allowed within those jurisdictions.
 GENERAL TERMS
 
 Term.  This Agreement becomes effective on the date You legally acquire the 
-Software and will automatically terminate if You breach any of its terms.  
+Software and will automatically terminate if You breach any of its terms. 
 Verification. Licensor has the right to verify Your compliance with this 
 Agreement. You agree to: (1)  Implement internal safeguards to prevent any 
 unauthorized copying, distribution, installation, use of, or access to, the 
@@ -268,7 +275,7 @@ modified only by a written agreement agreed to by You and an authorized
 representative of Licensor.  NO THIRD PARTY LICENSOR, DISTRIBUTOR, DEALER, 
 RETAILER, RESELLER, SALES PERSON, OR EMPLOYEE IS AUTHORIZED TO MODIFY THIS 
 AGREEMENT OR TO MAKE ANY REPRESENTATION OR PROMISE THAT IS DIFFERENT FROM, OR 
-IN ADDITION TO, THE TERMS OF THIS AGREEMENT.  
+IN ADDITION TO, THE TERMS OF THIS AGREEMENT. 
 Waiver.  No waiver of any right under this Agreement will be effective unless 
 in writing, signed by a duly authorized representative of the party to be 
 bound.  No waiver of any past or present right arising from any breach or 
@@ -277,7 +284,7 @@ under this Agreement.
 Severability.  If any provision in this Agreement is invalid or unenforceable, 
 that provision will be construed, limited, modified or, if necessary, severed, 
 to the extent necessary, to eliminate its invalidity or unenforceability, and 
-the other provisions of this Agreement will remain unaffected.  
+the other provisions of this Agreement will remain unaffected. 
 Export Compliance.  You acknowledge that Licensor's products and/or technology 
 are subject to the U.S. Export Administration Regulations (the "EAR") and You 
 agree to comply with the EAR.  You will not export or re-export Licensor's 
@@ -307,4 +314,4 @@ Deliverables by the U.S. Government is subject to the restrictions in FAR
 52.227-14 (Dec 2007) Alternate III (Dec 2007), FAR  52.227-19 (Dec 2007), or 
 DFARS 252.227-7013(b)(3) (Nov 1995), or applicable successor clauses.
 
-[160127]
+[161201]

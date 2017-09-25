@@ -1,4 +1,4 @@
-From a2504f9d54b78c5d73cb8e5febac44f86d73c696 Mon Sep 17 00:00:00 2001
+From 89d179458c7f4d4a1f8430558c2b8f8263679ccf Mon Sep 17 00:00:00 2001
 From: Vincent Untz <vuntz@suse.com>
 Date: Mon, 11 Apr 2016 21:26:06 +0200
 Subject: [PATCH] Disable calamari role in Crowbar for appliance
@@ -12,22 +12,22 @@ requirement with horizon.
  3 files changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/chef/data_bags/crowbar/template-ceph.json b/chef/data_bags/crowbar/template-ceph.json
-index bd3290c..7cb8dfd 100644
+index cf66b46..2f71f2a 100644
 --- a/chef/data_bags/crowbar/template-ceph.json
 +++ b/chef/data_bags/crowbar/template-ceph.json
-@@ -54,7 +54,6 @@
+@@ -63,7 +63,6 @@
        },
        "elements": {},
        "element_order": [
 -        [ "ceph-calamari" ],
          [ "ceph-mon" ],
          [ "ceph-osd" ],
-         [ "ceph-radosgw" ]
+         [ "ceph-radosgw" ],
 diff --git a/crowbar_framework/app/models/ceph_service.rb b/crowbar_framework/app/models/ceph_service.rb
-index aff8de9..02806c4 100644
+index 8d447fe..06079d7 100644
 --- a/crowbar_framework/app/models/ceph_service.rb
 +++ b/crowbar_framework/app/models/ceph_service.rb
-@@ -133,7 +133,7 @@ class CephService < PacemakerServiceObject
+@@ -144,7 +144,7 @@ class CephService < PacemakerServiceObject
      calamari_node = calamari_nodes.first
  
      base["deployment"]["ceph"]["elements"] = {
@@ -35,7 +35,7 @@ index aff8de9..02806c4 100644
 +        #"ceph-calamari" => calamari_node.nil? ? [] : [calamari_node.name],
          "ceph-mon" => mon_nodes.map { |x| x.name },
          "ceph-osd" => osd_nodes.map { |x| x.name },
-         "ceph-radosgw" => radosgw_node.nil? ? [] : [radosgw_node.name]
+         "ceph-mds" => mds_node.nil? ? [] : [mds_node.name],
 diff --git a/crowbar_framework/app/views/barclamp/ceph/_edit_attributes.html.haml b/crowbar_framework/app/views/barclamp/ceph/_edit_attributes.html.haml
 index bedde22..282c7f0 100644
 --- a/crowbar_framework/app/views/barclamp/ceph/_edit_attributes.html.haml
@@ -50,5 +50,5 @@ index bedde22..282c7f0 100644
          = t(".calamari.header")
  
 -- 
-2.7.4
+2.10.1
 

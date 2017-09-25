@@ -4,7 +4,7 @@
 [general information on KIWI](../README.md).**
 
 The KIWI appliance definition in this subdirectory is for building a a
-simple SLES12 SP1 JeOS image which will form the basis for the cloud
+simple SLES12 SP2 JeOS image which will form the basis for the cloud
 controller node(s), compute node(s), and storage node(s).  Once each
 of these nodes boots up, it will register against the Crowbar admin
 node, and subsequently execute further provisioning steps as
@@ -18,7 +18,7 @@ First [ensure that you have KIWI installed](../README.md).
 
 Building this appliance from scratch requires the following:
 
-*   [SUSE Linux Enterprise Server (SLES) 11 SP1 installation media](https://download.suse.com/Download?buildid=Q_VbW21BiB4~) (you only need `SLES-12-SP1-DVD-x86_64-GM-DVD1.iso`; DVD2 is the source code)
+*   [SUSE Linux Enterprise Server (SLES) 12 SP2 installation media](https://download.suse.com/Download?buildid=qb71v1YjQjI~) (you only need `SLES-12-SP2-DVD-x86_64-GM-DVD1.iso`; DVD2 is the source code)
 *   [VirtualBox Guest Additions `.iso`](http://download.virtualbox.org/virtualbox/).  Mount the `.iso` on the image-building host, and copy the `VBoxLinuxAdditions.run` file into `source/root/tmp` under this directory.
 
 ### Setting up the mountpoints
@@ -26,12 +26,12 @@ Building this appliance from scratch requires the following:
 The appliance config currently assumes the following mountpoint is
 set up on the system which will build the image:
 
-*   `/mnt/sles-12-sp1`: SLES12 SP1 installation media
+*   `/mnt/sles-12-sp2`: SLES12 SP2 installation media
 
 It also assumes that the SDK channel will have been mirrored to
 the following location:
 
-*   `/data/install/mirrors/SLE-12-SP1-SDK/sle-12-x86_64`
+*   `/data/install/mirrors/SLE-12-SP2-SDK/sle-12-x86_64`
 
 You can optionally specify an alternate location to
 `/data/install/mirrors` by ading an extra `sudo` parameter before
@@ -81,7 +81,7 @@ usually no need for that.
 
 Once you have the `.vmdk` built, do:
 
-    cd ../../vagrant/sles12-sp1
+    cd ../../vagrant/sles12-sp2
 
 and follow the instructions in
-[the corresponding README](../../vagrant/sles12-sp1/README.md).
+[the corresponding README](../../vagrant/sles12-sp2/README.md).
