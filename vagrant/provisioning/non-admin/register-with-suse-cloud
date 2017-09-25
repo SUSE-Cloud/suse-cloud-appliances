@@ -8,7 +8,7 @@ export PATH="$PATH:/sbin:/usr/sbin/"
 
 count=0
 while true; do
-    wget http://${admin_ip}:8091/suse-12.1/x86_64/crowbar_register || true
+    wget http://${admin_ip}:8091/suse-12.2/x86_64/crowbar_register || true
     [ -f crowbar_register ] && break
     count=$((count+1))
     if [ $count -ge 90 ]; then
@@ -18,7 +18,7 @@ while true; do
     sleep 10
 done
 
-zypper ar http://${admin_ip}:8091/suse-12.1/x86_64/install cloud6-deps
+zypper ar http://${admin_ip}:8091/suse-12.2/x86_64/install cloud7-deps
 
 # To trick crowbar_register check for "screen". It should be safe
 # to run without screen here, as crowbar_register won't pull the network

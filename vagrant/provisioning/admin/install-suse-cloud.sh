@@ -4,8 +4,16 @@ set -e
 
 export PATH="$PATH:/sbin:/usr/sbin/"
 
-# The appliance may install packages on first boot, so allow zypper to wait
-# for this to complete
+# The appliance-firstboot service will deal with all the crowbar-init bits; we
+# need to wait for this to be completed. And one way to check this is to check
+# if the service is enabled, because at the end of the service, it disables
+# itself.
+while systemctl -q is-enabled appliance-firstboot; do
+    echo "Waiting for appliance-firstboot to complete..."
+    sleep 2
+done
+
+# Simply don't fail on zypper being already used, and retry a bit instead
 export ZYPP_LOCK_TIMEOUT=120
 
 # To trick install-suse-clouds check for "screen". It should be safe
@@ -17,11 +25,8 @@ export STY="dummy"
 # otherwise the check in install-suse-cloud will fail.
 zypper -n install -t pattern cloud_admin
 
-# work around https://bugzilla.novell.com/show_bug.cgi?id=895417
-install -o chef -g chef -m 750 -d /var/run/chef
-
 install-suse-cloud -v
 
 . /etc/profile.d/crowbar.sh
-crowbar network allocate_ip default cloud6-admin.openstack.site public host
+crowbar network allocate_ip default cloud7-admin.openstack.site public host
 chef-client

@@ -15,3 +15,4 @@ sed -i "s,192.168.124.10,${admin_ip},g" upload-cirros
 
 mkdir -p /root/bin
 mv upload-cirros /root/bin
+mv start-testvm /root/bin

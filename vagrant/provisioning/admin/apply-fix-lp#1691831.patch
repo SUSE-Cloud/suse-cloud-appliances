@@ -1,0 +1,18 @@
+diff --git a/chef/cookbooks/nova/recipes/compute.rb b/chef/cookbooks/nova/recipes/compute.rb
+index 97ecda00e..4ceb14e52 100644
+--- a/chef/cookbooks/nova/recipes/compute.rb
++++ b/chef/cookbooks/nova/recipes/compute.rb
+@@ -257,6 +257,13 @@ nova_package "compute" do
+   no_crm_maintenance_mode true
+ end
+ 
++bash "apply fix for lp#1691831" do
++  code <<-EOH
++    sed -i "s/if ex.errno != errno.EPERM:/if ex.errno != errno.EACCES:/g" /usr/lib/python2.7/site-packages/nova/virt/libvirt/driver.py
++  EOH
++  only_if { ::File.exists? "/usr/lib/python2.7/site-packages/nova/virt/libvirt/driver.py" }
++end
++
+ cookbook_file "/etc/nova/nova-compute.conf" do
+   source "nova-compute.conf"
+   owner "root"
