@@ -136,14 +136,14 @@ In order to do so, go to the VirtualBox settings (*File* →
 
 You will need two boxes, which are fairly big downloads:
 
-*   `suse/cloud5-admin` (~2.4GB)
-*   `suse/sles12sp1` (~550MB)
+*   `suse/cloud7-admin` (~2.4GB)
+*   `suse/sles12sp2` (~550MB)
 
 They are available from Vagrant Cloud by typing the following in the
 same user account from which you will use them:
 
-    vagrant box add suse/cloud5-admin
-    vagrant box add suse/sles12sp1
+    vagrant box add suse/cloud7-admin
+    vagrant box add suse/sles12sp2
 
 #### Adding boxes from the local filesystem
 
@@ -160,12 +160,12 @@ boxes:
     cd ~/Downloads
 
     # If you are using virtualbox (adjust filename appropriately):
-    vagrant box add cloud5-admin.x86_64-0.1.6.virtualbox-Build1.1.json
+    vagrant box add cloud7-admin.x86_64-0.1.6.virtualbox-Build1.1.json
 
     # or if you are using libvirt:
-    vagrant box add cloud5-admin.x86_64-0.1.6.libvirt-Build1.1.json
+    vagrant box add cloud7-admin.x86_64-0.1.6.libvirt-Build1.1.json
 
-and similarly for the `sles12sp1` box.
+and similarly for the `sles12sp2` box.
 
 #### Updating an existing box
 

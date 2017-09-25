@@ -15,8 +15,8 @@ There are two different boxes defined within this subdirectory:
 
 *   [`cloud-admin`](cloud-admin/) - the SUSE OpenStack Cloud admin node,
     which runs Crowbar and Chef, and
-*   [`sles12-sp1`](sles12-sp1/) - a cut-down preload image of SUSE Linux
-    Enterprise Server (SLES) 11 SP1, which will be used to provision
+*   [`sles12-sp2`](sles12-sp2/) - a cut-down preload image of SUSE Linux
+    Enterprise Server (SLES) 12 SP2, which will be used to provision
     two controller nodes (forming an HA cluster), and a compute node.
 
 Obsolete instructions for building them are contained within the

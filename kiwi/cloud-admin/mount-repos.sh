@@ -4,18 +4,16 @@
 # the admin node appliance.
 
 repos=(
-    #SLES12-SP1-Pool # not needed since we have installation media
-    #SLES12-SP1-Updates # embedded within SUSE-CLOUD-SLE12-SP1-DEPS
+    #SLES12-SP2-Pool # not needed since we have installation media
+    #SLES12-SP2-Updates # embedded within SUSE-OPENSTACK-CLOUD-7-DEPS
 
-    #SLE12-HAE-SP1-{Pool,Updates} # embedded within SUSE-CLOUD-SLE12-SP1-DEPS
+    #SLE12-HA-SP2-{Pool,Updates} # embedded within SUSE-OPENSTACK-CLOUD-7-DEPS
 
-    #SUSE-Cloud-5-Pool     # not needed since we have installation media
-    #SUSE-Cloud-5-Updates  # not needed since we're using a Devel:Cloud:5:Staging .iso
+    #SUSE-Cloud-7-Pool     # not needed since we have installation media
+    #SUSE-Cloud-7-Updates  # not needed since we're using a Devel:Cloud:7:Staging .iso
 
-    # Devel:Cloud:Shared:11-SP1
-    # Devel:Cloud:Shared:11-SP1:Update
-    # Devel:Cloud:5
-    # Devel:Cloud:5:Staging
+    # Devel:Cloud:7
+    # Devel:Cloud:7:Staging
 )
 
 function bind_mount {
@@ -37,10 +35,10 @@ function setup_overlay {
     : ${MIRROR_DIR:=/data/install/mirrors}
     here=$( cd `dirname "$0"`; pwd -P )
     tftpboot=$here/source/root/srv/tftpboot
-    bind_mount /mnt/suse-cloud-sle12-deps $tftpboot/suse-11.3/install
-    bind_mount /mnt/suse-cloud-5          $tftpboot/suse-11.3/repos/Cloud
+    bind_mount /mnt/suse-cloud-sle12-deps $tftpboot/suse-12.2/install
+    bind_mount /mnt/suse-cloud-7          $tftpboot/suse-12.2/repos/Cloud
     for repo in "${repos[@]}"; do
-        bind_mount $MIRROR_DIR/$repo $tftpboot/suse-11.3/repos/$repo
+        bind_mount $MIRROR_DIR/$repo $tftpboot/suse-12.2/repos/$repo
     done
 }
 

@@ -33,10 +33,10 @@ would be to rebuild this appliance using [Packer](http://www.packer.io/).
 [Pull requests](https://help.github.com/articles/using-pull-requests)
 are very welcome - just [fork this repository](https://github.com/fghaas/openstacksummit2014-atlanta/fork)!
 
-1.  If you're on SLES12 SP1, add the openSUSE:Tools repository first
+1.  If you're on SLES12 SP2, add the openSUSE:Tools repository first
     to get the latest KIWI version.  For example:
 
-        sudo zypper ar http://download.opensuse.org/repositories/openSUSE:/Tools/SLE_12_SP1/ openSUSE:Tools
+        sudo zypper ar http://download.opensuse.org/repositories/openSUSE:/Tools/SLE_12_SP2/ openSUSE:Tools
 
     If you're on openSUSE 13.1, you should already have the Updates
     repository containing the latest KIWI version.
@@ -52,8 +52,8 @@ subdirectory:
 
 *   [`cloud-admin`](cloud-admin/) - the SUSE OpenStack Cloud admin node,
     which runs Crowbar and Chef, and
-*   [`sles12-sp1`](sles12-sp1/) - a cut-down preload image of SUSE Linux
-    Enterprise Server (SLES) 11 SP1, which will be used to provision
+*   [`sles12-sp2`](sles12-sp2/) - a cut-down preload image of SUSE Linux
+    Enterprise Server (SLES) 12 SP2, which will be used to provision
     two controller nodes (forming an HA cluster), and a compute node.
 
 Instructions for building them are contained within the READMEs in
