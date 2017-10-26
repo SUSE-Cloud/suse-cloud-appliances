@@ -1,5 +1,5 @@
 ---
-suse-12.1:
+suse-12.2:
   x86_64:
     ptf:
       name: "PTF"

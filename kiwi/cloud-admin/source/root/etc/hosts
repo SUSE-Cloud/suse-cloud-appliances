@@ -21,4 +21,4 @@ ff02::1         ipv6-allnodes
 ff02::2         ipv6-allrouters
 ff02::3         ipv6-allhosts
 
-192.168.124.10  cloud6-admin.openstack.site cloud6-admin
+192.168.124.10  cloud7-admin.openstack.site cloud7-admin

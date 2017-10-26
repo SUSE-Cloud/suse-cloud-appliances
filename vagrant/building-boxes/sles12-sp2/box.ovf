@@ -13,7 +13,7 @@
       <Description>Logical network used by this appliance.</Description>
     </Network>
   </NetworkSection>
-  <VirtualSystem ovf:id="sles12-sp1">
+  <VirtualSystem ovf:id="sles12-sp2">
     <Info>A virtual machine</Info>
     <ProductSection>
       <Info>Meta-information about the installed software</Info>
@@ -25,7 +25,7 @@
     </ProductSection>
     <AnnotationSection>
       <Info>A human-readable annotation</Info>
-      <Annotation>This VM contains a preinstalled SLES12 SP1 image streamlined for acting as a Crowbar client node.</Annotation>
+      <Annotation>This VM contains a preinstalled SLES12 SP2 image streamlined for acting as a Crowbar client node.</Annotation>
     </AnnotationSection>
 <!--
     <EulaSection>
@@ -43,7 +43,7 @@
       <System>
         <vssd:ElementName>Virtual Hardware Family</vssd:ElementName>
         <vssd:InstanceID>0</vssd:InstanceID>
-        <vssd:VirtualSystemIdentifier>sles12-sp1</vssd:VirtualSystemIdentifier>
+        <vssd:VirtualSystemIdentifier>sles12-sp2</vssd:VirtualSystemIdentifier>
         <vssd:VirtualSystemType>virtualbox-2.2</vssd:VirtualSystemType>
       </System>
       <Item>
@@ -127,7 +127,7 @@
         <rasd:ResourceType>10</rasd:ResourceType>
       </Item>
     </VirtualHardwareSection>
-    <vbox:Machine ovf:required="false" version="1.12-linux" uuid="{9af1feeb-ad3f-4e16-8e67-c3e48850b06f}" name="sles12-sp1" OSType="Linux" snapshotFolder="Snapshots" lastStateChange="2014-05-01T22:55:03Z">
+    <vbox:Machine ovf:required="false" version="1.12-linux" uuid="{9af1feeb-ad3f-4e16-8e67-c3e48850b06f}" name="sles12-sp2" OSType="Linux" snapshotFolder="Snapshots" lastStateChange="2014-05-01T22:55:03Z">
       <ovf:Info>Complete VirtualBox machine configuration in VirtualBox format</ovf:Info>
       <Hardware version="2">
         <CPU count="2" hotplug="false">

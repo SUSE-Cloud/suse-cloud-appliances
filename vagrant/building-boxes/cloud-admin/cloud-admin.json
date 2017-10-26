@@ -1,11 +1,11 @@
 {
-  "name": "suse/cloud5-admin",
-  "description": "This box contains a SUSE OpenStack Cloud 5 admin node preinstalled on SLES12 SP1 x86_64.",
+  "name": "suse/cloud7-admin",
+  "description": "This box contains a SUSE OpenStack Cloud 7 admin node preinstalled on SLES12 SP2 x86_64.",
   "versions": [{
     "version": "0.0.1",
     "providers": [{
       "name": "virtualbox",
-      "url": "cloud5-admin.box"
+      "url": "cloud7-admin.box"
     }]
   }]
 }

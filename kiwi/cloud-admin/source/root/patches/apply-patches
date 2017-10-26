@@ -1,5 +1,5 @@
 #!/bin/sh
 
 cd $(dirname $0)
-patch -p2 -d /opt/dell/bin < 0001-install-chef-suse-Fix-usage-of-DEPS-iso.patch
 patch -p1 -d /opt/dell < 0001-Disable-calamari-role-in-Crowbar-for-appliance.patch
+patch -p1 -d /opt/dell < 0001-crowbar_register-Add-entry-to-etc-hosts-for-resolvin.patch

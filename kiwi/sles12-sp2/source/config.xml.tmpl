@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<image name='cloud7-admin' displayname='SUSE_OpenStack_Cloud_7_Admin_Server' schemaversion='6.2'>
+<image name='sles12sp2' displayname='SLES_12_SP2' schemaversion='6.2'>
   <description type='system'>
     <author>SUSE OpenStack Cloud Team</author>
     <contact>cloud-devel@suse.de</contact>
-    <specification>SUSE OpenStack Cloud 7 Admin Server</specification>
+    <specification>SLES 12 SP2</specification>
   </description>
   <preferences>
-    <!-- for OEM: -->
+    <!-- for OEM:
     <type primary='true' image='oem' boot='oemboot/suse-SLES12' installiso='true' hybrid='true' checkprebuilt='true' installboot='install' fsnocheck='true' filesystem='ext3' bootloader='grub2' boottimeout='7' kernelcmdline='splash=silent quiet' fsmountoptions='acl'>
       <oemconfig>
         <oem-swap>true</oem-swap>
@@ -14,23 +14,22 @@
         <oem-unattended>false</oem-unattended>
         <oem-recovery>false</oem-recovery>
         <oem-reboot>false</oem-reboot>
-        <oem-boot-title>SUSE OpenStack Cloud 7 Admin Server</oem-boot-title>
+        <oem-boot-title>SUSE OpenStack Cloud 6 Admin Server</oem-boot-title>
       </oemconfig>
     </type>
+    -->
     <!-- for live ISO:
     <type image='iso' boot='isoboot/suse-SLES12' installiso='true' hybrid='true' checkprebuilt='true' installboot='install' fsnocheck='true' filesystem='ext3' bootloader='grub2' boottimeout='7' kernelcmdline='splash=silent quiet' fsmountoptions='acl' flags='overlay'/>
     -->
-    <!-- for vagrant:
+    <!-- for vagrant: -->
     <type image="vmx" format="vagrant" boot="vmxboot/suse-SLES12" filesystem="ext3" bootloader="grub2"  boottimeout='7' kernelcmdline='splash=silent quiet' fsmountoptions='acl'>
-      <vagrantconfig provider="libvirt"    virtualsize="50" boxname="suse/cloud7-admin" />
-      <vagrantconfig provider="virtualbox" virtualsize="50" boxname="suse/cloud7-admin" />
-      <machine memory="2048" guestOS="openSUSE_64" HWversion="9" ovftype="vmware">
+      <vagrantconfig provider="libvirt"    virtualsize="50" boxname="suse/sles12sp2" />
+      <vagrantconfig provider="virtualbox" virtualsize="50" boxname="suse/sles12sp2" />
+      <machine memory="512" guestOS="openSUSE_64" HWversion="9" ovftype="vmware">
         <vmdisk id="0" controller="lsilogic"/>
       </machine>
-      <!-#- 50G as admin server may act as NFS server for images, volumes and instances ephemeral disks -#->
       <size unit="G">50</size>
     </type>
-    -->
     <version>0.0.1</version>
     <packagemanager>zypper</packagemanager>
     <rpm-check-signatures>false</rpm-check-signatures>
@@ -42,22 +41,21 @@
     <keytable>us.map.gz</keytable>
     <locale>en_US</locale>
   </preferences>
-  <!-- for OEM and live ISO: -->
+  <!-- for OEM and live ISO:
   <users group='root'>
     <user name='root' password='linux' pwdformat='plain' home='/root' shell='/bin/bash'/>
   </users>
-  <!-- for vagrant:
+  -->
+  <!-- for vagrant: -->
   <users group='root'>
     <user name='root' password='vagrant' pwdformat='plain' home='/root' shell='/bin/bash'/>
   </users>
   <users group='vagrant'>
     <user name='vagrant' home='/home/vagrant' shell='/bin/bash'/>
   </users>
-  -->
   <packages type='image' patternType='onlyRequired'>
     <package name='patterns-sles-base'/>
     <package name='patterns-sles-Minimal'/>
-    <package name='yast2-firstboot'/>
     <package name='ca-certificates'/>
     <package name='cracklib-dict-full'/>
     <package name='dracut'/>
@@ -89,32 +87,18 @@
     <package name='gfxboot-devel' bootinclude='true'/>
     <!-- Add our magic -->
     <package name='haveged'/> <!-- help when creating gpg keys in VM -->
-    <package name='netcat'/> <!-- FIXME: drop when maintenance update is out (missing dependency in crowbar package) -->
-    <package name='ntp'/> <!-- FIXME: drop when maintenance update is out (install-suse-cloud is broken and fails if /etc/ntp.conf doesn't exist) -->
-    <package name='patch'/> <!-- we apply patches during build -->
-    <package name='patterns-cloud-admin'/>
-    <package name='SUSE-OPENSTACK-CLOUD-7-DEPS-x86_64-iso'/>
-    <!-- Dependencies required on the admin server, installed by chef -->
-    <package name='dhcp-server'/> <!-- provisioner cookbook -->
-    <package name='grub2-x86_64-efi'/> <!-- provisioner cookbook -->
-    <!-- <package name='tftp'/> disabled because kiwi wants conflicting atftp --> <!-- provisioner cookbook -->
     <package name='rsyslog'/> <!-- logging cookbook wants rsyslog, not syslog that kiwi picks by default -->
     <!-- Help build service pick packages when something is provided by multiple packages -->
-    <package name='crowbar-core-branding-SOC'/>
-    <package name='ruby2.1-rubygem-sprockets-2_11'/>
     <package name='sles-release-DVD'/>
-    <package name='suse-openstack-cloud-release-cd'/>
     <!-- Packages that kiwi can't seem to find & install automatically, it seems -->
+    <package name='python-base'/>
     <package name='xdg-utils'/>
-    <!-- Allow installing live ISO on disk -->
-    <!-- for live ISO:
-    <package name='xfsprogs'/> (to allow xfs partitions)
-    <package name='yast2-live-installer'/>
-     -->
-    <!-- for vagrant:
+    <!-- for vagrant: -->
     <package name='rsync'/>
     <package name='sudo'/>
-     -->
+    <!-- for non-vagrant
+    <package name='yast2-firstboot'/>
+    -->
   </packages>
   <packages type='bootstrap'>
     <package name='elfutils'/>
@@ -126,18 +110,8 @@
     <package name='suse-build-key'/> <!-- not strictly required, but nicer -->
   </packages>
   <repository type='rpm-md'>
-    <!-- for SUSE-OPENSTACK-CLOUD-7-DEPS-x86_64-iso -->
-    <source path='obs://Devel:Cloud:7:Appliances/images'/>
-  </repository>
-  <repository type='rpm-md'>
     <!-- for containment-rpm-SUSE-OPENSTACK-CLOUD-7-DEPS, but only because it's required in the prjconf -->
     <source path='obs://Devel:Cloud:7:Appliances/SLE_12_SP2'/>
-  </repository>
-  <repository  type='rpm-md'>
-    <source path='obs://SUSE:SLE-12-SP2:Update:Products:Cloud7:Update/standard' />
-  </repository>
-  <repository  type='rpm-md'>
-    <source path='obs://SUSE:SLE-12-SP2:Update:Products:Cloud7/standard' />
   </repository>
   <repository type='rpm-md'>
     <source path='obs://SUSE:SLE-12-SP2:Update/standard' />

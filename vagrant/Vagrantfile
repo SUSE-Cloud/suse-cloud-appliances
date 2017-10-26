@@ -113,7 +113,7 @@ Vagrant.configure(vagrantfile_api_version) do |vconfig|
       # admin.ssh.forward_agent = true
 
       disable_default_synced_folder(node)
-      #admin.vm.synced_folder '/mnt/suse-cloud-5', '/srv/tftpboot/suse-11.3/repos/Cloud', type: 'nfs'
+      #admin.vm.synced_folder '/mnt/suse-cloud-7', '/srv/tftpboot/suse-12.2/repos/Cloud', type: 'nfs'
     end
   end
 end

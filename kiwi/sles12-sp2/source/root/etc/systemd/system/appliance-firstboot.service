@@ -1,0 +1,13 @@
+[Unit]
+Description=Execute the first boot script
+Before=xdm.service getty@tty1.service
+After=network.service
+
+[Service]
+Type=oneshot
+#ExecStartPre=-/usr/bin/plymouth --hide-splash
+ExecStart=/usr/bin/appliance-firstboot
+#StandardInput=tty
+
+[Install]
+WantedBy=multi-user.target

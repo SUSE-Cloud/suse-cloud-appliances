@@ -1,0 +1,21 @@
+#!/bin/bash
+
+function get_status_code
+{
+    curl -w '%{http_code}' -o /dev/null -s --max-time 10 '-HAccept: application/vnd.crowbar.v2.0+json' http://localhost:4567/api/status
+}
+
+max_tries=30
+tries=1
+while [ $tries -le $max_tries ]; do
+    code=$(get_status_code)
+    # we get 000 until the server replies
+    if [ "x$code" != "x000" ]; then
+        exit 0
+    fi
+    tries=$(($tries + 1))
+    sleep 1
+done
+
+>&2 echo "Cannot verify that crowbar-init got started..."
+exit 1

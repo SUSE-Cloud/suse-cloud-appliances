@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# This script is intended to run only on first boot so it disables itself after
+# running.
+
+for SCRIPT in /usr/share/firstboot/scripts/*; do
+    echo "Running $SCRIPT..."
+    $SCRIPT
+done
+
+# disable itself, as we only need this to run on first boot
+systemctl disable appliance-firstboot
